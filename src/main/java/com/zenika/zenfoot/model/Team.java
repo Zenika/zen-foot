@@ -1,6 +1,8 @@
 package com.zenika.zenfoot.model;
 
-public class Team implements Comparable<Team> {
+import java.io.Serializable;
+
+public class Team implements Serializable, Comparable<Team> {
     private String name;
     private String imageName;
 

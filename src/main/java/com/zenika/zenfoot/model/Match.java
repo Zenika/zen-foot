@@ -1,13 +1,14 @@
 package com.zenika.zenfoot.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Match implements Comparable<Match> {
+public class Match implements Serializable, Comparable<Match> {
     private Team team1;
     private Team team2;
     private Date kickoff;
-    private int goalsForTeam1;
-    private int goalsForTeam2;
+    private int goalsForTeam1 = -1;
+    private int goalsForTeam2 = -1;
 
     public Match(Team team1, Team team2, Date kickoff) {
         assert team1 != null : "new Match: team1 must not be null";
@@ -81,6 +82,14 @@ public class Match implements Comparable<Match> {
         this.team2 = team2;
     }
 
+    public Date getKickoff() {
+        return kickoff;
+    }
+
+    public void setKickoff(Date kickoff) {
+        this.kickoff = kickoff;
+    }
+
     @Override
     public String toString() {
         return "Match: " + team1 + "-" + team2 + " at " + kickoff;
@@ -88,5 +97,9 @@ public class Match implements Comparable<Match> {
 
     public int compareTo(Match otherMatch) {
         return kickoff.compareTo(otherMatch.kickoff);
+    }
+
+    public boolean hasGoalsSet() {
+        return goalsForTeam1 >= 0 && goalsForTeam2 >= 0;
     }
 }

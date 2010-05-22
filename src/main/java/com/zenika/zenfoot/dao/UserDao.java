@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.dao;
 
-public interface UserDao {
+import com.zenika.zenfoot.model.User;
 
+public interface UserDao extends BaseDao<User> {
 }

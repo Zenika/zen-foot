@@ -1,10 +1,12 @@
 package com.zenika.zenfoot.model;
 
-public class Bet {
+import java.io.Serializable;
+
+public class Bet implements Serializable {
     private User user;
     private Match match;
-    private int goalsForTeam1;
-    private int goalsForTeam2;
+    private int goalsForTeam1 = -1;
+    private int goalsForTeam2 = -1;
 
     public Bet(User user, Match match, int goalsForTeam1, int goalsForTeam2) {
         assert goalsForTeam1 >= 0 : "new Bet: goals1 must be positive";
@@ -79,5 +81,14 @@ public class Bet {
     @Override
     public String toString() {
         return "Bet: " + user + "-" + match;
+    }
+
+    public boolean isBetSet() {
+        return goalsForTeam1 >= 0 && goalsForTeam2 >= 0;
+    }
+
+    public void setGoals(int goalsForTeam1, int goalsForTeam2) {
+        this.goalsForTeam1 = goalsForTeam1;
+        this.goalsForTeam2 = goalsForTeam2;
     }
 }
