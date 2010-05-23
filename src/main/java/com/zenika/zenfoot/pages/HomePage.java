@@ -29,9 +29,9 @@ import org.apache.wicket.model.PropertyModel;
 
 public class HomePage extends BasePage {
     private static final long serialVersionUID = 1L;
-    private transient UserDao userDao = MockUserDao.get();
-    private transient MatchDao matchDao = MockMatchDao.get();
-    private transient BetDao betDao = MockBetDao.get();
+    private transient UserDao userDao = new MockUserDao();
+    private transient MatchDao matchDao = new MockMatchDao();
+    private transient BetDao betDao = new MockBetDao();
     private transient User currentUser = new User("olivier@zenika.com"); // Session.getUser()
 
     public HomePage(final PageParameters parameters) {

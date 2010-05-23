@@ -3,6 +3,10 @@ package com.zenika.zenfoot.dao.mock;
 import com.zenika.zenfoot.dao.MatchDao;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,18 +16,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class MockMatchDao implements MatchDao {
-    private static final ThreadLocal<MockMatchDao> dao = new ThreadLocal<MockMatchDao>() {
-        @Override
-        protected MockMatchDao initialValue() {
-            return new MockMatchDao();
-        }
-    };
     private List<Match> matchs = new ArrayList<Match>();
     private Date now = new GregorianCalendar(2010, 5, 2, 12, 01).getTime();
-
-    public static MockMatchDao get() {
-        return dao.get();
-    }
 
     public MockMatchDao() {
         matchs.add(match("Italie", "Russie", "4/6/2010 19:02"));
@@ -33,6 +27,7 @@ public class MockMatchDao implements MatchDao {
         matchs.add(match("USA", "Algérie", "2/6/2010 10:00"));
         matchs.add(match("France", "Belgique", "1/6/2010 14:02", 5, 0));
         matchs.add(match("France", "Angleterre", "1/6/2010 12:03", 1, 3));
+        ser();
     }
 
     public static Match match(String team1, String team2, String kickoff, int goals1, int goals2) {
@@ -53,10 +48,12 @@ public class MockMatchDao implements MatchDao {
     }
 
     public List<Match> find() {
+        unser();
         return matchs;
     }
 
     public List<Match> findPast() {
+        unser();
         List<Match> past = new ArrayList<Match>();
         for (Match match : matchs) {
             if (now.after(match.getKickoff()) && match.hasGoalsSet()) {
@@ -67,6 +64,7 @@ public class MockMatchDao implements MatchDao {
     }
 
     public List<Match> findRunning() {
+        unser();
         List<Match> running = new ArrayList<Match>();
         for (Match match : matchs) {
             if (now.after(match.getKickoff()) && !match.hasGoalsSet()) {
@@ -77,6 +75,7 @@ public class MockMatchDao implements MatchDao {
     }
 
     public List<Match> findIncoming() {
+        unser();
         List<Match> running = new ArrayList<Match>();
         for (Match match : matchs) {
             if (now.before(match.getKickoff())) {
@@ -88,6 +87,29 @@ public class MockMatchDao implements MatchDao {
 
     public Match save(Match model) {
         matchs.add(model);
+        ser();
         return model;
+    }
+
+    private void ser() {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream("/tmp/zenfoot/matchs"));
+            out.writeObject(matchs);
+            out.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage()+" ! CREATE DIRECTORY /tmp/zenfoot MANUALLY for it to work!");
+        }
+    }
+
+    private void unser() {
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream("/tmp/zenfoot/matchs"));
+            matchs = (List<Match>) in.readObject();
+            in.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage()+" ! CREATE DIRECTORY /tmp/zenfoot MANUALLY for it to work!");
+        }
     }
 }

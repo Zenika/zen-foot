@@ -2,21 +2,16 @@ package com.zenika.zenfoot.dao.mock;
 
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.User;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MockUserDao implements UserDao {
-    private static final ThreadLocal<MockUserDao> dao = new ThreadLocal<MockUserDao>() {
-        @Override
-        protected MockUserDao initialValue() {
-            return new MockUserDao();
-        }
-    };
     private List<User> users = new ArrayList<User>();
-
-    public static UserDao get() {
-        return dao.get();
-    }
 
     public MockUserDao() {
         users.add(user("maghen@zenika.com", 20));
@@ -42,6 +37,29 @@ public class MockUserDao implements UserDao {
 
     public User save(User model) {
         users.add(model);
+        ser();
         return model;
+    }
+
+    private void ser() {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream("/tmp/zenfoot/users"));
+            out.writeObject(users);
+            out.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage()+" ! CREATE DIRECTORY /tmp/zenfoot MANUALLY for it to work!");
+        }
+    }
+
+    private void unser() {
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream("/tmp/zenfoot/users"));
+            users = (List<User>) in.readObject();
+            in.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage()+" ! CREATE DIRECTORY /tmp/zenfoot MANUALLY for it to work!");
+        }
     }
 }
