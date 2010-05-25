@@ -223,3 +223,15 @@ a:active {
     border: 1px solid #5f1c23;
     padding:2px;
 }
+
+/********************* FEEDBACK */
+.feedbackPanel {
+    width: 170px;
+    margin-bottom: 10px;
+}
+.feedbackPanelERROR {
+    color: red;
+}
+.feedbackPanelINFO {
+    color: #0A0;
+}

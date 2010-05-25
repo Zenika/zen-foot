@@ -32,20 +32,29 @@
 
             <div id="right">
                 <div class="navcontainer">
-                    <form>
+                    <form wicket:id="loginForm">
+                        <div wicket:id="loginFeedback"></div>
                         <div style="padding-bottom:5px">
                             <span style="margin-left:40px">Email</span>
                             <br/>
-                            <input style="width:150px;margin-left:40px;border: 1px solid #5f1c23;padding:2px"/>
+                            <input style="width:150px;margin-left:40px;border: 1px solid #5f1c23;padding:2px" wicket:id="emailField" type="text"/>
                             <span style="margin-left:40px">Mot de passe</span>
                             <br/>
-                            <input style="width:150px;margin-left:40px;border: 1px solid #5f1c23;padding:2px"/>
+                            <input style="width:150px;margin-left:40px;border: 1px solid #5f1c23;padding:2px" wicket:id="passwordField" type="password"/>
                         </div>
                         <ul class="navlist">
-                            <li><a href="#">Connection</a></li>
-                            <li><a href="#">Inscription</a></li>
-                            <li><a href="#">Mot de passe perdu ?</a></li>
+                            <li><a href="#" wicket:id="loginLink">Je me connecte</a></li>
+                            <li><a href="#" wicket:id="registerLink">Demande d'inscription</a></li>
+                            <li><a href="#" wicket:id="lostPasswordLink">Mot de passe perdu ?</a></li>
                         </ul>
+                        <div style="display: none">
+                            <div style="padding-bottom:5px">
+                                <span style="margin-left:40px">olivier.huber</span>
+                            </div>
+                            <ul class="navlist">
+                                <li><a href="#">Je me déconnecte</a></li>
+                            </ul>
+                        </div>
                     </form>
                 </div>
             </div>
