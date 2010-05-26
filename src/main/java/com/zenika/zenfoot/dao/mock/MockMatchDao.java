@@ -112,4 +112,8 @@ public class MockMatchDao implements MatchDao {
             System.out.println(ex.getMessage()+" ! CREATE DIRECTORY /tmp/zenfoot MANUALLY for it to work!");
         }
     }
+
+    public void delete(Match model) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

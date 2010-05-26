@@ -70,4 +70,8 @@ public class MockBetDao implements BetDao {
             System.out.println(ex.getMessage()+" ! CREATE DIRECTORY /tmp/zenfoot MANUALLY for it to work!");
         }
     }
+
+    public void delete(Bet model) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -12,4 +12,20 @@ public class HibernateUserDao implements UserDao {
     public User save(User model) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public List<User> findPending() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void accept(User user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void reject(User user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void delete(User model) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

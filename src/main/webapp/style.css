@@ -42,7 +42,7 @@ body {
 #sub_left {width: 20.3%;
            float: left;}
 
-ul.allOfFame {
+ul {
     list-style-type: none;
 }
 
@@ -234,4 +234,10 @@ a:active {
 }
 .feedbackPanelINFO {
     color: #0A0;
+}
+ul img {
+    border: none;
+    margin: 2px;
+    padding: 0;
+    vertical-align: middle;
 }

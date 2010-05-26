@@ -6,4 +6,6 @@ public interface BaseDao<T> {
     public List<T> find();
 
     public T save(T model);
+
+    public void delete(T model);
 }
