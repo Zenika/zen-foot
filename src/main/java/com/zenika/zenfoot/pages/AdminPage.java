@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -32,6 +33,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.validation.validator.RangeValidator;
 
 public class AdminPage extends BasePage {
     private static final long serialVersionUID = 1L;
@@ -109,6 +111,8 @@ public class AdminPage extends BasePage {
         private Team team1;
         private Team team2;
         private Date kickoff;
+        private int kickoffHours;
+        private int kickoffMinutes;
 
         public MatchForm(String id) {
             super(id);
@@ -116,13 +120,20 @@ public class AdminPage extends BasePage {
             add(team1Field("team1Field"));
             add(team2Field("team2Field"));
             add(kickoffField("kickoffField"));
+            add(kickoffHours("kickoffHours"));
+            add(kickoffMinutes("kickoffMinutes"));
         }
 
         @Override
         protected void onSubmit() {
             teamDao.save(team1);
             teamDao.save(team2);
-            matchDao.save(new Match(team1, team2, kickoff));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(kickoff);
+            calendar.set(GregorianCalendar.HOUR_OF_DAY, kickoffHours);
+            calendar.set(GregorianCalendar.MINUTE, kickoffMinutes);
+
+            matchDao.save(new Match(team1, team2, calendar.getTime()));
         }
 
         private List<Team> buildAllCountriesTeam() {
@@ -144,6 +155,18 @@ public class AdminPage extends BasePage {
             DateField dateField = new DateField(id, new PropertyModel<Date>(MatchForm.this, "kickoff"));
             dateField.setRequired(true);
             return dateField;
+        }
+
+        private RequiredTextField<Integer> kickoffHours(String id) {
+            RequiredTextField<Integer> hours = new RequiredTextField<Integer>(id, new PropertyModel<Integer>(MatchForm.this, "kickoffHours"));
+            hours.add(new RangeValidator<Integer>(0, 23));
+            return hours;
+        }
+
+        private RequiredTextField<Integer> kickoffMinutes(String id) {
+            RequiredTextField<Integer> minutes = new RequiredTextField<Integer>(id, new PropertyModel<Integer>(MatchForm.this, "kickoffMinutes"));
+            minutes.add(new RangeValidator<Integer>(0, 59));
+            return minutes;
         }
 
         private DropDownChoice team1Field(String id) {
