@@ -1,40 +1,65 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <wicket:extend>
     <div id="sub_left">
-	    <h3>Joueurs</h3>
-            <ul>
-                <li wicket:id="userList">
-                    <a href="#" wicket:id="rejectLink"><img alt="Rejete" src="images/delete.png"/></a>
-                    <span wicket:id="email">[User Alias]</span>
-                </li>
-            </ul>
-            <p/>
-	    <h3>... en attente</h3>
-            <ul>
-                <li wicket:id="userPendingList">
-                    <a href="#" wicket:id="acceptLink"><img alt="Accepte" src="images/accept.png"/></a>
-                    <a href="#" wicket:id="rejectLink"><img alt="Rejete" src="images/delete.png"/></a>
-                    <span wicket:id="email">[User Email]</span>
-                </li>
-            </ul>
+        <h3>Joueurs</h3>
+        <ul>
+            <li wicket:id="userList">
+                <a href="#" wicket:id="rejectLink"><img alt="Rejete" src="images/delete.png"/></a>
+                <span wicket:id="email">[User Alias]</span>
+            </li>
+        </ul>
+        <p/>
+        <h3>... en attente</h3>
+        <ul>
+            <li wicket:id="userPendingList">
+                <a href="#" wicket:id="acceptLink"><img alt="Accepte" src="images/accept.png"/></a>
+                <a href="#" wicket:id="rejectLink"><img alt="Rejete" src="images/delete.png"/></a>
+                <span wicket:id="email">[User Email]</span>
+            </li>
+        </ul>
     </div>
 
     <div id="sub_right">
-	    <h3>Les pays</h3>
-            <p/>
-	    <h3>Les équipes</h3>
-            <ul>
-                <li wicket:id="teamList">
-                    <img alt="Accepte" src="images/"/>
-                    <span wicket:id="name">[Team name]</span>
-                </li>
-            </ul>
+        <h3>Les matchs</h3>
+        <form wicket:id="newMatchForm">
+            <div>
+                <div wicket:id="matchFeedback"></div>
+                <select wicket:id="team1Field"><option>[France]</option></select><br/>
+                <select wicket:id="team2Field"><option>[France]</option></select><br/>
+                <span wicket:id="kickoffField">1 juin 10:30 GMT</span>&nbsp;
+                <input type="submit" value="Ajouter" />
+                <p/>
+            </div>
+        </form>
+        <table>
+            <tr wicket:id="matchList">
+                <td><a href="#" wicket:id="deleteLink"><img alt="Suppression" src="images/delete.png"/></a></td>
+                <td><img wicket:id="team1.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team1.name">USA</span></td>
+                <td>&nbsp;-&nbsp;</td>
+                <td><img wicket:id="team2.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team2.name">USA</span></td>
+                <td>&nbsp;:&nbsp;</td>
+                <td><span wicket:id="kickoff">[1 juin 10:30 GMT]</span></td>
+            </tr>
+        </table>
     </div>
 
     <div id="sub_content">
-	    <h3>Les paris</h3>
-            <p/>
-	    <h3>Les matchs</h3>
-	    <p>. .</p>
+        <h3>Les équipes</h3>
+        <form wicket:id="newTeamForm">
+            <div wicket:id="teamFeedback"></div>
+            <div>
+                Equipe: <input type="text" wicket:id="name" /><br/>
+                Image: <input type="text" wicket:id="imageName" size="5"/>&nbsp;<i>Ex: fr.png</i><br/>
+                <input type="submit" value="Ajouter" />
+                <p/>
+            </div>
+        </form>
+        <ul>
+            <li wicket:id="teamList">
+                <a href="#" wicket:id="deleteLink"><img alt="Suppression" src="images/delete.png"/></a>
+                <img wicket:id="flag" alt="[FLAG]" src="images/delete.png"/>
+                <span wicket:id="name">[Team name]</span>
+            </li>
+        </ul>
     </div>
 </wicket:extend>

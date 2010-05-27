@@ -175,7 +175,7 @@ a:active {
     font-weight: bold;
 }   /* selected link */
 
-.img {margin-right: 4px;}
+/*.img {margin-right: 4px;}*/
 
 .img_left {float: left;
            margin-right: 4px;}
@@ -235,7 +235,7 @@ a:active {
 .feedbackPanelINFO {
     color: #0A0;
 }
-ul img {
+img {
     border: none;
     margin: 2px;
     padding: 0;
