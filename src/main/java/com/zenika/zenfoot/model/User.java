@@ -7,6 +7,7 @@ public class User implements Serializable {
     private String password;
     private int points = 0;
     private boolean pending = true;
+    private boolean admin = false;
 
     public User(String email) {
         assert email != null && !email.trim().isEmpty() : "new User: email must not be null";
@@ -34,6 +35,14 @@ public class User implements Serializable {
         int hash = 5;
         hash = 41 * hash + (this.email != null ? this.email.hashCode() : 0);
         return hash;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public boolean isPending() {
