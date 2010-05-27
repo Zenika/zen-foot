@@ -11,11 +11,13 @@ import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.User;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
@@ -34,6 +36,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
+import static com.zenika.zenfoot.pages.common.Utils.createFlag;
 
 public class AdminPage extends BasePage {
     private static final long serialVersionUID = 1L;
@@ -63,7 +66,7 @@ public class AdminPage extends BasePage {
             li.add(new Label("team1.name"));
             li.add(createFlag("team2.imageName", match.getTeam2().getImageName()));
             li.add(new Label("team2.name"));
-            li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
+            li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
             li.add(new Link<Match>("deleteLink", li.getModel()) {
                 @Override
                 public void onClick() {
@@ -128,10 +131,10 @@ public class AdminPage extends BasePage {
         protected void onSubmit() {
             teamDao.save(team1);
             teamDao.save(team2);
-            GregorianCalendar calendar = new GregorianCalendar();
+            Calendar calendar = new GregorianCalendar(Locale.FRANCE);
             calendar.setTime(kickoff);
-            calendar.set(GregorianCalendar.HOUR_OF_DAY, kickoffHours);
-            calendar.set(GregorianCalendar.MINUTE, kickoffMinutes);
+            calendar.set(Calendar.HOUR_OF_DAY, kickoffHours);
+            calendar.set(Calendar.MINUTE, kickoffMinutes);
 
             matchDao.save(new Match(team1, team2, calendar.getTime()));
         }
@@ -200,13 +203,6 @@ public class AdminPage extends BasePage {
                 }
             });
         }
-    }
-
-    public WebMarkupContainer createFlag(String id, String imageName) {
-        WebMarkupContainer flag = new WebMarkupContainer(id);
-        flag.add(new SimpleAttributeModifier("src", "images/flags/" + imageName));
-        flag.add(new SimpleAttributeModifier("alt", "[" + imageName + "]"));
-        return flag;
     }
 
     public class UserList extends ListView<User> {

@@ -12,20 +12,18 @@ import com.zenika.zenfoot.model.User;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.Resource;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import static com.zenika.zenfoot.pages.common.Utils.createFlag;
 
 public class HomePage extends BasePage {
     private static final long serialVersionUID = 1L;
@@ -64,7 +62,9 @@ public class HomePage extends BasePage {
         protected void populateItem(ListItem<Match> li) {
             Match match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Match>(match));
+            li.add(createFlag("team1.imageName", match.getTeam1().getImageName()));
             li.add(new Label("team1.name"));
+            li.add(createFlag("team2.imageName", match.getTeam2().getImageName()));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
             li.add(new BetAjaxForm("betAjaxForm", li.getModelObject()));
@@ -80,7 +80,9 @@ public class HomePage extends BasePage {
         protected void populateItem(ListItem<Match> li) {
             Match match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Match>(match));
+            li.add(createFlag("team1.imageName", match.getTeam1().getImageName()));
             li.add(new Label("team1.name"));
+            li.add(createFlag("team2.imageName", match.getTeam2().getImageName()));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM z").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
@@ -97,7 +99,9 @@ public class HomePage extends BasePage {
         protected void populateItem(ListItem<Match> li) {
             Match match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Match>(match));
+            li.add(createFlag("team1.imageName", match.getTeam1().getImageName()));
             li.add(new Label("team1.name"));
+            li.add(createFlag("team2.imageName", match.getTeam2().getImageName()));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
         }
