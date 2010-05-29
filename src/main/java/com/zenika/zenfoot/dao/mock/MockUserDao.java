@@ -27,7 +27,10 @@ public class MockUserDao implements UserDao {
     public User save(User model) {
         if (!users().contains(model)) {
             users().add(model);
+        } else {
+            get(model).setAdmin(model.isAdmin());
         }
+        persist();
         return model;
     }
 
@@ -62,5 +65,9 @@ public class MockUserDao implements UserDao {
             }
         }
         return null;
+    }
+
+    public User get(String email) {
+        return get(new User(email));
     }
 }

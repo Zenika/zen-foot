@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.pages;
 
+import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.service.DataService;
 import com.zenika.zenfoot.service.MailService;
 import com.zenika.zenfoot.service.mock.MockDataService;
@@ -13,15 +14,19 @@ import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasePage extends WebPage {
     private static final long serialVersionUID = 1L;
+    transient Logger logger = LoggerFactory.getLogger(BasePage.class);
     private transient DataService dataService = new MockDataService();
     private transient MailService mailService = new MockMailService();
 
     public BasePage() {
+        System.out.println("session.isSignedIn:" + ZenFootSession.get().isSignedIn());
         add(new BookmarkablePageLink("homePage", HomePage.class));
         add(new BookmarkablePageLink("rulesPage", RulesPage.class));
         add(new BookmarkablePageLink("adminPage", AdminPage.class));
@@ -33,10 +38,16 @@ public class BasePage extends WebPage {
         private String email;
         private String password;
 
+        @Override
+        public boolean isVisible() {
+            return !ZenFootSession.get().isSignedIn();
+        }
+
         public LoginForm(String id) {
             super(id);
-            add(emailField("emailField"));
-            add(passwordField("passwordField"));
+            setModel(new CompoundPropertyModel(this));
+            add(emailField("email"));
+            add(passwordField("password"));
             add(loginLink("loginLink"));
             add(registerLink("registerLink"));
             add(lostPasswordLink("lostPasswordLink"));
@@ -48,14 +59,14 @@ public class BasePage extends WebPage {
         }
 
         private WebMarkupContainer emailField(String id) {
-            final RequiredTextField<String> emailField = new RequiredTextField<String>(id, new PropertyModel<String>(LoginForm.this, "email"));
+            final RequiredTextField<String> emailField = new RequiredTextField<String>(id);
             emailField.add(EmailAddressValidator.getInstance());
             emailField.setPersistent(true);
             return emailField;
         }
 
         private WebMarkupContainer passwordField(String id) {
-            final PasswordTextField passwordField = new PasswordTextField(id, new PropertyModel<String>(LoginForm.this, "password"));
+            final PasswordTextField passwordField = new PasswordTextField(id);
             passwordField.setResetPassword(false);
             return passwordField;
         }
@@ -64,11 +75,13 @@ public class BasePage extends WebPage {
             return new SubmitLink(id) {
                 @Override
                 public void onSubmit() {
-                    // if (session.authenticate(email, password)) {
-                    //   info("loggin OK");
-                    // } else {
-                    //   error("loggin KO");
-                    // }
+                    if (ZenFootSession.get().signIn(email, password)) {
+                        if (!continueToOriginalDestination()) {
+                            setResponsePage(getApplication().getHomePage());
+                        }
+                    } else {
+                        error("Email/Mot de passe incorrect !");
+                    }
                 }
             };
         }

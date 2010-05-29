@@ -10,8 +10,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class MockUtil {
     private static final String MOCK_DB_PATH = "zenfoot.ser.donotcommit";
@@ -36,7 +39,7 @@ public class MockUtil {
         try {
             out = new ObjectOutputStream(new FileOutputStream(MOCK_DB_PATH));
             if (mockDb == null) {
-                mockDb = new MockDb();
+                mockDb = MockDb.init();
             }
             out.writeObject(mockDb);
             out.close();
@@ -66,5 +69,20 @@ public class MockUtil {
         List<Match> matchs = new ArrayList<Match>();
         List<Team> teams = new ArrayList<Team>();
         List<User> users = new ArrayList<User>();
+
+        private static MockDb init() throws NoSuchAlgorithmException {
+            MockDb mockDb = new MockDb();
+            final User olivier = new User("olivier@zenika.com");
+            olivier.setPassword(DigestUtils.md5Hex("olivier"));
+            olivier.setAdmin(true);
+            olivier.setPending(false);
+            mockDb.users.add(olivier);
+            final User maghen = new User("maghen@zenika.com");
+            maghen.setPassword(DigestUtils.md5Hex("maghen"));
+            maghen.setAdmin(true);
+            maghen.setPending(false);
+            mockDb.users.add(maghen);
+            return mockDb;
+        }
     }
 }

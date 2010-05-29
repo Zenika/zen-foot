@@ -9,6 +9,7 @@ import com.zenika.zenfoot.dao.mock.MockUserDao;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.pages.common.Flag;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +18,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
@@ -32,11 +32,11 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
-import static com.zenika.zenfoot.pages.common.Utils.createFlag;
 
 public class AdminPage extends BasePage {
     private static final long serialVersionUID = 1L;
@@ -62,9 +62,9 @@ public class AdminPage extends BasePage {
         protected void populateItem(ListItem<Match> li) {
             Match match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Match>(match));
-            li.add(createFlag("team1.imageName", match.getTeam1().getImageName()));
+            li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
             li.add(new Label("team1.name"));
-            li.add(createFlag("team2.imageName", match.getTeam2().getImageName()));
+            li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
             li.add(new Link<Match>("deleteLink", li.getModel()) {
@@ -194,7 +194,7 @@ public class AdminPage extends BasePage {
         protected void populateItem(ListItem<Team> li) {
             Team team = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Team>(team));
-            li.add(createFlag("flag", team.getImageName()));
+            li.add(new Flag("flag", new Model(team.getImageName())));
             li.add(new Label("name"));
             li.add(new Link<Team>("deleteLink", li.getModel()) {
                 @Override
@@ -221,6 +221,20 @@ public class AdminPage extends BasePage {
                     userDao.delete(getModelObject());
                 }
             });
+            li.add(new Link<User>("adminLink", li.getModel()) {
+                @Override
+                public void onClick() {
+                    getModelObject().setAdmin(!getModelObject().isAdmin());
+                    userDao.save(getModelObject());
+                }
+            }.add(starImg("starImg", li.getModel())));
+        }
+
+        private WebMarkupContainer starImg(String id, IModel<User> model) {
+            WebMarkupContainer star = new WebMarkupContainer(id);
+            String starImg = model.getObject().isAdmin() ? "star.png" : "bullet_star.png";
+            star.add(new SimpleAttributeModifier("src", "images/" + starImg));
+            return star;
         }
     }
 

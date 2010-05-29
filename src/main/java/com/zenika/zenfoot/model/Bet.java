@@ -2,7 +2,7 @@ package com.zenika.zenfoot.model;
 
 import java.io.Serializable;
 
-public class Bet implements Serializable {
+public class Bet extends AbstractModel implements Serializable {
     private User user;
     private Match match;
     private int goalsForTeam1 = -1;

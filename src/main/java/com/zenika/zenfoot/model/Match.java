@@ -3,7 +3,7 @@ package com.zenika.zenfoot.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Match implements Serializable, Comparable<Match> {
+public class Match extends AbstractModel implements Serializable, Comparable<Match> {
     private Team team1;
     private Team team2;
     private Date kickoff;

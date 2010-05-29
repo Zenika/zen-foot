@@ -2,7 +2,7 @@ package com.zenika.zenfoot.model;
 
 import java.io.Serializable;
 
-public class Team implements Serializable, Comparable<Team> {
+public class Team extends AbstractModel implements Serializable, Comparable<Team> {
     private String name;
     private String imageName;
 

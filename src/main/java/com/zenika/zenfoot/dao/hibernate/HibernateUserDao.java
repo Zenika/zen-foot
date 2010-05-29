@@ -28,4 +28,8 @@ public class HibernateUserDao implements UserDao {
     public void delete(User model) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public User get(String email) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

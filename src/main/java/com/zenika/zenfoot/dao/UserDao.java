@@ -9,4 +9,6 @@ public interface UserDao extends BaseDao<User> {
     public void accept(User user);
 
     public void reject(User user);
+
+    public User get(String email);
 }

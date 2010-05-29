@@ -2,7 +2,7 @@ package com.zenika.zenfoot.model;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User extends AbstractModel implements Serializable {
     private String email;
     private String password;
     private int points = 0;
