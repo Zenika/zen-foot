@@ -37,11 +37,9 @@ public class HomePage extends BasePage {
     private transient MatchDao matchDao = new MockMatchDao();
     private transient BetDao betDao = new MockBetDao();
     private transient DataService dataService = new MockDataService();
-    private transient User currentUser = userDao.get("olivier@zenika.com"); // Session.getUser()
     WebMarkupContainer userListWrapper;
 
     public HomePage(final PageParameters parameters) {
-        System.out.println("session.isSignedIn:" + ZenFootSession.get().isSignedIn());
         userListWrapper = new WebMarkupContainer("userListWrapper");
         userListWrapper.setOutputMarkupId(true);
         userListWrapper.add(new UserList("userList"));
@@ -169,7 +167,7 @@ public class HomePage extends BasePage {
 
         public BetAjaxForm(String id, final Match match) {
             super(id);
-            Bet bet = betDao.find(currentUser, match);
+            Bet bet = betDao.find(ZenFootSession.get().getUser(), match);
             if (bet != null) {
                 this.goalsForTeam1 = parse(bet.getGoalsForTeam1());
                 this.goalsForTeam2 = parse(bet.getGoalsForTeam2());
@@ -180,7 +178,7 @@ public class HomePage extends BasePage {
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
                     if (match.getKickoff().after(new Date())) {
-                        Bet bet = betDao.createOrUpdate(currentUser, match, parse(goalsForTeam1), parse(goalsForTeam2));
+                        Bet bet = betDao.createOrUpdate(ZenFootSession.get().getUser(), match, parse(goalsForTeam1), parse(goalsForTeam2));
                         goalsForTeam1 = parse(bet.getGoalsForTeam1());
                         goalsForTeam2 = parse(bet.getGoalsForTeam2());
                         target.addComponent(goal1);
@@ -194,7 +192,7 @@ public class HomePage extends BasePage {
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
                     if (match.getKickoff().after(new Date())) {
-                        Bet bet = betDao.createOrUpdate(currentUser, match, parse(goalsForTeam1), parse(goalsForTeam2));
+                        Bet bet = betDao.createOrUpdate(ZenFootSession.get().getUser(), match, parse(goalsForTeam1), parse(goalsForTeam2));
                         goalsForTeam1 = parse(bet.getGoalsForTeam1());
                         goalsForTeam2 = parse(bet.getGoalsForTeam2());
                         target.addComponent(goal2);

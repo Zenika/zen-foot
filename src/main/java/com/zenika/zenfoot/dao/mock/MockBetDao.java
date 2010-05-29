@@ -26,6 +26,9 @@ public class MockBetDao implements BetDao {
     }
 
     public Bet find(User user, Match match) {
+        if (user == null || match == null) {
+            return null;
+        }
         for (Bet bet : bets()) {
             if (user.equals(bet.getUser()) && match.equals(bet.getMatch())) {
                 return bet;

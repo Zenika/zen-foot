@@ -5,14 +5,17 @@ import com.zenika.zenfoot.service.DataService;
 import com.zenika.zenfoot.service.MailService;
 import com.zenika.zenfoot.service.mock.MockDataService;
 import com.zenika.zenfoot.service.mock.MockMailService;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
@@ -29,9 +32,34 @@ public class BasePage extends WebPage {
         System.out.println("session.isSignedIn:" + ZenFootSession.get().isSignedIn());
         add(new BookmarkablePageLink("homePage", HomePage.class));
         add(new BookmarkablePageLink("rulesPage", RulesPage.class));
-        add(new BookmarkablePageLink("adminPage", AdminPage.class));
+        add(new BookmarkablePageLink("adminPage", AdminPage.class).setVisible(ZenFootSession.get().getRoles().hasRole(Roles.ADMIN)));
 
         add(new LoginForm("loginForm"));
+        add(loggedUser("loggedUser"));
+        add(logout("logout"));
+    }
+
+    private Label loggedUser(String id) {
+        Label loggedUser = new Label(id, ZenFootSession.get().isSignedIn() ? ZenFootSession.get().getUser().getAlias() : "") {
+            @Override
+            public boolean isVisible() {
+                return ZenFootSession.get().isSignedIn();
+            }
+        };
+        return loggedUser;
+    }
+
+    private Link logout(String id) {
+        Link logout = new Link(id) {
+
+            @Override
+            public void onClick() {
+                ZenFootSession.get().signOut();
+                ZenFootSession.get().invalidate();
+                setResponsePage(getApplication().getHomePage());
+            }
+        };
+        return logout;
     }
 
     private class LoginForm extends StatelessForm {

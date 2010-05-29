@@ -27,14 +27,26 @@ public class ZenFootSession extends AuthenticatedWebSession {
     }
 
     @Override
+    public void signOut() {
+        super.signOut();
+        user = null;
+        dirty();
+    }
+
+    @Override
     public boolean authenticate(String email, String password) {
         User u = userDao.get(email);
-        if (u.getPassword().equals(DigestUtils.md5Hex(password))) {
-            user = u;
+        if (u != null && u.getPassword().equals(DigestUtils.md5Hex(password))) {
+            user = userDao.get(email);
+            dirty();
             return true;
         } else {
             return false;
         }
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

@@ -48,15 +48,15 @@
                             <li><a href="#" wicket:id="registerLink">Demande d'inscription</a></li>
                             <li><a href="#" wicket:id="lostPasswordLink">Mot de passe perdu ?</a></li>
                         </ul>
-                        <div style="display: none">
-                            <div style="padding-bottom:5px">
-                                <span style="margin-left:40px">olivier.huber</span>
-                            </div>
-                            <ul class="navlist">
-                                <li><a href="#">Je me déconnecte</a></li>
-                            </ul>
-                        </div>
                     </form>
+                    <wicket:enclosure child="loggedUser">
+                        <div style="padding-bottom:5px">
+                            <span wicket:id="loggedUser" style="margin-left:40px">olivier.huber</span>
+                        </div>
+                        <ul class="navlist">
+                            <li><a href="#" wicket:id="logout">Je me déconnecte</a></li>
+                        </ul>
+                    </wicket:enclosure>
                 </div>
             </div>
         </div>
