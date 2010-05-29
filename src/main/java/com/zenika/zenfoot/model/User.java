@@ -15,6 +15,12 @@ public class User extends AbstractModel implements Serializable {
         this.email = email;
     }
 
+    public User(String email, String password) {
+        this(email);
+        assert password != null && !password.trim().isEmpty() : "new User: password must not be null";
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

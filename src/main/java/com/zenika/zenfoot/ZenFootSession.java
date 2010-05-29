@@ -36,7 +36,7 @@ public class ZenFootSession extends AuthenticatedWebSession {
     @Override
     public boolean authenticate(String email, String password) {
         User u = userDao.get(email);
-        if (u != null && u.getPassword().equals(DigestUtils.md5Hex(password))) {
+        if (u != null && !u.isPending() && u.getPassword().equals(DigestUtils.md5Hex(password))) {
             user = userDao.get(email);
             dirty();
             return true;

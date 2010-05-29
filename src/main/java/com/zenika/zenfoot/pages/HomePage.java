@@ -30,6 +30,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import static com.zenika.zenfoot.pages.BasePage.userIsAdmin;
 
 public class HomePage extends BasePage {
     private static final long serialVersionUID = 1L;
@@ -79,7 +80,7 @@ public class HomePage extends BasePage {
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
-            li.add(new BetAjaxForm("betAjaxForm", li.getModelObject()));
+            li.add(new BetAjaxForm("betAjaxForm", li.getModelObject()).setVisible(userIsAdmin()));
         }
     }
 
@@ -115,7 +116,7 @@ public class HomePage extends BasePage {
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
-            li.add(new MatchAjaxForm("matchAjaxForm", li.getModelObject()));
+            li.add(new MatchAjaxForm("matchAjaxForm", li.getModelObject()).setVisible(userIsAdmin()));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
         }
     }

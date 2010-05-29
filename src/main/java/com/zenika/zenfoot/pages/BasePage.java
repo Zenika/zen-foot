@@ -29,7 +29,6 @@ public class BasePage extends WebPage {
     private transient MailService mailService = new MockMailService();
 
     public BasePage() {
-        System.out.println("session.isSignedIn:" + ZenFootSession.get().isSignedIn());
         add(new BookmarkablePageLink("homePage", HomePage.class));
         add(new BookmarkablePageLink("rulesPage", RulesPage.class));
         add(new BookmarkablePageLink("adminPage", AdminPage.class).setVisible(ZenFootSession.get().getRoles().hasRole(Roles.ADMIN)));
@@ -37,6 +36,10 @@ public class BasePage extends WebPage {
         add(new LoginForm("loginForm"));
         add(loggedUser("loggedUser"));
         add(logout("logout"));
+    }
+
+    public static boolean userIsAdmin() {
+        return ZenFootSession.get().isSignedIn() ? ZenFootSession.get().getRoles().hasRole(Roles.ADMIN) : false;
     }
 
     private Label loggedUser(String id) {
@@ -51,7 +54,6 @@ public class BasePage extends WebPage {
 
     private Link logout(String id) {
         Link logout = new Link(id) {
-
             @Override
             public void onClick() {
                 ZenFootSession.get().signOut();

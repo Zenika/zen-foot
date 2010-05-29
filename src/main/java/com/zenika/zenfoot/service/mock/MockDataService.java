@@ -11,6 +11,7 @@ import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.User;
 import com.zenika.zenfoot.service.DataService;
 import java.util.List;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
 public class MockDataService implements DataService {
@@ -19,7 +20,7 @@ public class MockDataService implements DataService {
     private transient BetDao betDao = new MockBetDao();
 
     public void registerUser(String email, String password) {
-        userDao.save(new User(email));
+        userDao.save(new User(email, DigestUtils.md5Hex(password)));
     }
 
     public void updateGoalsForMatch(Match match) {
