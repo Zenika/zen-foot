@@ -25,7 +25,7 @@
         <form wicket:id="newMatchForm">
             <div>
                 <div wicket:id="matchFeedback"></div>
-                <select wicket:id="team1Field"><option>[France]</option></select><br/>
+                <select wicket:id="team1Field"><option>[France]</option></select>
                 <select wicket:id="team2Field"><option>[France]</option></select><br/>
                 <span wicket:id="kickoffField">1 juin 10:30 GMT</span>
                 <input type="text" size="2" wicket:id="kickoffHours"/>:
@@ -44,9 +44,7 @@
                 <td><span wicket:id="kickoff">[1 juin 10:30 GMT]</span></td>
             </tr>
         </table>
-    </div>
-
-    <div id="sub_content">
+        <p/>
         <h3>Les équipes</h3>
         <form wicket:id="newTeamForm">
             <div wicket:id="teamFeedback"></div>
@@ -65,4 +63,9 @@
             </li>
         </ul>
     </div>
+    
+<!--
+    <div id="sub_content">
+    </div>
+-->
 </wicket:extend>

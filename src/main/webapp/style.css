@@ -39,7 +39,7 @@ body {
     padding-top: 50px;
 }
 
-#sub_left {width: 20.3%;
+#sub_left {width: 30%;
            float: left;}
 
 ul {
@@ -50,11 +50,11 @@ ul.allOfFame li {
     padding: 3px;
 }
 
-#sub_right {width: 40.3%;
+#sub_right {width: 70%;
             float: right;}
 
-#sub_content {margin-left: 23.4%;
-              margin-right: 33.4%}
+#sub_content {margin-left: 20.4%;
+              margin-right: 30.4%}
 
 #left_topBox {
     height: 45px;

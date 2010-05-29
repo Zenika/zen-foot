@@ -29,6 +29,7 @@ public class MockUserDao implements UserDao {
             users().add(model);
         } else {
             get(model).setAdmin(model.isAdmin());
+            get(model).setPoints(model.getPoints());
         }
         persist();
         return model;

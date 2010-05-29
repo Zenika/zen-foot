@@ -9,7 +9,7 @@
 <wicket:extend>
     <div id="sub_left">
         <h3>Hall of Fame</h3>
-        <ul class="allOfFame">
+        <ul class="allOfFame" wicket:id="userListWrapper">
             <li wicket:id="userList">
                 <img wicket:id="medal"/>
                 <span wicket:id="points">[20]</span>pts&nbsp;-&nbsp;<span wicket:id="alias">[User Alias]</span>
@@ -24,7 +24,6 @@
                 <td><img wicket:id="team1.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team1.name">USA</span></td>
                 <td>&nbsp;-&nbsp;</td>
                 <td><img wicket:id="team2.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team2.name">Italie</span></td>
-                <td>&nbsp;:&nbsp;</td>
                 <td>
                     <form wicket:id="betAjaxForm" style="display: inline;">
                         <input type="text" wicket:id="goalsForTeam1" class="betinput" />
@@ -36,9 +35,7 @@
                 </td>
             </tr>
         </table>
-    </div>
-
-    <div id="sub_content">
+        <p/>
         <h3>Matchs en cours...</h3>
         <table style="white-space: nowrap">
             <tr wicket:id="runningMatchList">
@@ -46,7 +43,14 @@
                 <td>&nbsp;-&nbsp;</td>
                 <td><img wicket:id="team2.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team2.name">USA</span></td>
                 <td>&nbsp;:&nbsp;</td>
-                <td><span wicket:id="kickoff">1 juin 10:30 GMT</span></td>
+                <td>
+                    <form wicket:id="matchAjaxForm" style="display: inline;">
+                        <input type="text" wicket:id="goalsForTeam1" class="betinput" />
+                        &nbsp;:&nbsp;
+                        <input type="text" wicket:id="goalsForTeam2" class="betinput" />
+                    </form>
+                    <span wicket:id="kickoff">1 juin 10:30 GMT</span>
+                </td>
             </tr>
         </table>
         <p/>
@@ -64,4 +68,9 @@
             </tr>
         </table>
     </div>
+    
+<!--
+    <div id="sub_content">
+    </div>
+-->
 </wicket:extend>

@@ -16,8 +16,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
@@ -47,7 +49,7 @@ public class AdminPage extends BasePage {
     public AdminPage() {
         add(new UserList("userList"));
         add(new UserPendingList("userPendingList"));
-        add(new TeamForm("newTeamForm"));
+        add(new TeamForm("newTeamForm").setVisible(false));
         add(new TeamList("teamList"));
         add(new MatchForm("newMatchForm"));
         add(new MatchList("matchList"));
@@ -137,15 +139,17 @@ public class AdminPage extends BasePage {
             calendar.set(Calendar.MINUTE, kickoffMinutes);
 
             matchDao.save(new Match(team1, team2, calendar.getTime()));
+            setResponsePage(AdminPage.class);
         }
 
         private List<Team> buildAllCountriesTeam() {
-            List<Team> locales = new ArrayList<Team>();
+            Set<Team> uniqueLocales = new HashSet<Team>();
             for (Locale locale : Locale.getAvailableLocales()) {
                 if (!locale.getCountry().isEmpty()) {
-                    locales.add(new Team(locale.getDisplayCountry(), locale.getCountry().toLowerCase() + ".png"));
+                    uniqueLocales.add(new Team(locale.getDisplayCountry(), locale.getCountry().toLowerCase() + ".png"));
                 }
             }
+            List<Team> locales = new ArrayList<Team>(uniqueLocales);
             Collections.sort(locales);
             return locales;
         }
@@ -201,7 +205,7 @@ public class AdminPage extends BasePage {
                 public void onClick() {
                     teamDao.delete(getModelObject());
                 }
-            });
+            }.setVisible(false));
         }
     }
 

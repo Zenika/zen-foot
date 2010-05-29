@@ -4,6 +4,7 @@ import com.zenika.zenfoot.dao.BetDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.User;
+import java.util.ArrayList;
 import java.util.List;
 import static com.zenika.zenfoot.dao.mock.MockUtil.bets;
 import static com.zenika.zenfoot.dao.mock.MockUtil.persist;
@@ -44,5 +45,15 @@ public class MockBetDao implements BetDao {
     public void delete(Bet model) {
         bets().remove(model);
         persist();
+    }
+
+    public List<Bet> findAll(Match match) {
+        List<Bet> bets = new ArrayList<Bet>();
+        for (Bet bet : bets()) {
+            if (bet.getMatch().equals(match)) {
+                bets.add(bet);
+            }
+        }
+        return bets;
     }
 }
