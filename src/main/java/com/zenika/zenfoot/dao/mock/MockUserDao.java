@@ -3,6 +3,8 @@ package com.zenika.zenfoot.dao.mock;
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.User;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import static com.zenika.zenfoot.dao.mock.MockUtil.users;
 import static com.zenika.zenfoot.dao.mock.MockUtil.persist;
@@ -15,6 +17,11 @@ public class MockUserDao implements UserDao {
                 nonPendingUsers.add(user);
             }
         }
+        Collections.sort(nonPendingUsers, new Comparator<User>() {
+            public int compare(User u1, User u2) {
+                return u2.getPoints() - u1.getPoints();
+            }
+        });
         return nonPendingUsers;
     }
 
@@ -30,6 +37,7 @@ public class MockUserDao implements UserDao {
         } else {
             get(model).setAdmin(model.isAdmin());
             get(model).setPoints(model.getPoints());
+            get(model).setPending(model.isPending());
         }
         persist();
         return model;

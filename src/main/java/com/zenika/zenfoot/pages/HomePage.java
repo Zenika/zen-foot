@@ -24,6 +24,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -41,6 +42,7 @@ public class HomePage extends BasePage {
     WebMarkupContainer userListWrapper;
 
     public HomePage(final PageParameters parameters) {
+        add(updatePts("updatePts"));
         userListWrapper = new WebMarkupContainer("userListWrapper");
         userListWrapper.setOutputMarkupId(true);
         userListWrapper.add(new UserList("userList"));
@@ -48,6 +50,21 @@ public class HomePage extends BasePage {
         add(new IncomingMatchList("incomingMatchList"));
         add(new PastMatchList("pastMatchList"));
         add(new RunningMatchList("runningMatchList"));
+    }
+
+    private Link updatePts(String id) {
+        Link updatePts = new Link(id) {
+            @Override
+            public void onClick() {
+                dataService.updateUserPoints();
+            }
+
+            @Override
+            public boolean isVisible() {
+                return userIsAdmin();
+            }
+        };
+        return updatePts;
     }
 
     public class UserList extends ListView<User> {
@@ -80,7 +97,7 @@ public class HomePage extends BasePage {
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
-            li.add(new BetAjaxForm("betAjaxForm", li.getModelObject()).setVisible(userIsAdmin()));
+            li.add(new BetAjaxForm("betAjaxForm", li.getModelObject()).setVisible(ZenFootSession.get().isSignedIn()));
         }
     }
 
@@ -234,7 +251,8 @@ public class HomePage extends BasePage {
                 protected void onUpdate(AjaxRequestTarget target) {
                     match.setGoalsForTeam1(parse(goalsForTeam1));
                     match.setGoalsForTeam2(parse(goalsForTeam2));
-                    dataService.updateGoalsForMatch(match);
+                    matchDao.save(match);
+                    dataService.updateUserPoints();
                     target.addComponent(goal1);
                     target.addComponent(userListWrapper);
                     target.appendJavascript("new Effect.Highlight($('" + goal1.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
@@ -247,7 +265,8 @@ public class HomePage extends BasePage {
                 protected void onUpdate(AjaxRequestTarget target) {
                     match.setGoalsForTeam1(parse(goalsForTeam1));
                     match.setGoalsForTeam2(parse(goalsForTeam2));
-                    dataService.updateGoalsForMatch(match);
+                    matchDao.save(match);
+                    dataService.updateUserPoints();
                     target.addComponent(goal2);
                     target.addComponent(userListWrapper);
                     target.appendJavascript("new Effect.Highlight($('" + goal2.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");

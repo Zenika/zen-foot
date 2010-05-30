@@ -12,4 +12,5 @@ public interface BetDao extends BaseDao<Bet> {
 
     public List<Bet> findAll(Match match);
 
+    public List<Bet> find(User user);
 }

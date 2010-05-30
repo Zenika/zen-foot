@@ -9,6 +9,7 @@ import com.zenika.zenfoot.dao.mock.MockUserDao;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.pages.common.ConfirmLink;
 import com.zenika.zenfoot.pages.common.Flag;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class AdminPage extends BasePage {
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
-            li.add(new Link<Match>("deleteLink", li.getModel()) {
+            li.add(new ConfirmLink<Match>("deleteLink", li.getModel()) {
                 @Override
                 public void onClick() {
                     matchDao.delete(getModelObject());
@@ -200,7 +201,7 @@ public class AdminPage extends BasePage {
             li.setModel(new CompoundPropertyModel<Team>(team));
             li.add(new Flag("flag", new Model(team.getImageName())));
             li.add(new Label("name"));
-            li.add(new Link<Team>("deleteLink", li.getModel()) {
+            li.add(new ConfirmLink<Team>("deleteLink", li.getModel()) {
                 @Override
                 public void onClick() {
                     teamDao.delete(getModelObject());
@@ -219,7 +220,7 @@ public class AdminPage extends BasePage {
             User user = li.getModelObject();
             li.setModel(new CompoundPropertyModel<User>(user));
             li.add(new Label("email"));
-            li.add(new Link<User>("rejectLink", li.getModel()) {
+            li.add(new ConfirmLink<User>("rejectLink", li.getModel()) {
                 @Override
                 public void onClick() {
                     userDao.delete(getModelObject());

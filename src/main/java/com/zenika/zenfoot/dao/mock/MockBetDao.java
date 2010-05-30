@@ -59,4 +59,14 @@ public class MockBetDao implements BetDao {
         }
         return bets;
     }
+
+    public List<Bet> find(User user) {
+        List<Bet> bets = new ArrayList<Bet>();
+        for (Bet bet : bets()) {
+            if (bet.getUser().equals(user)) {
+                bets.add(bet);
+            }
+        }
+        return bets;
+    }
 }

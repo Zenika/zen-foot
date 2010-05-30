@@ -1,6 +1,8 @@
 package com.zenika.zenfoot.pages;
 
 import com.zenika.zenfoot.ZenFootSession;
+import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.mock.MockUserDao;
 import com.zenika.zenfoot.service.DataService;
 import com.zenika.zenfoot.service.MailService;
 import com.zenika.zenfoot.service.mock.MockDataService;
@@ -27,6 +29,7 @@ public class BasePage extends WebPage {
     transient Logger logger = LoggerFactory.getLogger(BasePage.class);
     private transient DataService dataService = new MockDataService();
     private transient MailService mailService = new MockMailService();
+    private transient UserDao userDao = new MockUserDao();
 
     public BasePage() {
         add(new BookmarkablePageLink("homePage", HomePage.class));
@@ -78,10 +81,12 @@ public class BasePage extends WebPage {
             setModel(new CompoundPropertyModel(this));
             add(emailField("email"));
             add(passwordField("password"));
-            add(loginLink("loginLink"));
+            SubmitLink loginLink;
+            add(loginLink = loginLink("loginLink"));
             add(registerLink("registerLink"));
             add(lostPasswordLink("lostPasswordLink"));
             add(loginFeedback("loginFeedback"));
+            setDefaultButton(loginLink);
         }
 
         private WebMarkupContainer loginFeedback(String id) {
@@ -98,19 +103,24 @@ public class BasePage extends WebPage {
         private WebMarkupContainer passwordField(String id) {
             final PasswordTextField passwordField = new PasswordTextField(id);
             passwordField.setResetPassword(false);
+            passwordField.setRequired(false);
             return passwordField;
         }
 
-        private WebMarkupContainer loginLink(String id) {
+        private SubmitLink loginLink(String id) {
             return new SubmitLink(id) {
                 @Override
                 public void onSubmit() {
-                    if (ZenFootSession.get().signIn(email, password)) {
-                        if (!continueToOriginalDestination()) {
-                            setResponsePage(getApplication().getHomePage());
-                        }
+                    if (password == null || password.isEmpty()) {
+                        error("Le mot de passe est vide ?");
                     } else {
-                        error("Email/Mot de passe incorrect !");
+                        if (ZenFootSession.get().signIn(email, password)) {
+                            if (!continueToOriginalDestination()) {
+                                setResponsePage(getApplication().getHomePage());
+                            }
+                        } else {
+                            error("Email/Mot de passe incorrect !");
+                        }
                     }
                 }
             };
@@ -120,12 +130,19 @@ public class BasePage extends WebPage {
             return new SubmitLink(id) {
                 @Override
                 public void onSubmit() {
-                    try {
-                        dataService.registerUser(email, password);
-                        info("Merci !");
-                        info("Nous vous contacterons par mail très prochainement à l'adresse " + email);
-                    } catch (Exception e) {
-                        error("Impossible de vous enregistrer avec l'adresse " + email);
+                    if (password == null || password.isEmpty()) {
+                        error("Le mot de passe est vide ?");
+                    } else if (userDao.get(email) !=null) {
+                        error("Ce compte existe déjà !");
+                        warn("Avez vous perdu votre mot de passe ?");
+                    } else {
+                        try {
+                            dataService.registerUser(email, password);
+                            info("Merci !");
+                            info("Nous vous contacterons par mail très prochainement à l'adresse " + email);
+                        } catch (Exception e) {
+                            error("Impossible de vous enregistrer avec l'adresse " + email);
+                        }
                     }
                 }
             };
