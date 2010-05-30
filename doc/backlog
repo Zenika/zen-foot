@@ -1,8 +1,15 @@
 
-- Inviter Jean Samuel Schmidt à beta tester l'appli...
+=== NOW
+BUG - 28 mai CEST !?
+- ajouter Spring
+- ajouter hibernate
+- ajouter scripts sql
+- ajouter service de mail
+- ajouter fichier properties
+- préparer environnement de PROD
 
+=== LATER
+- Ajouter un bouton rafraichir les données
+- ajouter nos pari dans liste matchs passe
 - Service de mails de rappels avant les matchs (3 jours ?)
-
-- 2 classements (pts - pts pondere par nb paris) !?
-
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
