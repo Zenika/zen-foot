@@ -11,6 +11,8 @@ import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.User;
 import com.zenika.zenfoot.pages.common.ConfirmLink;
 import com.zenika.zenfoot.pages.common.Flag;
+import com.zenika.zenfoot.service.account.AccountService;
+import com.zenika.zenfoot.service.account.DefaultAccountService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +32,6 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -46,6 +47,7 @@ public class AdminPage extends BasePage {
     private transient UserDao userDao = new MockUserDao();
     private transient TeamDao teamDao = new MockTeamDao();
     private transient MatchDao matchDao = new MockMatchDao();
+    private transient AccountService accountService = new DefaultAccountService();
 
     public AdminPage() {
         add(new UserList("userList"));
@@ -223,10 +225,10 @@ public class AdminPage extends BasePage {
             li.add(new ConfirmLink<User>("rejectLink", li.getModel()) {
                 @Override
                 public void onClick() {
-                    userDao.delete(getModelObject());
+                    accountService.reject(getModelObject());
                 }
             });
-            li.add(new Link<User>("adminLink", li.getModel()) {
+            li.add(new ConfirmLink<User>("adminLink", li.getModel()) {
                 @Override
                 public void onClick() {
                     getModelObject().setAdmin(!getModelObject().isAdmin());
@@ -253,16 +255,16 @@ public class AdminPage extends BasePage {
             User user = li.getModelObject();
             li.setModel(new CompoundPropertyModel<User>(user));
             li.add(new Label("email"));
-            li.add(new Link<User>("acceptLink", li.getModel()) {
+            li.add(new ConfirmLink<User>("acceptLink", li.getModel()) {
                 @Override
                 public void onClick() {
-                    userDao.accept(getModelObject());
+                    accountService.accept(getModelObject());
                 }
             });
-            li.add(new Link<User>("rejectLink", li.getModel()) {
+            li.add(new ConfirmLink<User>("rejectLink", li.getModel()) {
                 @Override
                 public void onClick() {
-                    userDao.reject(getModelObject());
+                    accountService.reject(getModelObject());
                 }
             });
         }

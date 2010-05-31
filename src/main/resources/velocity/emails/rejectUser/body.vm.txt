@@ -1,0 +1,3 @@
+Bonjour ${userEmail},
+
+Désolé mais votre accès à ${appUrl} à été refusé.

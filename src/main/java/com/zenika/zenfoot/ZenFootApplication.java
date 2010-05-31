@@ -14,6 +14,7 @@ public class ZenFootApplication extends AuthenticatedWebApplication {
         mountBookmarkablePage("/admin", AdminPage.class);
     }
 
+    @Override
     public Class<HomePage> getHomePage() {
         return HomePage.class;
     }

@@ -13,7 +13,7 @@ import com.zenika.zenfoot.model.User;
 import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.pages.common.StaticImage;
 import com.zenika.zenfoot.service.DataService;
-import com.zenika.zenfoot.service.mock.MockDataService;
+import com.zenika.zenfoot.service.DefaultDataService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +38,7 @@ public class HomePage extends BasePage {
     private transient UserDao userDao = new MockUserDao();
     private transient MatchDao matchDao = new MockMatchDao();
     private transient BetDao betDao = new MockBetDao();
-    private transient DataService dataService = new MockDataService();
+    private transient DataService dataService = new DefaultDataService();
     WebMarkupContainer userListWrapper;
 
     public HomePage(final PageParameters parameters) {
@@ -114,7 +114,7 @@ public class HomePage extends BasePage {
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
-            li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM z").format(match.getKickoff()))));
+            li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
             li.add(new Label("goalsForTeam2"));
         }

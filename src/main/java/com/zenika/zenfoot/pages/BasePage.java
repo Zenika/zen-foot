@@ -3,10 +3,8 @@ package com.zenika.zenfoot.pages;
 import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.dao.mock.MockUserDao;
-import com.zenika.zenfoot.service.DataService;
-import com.zenika.zenfoot.service.MailService;
-import com.zenika.zenfoot.service.mock.MockDataService;
-import com.zenika.zenfoot.service.mock.MockMailService;
+import com.zenika.zenfoot.service.account.AccountService;
+import com.zenika.zenfoot.service.account.DefaultAccountService;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -27,8 +25,7 @@ import org.slf4j.LoggerFactory;
 public class BasePage extends WebPage {
     private static final long serialVersionUID = 1L;
     transient Logger logger = LoggerFactory.getLogger(BasePage.class);
-    private transient DataService dataService = new MockDataService();
-    private transient MailService mailService = new MockMailService();
+    private transient AccountService accountService = new DefaultAccountService();
     private transient UserDao userDao = new MockUserDao();
 
     public BasePage() {
@@ -132,12 +129,12 @@ public class BasePage extends WebPage {
                 public void onSubmit() {
                     if (password == null || password.isEmpty()) {
                         error("Le mot de passe est vide ?");
-                    } else if (userDao.get(email) !=null) {
+                    } else if (userDao.get(email) != null) {
                         error("Ce compte existe déjà !");
                         warn("Avez vous perdu votre mot de passe ?");
                     } else {
                         try {
-                            dataService.registerUser(email, password);
+                            accountService.register(email, password);
                             info("Merci !");
                             info("Nous vous contacterons par mail très prochainement à l'adresse " + email);
                         } catch (Exception e) {
@@ -153,7 +150,7 @@ public class BasePage extends WebPage {
                 @Override
                 public void onSubmit() {
                     try {
-                        mailService.sendPassword(email);
+                        accountService.sendPassword(email);
                         info("Votre mot de passe vous a été ré-envoyé à l'adresse " + email);
                     } catch (Exception e) {
                         error("Impossible d'envoyez votre mot de passe à l'adresse " + email);

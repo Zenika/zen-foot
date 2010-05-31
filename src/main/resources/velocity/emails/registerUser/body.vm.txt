@@ -1,0 +1,5 @@
+Bonjour ${userEmail},
+
+Nous avons bien enregistré votre demande d'inscritpion à ${appUrl}
+
+Vous recevrez une réponse très prochainement.

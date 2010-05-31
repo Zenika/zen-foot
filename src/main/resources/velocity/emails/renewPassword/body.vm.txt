@@ -1,0 +1,4 @@
+Bonjour ${userEmail},
+
+Votre nouveau mot de passe : ${password}
+vous permet de vous connecter à ${appUrl}

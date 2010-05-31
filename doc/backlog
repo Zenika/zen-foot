@@ -1,15 +1,17 @@
 
 === NOW
-BUG - 28 mai CEST !?
-- ajouter Spring
-- ajouter hibernate
-- ajouter scripts sql
-- ajouter service de mail
-- ajouter fichier properties
-- préparer environnement de PROD
+MCA - ajouter Spring
+MCA - ajouter hibernate
+MCA - ajouter scripts sql
+
+OHU - préparer environnement de PROD
 
 === LATER
 - Ajouter un bouton rafraichir les données
 - ajouter nos pari dans liste matchs passe
 - Service de mails de rappels avant les matchs (3 jours ?)
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
+
+=== DONE
+OHU - ajouter service de mail
+OHU - ajouter fichier properties

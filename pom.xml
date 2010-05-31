@@ -4,7 +4,7 @@
     <groupId>com.zenika.zenfoot</groupId>
     <artifactId>zenfoot</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>ZenFoot</name>
     <description>Le site de paris du Mondial 2010</description>
     <organization>
@@ -65,6 +65,52 @@
             <version>1.4</version>
         </dependency>
         
+        <dependency><!-- required by velocity! -->
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons.collections.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${javamail.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${velocity.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>${velocity.tools.version}</version>
+        </dependency>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--                  SPRING                                -->
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>${cglib-nodep.version}</version>
+        </dependency>
+
         <!-- LOGGING DEPENDENCIES - LOG4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -106,13 +152,25 @@
         </dependency>
     </dependencies>
     <build>
+        <!-- the processing of ressources is done in two steps -->
         <resources>
+            <!-- step 1: copy all properties, and replace all ${something} with their corresponding values defined in maven -->
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <!-- step 2: copy ressources all non properties as-is -->
             <resource>
                 <filtering>false</filtering>
                 <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
             </resource>
             <resource>
-                <filtering>false</filtering>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**</include>
@@ -124,7 +182,6 @@
         </resources>
         <testResources>
             <testResource>
-                <filtering>false</filtering>
                 <directory>src/test/java</directory>
                 <includes>
                     <include>**</include>
@@ -134,16 +191,21 @@
                 </excludes>
             </testResource>
         </testResources>
+
         <plugins>
             <plugin>
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <optimize>true</optimize>
+                    <compilerVersion>1.6</compilerVersion>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimise>true</optimise>
                     <debug>true</debug>
+                    <encoding>UTF-8</encoding>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
             <plugin>
@@ -157,10 +219,43 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+                <configuration>
+                    <format>{0,date,yyyy-MM-dd HH:mm:ss z}</format>
+                    <items>
+                        <item>timestamp</item>
+                    </items>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Substitute variables in resource files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <properties>
         <wicket.version>1.4.8</wicket.version>
         <jetty.version>6.1.4</jetty.version>
+        <javamail.version>1.4</javamail.version>
+        <spring.version>2.5.6.SEC01</spring.version>
+        <velocity.tools.version>1.2</velocity.tools.version>
+        <velocity.version>1.6.1</velocity.version>
+        <commons.collections.version>3.2</commons.collections.version>
+        <cglib-nodep.version>2.1_3</cglib-nodep.version>
     </properties>
 </project>
