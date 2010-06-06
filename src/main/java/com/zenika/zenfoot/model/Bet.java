@@ -7,6 +7,9 @@ public class Bet extends AbstractModel implements Serializable {
     private Match match;
     private int goalsForTeam1 = -1;
     private int goalsForTeam2 = -1;
+    
+    public Bet() {
+	}
 
     public Bet(User user, Match match, int goalsForTeam1, int goalsForTeam2) {
         assert goalsForTeam1 >= 0 : "new Bet: goals1 must be positive";

@@ -4,32 +4,30 @@ import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.User;
 import java.util.List;
 
-public class HibernateUserDao implements UserDao {
-    public List<User> find() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+import org.hibernate.Query;
 
-    public User save(User model) {
-        throw new UnsupportedOperationException("Not supported yet.");
+public class HibernateUserDao extends HibernateDao<User> implements UserDao {
+    public List<User> find() {
+    	return getSession().createQuery("from User").list();
     }
 
     public List<User> findPending() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getSession().createQuery("select user from User where user.pending=?").setBoolean(1, true).list();
     }
 
     public void accept(User user) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        user.setPending(true);
+        getSession().saveOrUpdate(user);
     }
 
     public void reject(User user) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void delete(User model) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	user.setPending(false);
+    	getSession().saveOrUpdate(user);
     }
 
     public User get(String email) {
-        throw new UnsupportedOperationException("Not supported yet.");
+		Query query = getSession().createQuery("from User where email=?");
+		query.setString(1,email);
+		return (User) query.uniqueResult();
     }
 }

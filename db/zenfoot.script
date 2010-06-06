@@ -1,0 +1,2 @@
+INSERT INTO USER VALUES(1,'maghen.calinghee@zenika.com','test',0,FALSE,TRUE)
+INSERT INTO USER VALUES(2,'olivier.hubert@zenika.com','ohuber',0,FALSE,TRUE)

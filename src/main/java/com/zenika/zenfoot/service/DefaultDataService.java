@@ -1,34 +1,35 @@
 package com.zenika.zenfoot.service;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.zenika.zenfoot.dao.BetDao;
 import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.dao.mock.MockBetDao;
-import com.zenika.zenfoot.dao.mock.MockUserDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.User;
-import org.apache.commons.lang.math.NumberUtils;
 
 public class DefaultDataService implements DataService {
-    private transient UserDao userDao = new MockUserDao();
-    private transient BetDao betDao = new MockBetDao();
+//    private transient UserDao userDao = new MockUserDao();
+//    private transient BetDao betDao = new MockBetDao();
+    private UserDao userDao;
+    private BetDao betDao;
 
     @Override
     public void updateUserPoints(User user) {
         int points = 0;
-        for (Bet bet : betDao.find(user)) {
+        for (Bet bet : getBetDao().find(user)) {
             if (bet.isBetSet() && bet.getMatch().hasGoalsSet()) {
                 System.out.println(bet + " has goals set");
                 points += computePoints(bet, bet.getMatch());
             }
         }
         user.setPoints(points);
-        userDao.save(user);
+        getUserDao().save(user);
     }
 
     @Override
     public void updateUserPoints() {
-        for (User user : userDao.find()) {
+        for (User user : getUserDao().find()) {
             updateUserPoints(user);
         }
     }
@@ -44,4 +45,20 @@ public class DefaultDataService implements DataService {
         }
         return 0;
     }
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setBetDao(BetDao betDao) {
+		this.betDao = betDao;
+	}
+
+	public BetDao getBetDao() {
+		return betDao;
+	}
 }

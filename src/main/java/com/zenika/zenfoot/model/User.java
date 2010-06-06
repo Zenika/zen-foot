@@ -9,6 +9,9 @@ public class User extends AbstractModel implements Serializable {
     private boolean pending = true;
     private boolean admin = false;
 
+    public User() {
+	}
+    
     public User(String email) {
         assert email != null && !email.trim().isEmpty() : "new User: email must not be null";
 

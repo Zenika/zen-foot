@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE beans PUBLIC
+    "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="wicketApplication" class="com.zenika.zenfoot.ZenFootApplication">
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/zenfoot" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingLocations">
+			<list>
+				<value>classpath:com/zenika/zenfoot/model/User.hbm.xml</value>
+				<value>classpath:com/zenika/zenfoot/model/Bet.hbm.xml</value>
+				<value>classpath:com/zenika/zenfoot/model/Team.hbm.xml</value>
+				<value>classpath:com/zenika/zenfoot/model/Match.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.format_sql=true
+				hibernate.dialect=org.hibernate.dialect.MySQLInnoDBDialect
+            </value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="userDao" class="com.zenika.zenfoot.dao.hibernate.HibernateUserDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="betDao" class="com.zenika.zenfoot.dao.hibernate.HibernateBetDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="matchDao" class="com.zenika.zenfoot.dao.hibernate.HibernateMatchDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="teamDao" class="com.zenika.zenfoot.dao.hibernate.HibernateTeamDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<bean id="dataService" class="com.zenika.zenfoot.service.DefaultDataService">
+		<property name="userDao" ref="userDao" />
+		<property name="betDao" ref="betDao" />
+	</bean>
+
+
+</beans>

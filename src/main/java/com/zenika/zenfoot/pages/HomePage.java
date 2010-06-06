@@ -1,25 +1,13 @@
 package com.zenika.zenfoot.pages;
 
-import com.zenika.zenfoot.ZenFootSession;
-import com.zenika.zenfoot.dao.BetDao;
-import com.zenika.zenfoot.dao.MatchDao;
-import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.dao.mock.MockBetDao;
-import com.zenika.zenfoot.dao.mock.MockMatchDao;
-import com.zenika.zenfoot.dao.mock.MockUserDao;
-import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Match;
-import com.zenika.zenfoot.model.User;
-import com.zenika.zenfoot.pages.common.Flag;
-import com.zenika.zenfoot.pages.common.StaticImage;
-import com.zenika.zenfoot.service.DataService;
-import com.zenika.zenfoot.service.DefaultDataService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -31,17 +19,38 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import static com.zenika.zenfoot.pages.BasePage.userIsAdmin;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import com.zenika.zenfoot.ZenFootSession;
+import com.zenika.zenfoot.dao.BetDao;
+import com.zenika.zenfoot.dao.MatchDao;
+import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.model.Bet;
+import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.pages.common.Flag;
+import com.zenika.zenfoot.pages.common.StaticImage;
+import com.zenika.zenfoot.service.DataService;
 
 public class HomePage extends BasePage {
     private static final long serialVersionUID = 1L;
-    private transient UserDao userDao = new MockUserDao();
-    private transient MatchDao matchDao = new MockMatchDao();
-    private transient BetDao betDao = new MockBetDao();
-    private transient DataService dataService = new DefaultDataService();
+//    private transient UserDao userDao = new MockUserDao();
+//    private transient MatchDao matchDao = new MockMatchDao();
+//    private transient BetDao betDao = new MockBetDao();
+    
+    @SpringBean
+    private UserDao userDao;
+    @SpringBean
+    private MatchDao matchDao;
+    @SpringBean
+    private BetDao betDao;
+    @SpringBean
+    private DataService dataService;
+    
     WebMarkupContainer userListWrapper;
 
     public HomePage(final PageParameters parameters) {
+    	InjectorHolder.getInjector().inject(this);
         add(updatePts("updatePts"));
         userListWrapper = new WebMarkupContainer("userListWrapper");
         userListWrapper.setOutputMarkupId(true);
@@ -276,4 +285,36 @@ public class HomePage extends BasePage {
             add(goal2);
         }
     }
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public MatchDao getMatchDao() {
+		return matchDao;
+	}
+
+	public void setMatchDao(MatchDao matchDao) {
+		this.matchDao = matchDao;
+	}
+
+	public BetDao getBetDao() {
+		return betDao;
+	}
+
+	public void setBetDao(BetDao betDao) {
+		this.betDao = betDao;
+	}
+
+	public DataService getDataService() {
+		return dataService;
+	}
+
+	public void setDataService(DataService dataService) {
+		this.dataService = dataService;
+	}
 }

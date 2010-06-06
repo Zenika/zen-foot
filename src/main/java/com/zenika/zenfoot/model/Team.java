@@ -5,6 +5,9 @@ import java.io.Serializable;
 public class Team extends AbstractModel implements Serializable, Comparable<Team> {
     private String name;
     private String imageName;
+    
+    public Team() {
+	}
 
     public Team(String name, String imageName) {
         assert name != null && !name.trim().isEmpty() : "new Team: name must not be null";
