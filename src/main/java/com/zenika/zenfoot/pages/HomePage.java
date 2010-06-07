@@ -100,11 +100,12 @@ public class HomePage extends BasePage {
         @Override
         protected void populateItem(ListItem<Game> li) {
             Game match = li.getModelObject();
+            System.out.println(match);
             li.setModel(new CompoundPropertyModel<Game>(match));
-            li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
-            li.add(new Label("team1.name"));
-            li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
-            li.add(new Label("team2.name"));
+            li.add(new Flag("team1Id.imageName", new Model(match.getTeam1Id().getImageName())));
+            li.add(new Label("team1Id.name"));
+            li.add(new Flag("team2Id.imageName", new Model(match.getTeam2Id().getImageName())));
+            li.add(new Label("team2Id.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
             li.add(new BetAjaxForm("betAjaxForm", li.getModelObject()).setVisible(ZenFootSession.get().isSignedIn()));
         }
@@ -119,9 +120,9 @@ public class HomePage extends BasePage {
         protected void populateItem(ListItem<Game> li) {
             Game match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Game>(match));
-            li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
+            li.add(new Flag("team1.imageName", new Model(match.getTeam1Id().getImageName())));
             li.add(new Label("team1.name"));
-            li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
+            li.add(new Flag("team2.imageName", new Model(match.getTeam2Id().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
@@ -138,9 +139,9 @@ public class HomePage extends BasePage {
         protected void populateItem(ListItem<Game> li) {
             Game match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Game>(match));
-            li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
+            li.add(new Flag("team1.imageName", new Model(match.getTeam1Id().getImageName())));
             li.add(new Label("team1.name"));
-            li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
+            li.add(new Flag("team2.imageName", new Model(match.getTeam2Id().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new MatchAjaxForm("matchAjaxForm", li.getModelObject()).setVisible(userIsAdmin()));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));

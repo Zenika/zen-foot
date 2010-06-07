@@ -5,11 +5,11 @@
 
 <hibernate-mapping package="com.zenika.zenfoot.model">
 	<class name="Bet">
-		<id name="id">
+		<id name="id" column="bet_id">
 			<generator class="native" />
 		</id>
-		<property name="user" />
-		<property name="game" />
+		<one-to-one name="userId" class="com.zenika.zenfoot.model.User"/>
+		<one-to-one name="gameId" class="com.zenika.zenfoot.model.Game"/>
 		<property name="goalsForTeam1" />
 		<property name="goalsForTeam2" />
 	</class>

@@ -1,18 +1,5 @@
 package com.zenika.zenfoot.pages;
 
-import com.zenika.zenfoot.dao.GameDao;
-import com.zenika.zenfoot.dao.TeamDao;
-import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.dao.mock.MockGameDao;
-import com.zenika.zenfoot.dao.mock.MockTeamDao;
-import com.zenika.zenfoot.dao.mock.MockUserDao;
-import com.zenika.zenfoot.model.Game;
-import com.zenika.zenfoot.model.Team;
-import com.zenika.zenfoot.model.User;
-import com.zenika.zenfoot.pages.common.ConfirmLink;
-import com.zenika.zenfoot.pages.common.Flag;
-import com.zenika.zenfoot.service.account.AccountService;
-import com.zenika.zenfoot.service.account.DefaultAccountService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
@@ -40,13 +28,32 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.RangeValidator;
+
+import com.zenika.zenfoot.dao.GameDao;
+import com.zenika.zenfoot.dao.TeamDao;
+import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.model.Game;
+import com.zenika.zenfoot.model.Team;
+import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.pages.common.ConfirmLink;
+import com.zenika.zenfoot.pages.common.Flag;
+import com.zenika.zenfoot.service.account.AccountService;
+import com.zenika.zenfoot.service.account.DefaultAccountService;
 
 public class AdminPage extends BasePage {
     private static final long serialVersionUID = 1L;
-    private transient UserDao userDao = new MockUserDao();
-    private transient TeamDao teamDao = new MockTeamDao();
-    private transient GameDao matchDao = new MockGameDao();
+//    private transient UserDao userDao = new MockUserDao();
+//    private transient TeamDao teamDao = new MockTeamDao();
+//    private transient GameDao matchDao = new MockGameDao();
+    @SpringBean
+    private UserDao userDao;
+    @SpringBean
+    private TeamDao teamDao;
+    @SpringBean
+    private GameDao matchDao;
+    
     private transient AccountService accountService = new DefaultAccountService();
 
     public AdminPage() {
@@ -67,10 +74,10 @@ public class AdminPage extends BasePage {
         protected void populateItem(ListItem<Game> li) {
             Game match = li.getModelObject();
             li.setModel(new CompoundPropertyModel<Game>(match));
-            li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
-            li.add(new Label("team1.name"));
-            li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
-            li.add(new Label("team2.name"));
+            li.add(new Flag("team1Id.imageName", new Model(match.getTeam1Id().getImageName())));
+            li.add(new Label("team1Id.name"));
+            li.add(new Flag("team2Id.imageName", new Model(match.getTeam2Id().getImageName())));
+            li.add(new Label("team2Id.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
             li.add(new ConfirmLink<Game>("deleteLink", li.getModel()) {
                 @Override

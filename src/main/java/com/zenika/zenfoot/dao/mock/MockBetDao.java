@@ -30,7 +30,7 @@ public class MockBetDao implements BetDao {
             return null;
         }
         for (Bet bet : bets()) {
-            if (user.equals(bet.getUser()) && match.equals(bet.getGame())) {
+            if (user.equals(bet.getUserId()) && match.equals(bet.getGameId())) {
                 return bet;
             }
         }
@@ -53,7 +53,7 @@ public class MockBetDao implements BetDao {
     public List<Bet> findAll(Game match) {
         List<Bet> bets = new ArrayList<Bet>();
         for (Bet bet : bets()) {
-            if (bet.getGame().equals(match)) {
+            if (bet.getGameId().equals(match)) {
                 bets.add(bet);
             }
         }
@@ -63,7 +63,7 @@ public class MockBetDao implements BetDao {
     public List<Bet> find(User user) {
         List<Bet> bets = new ArrayList<Bet>();
         for (Bet bet : bets()) {
-            if (bet.getUser().equals(user)) {
+            if (bet.getUserId().equals(user)) {
                 bets.add(bet);
             }
         }

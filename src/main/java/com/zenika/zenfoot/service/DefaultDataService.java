@@ -18,9 +18,9 @@ public class DefaultDataService implements DataService {
     public void updateUserPoints(User user) {
         int points = 0;
         for (Bet bet : getBetDao().find(user)) {
-            if (bet.isBetSet() && bet.getGame().hasGoalsSet()) {
+            if (bet.isBetSet() && bet.getGameId().hasGoalsSet()) {
                 System.out.println(bet + " has goals set");
-                points += computePoints(bet, bet.getGame());
+                points += computePoints(bet, bet.getGameId());
             }
         }
         user.setPoints(points);

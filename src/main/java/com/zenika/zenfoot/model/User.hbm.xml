@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.zenika.zenfoot.model">
 	<class name="User">
-		<id name="id">
+		<id name="id" column="user_id">
 			<generator class="native" />
 		</id>
 		<property name="email" />

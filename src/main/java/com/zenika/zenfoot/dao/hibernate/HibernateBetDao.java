@@ -19,8 +19,12 @@ public class HibernateBetDao extends HibernateDao<Bet> implements BetDao {
 	}
 
 	public Bet find(User user, Game match) {
-		Query query = getSession().createQuery("from Bet where userid=? and matchid=?");
-		query.setLong(0,user.getId());
+		if (user == null)
+			return null;
+		if (match == null)
+			return null;
+		Query query = getSession().createQuery("from Bet where userid=? and gameid=?");
+		query.setLong(0, user.getId());
 		query.setLong(1, match.getId());
 		return (Bet) query.uniqueResult();
 	}
@@ -32,16 +36,15 @@ public class HibernateBetDao extends HibernateDao<Bet> implements BetDao {
 	@Override
 	public List<Bet> find(User user) {
 		Query query = getSession().createQuery("from Bet where userid=?");
-		query.setLong(0,user.getId());
+		query.setLong(0, user.getId());
 		return query.list();
 	}
 
 	@Override
 	public List<Bet> findAll(Game match) {
-		Query query = getSession().createQuery("from Bet where matchid=?");
-		query.setLong(0,match.getId());
+		Query query = getSession().createQuery("from Bet where gameid=?");
+		query.setLong(0, match.getId());
 		return query.list();
 	}
-
 
 }

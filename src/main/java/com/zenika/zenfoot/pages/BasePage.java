@@ -1,10 +1,5 @@
 package com.zenika.zenfoot.pages;
 
-import com.zenika.zenfoot.ZenFootSession;
-import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.dao.mock.MockUserDao;
-import com.zenika.zenfoot.service.account.AccountService;
-import com.zenika.zenfoot.service.account.DefaultAccountService;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -18,15 +13,24 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.zenika.zenfoot.ZenFootSession;
+import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.service.account.AccountService;
+import com.zenika.zenfoot.service.account.DefaultAccountService;
 
 public class BasePage extends WebPage {
     private static final long serialVersionUID = 1L;
     transient Logger logger = LoggerFactory.getLogger(BasePage.class);
     private transient AccountService accountService = new DefaultAccountService();
-    private transient UserDao userDao = new MockUserDao();
+//    private transient UserDao userDao = new MockUserDao();
+
+    @SpringBean
+    private UserDao userDao;
 
     public BasePage() {
         add(new BookmarkablePageLink("homePage", HomePage.class));
@@ -64,7 +68,15 @@ public class BasePage extends WebPage {
         return logout;
     }
 
-    private class LoginForm extends StatelessForm {
+    public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	private class LoginForm extends StatelessForm {
         private String email;
         private String password;
 
@@ -129,7 +141,7 @@ public class BasePage extends WebPage {
                 public void onSubmit() {
                     if (password == null || password.isEmpty()) {
                         error("Le mot de passe est vide ?");
-                    } else if (userDao.get(email) != null) {
+                    } else if (getUserDao().get(email) != null) {
                         error("Ce compte existe déjà !");
                         warn("Avez vous perdu votre mot de passe ?");
                     } else {
