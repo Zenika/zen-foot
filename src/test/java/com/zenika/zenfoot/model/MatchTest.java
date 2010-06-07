@@ -13,7 +13,7 @@ public class MatchTest extends TestCase {
 
     public void testMatchTeam1MustNotBeNull() throws AssertionError {
         try {
-            new Match(null, sampleTeam(), new Date());
+            new Game(null, sampleTeam(), new Date());
             fail();
         } catch (AssertionError ae) {
             assertEquals("new Match: team1 must not be null", ae.getMessage());
@@ -22,7 +22,7 @@ public class MatchTest extends TestCase {
 
     public void testMatchTeam2MustNotBeNull() throws AssertionError {
         try {
-            new Match(sampleTeam(), null, new Date());
+            new Game(sampleTeam(), null, new Date());
             fail();
         } catch (AssertionError ae) {
             assertEquals("new Match: team2 must not be null", ae.getMessage());
@@ -31,7 +31,7 @@ public class MatchTest extends TestCase {
 
     public void testMatchKickOffMustNotBeNull() throws AssertionError {
         try {
-            new Match(sampleTeam(), sampleTeam(), null);
+            new Game(sampleTeam(), sampleTeam(), null);
             fail();
         } catch (AssertionError ae) {
             assertEquals("new Match: kickoff must not be null", ae.getMessage());
@@ -39,9 +39,9 @@ public class MatchTest extends TestCase {
     }
 
     public void testMatchsMustBeCorectlySortedByKickOffDate() {
-        Match matchOld = new Match(sampleTeam(), sampleTeam(), new GregorianCalendar(2000, 05, 23).getTime());
-        Match matchRecent = new Match(sampleTeam(), sampleTeam(), new GregorianCalendar(2010, 05, 23).getTime());
-        List<Match> matchs = new ArrayList<Match>();
+        Game matchOld = new Game(sampleTeam(), sampleTeam(), new GregorianCalendar(2000, 05, 23).getTime());
+        Game matchRecent = new Game(sampleTeam(), sampleTeam(), new GregorianCalendar(2010, 05, 23).getTime());
+        List<Game> matchs = new ArrayList<Game>();
         matchs.add(matchRecent);
         matchs.add(matchOld);
 
@@ -52,7 +52,7 @@ public class MatchTest extends TestCase {
         assertTrue(matchOld.equals(matchs.get(FIRST)));
     }
 
-    public static Match sampleMatch() {
-        return new Match(sampleTeam(), sampleTeam(), new Date());
+    public static Game sampleMatch() {
+        return new Game(sampleTeam(), sampleTeam(), new Date());
     }
 }

@@ -1,21 +1,21 @@
 package com.zenika.zenfoot.dao.mock;
 
-import com.zenika.zenfoot.dao.MatchDao;
-import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.dao.GameDao;
+import com.zenika.zenfoot.model.Game;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import static com.zenika.zenfoot.dao.mock.MockUtil.matchs;
 import static com.zenika.zenfoot.dao.mock.MockUtil.persist;
 
-public class MockMatchDao implements MatchDao {
-    public List<Match> find() {
+public class MockGameDao implements GameDao {
+    public List<Game> find() {
         return matchs();
     }
 
-    public List<Match> findPast() {
-        List<Match> past = new ArrayList<Match>();
-        for (Match match : matchs()) {
+    public List<Game> findPast() {
+        List<Game> past = new ArrayList<Game>();
+        for (Game match : matchs()) {
             if (now().after(match.getKickoff()) && match.hasGoalsSet()) {
                 past.add(match);
             }
@@ -23,9 +23,9 @@ public class MockMatchDao implements MatchDao {
         return past;
     }
 
-    public List<Match> findRunning() {
-        List<Match> running = new ArrayList<Match>();
-        for (Match match : matchs()) {
+    public List<Game> findRunning() {
+        List<Game> running = new ArrayList<Game>();
+        for (Game match : matchs()) {
             if (now().after(match.getKickoff()) && !match.hasGoalsSet()) {
                 running.add(match);
             }
@@ -33,9 +33,9 @@ public class MockMatchDao implements MatchDao {
         return running;
     }
 
-    public List<Match> findIncoming() {
-        List<Match> running = new ArrayList<Match>();
-        for (Match match : matchs()) {
+    public List<Game> findIncoming() {
+        List<Game> running = new ArrayList<Game>();
+        for (Game match : matchs()) {
             if (now().before(match.getKickoff())) {
                 running.add(match);
             }
@@ -43,7 +43,7 @@ public class MockMatchDao implements MatchDao {
         return running;
     }
 
-    public Match save(Match model) {
+    public Game save(Game model) {
         if (!matchs().contains(model)) {
             matchs().add(model);
         }
@@ -51,7 +51,7 @@ public class MockMatchDao implements MatchDao {
         return model;
     }
 
-    public void delete(Match model) {
+    public void delete(Game model) {
         matchs().remove(model);
         persist();
     }

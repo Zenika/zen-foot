@@ -27,7 +27,7 @@ public class HibernateUserDao extends HibernateDao<User> implements UserDao {
 
     public User get(String email) {
 		Query query = getSession().createQuery("from User where email=?");
-		query.setString(1,email);
+		query.setString(0,email);
 		return (User) query.uniqueResult();
     }
 }

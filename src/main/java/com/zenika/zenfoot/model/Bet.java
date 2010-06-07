@@ -4,21 +4,21 @@ import java.io.Serializable;
 
 public class Bet extends AbstractModel implements Serializable {
     private User user;
-    private Match match;
+    private Game game;
     private int goalsForTeam1 = -1;
     private int goalsForTeam2 = -1;
     
     public Bet() {
 	}
 
-    public Bet(User user, Match match, int goalsForTeam1, int goalsForTeam2) {
+    public Bet(User user, Game match, int goalsForTeam1, int goalsForTeam2) {
         assert goalsForTeam1 >= 0 : "new Bet: goals1 must be positive";
         assert goalsForTeam2 >= 0 : "new Bet: goals2 must be positive";
         assert user != null : "new Bet: user must not be null";
         assert match != null : "new Bet: match must not be null";
 
         this.user = user;
-        this.match = match;
+        this.setGame(match);
         this.goalsForTeam1 = goalsForTeam1;
         this.goalsForTeam2 = goalsForTeam2;
     }
@@ -35,7 +35,7 @@ public class Bet extends AbstractModel implements Serializable {
         if (this.user != other.user && (this.user == null || !this.user.equals(other.user))) {
             return false;
         }
-        if (this.match != other.match && (this.match == null || !this.match.equals(other.match))) {
+        if (this.getGame() != other.getGame() && (this.getGame() == null || !this.getGame().equals(other.getGame()))) {
             return false;
         }
         return true;
@@ -45,7 +45,7 @@ public class Bet extends AbstractModel implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 89 * hash + (this.user != null ? this.user.hashCode() : 0);
-        hash = 89 * hash + (this.match != null ? this.match.hashCode() : 0);
+        hash = 89 * hash + (this.getGame() != null ? this.getGame().hashCode() : 0);
         return hash;
     }
 
@@ -65,14 +65,6 @@ public class Bet extends AbstractModel implements Serializable {
         this.goalsForTeam2 = goalsForTeam2;
     }
 
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-
     public User getUser() {
         return user;
     }
@@ -83,7 +75,7 @@ public class Bet extends AbstractModel implements Serializable {
 
     @Override
     public String toString() {
-        return "Bet: " + user + "-" + match;
+        return "Bet: " + user + "-" + getGame();
     }
 
     public boolean isBetSet() {
@@ -94,4 +86,12 @@ public class Bet extends AbstractModel implements Serializable {
         this.goalsForTeam1 = goalsForTeam1;
         this.goalsForTeam2 = goalsForTeam2;
     }
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public Game getGame() {
+		return game;
+	}
 }

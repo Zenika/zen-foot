@@ -2,7 +2,7 @@ package com.zenika.zenfoot.dao.mock;
 
 import com.zenika.zenfoot.dao.BetDao;
 import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Game;
 import com.zenika.zenfoot.model.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class MockBetDao implements BetDao {
         return bets();
     }
 
-    public Bet createOrUpdate(User user, Match match, int goalsForTeam1, int goalsForTeam2) {
+    public Bet createOrUpdate(User user, Game match, int goalsForTeam1, int goalsForTeam2) {
         System.out.println("createOrUpdate " + user + " : " + match + " : " + goalsForTeam1 + " - " + goalsForTeam2);
         Bet bet = find(user, match);
         if (bet != null) {
@@ -25,12 +25,12 @@ public class MockBetDao implements BetDao {
         return save(bet);
     }
 
-    public Bet find(User user, Match match) {
+    public Bet find(User user, Game match) {
         if (user == null || match == null) {
             return null;
         }
         for (Bet bet : bets()) {
-            if (user.equals(bet.getUser()) && match.equals(bet.getMatch())) {
+            if (user.equals(bet.getUser()) && match.equals(bet.getGame())) {
                 return bet;
             }
         }
@@ -50,10 +50,10 @@ public class MockBetDao implements BetDao {
         persist();
     }
 
-    public List<Bet> findAll(Match match) {
+    public List<Bet> findAll(Game match) {
         List<Bet> bets = new ArrayList<Bet>();
         for (Bet bet : bets()) {
-            if (bet.getMatch().equals(match)) {
+            if (bet.getGame().equals(match)) {
                 bets.add(bet);
             }
         }

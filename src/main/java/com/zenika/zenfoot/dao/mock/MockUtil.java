@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.dao.mock;
 
 import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Game;
 import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.User;
 import java.io.FileInputStream;
@@ -52,7 +52,7 @@ public class MockUtil {
         return mockDb.bets;
     }
 
-    public static List<Match> matchs() {
+    public static List<Game> matchs() {
         return mockDb.matchs;
     }
 
@@ -66,7 +66,7 @@ public class MockUtil {
 
     private static class MockDb implements Serializable {
         List<Bet> bets = new ArrayList<Bet>();
-        List<Match> matchs = new ArrayList<Match>();
+        List<Game> matchs = new ArrayList<Game>();
         List<Team> teams = new ArrayList<Team>();
         List<User> users = new ArrayList<User>();
 

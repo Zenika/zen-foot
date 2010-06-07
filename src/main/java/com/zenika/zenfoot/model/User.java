@@ -6,8 +6,8 @@ public class User extends AbstractModel implements Serializable {
     private String email;
     private String password;
     private int points = 0;
-    private boolean pending = true;
-    private boolean admin = false;
+    private boolean pending;
+    private boolean admin;
 
     public User() {
 	}

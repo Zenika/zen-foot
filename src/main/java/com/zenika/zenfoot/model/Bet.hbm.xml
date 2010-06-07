@@ -9,7 +9,7 @@
 			<generator class="native" />
 		</id>
 		<property name="user" />
-		<property name="match" />
+		<property name="game" />
 		<property name="goalsForTeam1" />
 		<property name="goalsForTeam2" />
 	</class>

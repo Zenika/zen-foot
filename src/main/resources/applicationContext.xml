@@ -23,7 +23,7 @@
 				<value>classpath:com/zenika/zenfoot/model/User.hbm.xml</value>
 				<value>classpath:com/zenika/zenfoot/model/Bet.hbm.xml</value>
 				<value>classpath:com/zenika/zenfoot/model/Team.hbm.xml</value>
-				<value>classpath:com/zenika/zenfoot/model/Match.hbm.xml</value>
+				<value>classpath:com/zenika/zenfoot/model/Game.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -45,7 +45,7 @@
 	<bean id="betDao" class="com.zenika.zenfoot.dao.hibernate.HibernateBetDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="matchDao" class="com.zenika.zenfoot.dao.hibernate.HibernateMatchDao">
+	<bean id="gameDao" class="com.zenika.zenfoot.dao.hibernate.HibernateGameDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="teamDao" class="com.zenika.zenfoot.dao.hibernate.HibernateTeamDao">

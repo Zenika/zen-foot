@@ -3,18 +3,18 @@ package com.zenika.zenfoot.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Match extends AbstractModel implements Serializable,
-		Comparable<Match> {
+public class Game extends AbstractModel implements Serializable,
+		Comparable<Game> {
 	private Team team1;
 	private Team team2;
 	private Date kickoff;
 	private int goalsForTeam1 = -1;
 	private int goalsForTeam2 = -1;
 
-	public Match() {
+	public Game() {
 	}
 
-	public Match(Team team1, Team team2, Date kickoff) {
+	public Game(Team team1, Team team2, Date kickoff) {
 		assert team1 != null : "new Match: team1 must not be null";
 		assert team2 != null : "new Match: team2 must not be null";
 		assert kickoff != null : "new Match: kickoff must not be null";
@@ -32,7 +32,7 @@ public class Match extends AbstractModel implements Serializable,
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final Match other = (Match) obj;
+		final Game other = (Game) obj;
 		if (this.team1 != other.team1
 				&& (this.team1 == null || !this.team1.equals(other.team1))) {
 			return false;
@@ -102,7 +102,7 @@ public class Match extends AbstractModel implements Serializable,
 		return "Match: " + team1 + "-" + team2 + " at " + kickoff;
 	}
 
-	public int compareTo(Match otherMatch) {
+	public int compareTo(Game otherMatch) {
 		return kickoff.compareTo(otherMatch.kickoff);
 	}
 

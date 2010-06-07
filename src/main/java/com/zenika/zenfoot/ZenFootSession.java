@@ -1,25 +1,30 @@
 package com.zenika.zenfoot;
 
-import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.dao.mock.MockUserDao;
-import com.zenika.zenfoot.model.User;
 import java.util.Locale;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
+import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.model.User;
+
 public class ZenFootSession extends AuthenticatedWebSession {
     private static Logger logger = LoggerFactory.getLogger(ZenFootSession.class);
-    private transient UserDao userDao = new MockUserDao();
+//    private transient UserDao userDao = new MockUserDao();
+    @SpringBean
+    private UserDao userDao;
     private User user = null;
 
     public ZenFootSession(Request request) {
         super(request);
         setLocale(Locale.FRENCH);
-//        InjectorHolder.getInjector().inject(this);
+        InjectorHolder.getInjector().inject(this);
     }
 
     public static ZenFootSession get() {
@@ -35,9 +40,9 @@ public class ZenFootSession extends AuthenticatedWebSession {
 
     @Override
     public boolean authenticate(String email, String password) {
-        User u = userDao.get(email);
+        User u = getUserDao().get(email);
         if (u != null && !u.isPending() && u.getPassword().equals(DigestUtils.md5Hex(password))) {
-            user = userDao.get(email);
+            user = getUserDao().get(email);
             dirty();
             return true;
         } else {
@@ -57,4 +62,12 @@ public class ZenFootSession extends AuthenticatedWebSession {
         }
         return roles;
     }
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
 }

@@ -23,10 +23,10 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.dao.BetDao;
-import com.zenika.zenfoot.dao.MatchDao;
+import com.zenika.zenfoot.dao.GameDao;
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Game;
 import com.zenika.zenfoot.model.User;
 import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.pages.common.StaticImage;
@@ -41,7 +41,7 @@ public class HomePage extends BasePage {
     @SpringBean
     private UserDao userDao;
     @SpringBean
-    private MatchDao matchDao;
+    private GameDao gameDao;
     @SpringBean
     private BetDao betDao;
     @SpringBean
@@ -92,15 +92,15 @@ public class HomePage extends BasePage {
         }
     }
 
-    public class IncomingMatchList extends ListView<Match> {
+    public class IncomingMatchList extends ListView<Game> {
         public IncomingMatchList(String id) {
             super(id, new IncomingMatchListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<Match> li) {
-            Match match = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<Match>(match));
+        protected void populateItem(ListItem<Game> li) {
+            Game match = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Game>(match));
             li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
@@ -110,15 +110,15 @@ public class HomePage extends BasePage {
         }
     }
 
-    public class PastMatchList extends ListView<Match> {
+    public class PastMatchList extends ListView<Game> {
         public PastMatchList(String id) {
             super(id, new PastMatchListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<Match> li) {
-            Match match = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<Match>(match));
+        protected void populateItem(ListItem<Game> li) {
+            Game match = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Game>(match));
             li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
@@ -129,15 +129,15 @@ public class HomePage extends BasePage {
         }
     }
 
-    public class RunningMatchList extends ListView<Match> {
+    public class RunningMatchList extends ListView<Game> {
         public RunningMatchList(String id) {
             super(id, new RunningMatchListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<Match> li) {
-            Match match = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<Match>(match));
+        protected void populateItem(ListItem<Game> li) {
+            Game match = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Game>(match));
             li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
@@ -154,24 +154,24 @@ public class HomePage extends BasePage {
         }
     }
 
-    public class IncomingMatchListModel extends LoadableDetachableModel<List<? extends Match>> {
+    public class IncomingMatchListModel extends LoadableDetachableModel<List<? extends Game>> {
         @Override
-        protected List<? extends Match> load() {
-            return matchDao.findIncoming();
+        protected List<? extends Game> load() {
+            return gameDao.findIncoming();
         }
     }
 
-    public class PastMatchListModel extends LoadableDetachableModel<List<? extends Match>> {
+    public class PastMatchListModel extends LoadableDetachableModel<List<? extends Game>> {
         @Override
-        protected List<? extends Match> load() {
-            return matchDao.findPast();
+        protected List<? extends Game> load() {
+            return gameDao.findPast();
         }
     }
 
-    public class RunningMatchListModel extends LoadableDetachableModel<List<? extends Match>> {
+    public class RunningMatchListModel extends LoadableDetachableModel<List<? extends Game>> {
         @Override
-        protected List<? extends Match> load() {
-            return matchDao.findRunning();
+        protected List<? extends Game> load() {
+            return gameDao.findRunning();
         }
     }
 
@@ -192,7 +192,7 @@ public class HomePage extends BasePage {
             }
         }
 
-        public BetAjaxForm(String id, final Match match) {
+        public BetAjaxForm(String id, final Game match) {
             super(id);
             Bet bet = betDao.find(ZenFootSession.get().getUser(), match);
             if (bet != null) {
@@ -249,7 +249,7 @@ public class HomePage extends BasePage {
             }
         }
 
-        public MatchAjaxForm(String id, final Match match) {
+        public MatchAjaxForm(String id, final Game match) {
             super(id);
             this.goalsForTeam1 = parse(match.getGoalsForTeam1());
             this.goalsForTeam2 = parse(match.getGoalsForTeam2());
@@ -260,7 +260,7 @@ public class HomePage extends BasePage {
                 protected void onUpdate(AjaxRequestTarget target) {
                     match.setGoalsForTeam1(parse(goalsForTeam1));
                     match.setGoalsForTeam2(parse(goalsForTeam2));
-                    matchDao.save(match);
+                    gameDao.save(match);
                     dataService.updateUserPoints();
                     target.addComponent(goal1);
                     target.addComponent(userListWrapper);
@@ -274,7 +274,7 @@ public class HomePage extends BasePage {
                 protected void onUpdate(AjaxRequestTarget target) {
                     match.setGoalsForTeam1(parse(goalsForTeam1));
                     match.setGoalsForTeam2(parse(goalsForTeam2));
-                    matchDao.save(match);
+                    gameDao.save(match);
                     dataService.updateUserPoints();
                     target.addComponent(goal2);
                     target.addComponent(userListWrapper);
@@ -294,12 +294,12 @@ public class HomePage extends BasePage {
 		this.userDao = userDao;
 	}
 
-	public MatchDao getMatchDao() {
-		return matchDao;
+	public GameDao getGameDao() {
+		return gameDao;
 	}
 
-	public void setMatchDao(MatchDao matchDao) {
-		this.matchDao = matchDao;
+	public void setGameDao(GameDao gameDao) {
+		this.gameDao = gameDao;
 	}
 
 	public BetDao getBetDao() {

@@ -1,12 +1,12 @@
 package com.zenika.zenfoot.pages;
 
-import com.zenika.zenfoot.dao.MatchDao;
+import com.zenika.zenfoot.dao.GameDao;
 import com.zenika.zenfoot.dao.TeamDao;
 import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.dao.mock.MockMatchDao;
+import com.zenika.zenfoot.dao.mock.MockGameDao;
 import com.zenika.zenfoot.dao.mock.MockTeamDao;
 import com.zenika.zenfoot.dao.mock.MockUserDao;
-import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Game;
 import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.User;
 import com.zenika.zenfoot.pages.common.ConfirmLink;
@@ -46,7 +46,7 @@ public class AdminPage extends BasePage {
     private static final long serialVersionUID = 1L;
     private transient UserDao userDao = new MockUserDao();
     private transient TeamDao teamDao = new MockTeamDao();
-    private transient MatchDao matchDao = new MockMatchDao();
+    private transient GameDao matchDao = new MockGameDao();
     private transient AccountService accountService = new DefaultAccountService();
 
     public AdminPage() {
@@ -58,21 +58,21 @@ public class AdminPage extends BasePage {
         add(new MatchList("matchList"));
     }
 
-    public class MatchList extends ListView<Match> {
+    public class MatchList extends ListView<Game> {
         public MatchList(String id) {
             super(id, new MatchListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<Match> li) {
-            Match match = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<Match>(match));
+        protected void populateItem(ListItem<Game> li) {
+            Game match = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Game>(match));
             li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
-            li.add(new ConfirmLink<Match>("deleteLink", li.getModel()) {
+            li.add(new ConfirmLink<Game>("deleteLink", li.getModel()) {
                 @Override
                 public void onClick() {
                     matchDao.delete(getModelObject());
@@ -81,9 +81,9 @@ public class AdminPage extends BasePage {
         }
     }
 
-    public class MatchListModel extends LoadableDetachableModel<List<? extends Match>> {
+    public class MatchListModel extends LoadableDetachableModel<List<? extends Game>> {
         @Override
-        protected List<? extends Match> load() {
+        protected List<? extends Game> load() {
             return matchDao.find();
         }
     }
@@ -141,7 +141,7 @@ public class AdminPage extends BasePage {
             calendar.set(Calendar.HOUR_OF_DAY, kickoffHours);
             calendar.set(Calendar.MINUTE, kickoffMinutes);
 
-            matchDao.save(new Match(team1, team2, calendar.getTime()));
+            matchDao.save(new Game(team1, team2, calendar.getTime()));
             setResponsePage(AdminPage.class);
         }
 
