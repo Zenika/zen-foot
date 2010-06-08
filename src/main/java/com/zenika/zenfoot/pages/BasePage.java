@@ -24,11 +24,10 @@ import com.zenika.zenfoot.service.account.AccountService;
 import com.zenika.zenfoot.service.account.DefaultAccountService;
 
 public class BasePage extends WebPage {
+
     private static final long serialVersionUID = 1L;
     transient Logger logger = LoggerFactory.getLogger(BasePage.class);
     private transient AccountService accountService = new DefaultAccountService();
-//    private transient UserDao userDao = new MockUserDao();
-
     @SpringBean
     private UserDao userDao;
 
@@ -48,6 +47,7 @@ public class BasePage extends WebPage {
 
     private Label loggedUser(String id) {
         Label loggedUser = new Label(id, ZenFootSession.get().isSignedIn() ? ZenFootSession.get().getUser().getAlias() : "") {
+
             @Override
             public boolean isVisible() {
                 return ZenFootSession.get().isSignedIn();
@@ -58,6 +58,7 @@ public class BasePage extends WebPage {
 
     private Link logout(String id) {
         Link logout = new Link(id) {
+
             @Override
             public void onClick() {
                 ZenFootSession.get().signOut();
@@ -69,14 +70,15 @@ public class BasePage extends WebPage {
     }
 
     public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+        this.userDao = userDao;
+    }
 
-	public UserDao getUserDao() {
-		return userDao;
-	}
+    public UserDao getUserDao() {
+        return userDao;
+    }
 
-	private class LoginForm extends StatelessForm {
+    private class LoginForm extends StatelessForm {
+
         private String email;
         private String password;
 
@@ -118,6 +120,7 @@ public class BasePage extends WebPage {
 
         private SubmitLink loginLink(String id) {
             return new SubmitLink(id) {
+
                 @Override
                 public void onSubmit() {
                     if (password == null || password.isEmpty()) {
@@ -137,6 +140,7 @@ public class BasePage extends WebPage {
 
         private WebMarkupContainer registerLink(String id) {
             return new SubmitLink(id) {
+
                 @Override
                 public void onSubmit() {
                     if (password == null || password.isEmpty()) {
@@ -159,6 +163,7 @@ public class BasePage extends WebPage {
 
         private WebMarkupContainer lostPasswordLink(String id) {
             return new SubmitLink(id) {
+
                 @Override
                 public void onSubmit() {
                     try {

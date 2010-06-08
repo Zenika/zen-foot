@@ -12,14 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Player;
 
 public class ZenFootSession extends AuthenticatedWebSession {
+
     private static Logger logger = LoggerFactory.getLogger(ZenFootSession.class);
-//    private transient UserDao userDao = new MockUserDao();
     @SpringBean
     private UserDao userDao;
-    private User user = null;
+    private Player user = null;
 
     public ZenFootSession(Request request) {
         super(request);
@@ -40,9 +40,9 @@ public class ZenFootSession extends AuthenticatedWebSession {
 
     @Override
     public boolean authenticate(String email, String password) {
-        User u = getUserDao().get(email);
+        Player u = userDao.get(email);
         if (u != null && !u.isPending() && u.getPassword().equals(DigestUtils.md5Hex(password))) {
-            user = getUserDao().get(email);
+            user = userDao.get(email);
             dirty();
             return true;
         } else {
@@ -50,7 +50,7 @@ public class ZenFootSession extends AuthenticatedWebSession {
         }
     }
 
-    public User getUser() {
+    public Player getUser() {
         return user;
     }
 
@@ -63,11 +63,11 @@ public class ZenFootSession extends AuthenticatedWebSession {
         return roles;
     }
 
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-	public UserDao getUserDao() {
-		return userDao;
-	}
+    public UserDao getUserDao() {
+        return userDao;
+    }
 }

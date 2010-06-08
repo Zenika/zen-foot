@@ -4,11 +4,14 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.zenika.zenfoot.model">
-    <class name="Team" table="teams">
+    <class name="Player" table="players">
         <id name="id">
             <generator class="native" />
         </id>
-        <property name="name" />
-        <property name="imageName" column="image_name"/>
+        <property name="email" />
+        <property name="password" />
+        <property name="points" />
+        <property name="pending" />
+        <property name="admin" />
     </class>
 </hibernate-mapping>

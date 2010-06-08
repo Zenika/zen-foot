@@ -1,9 +1,9 @@
 package com.zenika.zenfoot.dao.mock;
 
 import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Game;
+import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Player;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -52,7 +52,7 @@ public class MockUtil {
         return mockDb.bets;
     }
 
-    public static List<Game> matchs() {
+    public static List<Match> matchs() {
         return mockDb.matchs;
     }
 
@@ -60,24 +60,24 @@ public class MockUtil {
         return mockDb.teams;
     }
 
-    public static List<User> users() {
+    public static List<Player> users() {
         return mockDb.users;
     }
 
     private static class MockDb implements Serializable {
         List<Bet> bets = new ArrayList<Bet>();
-        List<Game> matchs = new ArrayList<Game>();
+        List<Match> matchs = new ArrayList<Match>();
         List<Team> teams = new ArrayList<Team>();
-        List<User> users = new ArrayList<User>();
+        List<Player> users = new ArrayList<Player>();
 
         private static MockDb init() throws NoSuchAlgorithmException {
             MockDb mockDb = new MockDb();
-            final User olivier = new User("olivier@zenika.com");
+            final Player olivier = new Player("olivier@zenika.com");
             olivier.setPassword(DigestUtils.md5Hex("olivier"));
             olivier.setAdmin(true);
             olivier.setPending(false);
             mockDb.users.add(olivier);
-            final User maghen = new User("maghen@zenika.com");
+            final Player maghen = new Player("maghen@zenika.com");
             maghen.setPassword(DigestUtils.md5Hex("maghen"));
             maghen.setAdmin(true);
             maghen.setPending(false);

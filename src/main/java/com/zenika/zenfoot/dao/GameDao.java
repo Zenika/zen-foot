@@ -1,12 +1,14 @@
 package com.zenika.zenfoot.dao;
 
-import com.zenika.zenfoot.model.Game;
+import com.zenika.zenfoot.model.Match;
 import java.util.List;
 
-public interface GameDao extends BaseDao<Game> {
-    public List<Game> findIncoming();
+public interface GameDao extends BaseDao<Match> {
+    public List<Match> findIncoming();
 
-    public List<Game> findPast();
+    public List<Match> findPast();
 
-    public List<Game> findRunning();
+    public List<Match> findRunning();
+
+    public Match get(Match match);
 }

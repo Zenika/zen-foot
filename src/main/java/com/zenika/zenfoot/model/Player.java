@@ -2,48 +2,26 @@ package com.zenika.zenfoot.model;
 
 import java.io.Serializable;
 
-public class User extends AbstractModel implements Serializable {
+public class Player extends AbstractModel implements Serializable {
+
     private String email;
     private String password;
     private int points = 0;
-    private boolean pending;
-    private boolean admin;
+    private boolean pending = true;
+    private boolean admin = false;
 
-    public User() {
-	}
-    
-    public User(String email) {
+    public Player() {
+    }
+
+    public Player(String email) {
         assert email != null && !email.trim().isEmpty() : "new User: email must not be null";
-
         this.email = email;
     }
 
-    public User(String email, String password) {
+    public Player(String email, String password) {
         this(email);
         assert password != null && !password.trim().isEmpty() : "new User: password must not be null";
         this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + (this.email != null ? this.email.hashCode() : 0);
-        return hash;
     }
 
     public boolean isAdmin() {
@@ -92,6 +70,6 @@ public class User extends AbstractModel implements Serializable {
 
     @Override
     public String toString() {
-        return "User: " + email;
+        return getClass().getSimpleName() + ": " + email;
     }
 }

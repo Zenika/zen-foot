@@ -34,26 +34,23 @@ import org.apache.wicket.validation.validator.RangeValidator;
 import com.zenika.zenfoot.dao.GameDao;
 import com.zenika.zenfoot.dao.TeamDao;
 import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.model.Game;
+import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.pages.common.ConfirmLink;
 import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.service.account.AccountService;
 import com.zenika.zenfoot.service.account.DefaultAccountService;
 
 public class AdminPage extends BasePage {
+
     private static final long serialVersionUID = 1L;
-//    private transient UserDao userDao = new MockUserDao();
-//    private transient TeamDao teamDao = new MockTeamDao();
-//    private transient GameDao matchDao = new MockGameDao();
     @SpringBean
     private UserDao userDao;
     @SpringBean
     private TeamDao teamDao;
     @SpringBean
     private GameDao matchDao;
-    
     private transient AccountService accountService = new DefaultAccountService();
 
     public AdminPage() {
@@ -65,21 +62,23 @@ public class AdminPage extends BasePage {
         add(new MatchList("matchList"));
     }
 
-    public class MatchList extends ListView<Game> {
+    public class MatchList extends ListView<Match> {
+
         public MatchList(String id) {
             super(id, new MatchListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<Game> li) {
-            Game match = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<Game>(match));
-            li.add(new Flag("team1Id.imageName", new Model(match.getTeam1Id().getImageName())));
-            li.add(new Label("team1Id.name"));
-            li.add(new Flag("team2Id.imageName", new Model(match.getTeam2Id().getImageName())));
-            li.add(new Label("team2Id.name"));
+        protected void populateItem(ListItem<Match> li) {
+            Match match = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Match>(match));
+            li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
+            li.add(new Label("team1.name"));
+            li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
+            li.add(new Label("team2.name"));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
-            li.add(new ConfirmLink<Game>("deleteLink", li.getModel()) {
+            li.add(new ConfirmLink<Match>("deleteLink", li.getModel()) {
+
                 @Override
                 public void onClick() {
                     matchDao.delete(getModelObject());
@@ -88,14 +87,16 @@ public class AdminPage extends BasePage {
         }
     }
 
-    public class MatchListModel extends LoadableDetachableModel<List<? extends Game>> {
+    public class MatchListModel extends LoadableDetachableModel<List<? extends Match>> {
+
         @Override
-        protected List<? extends Game> load() {
+        protected List<? extends Match> load() {
             return matchDao.find();
         }
     }
 
     private class TeamForm extends Form {
+
         private String name;
         private String imageName;
 
@@ -123,6 +124,7 @@ public class AdminPage extends BasePage {
     }
 
     private class MatchForm extends Form {
+
         private Team team1;
         private Team team2;
         private Date kickoff;
@@ -148,7 +150,7 @@ public class AdminPage extends BasePage {
             calendar.set(Calendar.HOUR_OF_DAY, kickoffHours);
             calendar.set(Calendar.MINUTE, kickoffMinutes);
 
-            matchDao.save(new Game(team1, team2, calendar.getTime()));
+            matchDao.save(new Match(team1, team2, calendar.getTime()));
             setResponsePage(AdminPage.class);
         }
 
@@ -200,6 +202,7 @@ public class AdminPage extends BasePage {
     }
 
     public class TeamList extends ListView<Team> {
+
         public TeamList(String id) {
             super(id, new TeamListModel());
         }
@@ -211,6 +214,7 @@ public class AdminPage extends BasePage {
             li.add(new Flag("flag", new Model(team.getImageName())));
             li.add(new Label("name"));
             li.add(new ConfirmLink<Team>("deleteLink", li.getModel()) {
+
                 @Override
                 public void onClick() {
                     teamDao.delete(getModelObject());
@@ -219,23 +223,26 @@ public class AdminPage extends BasePage {
         }
     }
 
-    public class UserList extends ListView<User> {
+    public class UserList extends ListView<Player> {
+
         public UserList(String id) {
             super(id, new UserListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<User> li) {
-            User user = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<User>(user));
+        protected void populateItem(ListItem<Player> li) {
+            Player user = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Player>(user));
             li.add(new Label("email"));
-            li.add(new ConfirmLink<User>("rejectLink", li.getModel()) {
+            li.add(new ConfirmLink<Player>("rejectLink", li.getModel()) {
+
                 @Override
                 public void onClick() {
                     accountService.reject(getModelObject());
                 }
             });
-            li.add(new ConfirmLink<User>("adminLink", li.getModel()) {
+            li.add(new ConfirmLink<Player>("adminLink", li.getModel()) {
+
                 @Override
                 public void onClick() {
                     getModelObject().setAdmin(!getModelObject().isAdmin());
@@ -244,7 +251,7 @@ public class AdminPage extends BasePage {
             }.add(starImg("starImg", li.getModel())));
         }
 
-        private WebMarkupContainer starImg(String id, IModel<User> model) {
+        private WebMarkupContainer starImg(String id, IModel<Player> model) {
             WebMarkupContainer star = new WebMarkupContainer(id);
             String starImg = model.getObject().isAdmin() ? "star.png" : "bullet_star.png";
             star.add(new SimpleAttributeModifier("src", "images/" + starImg));
@@ -252,23 +259,26 @@ public class AdminPage extends BasePage {
         }
     }
 
-    public class UserPendingList extends ListView<User> {
+    public class UserPendingList extends ListView<Player> {
+
         public UserPendingList(String id) {
             super(id, new UserPendingListModel());
         }
 
         @Override
-        protected void populateItem(ListItem<User> li) {
-            User user = li.getModelObject();
-            li.setModel(new CompoundPropertyModel<User>(user));
+        protected void populateItem(ListItem<Player> li) {
+            Player user = li.getModelObject();
+            li.setModel(new CompoundPropertyModel<Player>(user));
             li.add(new Label("email"));
-            li.add(new ConfirmLink<User>("acceptLink", li.getModel()) {
+            li.add(new ConfirmLink<Player>("acceptLink", li.getModel()) {
+
                 @Override
                 public void onClick() {
                     accountService.accept(getModelObject());
                 }
             });
-            li.add(new ConfirmLink<User>("rejectLink", li.getModel()) {
+            li.add(new ConfirmLink<Player>("rejectLink", li.getModel()) {
+
                 @Override
                 public void onClick() {
                     accountService.reject(getModelObject());
@@ -278,22 +288,25 @@ public class AdminPage extends BasePage {
     }
 
     public class TeamListModel extends LoadableDetachableModel<List<? extends Team>> {
+
         @Override
         protected List<? extends Team> load() {
             return teamDao.find();
         }
     }
 
-    public class UserListModel extends LoadableDetachableModel<List<? extends User>> {
+    public class UserListModel extends LoadableDetachableModel<List<? extends Player>> {
+
         @Override
-        protected List<? extends User> load() {
+        protected List<? extends Player> load() {
             return userDao.find();
         }
     }
 
-    public class UserPendingListModel extends LoadableDetachableModel<List<? extends User>> {
+    public class UserPendingListModel extends LoadableDetachableModel<List<? extends Player>> {
+
         @Override
-        protected List<? extends User> load() {
+        protected List<? extends Player> load() {
             return userDao.findPending();
         }
     }

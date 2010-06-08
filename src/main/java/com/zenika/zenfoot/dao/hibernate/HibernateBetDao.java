@@ -6,45 +6,50 @@ import org.hibernate.Query;
 
 import com.zenika.zenfoot.dao.BetDao;
 import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Game;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Player;
 
 public class HibernateBetDao extends HibernateDao<Bet> implements BetDao {
 
-	public Bet createOrUpdate(User currentUser, Game match, int goalsForTeam1,
-			int goalsForTeam2) {
-		Bet bet = new Bet(currentUser, match, goalsForTeam1, goalsForTeam2);
-		save(bet);
-		return bet;
-	}
+    @Override
+    public Bet find(Player player, Match match) {
+        if (player == null) {
+            return null;
+        }
+        if (match == null) {
+            return null;
+        }
+        Query query = getSession().createQuery("from Bet where player.id=? and match.id=?");
+        query.setLong(0, player.getId());
+        query.setLong(1, match.getId());
+        return (Bet) query.uniqueResult();
+    }
 
-	public Bet find(User user, Game match) {
-		if (user == null)
-			return null;
-		if (match == null)
-			return null;
-		Query query = getSession().createQuery("from Bet where userid=? and gameid=?");
-		query.setLong(0, user.getId());
-		query.setLong(1, match.getId());
-		return (Bet) query.uniqueResult();
-	}
+    @Override
+    public List<Bet> find() {
+        return getSession().createCriteria(Bet.class).list();
+    }
 
-	public List<Bet> find() {
-		return getSession().createQuery("from Bet").list();
-	}
+    @Override
+    public List<Bet> find(Player user) {
+        Query query = getSession().createQuery("from Bet where player.id=?");
+        query.setLong(0, user.getId());
+        return query.list();
+    }
 
-	@Override
-	public List<Bet> find(User user) {
-		Query query = getSession().createQuery("from Bet where userid=?");
-		query.setLong(0, user.getId());
-		return query.list();
-	}
+    @Override
+    public List<Bet> findAll(Match match) {
+        Query query = getSession().createQuery("from Bet where match.id=?");
+        query.setLong(0, match.getId());
+        return query.list();
+    }
 
-	@Override
-	public List<Bet> findAll(Game match) {
-		Query query = getSession().createQuery("from Bet where gameid=?");
-		query.setLong(0, match.getId());
-		return query.list();
-	}
-
+    @Override
+    public Bet findOrCreate(Player user, Match match) {
+        Bet bet = find(user, match);
+        if (bet == null) {
+            bet = save(new Bet(user, match));
+        }
+        return bet;
+    }
 }

@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.dao.mock;
 
 import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,28 +10,28 @@ import static com.zenika.zenfoot.dao.mock.MockUtil.users;
 import static com.zenika.zenfoot.dao.mock.MockUtil.persist;
 
 public class MockUserDao implements UserDao {
-    public List<User> find() {
-        List<User> nonPendingUsers = new ArrayList<User>();
-        for (User user : users()) {
+    public List<Player> find() {
+        List<Player> nonPendingUsers = new ArrayList<Player>();
+        for (Player user : users()) {
             if (!user.isPending()) {
                 nonPendingUsers.add(user);
             }
         }
-        Collections.sort(nonPendingUsers, new Comparator<User>() {
-            public int compare(User u1, User u2) {
+        Collections.sort(nonPendingUsers, new Comparator<Player>() {
+            public int compare(Player u1, Player u2) {
                 return u2.getPoints() - u1.getPoints();
             }
         });
         return nonPendingUsers;
     }
 
-    public static User user(String email, int points) {
-        User user = new User(email);
+    public static Player user(String email, int points) {
+        Player user = new Player(email);
         user.setPoints(points);
         return user;
     }
 
-    public User save(User model) {
+    public Player save(Player model) {
         if (!users().contains(model)) {
             users().add(model);
         } else {
@@ -43,9 +43,9 @@ public class MockUserDao implements UserDao {
         return model;
     }
 
-    public List<User> findPending() {
-        List<User> pendingUsers = new ArrayList<User>();
-        for (User user : users()) {
+    public List<Player> findPending() {
+        List<Player> pendingUsers = new ArrayList<Player>();
+        for (Player user : users()) {
             if (user.isPending()) {
                 pendingUsers.add(user);
             }
@@ -53,22 +53,22 @@ public class MockUserDao implements UserDao {
         return pendingUsers;
     }
 
-    public void accept(User user) {
+    public void accept(Player user) {
         get(user).setPending(false);
         persist();
     }
 
-    public void reject(User user) {
+    public void reject(Player user) {
         delete(user);
     }
 
-    public void delete(User user) {
+    public void delete(Player user) {
         users().remove(user);
         persist();
     }
 
-    private User get(User user) {
-        for (User u : users()) {
+    private Player get(Player user) {
+        for (Player u : users()) {
             if (u.equals(user)) {
                 return u;
             }
@@ -76,7 +76,7 @@ public class MockUserDao implements UserDao {
         return null;
     }
 
-    public User get(String email) {
-        return get(new User(email));
+    public Player get(String email) {
+        return get(new Player(email));
     }
 }

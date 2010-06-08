@@ -1,34 +1,37 @@
 package com.zenika.zenfoot.dao.hibernate;
 
 import com.zenika.zenfoot.dao.UserDao;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Player;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 
-public class HibernateUserDao extends HibernateDao<User> implements UserDao {
-	public List<User> find() {
-		return getSession().createQuery("from User").list();
-	}
+public class HibernateUserDao extends HibernateDao<Player> implements UserDao {
 
-	public List<User> findPending() {
-		return getSession().createQuery("from User where pending = ?")
-				.setBoolean(0, true).list();
-	}
+    @Override
+    public List<Player> find() {
+        return getSession().createCriteria(Player.class).list();
+    }
 
-	public void accept(User user) {
-		user.setPending(true);
-		getSession().saveOrUpdate(user);
-	}
+    @Override
+    public List<Player> findPending() {
+        return getSession().createCriteria(Player.class).add(Restrictions.eq("pending", true)).list();
+    }
 
-	public void reject(User user) {
-		user.setPending(false);
-		getSession().saveOrUpdate(user);
-	}
+    @Override
+    public void accept(Player user) {
+        user.setPending(true);
+        getSession().saveOrUpdate(user);
+    }
 
-	public User get(String email) {
-		Query query = getSession().createQuery("from User where email=?");
-		query.setString(0, email);
-		return (User) query.uniqueResult();
-	}
+    @Override
+    public void reject(Player user) {
+        user.setPending(false);
+        getSession().saveOrUpdate(user);
+    }
+
+    @Override
+    public Player get(String email) {
+        return (Player) getSession().createCriteria(Player.class).add(Restrictions.eq("email", email)).uniqueResult();
+    }
 }

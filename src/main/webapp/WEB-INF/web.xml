@@ -2,48 +2,35 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>ZenFoot</display-name>
-	<!--
-		There are three means to configure Wickets configuration mode and they
-		are tested in the order given. 1) A system property:
-		-Dwicket.configuration 2) servlet specific <init-param> 3) context
-		specific <context-param> The value might be either "development"
-		(reloading when templates change) or "deployment". If no configuration
-		is found, "development" is the default.
-	-->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml</param-value>
-	</context-param>
-	<filter>
-		<filter-name>openSessionInView</filter-name>
-		<filter-class>
-			org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>openSessionInView</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<filter>
-		<filter-name>wicket.zenfoot</filter-name>
-		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
-		<init-param>
-			<param-name>applicationFactoryClassName</param-name>
-			<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
-		</init-param>
-		<init-param>
-			<param-name>applicationBean</param-name>
-			<param-value>wicketApplication</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>wicket.zenfoot</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<session-config>
-		<session-timeout>10080</session-timeout>
-	</session-config>
+    <display-name>ZenFoot</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>openSessionInView</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>zenfoot</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationFactoryClassName</param-name>
+            <param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>openSessionInView</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>zenfoot</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <session-config>
+        <session-timeout>10080</session-timeout>
+    </session-config>
 </web-app>

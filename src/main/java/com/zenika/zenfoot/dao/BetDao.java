@@ -1,16 +1,17 @@
 package com.zenika.zenfoot.dao;
 
 import com.zenika.zenfoot.model.Bet;
-import com.zenika.zenfoot.model.Game;
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Player;
 import java.util.List;
 
 public interface BetDao extends BaseDao<Bet> {
-    public Bet createOrUpdate(User currentUser, Game match, int goalsForTeam1, int goalsForTeam2);
 
-    public Bet find(User user, Game match);
+    public Bet find(Player user, Match match);
 
-    public List<Bet> findAll(Game match);
+    public List<Bet> findAll(Match match);
 
-    public List<Bet> find(User user);
+    public List<Bet> find(Player user);
+
+    public Bet findOrCreate(Player user, Match match);
 }

@@ -1,14 +1,14 @@
 package com.zenika.zenfoot.dao;
 
-import com.zenika.zenfoot.model.User;
+import com.zenika.zenfoot.model.Player;
 import java.util.List;
 
-public interface UserDao extends BaseDao<User> {
-    public List<User> findPending();
+public interface UserDao extends BaseDao<Player> {
+    public List<Player> findPending();
 
-    public void accept(User user);
+    public void accept(Player user);
 
-    public void reject(User user);
+    public void reject(Player user);
 
-    public User get(String email);
+    public Player get(String email);
 }

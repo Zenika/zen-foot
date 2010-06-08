@@ -1,53 +1,48 @@
 package com.zenika.zenfoot.dao.hibernate;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
 
 import com.zenika.zenfoot.dao.GameDao;
-import com.zenika.zenfoot.model.Game;
+import com.zenika.zenfoot.model.Match;
+import org.hibernate.criterion.Restrictions;
 
-public class HibernateGameDao extends HibernateDao<Game> implements GameDao {
+public class HibernateGameDao extends HibernateDao<Match> implements GameDao {
 
-	public List<Game> findIncoming() {
-		Query query = getSession().createQuery("from Game where kickoff > ?");
-		query.setParameter(0, now());
-		return query.list();
-	}
+    @Override
+    public List<Match> findIncoming() {
+        return getSession().createCriteria(Match.class).add(Restrictions.gt("kickoff", now())).list();
+    }
 
-	public List<Game> findPast() {
-		Query query = getSession().createQuery("from Game where kickoff < ?");
-		query.setDate(0, afterGame());
-		return query.list();
-	}
+    @Override
+    public List<Match> findPast() {
+        return getSession().createCriteria(Match.class).
+                add(Restrictions.le("kickoff", now())).
+                add(Restrictions.ge("goalsForTeam1", 0)).
+                add(Restrictions.ge("goalsForTeam2", 0)).
+                list();
+    }
 
-	public List<Game> findRunning() {
-		Query query = getSession().createQuery("from Game where kickoff < ? and ? < kickoff");
-		query.setDate(0, now());
-		query.setDate(1, afterGame());
-		return query.list();
-	}
+    @Override
+    public List<Match> findRunning() {
+        return getSession().createCriteria(Match.class).
+                add(Restrictions.le("kickoff", now())).
+                add(Restrictions.or(Restrictions.lt("goalsForTeam1", 0), Restrictions.lt("goalsForTeam2", 0))).
+                list();
+    }
 
-	public List<Game> find() {
-		return getSession().createQuery("from Game").list();
-	}
-	
-	private Date beforeGame(){
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.HOUR, 2);
-		return cal.getTime();
-	}
-	
-	private Date afterGame(){
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.HOUR, -2);
-		return cal.getTime();
-	}
+    @Override
+    public List<Match> find() {
+        return getSession().createCriteria(Match.class).list();
+    }
 
     private Date now() {
         return new Date();
     }
 
+    @Override
+    public Match get(Match match) {
+        return (Match) getSession().load(Match.class, match.getId());
+    }
 }

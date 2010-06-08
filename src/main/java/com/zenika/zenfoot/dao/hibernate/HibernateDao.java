@@ -5,32 +5,33 @@ import org.hibernate.SessionFactory;
 
 import com.zenika.zenfoot.dao.BaseDao;
 
+public abstract class HibernateDao<T> implements BaseDao<T> {
 
-public abstract class HibernateDao<T> implements BaseDao<T>{
-	
-	private SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-	
-	public Session getSession(){
-		if ( sessionFactory.getCurrentSession() == null )
-			return sessionFactory.openSession();
-		return sessionFactory.getCurrentSession();
-	}
-	
-	public T save(T model){
-		getSession().saveOrUpdate(model);
-		return model;
-	}
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
-	public void delete(T model) {
-		getSession().delete(model);
-	}
+    public Session getSession() {
+        if (sessionFactory.getCurrentSession() == null) {
+            return sessionFactory.openSession();
+        }
+        return sessionFactory.getCurrentSession();
+    }
 
+    @Override
+    public T save(T model) {
+        getSession().saveOrUpdate(model);
+        return model;
+    }
+
+    @Override
+    public void delete(T model) {
+        getSession().delete(model);
+    }
 }

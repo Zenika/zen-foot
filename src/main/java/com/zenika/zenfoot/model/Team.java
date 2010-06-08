@@ -3,11 +3,12 @@ package com.zenika.zenfoot.model;
 import java.io.Serializable;
 
 public class Team extends AbstractModel implements Serializable, Comparable<Team> {
+
     private String name;
     private String imageName;
-    
+
     public Team() {
-	}
+    }
 
     public Team(String name, String imageName) {
         assert name != null && !name.trim().isEmpty() : "new Team: name must not be null";
@@ -15,28 +16,6 @@ public class Team extends AbstractModel implements Serializable, Comparable<Team
 
         this.name = name;
         this.imageName = imageName;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Team other = (Team) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + (this.name != null ? this.name.hashCode() : 0);
-        return hash;
     }
 
     public String getImageName() {
@@ -57,9 +36,10 @@ public class Team extends AbstractModel implements Serializable, Comparable<Team
 
     @Override
     public String toString() {
-        return "Team: " + name;
+        return getClass().getSimpleName() + ": " + name;
     }
 
+    @Override
     public int compareTo(Team otherTeam) {
         return name.compareToIgnoreCase(otherTeam.name);
     }
