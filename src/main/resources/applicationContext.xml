@@ -1,14 +1,28 @@
 <?xml version="1.0"?>
-<!DOCTYPE beans PUBLIC
-    "-//SPRING//DTD BEAN//EN"
-    "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+>
+
+    <context:property-placeholder location="classpath*:application.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/zenfoot" />
-        <property name="username" value="zenfoot" />
-        <property name="password" value="zenfoot" />
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -33,6 +47,20 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+
+    <aop:config>
+        <aop:pointcut id="methods" expression="execution(* com.zenika.zenfoot.dao.BaseDao.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="methods"/>
+    </aop:config>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRES_NEW"/>
+<!--            <tx:method name="increasePrice*" propagation="REQUIRED"/>-->
+<!--            <tx:method name="someOtherBusinessMethod" propagation="REQUIRES_NEW"/>-->
+<!--            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>-->
+        </tx:attributes>
+    </tx:advice>
 
     <bean id="userDao" class="com.zenika.zenfoot.dao.hibernate.HibernateUserDao">
         <property name="sessionFactory" ref="sessionFactory" />

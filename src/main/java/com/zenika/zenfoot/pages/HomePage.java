@@ -28,6 +28,7 @@ import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Player;
+import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.pages.common.StaticImage;
 import com.zenika.zenfoot.service.DataService;
@@ -215,7 +216,7 @@ public class HomePage extends BasePage {
                     if (match.getKickoff().after(new Date())) {
                         Bet bet = betDao.findOrCreate(userDao.get(ZenFootSession.get().getUser().getEmail()), gameDao.get(match));
                         bet.setGoalsForTeam1(parse(goalsForTeam1));
-                        bet.setGoalsForTeam1(parse(goalsForTeam2));
+                        bet.setGoalsForTeam2(parse(goalsForTeam2));
                         betDao.save(bet);
                         goalsForTeam1 = parse(bet.getGoalsForTeam1());
                         goalsForTeam2 = parse(bet.getGoalsForTeam2());
@@ -233,7 +234,7 @@ public class HomePage extends BasePage {
                     if (match.getKickoff().after(new Date())) {
                         Bet bet = betDao.findOrCreate(userDao.get(ZenFootSession.get().getUser().getEmail()), gameDao.get(match));
                         bet.setGoalsForTeam1(parse(goalsForTeam1));
-                        bet.setGoalsForTeam1(parse(goalsForTeam2));
+                        bet.setGoalsForTeam2(parse(goalsForTeam2));
                         betDao.save(bet);
                         goalsForTeam1 = parse(bet.getGoalsForTeam1());
                         goalsForTeam2 = parse(bet.getGoalsForTeam2());
@@ -275,9 +276,10 @@ public class HomePage extends BasePage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    match.setGoalsForTeam1(parse(goalsForTeam1));
-                    match.setGoalsForTeam2(parse(goalsForTeam2));
-                    gameDao.save(match);
+                    Match m = gameDao.get(match);
+                    m.setGoalsForTeam1(parse(goalsForTeam1));
+                    m.setGoalsForTeam2(parse(goalsForTeam2));
+                    gameDao.save(m);
                     dataService.updateUserPoints();
                     target.addComponent(goal1);
                     target.addComponent(userListWrapper);
@@ -290,9 +292,10 @@ public class HomePage extends BasePage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    match.setGoalsForTeam1(parse(goalsForTeam1));
-                    match.setGoalsForTeam2(parse(goalsForTeam2));
-                    gameDao.save(match);
+                    Match m = gameDao.get(match);
+                    m.setGoalsForTeam1(parse(goalsForTeam1));
+                    m.setGoalsForTeam2(parse(goalsForTeam2));
+                    gameDao.save(m);
                     dataService.updateUserPoints();
                     target.addComponent(goal2);
                     target.addComponent(userListWrapper);
