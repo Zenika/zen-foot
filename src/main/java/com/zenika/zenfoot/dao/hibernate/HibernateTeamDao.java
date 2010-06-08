@@ -17,7 +17,7 @@ public class HibernateTeamDao extends HibernateDao<Team> implements TeamDao {
     public Team findOrCreate(Team team) {
         Team t = (Team) getSession().createCriteria(Team.class).add(Restrictions.eq("name", team.getName())).uniqueResult();
         if (t == null) {
-            save(new Team(team.getName(), team.getImageName()));
+            return save(team);
         }
         return t;
     }
