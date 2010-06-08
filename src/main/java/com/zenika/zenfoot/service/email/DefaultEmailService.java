@@ -26,13 +26,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Facility to send email out of velocity templates.
  */
-@Service
 public class DefaultEmailService implements EmailService {
     static final private Logger logger = LoggerFactory.getLogger(DefaultEmailService.class);
     protected JavaMailSender javaMailSender;
     protected VelocityEngine velocityEngine;
 
-    @Autowired
     public DefaultEmailService(JavaMailSender javaMailSender, VelocityEngine velocityEngine) {
         this.javaMailSender = javaMailSender;
         this.velocityEngine = velocityEngine;

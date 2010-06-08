@@ -8,16 +8,19 @@ import org.apache.commons.codec.digest.DigestUtils;
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.service.email.EmailService;
-import com.zenika.zenfoot.service.email.MockEmailService;
 import com.zenika.zenfoot.util.StringUtil;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class DefaultAccountService implements AccountService {
+
     public static final String VELOCITY_EMAILS = "velocity/emails/";
-//    private transient UserDao userDao = new MockUserDao();
     private UserDao userDao;
-    private transient EmailService emailService = new MockEmailService();
+    private EmailService emailService;
     private String adminEmail = "huber.olivier@gmail.com";
     private String appUrl = "http://zenfoot";
+
+    public DefaultAccountService() {
+    }
 
     @Override
     public void sendPassword(String userEmail) {
@@ -69,7 +72,7 @@ public class DefaultAccountService implements AccountService {
         Map<String, Object> templateContext = new HashMap<String, Object>();
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", userEmail);
-        emailService.sendEmailAsynchronously(adminEmail, userEmail, VELOCITY_EMAILS + "notifyRegistration", templateContext);
+        emailService.sendEmailAsynchronously(userEmail, adminEmail, VELOCITY_EMAILS + "notifyRegistration", templateContext);
     }
 
     private void notifyUserForAcceptance(String userEmail) {
@@ -91,11 +94,19 @@ public class DefaultAccountService implements AccountService {
         this.appUrl = appUrl;
     }
 
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-	public UserDao getUserDao() {
-		return userDao;
-	}
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public EmailService getEmailService() {
+        return emailService;
+    }
+
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
 }

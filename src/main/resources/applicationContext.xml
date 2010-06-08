@@ -55,7 +55,7 @@
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="*" propagation="REQUIRES_NEW"/>
+            <tx:method name="*" propagation="REQUIRED"/>
 <!--            <tx:method name="increasePrice*" propagation="REQUIRED"/>-->
 <!--            <tx:method name="someOtherBusinessMethod" propagation="REQUIRES_NEW"/>-->
 <!--            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>-->
@@ -78,6 +78,38 @@
     <bean id="dataService" class="com.zenika.zenfoot.service.DefaultDataService">
         <property name="userDao" ref="userDao" />
         <property name="betDao" ref="betDao" />
+    </bean>
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <description>Velocity engine, used for email templating</description>
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class</prop>
+                <prop key="class.resource.loader.class">org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader</prop>
+                <prop key="class.resource.loader.cache">true</prop>
+                <prop key="class.resource.loader.modificationCheckInterval">0</prop>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="javaMailSenderWithConfig" class="com.zenika.zenfoot.service.email.JavaMailSenderWithConfig">
+    	<description>Raw Java Mail Sender</description>
+        <property name="configLocation" value="classpath:application.properties" />
+    </bean>
+
+    <bean id="emailService" class="com.zenika.zenfoot.service.email.DefaultEmailService">
+    	<description>Email Service to send personalized email</description>
+        <constructor-arg ref="javaMailSenderWithConfig"/>
+        <constructor-arg ref="velocityEngine"/>
+    </bean>
+
+    <bean id="accountService" class="com.zenika.zenfoot.service.account.DefaultAccountService">
+        <property name="adminEmail" value="${admin.email}" />
+        <property name="appUrl" value="${app.url}" />
+        <property name="userDao" ref="userDao" />
+        <property name="emailService" ref="emailService" />
     </bean>
 
     <bean id="wicketApplication" class="com.zenika.zenfoot.ZenFootApplication">

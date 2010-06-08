@@ -51,7 +51,8 @@ public class AdminPage extends BasePage {
     private TeamDao teamDao;
     @SpringBean
     private GameDao matchDao;
-    private transient AccountService accountService = new DefaultAccountService();
+    @SpringBean
+    private AccountService accountService;
 
     public AdminPage() {
         add(new UserList("userList"));
@@ -143,14 +144,12 @@ public class AdminPage extends BasePage {
 
         @Override
         protected void onSubmit() {
-            teamDao.save(team1);
-            teamDao.save(team2);
             Calendar calendar = new GregorianCalendar(Locale.FRANCE);
             calendar.setTime(kickoff);
             calendar.set(Calendar.HOUR_OF_DAY, kickoffHours);
             calendar.set(Calendar.MINUTE, kickoffMinutes);
 
-            matchDao.save(new Match(team1, team2, calendar.getTime()));
+            matchDao.save(new Match(teamDao.findOrCreate(team1), teamDao.findOrCreate(team2), calendar.getTime()));
             setResponsePage(AdminPage.class);
         }
 

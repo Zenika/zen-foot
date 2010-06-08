@@ -23,4 +23,9 @@ public class MockTeamDao implements TeamDao {
         teams().remove(model);
         persist();
     }
+
+    @Override
+    public Team findOrCreate(Team team) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

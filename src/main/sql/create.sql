@@ -3,7 +3,7 @@ USE zenfoot;
 
 CREATE TABLE players (
   id            INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY
- ,email         VARCHAR(255)	NOT NULL
+ ,email         VARCHAR(255)	NOT NULL UNIQUE
  ,password      VARCHAR(255)	NOT NULL
  ,points        INTEGER         NOT NULL DEFAULT 0
  ,pending       BOOLEAN         NOT NULL DEFAULT FALSE
@@ -12,7 +12,7 @@ CREATE TABLE players (
 
 CREATE TABLE teams (
   id            INTEGER         NOT NULL AUTO_INCREMENT PRIMARY KEY
- ,name          VARCHAR(255)    NOT NULL
+ ,name          VARCHAR(255)    NOT NULL UNIQUE
  ,image_name    VARCHAR(255)    NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0;
 

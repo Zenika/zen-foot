@@ -27,7 +27,8 @@ public class BasePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
     transient Logger logger = LoggerFactory.getLogger(BasePage.class);
-    private transient AccountService accountService = new DefaultAccountService();
+    @SpringBean
+    private AccountService accountService;
     @SpringBean
     private UserDao userDao;
 
