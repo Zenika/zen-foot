@@ -10,8 +10,8 @@
         </id>
         <many-to-one name="team1" column="team_1_id" not-null="true"/>
         <many-to-one name="team2" column="team_2_id" not-null="true"/>
-        <property name="kickoff" />
-        <property name="goalsForTeam1" column="goals_team_1" />
-        <property name="goalsForTeam2" column="goals_team_2" />
+        <property name="kickoff" not-null="true" />
+        <property name="goalsForTeam1" column="goals_team_1" not-null="true"/>
+        <property name="goalsForTeam2" column="goals_team_2" not-null="true"/>
     </class>
 </hibernate-mapping>

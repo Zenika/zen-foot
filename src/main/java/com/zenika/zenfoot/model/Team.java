@@ -43,4 +43,26 @@ public class Team extends AbstractModel implements Serializable, Comparable<Team
     public int compareTo(Team otherTeam) {
         return name.compareToIgnoreCase(otherTeam.name);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Team other = (Team) obj;
+        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 13 * hash + (this.name != null ? this.name.hashCode() : 0);
+        return hash;
+    }
 }

@@ -77,4 +77,34 @@ public class Match extends AbstractModel implements Serializable, Comparable<Mat
     public boolean hasGoalsSet() {
         return goalsForTeam1 >= 0 && goalsForTeam2 >= 0;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Match other = (Match) obj;
+        if (this.team1 != other.team1 && (this.team1 == null || !this.team1.equals(other.team1))) {
+            return false;
+        }
+        if (this.team2 != other.team2 && (this.team2 == null || !this.team2.equals(other.team2))) {
+            return false;
+        }
+        if (this.kickoff != other.kickoff && (this.kickoff == null || !this.kickoff.equals(other.kickoff))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + (this.team1 != null ? this.team1.hashCode() : 0);
+        hash = 23 * hash + (this.team2 != null ? this.team2.hashCode() : 0);
+        hash = 23 * hash + (this.kickoff != null ? this.kickoff.hashCode() : 0);
+        return hash;
+    }
 }

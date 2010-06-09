@@ -65,4 +65,30 @@ public class Bet extends AbstractModel implements Serializable {
         this.goalsForTeam1 = goalsForTeam1;
         this.goalsForTeam2 = goalsForTeam2;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Bet other = (Bet) obj;
+        if (this.player != other.player && (this.player == null || !this.player.equals(other.player))) {
+            return false;
+        }
+        if (this.match != other.match && (this.match == null || !this.match.equals(other.match))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + (this.player != null ? this.player.hashCode() : 0);
+        hash = 59 * hash + (this.match != null ? this.match.hashCode() : 0);
+        return hash;
+    }
 }

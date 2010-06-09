@@ -72,4 +72,26 @@ public class Player extends AbstractModel implements Serializable {
     public String toString() {
         return getClass().getSimpleName() + ": " + email;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Player other = (Player) obj;
+        if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (this.email != null ? this.email.hashCode() : 0);
+        return hash;
+    }
 }

@@ -10,7 +10,7 @@
         </id>
         <many-to-one name="player" column="player_id" not-null="true"/>
         <many-to-one name="match" column="match_id" not-null="true"/>
-        <property name="goalsForTeam1" column="goals_team_1" />
-        <property name="goalsForTeam2" column="goals_team_2" />
+        <property name="goalsForTeam1" column="goals_team_1" not-null="true"/>
+        <property name="goalsForTeam2" column="goals_team_2" not-null="true"/>
     </class>
 </hibernate-mapping>

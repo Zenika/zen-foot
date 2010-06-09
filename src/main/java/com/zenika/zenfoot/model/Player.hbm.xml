@@ -8,10 +8,10 @@
         <id name="id">
             <generator class="native" />
         </id>
-        <property name="email" />
-        <property name="password" />
-        <property name="points" />
-        <property name="pending" />
-        <property name="admin" />
+        <property name="email" not-null="true" unique="true"/>
+        <property name="password" not-null="true"/>
+        <property name="points" not-null="true"/>
+        <property name="pending" not-null="true"/>
+        <property name="admin" not-null="true"/>
     </class>
 </hibernate-mapping>
