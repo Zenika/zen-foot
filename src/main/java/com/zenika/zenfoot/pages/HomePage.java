@@ -48,6 +48,7 @@ public class HomePage extends BasePage {
     public HomePage(final PageParameters parameters) {
         InjectorHolder.getInjector().inject(this);
         add(updatePts("updatePts"));
+        add(labelFooter("footer"));
         userListWrapper = new WebMarkupContainer("userListWrapper");
         userListWrapper.setOutputMarkupId(true);
         userListWrapper.add(new UserList("userList"));
@@ -56,6 +57,18 @@ public class HomePage extends BasePage {
         add(new PastMatchList("pastMatchList"));
         add(new RunningMatchList("runningMatchList"));
     }
+    
+    private Label labelFooter(String id) {
+    	Label footer = new Label(id,"* Paris que vous avez effectués") {
+
+            @Override
+            public boolean isVisible() {
+                return ZenFootSession.get().getUser() != null && !userIsAdmin();
+            }
+        };
+        return footer;
+    }
+
 
     private Link updatePts(String id) {
         Link updatePts = new Link(id) {
@@ -99,7 +112,6 @@ public class HomePage extends BasePage {
         @Override
         protected void populateItem(ListItem<Match> li) {
             Match match = li.getModelObject();
-            System.out.println(match);
             li.setModel(new CompoundPropertyModel<Match>(match));
             li.add(new Flag("team1.imageName", new Model(match.getTeam1().getImageName())));
             li.add(new Label("team1.name"));
@@ -115,6 +127,10 @@ public class HomePage extends BasePage {
         public PastMatchList(String id) {
             super(id, new PastMatchListModel());
         }
+        
+        String parse(int goalAsInt) {
+            return goalAsInt < 0 ? null : String.valueOf(goalAsInt);
+        }
 
         @Override
         protected void populateItem(ListItem<Match> li) {
@@ -127,6 +143,16 @@ public class HomePage extends BasePage {
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
             li.add(new Label("goalsForTeam2"));
+            Player user = ZenFootSession.get().getUser();
+            int betGoalForTeam1 = -1;
+            int betGoalForTeam2 = -1;
+            if ( user != null ){
+            	Bet bet = betDao.findOrCreate(userDao.find(ZenFootSession.get().getUser().getEmail()), match);
+            	betGoalForTeam1 = bet.getGoalsForTeam1();
+            	betGoalForTeam2 = bet.getGoalsForTeam2();
+            }
+            li.add(new Label("betGoalsForTeam1", new Model(betGoalForTeam1)).setVisible(user != null && betGoalForTeam1 != -1));
+            li.add(new Label("betGoalsForTeam2", new Model(betGoalForTeam2)).setVisible(user != null && betGoalForTeam1 != -1));
         }
     }
 
@@ -146,6 +172,16 @@ public class HomePage extends BasePage {
             li.add(new Label("team2.name"));
             li.add(new MatchAjaxForm("matchAjaxForm", li.getModelObject()).setVisible(userIsAdmin()));
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z").format(match.getKickoff()))));
+            Player user = ZenFootSession.get().getUser();
+            int betGoalForTeam1 = -1;
+            int betGoalForTeam2 = -1;
+            if ( user != null ){
+            	Bet bet = betDao.findOrCreate(userDao.find(ZenFootSession.get().getUser().getEmail()), match);
+            	betGoalForTeam1 = bet.getGoalsForTeam1();
+            	betGoalForTeam2 = bet.getGoalsForTeam2();
+            }
+            li.add(new Label("betGoalsForTeam1", new Model(betGoalForTeam1)).setVisible(user != null && betGoalForTeam1 != -1));
+            li.add(new Label("betGoalsForTeam2", new Model(betGoalForTeam2)).setVisible(user != null && betGoalForTeam1 != -1));
         }
     }
 
