@@ -3,7 +3,6 @@
 - ajouter nos paris dans liste matchs en cours
 - ajouter nos paris dans liste matchs passe
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
-- sécuriser la page admin
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
 - Auto inscription
 - Lost pwd % admin
@@ -17,13 +16,14 @@
 - Spring doc 2.5.x : 6.2.3.4
 - Check pari avec date déjà commence!!!
 - Cascade HBM
+- Ajouter un bouton rafraichir les données
 
 === LATER
 - Service de mails de rappels avant les matchs (3 jours ?)
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === DONE
-- Ajouter un bouton rafraichir les données
+- sécuriser la page admin
 - ajouter Spring
 - ajouter hibernate
 - ajouter scripts sql
