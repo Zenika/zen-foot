@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.service.account.AccountService;
 
 public class BasePage extends WebPage {
@@ -167,6 +168,12 @@ public class BasePage extends WebPage {
                 @Override
                 public void onSubmit() {
                     try {
+                        Player player = userDao.find(email);
+                        if (player != null && player.isAdmin()) {
+                            String msg = "Impossible de réinitialiser le mot de passe d'un admin !";
+                            logger.error(msg);
+                            throw new Exception(msg);
+                        }
                         accountService.sendPassword(email);
                         info("Votre mot de passe vous a été ré-envoyé à l'adresse " + email);
                     } catch (Exception e) {

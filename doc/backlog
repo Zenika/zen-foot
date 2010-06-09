@@ -5,7 +5,6 @@
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
 - Auto inscription
-- Lost pwd % admin
 
 - Check pari avec date déjà commence!!!
 - Ajouter un bouton rafraichir les données
@@ -15,6 +14,7 @@
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === DONE
+- Lost pwd % admin
 - AOP service généralise Spring doc 2.5.x : 6.2.3.4
 - Save return void !
 - Restrictions.naturalid
