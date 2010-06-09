@@ -4,6 +4,7 @@
 - ajouter nos paris dans liste matchs passe
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
+- afficher la version dans le footer en le lisant depuis le properties !
 
 - Check pari avec date déjà commence!!!
 - Ajouter un bouton rafraichir les données
