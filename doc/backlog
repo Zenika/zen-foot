@@ -8,8 +8,7 @@
 - Lost pwd % admin
 - AOP service généralise
 
-- Natural id hbm & restrictions.naturalid
-- Cascade HBM
+- Restrictions.naturalid
 
 - WIA p340
 - WIA DAO p343
@@ -23,6 +22,8 @@
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === DONE
+- Natural id hbm
+- Cascade HBM
 - Hbm notnull=true unique=true
 - Equals & hashcode
 - sécuriser la page admin

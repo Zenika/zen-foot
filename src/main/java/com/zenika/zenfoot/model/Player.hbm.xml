@@ -8,7 +8,9 @@
         <id name="id">
             <generator class="native" />
         </id>
-        <property name="email" not-null="true" unique="true"/>
+        <natural-id>
+            <property name="email" not-null="true" unique="true"/>
+        </natural-id>
         <property name="password" not-null="true"/>
         <property name="points" not-null="true"/>
         <property name="pending" not-null="true"/>

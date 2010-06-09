@@ -8,7 +8,9 @@
         <id name="id">
             <generator class="native" />
         </id>
-        <property name="name" not-null="true"  unique="true"/>
+        <natural-id>
+            <property name="name" not-null="true"  unique="true"/>
+        </natural-id>
         <property name="imageName" column="image_name" not-null="true"/>
     </class>
 </hibernate-mapping>
