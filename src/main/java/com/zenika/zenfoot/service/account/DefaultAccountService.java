@@ -24,7 +24,9 @@ public class DefaultAccountService implements AccountService {
     @Override
     public void sendPassword(String userEmail) {
         String newPassword = StringUtil.getRandomCode();
-        userDao.find(userEmail).setPassword(DigestUtils.md5Hex(newPassword));
+        final Player player = userDao.find(userEmail);
+        player.setPassword(DigestUtils.md5Hex(newPassword));
+        userDao.save(player);
         emailUserWithNewPassword(userEmail, newPassword);
     }
 
