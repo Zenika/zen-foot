@@ -18,7 +18,7 @@
 
     <context:property-placeholder location="classpath*:application.properties"/>
 
-    <util:properties id="applicationProperties" location="classpath*:application.properties"/>
+    <util:properties id="applicationProperties" location="classpath:application.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${db.driver}" />
