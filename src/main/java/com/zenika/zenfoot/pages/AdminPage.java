@@ -40,8 +40,10 @@ import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.pages.common.ConfirmLink;
 import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.service.account.AccountService;
-import com.zenika.zenfoot.service.account.DefaultAccountService;
+import org.apache.wicket.authorization.strategies.role.Roles;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 
+@AuthorizeInstantiation(Roles.ADMIN)
 public class AdminPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
