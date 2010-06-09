@@ -153,7 +153,7 @@ public class HomePage extends BasePage {
 
         @Override
         protected List<? extends Player> load() {
-            return userDao.findAll();
+            return userDao.findActive();
         }
     }
 
