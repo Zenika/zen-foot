@@ -59,7 +59,7 @@ public class AdminPage extends BasePage {
     public AdminPage() {
         add(new UserList("userList"));
         add(new UserPendingList("userPendingList"));
-        add(new TeamForm("newTeamForm").setVisible(false));
+        add(new TeamForm("newTeamForm"));
         add(new TeamList("teamList"));
         add(new MatchForm("newMatchForm"));
         add(new MatchList("matchList"));
@@ -162,6 +162,7 @@ public class AdminPage extends BasePage {
                     uniqueLocales.add(new Team(locale.getDisplayCountry(), locale.getCountry().toLowerCase() + ".png"));
                 }
             }
+            uniqueLocales.addAll(teamDao.findAll());
             List<Team> locales = new ArrayList<Team>(uniqueLocales);
             Collections.sort(locales);
             return locales;
