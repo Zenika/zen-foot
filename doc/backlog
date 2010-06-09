@@ -1,17 +1,21 @@
 
 === NOW
-MCA - ajouter Spring
-MCA - ajouter hibernate
-MCA - ajouter scripts sql
-
-OHU - préparer environnement de PROD
+- ajouter nos paris dans liste matchs en cours
+- ajouter nos paris dans liste matchs passe
+- ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
+- sécuriser la page admin
+- faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
+- cf. liste d'OHU 
 
 === LATER
-- Ajouter un bouton rafraichir les données
-- ajouter nos pari dans liste matchs passe
 - Service de mails de rappels avant les matchs (3 jours ?)
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === DONE
+- Ajouter un bouton rafraichir les données
+- ajouter Spring
+- ajouter hibernate
+- ajouter scripts sql
+- préparer environnement de PROD
 OHU - ajouter service de mail
 OHU - ajouter fichier properties
