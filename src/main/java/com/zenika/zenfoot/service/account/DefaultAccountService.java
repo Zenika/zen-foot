@@ -43,7 +43,7 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     public void reject(Player user) {
-        userDao.reject(user);
+        userDao.delete(user);
         notifyUserForRejection(user.getEmail());
     }
 

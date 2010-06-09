@@ -7,9 +7,9 @@ public interface AccountService {
 
     public void sendPassword(String email);
 
-    public void accept(Player user);
+    public void accept(Player player);
 
-    public void reject(Player user);
+    public void reject(Player player);
 
     public void setAdminEmail(String adminEmail);
 
