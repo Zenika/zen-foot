@@ -5,7 +5,18 @@
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - sécuriser la page admin
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
-- cf. liste d'OHU 
+- Auto inscription
+- Lost pwd % admin
+- AOP service généralise
+- Equals hash code
+- Hbm notnull=true unique=true
+- Natural id hbm & restrictions.naturalid
+- WIA p340
+- WIA DAO p343
+- Save return void !
+- Spring doc 2.5.x : 6.2.3.4
+- Check pari avec date déjà commence!!!
+- Cascade HBM
 
 === LATER
 - Service de mails de rappels avant les matchs (3 jours ?)
@@ -19,3 +30,7 @@
 - préparer environnement de PROD
 OHU - ajouter service de mail
 OHU - ajouter fichier properties
+MCA - ajouter Spring
+MCA - ajouter hibernate
+MCA - ajouter scripts sql
+OHU - préparer environnement de PROD
