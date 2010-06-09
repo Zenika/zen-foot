@@ -123,6 +123,6 @@
     </bean>
 
     <bean id="wicketApplication" class="com.zenika.zenfoot.ZenFootApplication">
-        <property name="applicationProperties" ref="applicationProperties">
+        <property name="applicationProperties" ref="applicationProperties"/>
     </bean>
 </beans>
