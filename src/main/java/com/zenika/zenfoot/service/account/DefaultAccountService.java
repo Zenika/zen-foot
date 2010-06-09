@@ -30,8 +30,10 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     public void register(String userEmail, String password) {
-        userDao.save(new Player(userEmail, DigestUtils.md5Hex(password)));
         //TODO REINSTAURER L'INSCRIPTION !!!
+        final Player newAutoInscriptionPlayer = new Player(userEmail, DigestUtils.md5Hex(password));
+        newAutoInscriptionPlayer.setPending(false);
+        userDao.save(newAutoInscriptionPlayer);
 //        notifyUserWithRegistration(userEmail);
         notifyAdminWithRegistration(userEmail);
     }
