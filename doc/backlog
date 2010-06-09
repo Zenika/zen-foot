@@ -13,6 +13,7 @@
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === DONE
+- production mode
 - Auto inscription
 - Lost pwd % admin
 - AOP service généralise Spring doc 2.5.x : 6.2.3.4

@@ -8,8 +8,13 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import com.zenika.zenfoot.pages.AdminPage;
 import com.zenika.zenfoot.pages.HomePage;
 import com.zenika.zenfoot.pages.RulesPage;
+import java.util.Properties;
+import org.apache.wicket.Application;
 
 public class ZenFootApplication extends AuthenticatedWebApplication {
+
+    private Properties applicationProperties;
+
     public ZenFootApplication() {
         mountBookmarkablePage("/regles", RulesPage.class);
         mountBookmarkablePage("/admin", AdminPage.class);
@@ -17,10 +22,10 @@ public class ZenFootApplication extends AuthenticatedWebApplication {
 
     @Override
     protected void init() {
-    	addComponentInstantiationListener(new SpringComponentInjector(this));
-    	super.init();
+        addComponentInstantiationListener(new SpringComponentInjector(this));
+        super.init();
     }
-    
+
     @Override
     public Class<HomePage> getHomePage() {
         return HomePage.class;
@@ -34,5 +39,14 @@ public class ZenFootApplication extends AuthenticatedWebApplication {
     @Override
     protected Class<? extends WebPage> getSignInPageClass() {
         return HomePage.class;
+    }
+
+    @Override
+    public String getConfigurationType() {
+        return "true".equalsIgnoreCase(applicationProperties.getProperty("production", "false")) ? Application.DEPLOYMENT : Application.DEVELOPMENT;
+    }
+
+    public void setApplicationProperties(Properties applicationProperties) {
+        this.applicationProperties = applicationProperties;
     }
 }
