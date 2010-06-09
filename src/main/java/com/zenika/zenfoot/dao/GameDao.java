@@ -9,6 +9,4 @@ public interface GameDao extends BaseDao<Match> {
     public List<Match> findPast();
 
     public List<Match> findRunning();
-
-    public Match get(Match match);
 }

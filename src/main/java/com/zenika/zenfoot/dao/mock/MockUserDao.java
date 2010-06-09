@@ -31,7 +31,7 @@ public class MockUserDao implements UserDao {
         return user;
     }
 
-    public Player save(Player model) {
+    public void save(Player model) {
         if (!users().contains(model)) {
             users().add(model);
         } else {
@@ -40,7 +40,6 @@ public class MockUserDao implements UserDao {
             get(model).setPending(model.isPending());
         }
         persist();
-        return model;
     }
 
     public List<Player> findPending() {
@@ -78,5 +77,25 @@ public class MockUserDao implements UserDao {
 
     public Player get(String email) {
         return get(new Player(email));
+    }
+
+    @Override
+    public List<Player> findAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Player load(long id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Player find(String email) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Player> findActive() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

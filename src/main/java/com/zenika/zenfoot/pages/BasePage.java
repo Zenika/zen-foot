@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.service.account.AccountService;
-import com.zenika.zenfoot.service.account.DefaultAccountService;
 
 public class BasePage extends WebPage {
 
@@ -146,7 +145,7 @@ public class BasePage extends WebPage {
                 public void onSubmit() {
                     if (password == null || password.isEmpty()) {
                         error("Le mot de passe est vide ?");
-                    } else if (getUserDao().get(email) != null) {
+                    } else if (getUserDao().find(email) != null) {
                         error("Ce compte existe déjà !");
                         warn("Avez vous perdu votre mot de passe ?");
                     } else {

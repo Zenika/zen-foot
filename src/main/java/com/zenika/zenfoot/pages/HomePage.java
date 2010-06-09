@@ -28,7 +28,6 @@ import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Player;
-import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.pages.common.StaticImage;
 import com.zenika.zenfoot.service.DataService;
@@ -154,7 +153,7 @@ public class HomePage extends BasePage {
 
         @Override
         protected List<? extends Player> load() {
-            return userDao.find();
+            return userDao.findAll();
         }
     }
 
@@ -204,8 +203,8 @@ public class HomePage extends BasePage {
             super(id);
             Bet bet = betDao.find(ZenFootSession.get().getUser(), match);
             if (bet != null) {
-                this.goalsForTeam1 = parse(bet.getGoalsForTeam1());
-                this.goalsForTeam2 = parse(bet.getGoalsForTeam2());
+                goalsForTeam1 = parse(bet.getGoalsForTeam1());
+                goalsForTeam2 = parse(bet.getGoalsForTeam2());
             }
             final TextField goal1 = new TextField("goalsForTeam1", new PropertyModel(BetAjaxForm.this, "goalsForTeam1"));
             goal1.setOutputMarkupId(true);
@@ -214,12 +213,8 @@ public class HomePage extends BasePage {
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
                     if (match.getKickoff().after(new Date())) {
-                        Bet bet = betDao.findOrCreate(userDao.get(ZenFootSession.get().getUser().getEmail()), gameDao.get(match));
-                        bet.setGoalsForTeam1(parse(goalsForTeam1));
-                        bet.setGoalsForTeam2(parse(goalsForTeam2));
-                        betDao.save(bet);
+                        Bet bet = dataService.saveBet(ZenFootSession.get().getUser(), match, parse(goalsForTeam1), parse(goalsForTeam2));
                         goalsForTeam1 = parse(bet.getGoalsForTeam1());
-                        goalsForTeam2 = parse(bet.getGoalsForTeam2());
                         target.addComponent(goal1);
                         target.appendJavascript("new Effect.Highlight($('" + goal1.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
                     }
@@ -232,11 +227,7 @@ public class HomePage extends BasePage {
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
                     if (match.getKickoff().after(new Date())) {
-                        Bet bet = betDao.findOrCreate(userDao.get(ZenFootSession.get().getUser().getEmail()), gameDao.get(match));
-                        bet.setGoalsForTeam1(parse(goalsForTeam1));
-                        bet.setGoalsForTeam2(parse(goalsForTeam2));
-                        betDao.save(bet);
-                        goalsForTeam1 = parse(bet.getGoalsForTeam1());
+                        Bet bet = dataService.saveBet(ZenFootSession.get().getUser(), match, parse(goalsForTeam1), parse(goalsForTeam2));
                         goalsForTeam2 = parse(bet.getGoalsForTeam2());
                         target.addComponent(goal2);
                         target.appendJavascript("new Effect.Highlight($('" + goal2.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
@@ -248,7 +239,7 @@ public class HomePage extends BasePage {
         }
     }
 
-    public class MatchAjaxForm extends Form {
+    public final class MatchAjaxForm extends Form {
 
         public static final String ONKEYEVENT = "onchange";
         private String goalsForTeam1;
@@ -268,19 +259,16 @@ public class HomePage extends BasePage {
 
         public MatchAjaxForm(String id, final Match match) {
             super(id);
-            this.goalsForTeam1 = parse(match.getGoalsForTeam1());
-            this.goalsForTeam2 = parse(match.getGoalsForTeam2());
+            goalsForTeam1 = parse(match.getGoalsForTeam1());
+            goalsForTeam2 = parse(match.getGoalsForTeam2());
             final TextField goal1 = new TextField("goalsForTeam1", new PropertyModel(MatchAjaxForm.this, "goalsForTeam1"));
             goal1.setOutputMarkupId(true);
             goal1.add(new AjaxFormComponentUpdatingBehavior(ONKEYEVENT) {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    Match m = gameDao.get(match);
-                    m.setGoalsForTeam1(parse(goalsForTeam1));
-                    m.setGoalsForTeam2(parse(goalsForTeam2));
-                    gameDao.save(m);
-                    dataService.updateUserPoints();
+                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2));
+                    goalsForTeam1 = parse(m.getGoalsForTeam1());
                     target.addComponent(goal1);
                     target.addComponent(userListWrapper);
                     target.appendJavascript("new Effect.Highlight($('" + goal1.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
@@ -292,11 +280,8 @@ public class HomePage extends BasePage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    Match m = gameDao.get(match);
-                    m.setGoalsForTeam1(parse(goalsForTeam1));
-                    m.setGoalsForTeam2(parse(goalsForTeam2));
-                    gameDao.save(m);
-                    dataService.updateUserPoints();
+                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2));
+                    goalsForTeam2 = parse(m.getGoalsForTeam2());
                     target.addComponent(goal2);
                     target.addComponent(userListWrapper);
                     target.appendJavascript("new Effect.Highlight($('" + goal2.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");

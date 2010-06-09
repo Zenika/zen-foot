@@ -1,2 +1,2 @@
 
-Nous avons enregistré une demande d'inscritpion de ${userEmail} à ${appUrl}
+Nous avons enregistré une demande d'inscription de ${userEmail} à ${appUrl}

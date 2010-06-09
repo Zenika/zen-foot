@@ -43,12 +43,11 @@ public class MockGameDao implements GameDao {
         return running;
     }
 
-    public Match save(Match model) {
+    public void save(Match model) {
         if (!matchs().contains(model)) {
             matchs().add(model);
         }
         persist();
-        return model;
     }
 
     public void delete(Match model) {
@@ -61,7 +60,12 @@ public class MockGameDao implements GameDao {
     }
 
     @Override
-    public Match get(Match match) {
+    public List<Match> findAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Match load(long id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -94,7 +94,7 @@ public class AdminPage extends BasePage {
 
         @Override
         protected List<? extends Match> load() {
-            return matchDao.find();
+            return matchDao.findAll();
         }
     }
 
@@ -292,7 +292,7 @@ public class AdminPage extends BasePage {
 
         @Override
         protected List<? extends Team> load() {
-            return teamDao.find();
+            return teamDao.findAll();
         }
     }
 
@@ -300,7 +300,7 @@ public class AdminPage extends BasePage {
 
         @Override
         protected List<? extends Player> load() {
-            return userDao.find();
+            return userDao.findActive();
         }
     }
 

@@ -6,14 +6,7 @@
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
 - Auto inscription
 - Lost pwd % admin
-- AOP service généralise
 
-- Restrictions.naturalid
-
-- WIA p340
-- WIA DAO p343
-- Save return void !
-- Spring doc 2.5.x : 6.2.3.4
 - Check pari avec date déjà commence!!!
 - Ajouter un bouton rafraichir les données
 
@@ -22,6 +15,10 @@
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === DONE
+- AOP service généralise Spring doc 2.5.x : 6.2.3.4
+- Save return void !
+- Restrictions.naturalid
+- WIA DAO p343
 - Natural id hbm
 - Cascade HBM
 - Hbm notnull=true unique=true

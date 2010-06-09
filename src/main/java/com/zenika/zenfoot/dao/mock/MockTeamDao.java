@@ -11,12 +11,11 @@ public class MockTeamDao implements TeamDao {
         return teams();
     }
 
-    public Team save(Team team) {
+    public void save(Team team) {
         if (!teams().contains(team)) {
             teams().add(team);
         }
         persist();
-        return team;
     }
 
     public void delete(Team model) {
@@ -26,6 +25,16 @@ public class MockTeamDao implements TeamDao {
 
     @Override
     public Team findOrCreate(Team team) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Team> findAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Team load(long id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

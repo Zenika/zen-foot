@@ -10,6 +10,10 @@ import org.hibernate.criterion.Restrictions;
 
 public class HibernateGameDao extends HibernateDao<Match> implements GameDao {
 
+    public HibernateGameDao() {
+        super(Match.class);
+    }
+
     @Override
     public List<Match> findIncoming() {
         return getSession().createCriteria(Match.class).add(Restrictions.gt("kickoff", now())).list();
@@ -32,17 +36,7 @@ public class HibernateGameDao extends HibernateDao<Match> implements GameDao {
                 list();
     }
 
-    @Override
-    public List<Match> find() {
-        return getSession().createCriteria(Match.class).list();
-    }
-
     private Date now() {
         return new Date();
-    }
-
-    @Override
-    public Match get(Match match) {
-        return (Match) getSession().load(Match.class, match.getId());
     }
 }

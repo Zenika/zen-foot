@@ -1,23 +1,20 @@
 package com.zenika.zenfoot.dao.hibernate;
 
-import java.util.List;
-
 import com.zenika.zenfoot.dao.TeamDao;
 import com.zenika.zenfoot.model.Team;
 import org.hibernate.criterion.Restrictions;
 
 public class HibernateTeamDao extends HibernateDao<Team> implements TeamDao {
 
-    @Override
-    public List<Team> find() {
-        return getSession().createCriteria(Team.class).list();
+    public HibernateTeamDao() {
+        super(Team.class);
     }
 
     @Override
     public Team findOrCreate(Team team) {
-        Team t = (Team) getSession().createCriteria(Team.class).add(Restrictions.eq("name", team.getName())).uniqueResult();
+        Team t = (Team) getSession().createCriteria(Team.class).add(Restrictions.naturalId().set("name", team.getName())).uniqueResult();
         if (t == null) {
-            return save(team);
+            save(t = team);
         }
         return t;
     }

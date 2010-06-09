@@ -14,7 +14,7 @@ public class MockBetDao implements BetDao {
         return bets();
     }
 
-    public Bet createOrUpdate(Player user, Match match, int goalsForTeam1, int goalsForTeam2) {
+    public void createOrUpdate(Player user, Match match, int goalsForTeam1, int goalsForTeam2) {
         System.out.println("createOrUpdate " + user + " : " + match + " : " + goalsForTeam1 + " - " + goalsForTeam2);
         Bet bet = find(user, match);
         if (bet != null) {
@@ -22,7 +22,7 @@ public class MockBetDao implements BetDao {
 //        } else {
 //            bet = new Bet(user, match, goalsForTeam1, goalsForTeam2);
         }
-        return save(bet);
+        save(bet);
     }
 
     public Bet find(Player user, Match match) {
@@ -37,12 +37,11 @@ public class MockBetDao implements BetDao {
         return null;
     }
 
-    public Bet save(Bet bet) {
+    public void save(Bet bet) {
         if (!bets().contains(bet)) {
             bets().add(bet);
         }
         persist();
-        return bet;
     }
 
     public void delete(Bet model) {
@@ -74,4 +73,20 @@ public class MockBetDao implements BetDao {
     public Bet findOrCreate(Player user, Match match) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public List<Bet> findAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Bet load(long id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Bet> find(Match match) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

@@ -11,6 +11,10 @@ import com.zenika.zenfoot.model.Player;
 
 public class HibernateBetDao extends HibernateDao<Bet> implements BetDao {
 
+    public HibernateBetDao() {
+        super(Bet.class);
+    }
+
     @Override
     public Bet find(Player player, Match match) {
         if (player == null) {
@@ -26,19 +30,14 @@ public class HibernateBetDao extends HibernateDao<Bet> implements BetDao {
     }
 
     @Override
-    public List<Bet> find() {
-        return getSession().createCriteria(Bet.class).list();
-    }
-
-    @Override
-    public List<Bet> find(Player user) {
+    public List<Bet> find(Player player) {
         Query query = getSession().createQuery("from Bet where player.id=?");
-        query.setLong(0, user.getId());
+        query.setLong(0, player.getId());
         return query.list();
     }
 
     @Override
-    public List<Bet> findAll(Match match) {
+    public List<Bet> find(Match match) {
         Query query = getSession().createQuery("from Bet where match.id=?");
         query.setLong(0, match.getId());
         return query.list();
@@ -48,7 +47,7 @@ public class HibernateBetDao extends HibernateDao<Bet> implements BetDao {
     public Bet findOrCreate(Player user, Match match) {
         Bet bet = find(user, match);
         if (bet == null) {
-            bet = save(new Bet(user, match));
+            save(bet = new Bet(user, match));
         }
         return bet;
     }

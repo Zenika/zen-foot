@@ -8,9 +8,13 @@ import org.hibernate.criterion.Restrictions;
 
 public class HibernateUserDao extends HibernateDao<Player> implements UserDao {
 
+    public HibernateUserDao() {
+        super(Player.class);
+    }
+
     @Override
-    public List<Player> find() {
-        return getSession().createCriteria(Player.class).list();
+    public List<Player> findActive() {
+        return getSession().createCriteria(Player.class).add(Restrictions.eq("pending", false)).list();
     }
 
     @Override
@@ -31,7 +35,7 @@ public class HibernateUserDao extends HibernateDao<Player> implements UserDao {
     }
 
     @Override
-    public Player get(String email) {
-        return (Player) getSession().createCriteria(Player.class).add(Restrictions.eq("email", email)).uniqueResult();
+    public Player find(String email) {
+        return (Player) getSession().createCriteria(Player.class).add(Restrictions.naturalId().set("email", email)).uniqueResult();
     }
 }

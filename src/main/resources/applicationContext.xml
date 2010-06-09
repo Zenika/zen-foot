@@ -19,7 +19,7 @@
     <context:property-placeholder location="classpath*:application.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="driverClassName" value="${db.driver}" />
         <property name="url" value="${db.url}" />
         <property name="username" value="${db.username}" />
         <property name="password" value="${db.password}" />
@@ -36,11 +36,11 @@
             </list>
         </property>
         <property name="hibernateProperties">
-            <value>
-                hibernate.dialect=org.hibernate.dialect.MySQLInnoDBDialect
-                hibernate.format_sql=true
-                hibernate.show_sql=true
-            </value>
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+            </props>
         </property>
     </bean>
 
@@ -49,16 +49,23 @@
     </bean>
 
     <aop:config>
-        <aop:pointcut id="methods" expression="execution(* com.zenika.zenfoot.dao.BaseDao.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="methods"/>
+        <aop:pointcut id="service" expression="execution(* com.zenika.zenfoot.service..*.*(..))"/>
+        <aop:advisor pointcut-ref="service" advice-ref="txAdvice"/>
+    </aop:config>
+    <aop:config>
+        <aop:pointcut id="dao" expression="execution(* com.zenika.zenfoot.dao..*.*(..))"/>
+        <aop:advisor pointcut-ref="dao" advice-ref="txAdvice"/>
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="*" propagation="REQUIRED"/>
-<!--            <tx:method name="increasePrice*" propagation="REQUIRED"/>-->
-<!--            <tx:method name="someOtherBusinessMethod" propagation="REQUIRES_NEW"/>-->
-<!--            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>-->
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="*Create*" propagation="REQUIRED"/>
+            <tx:method name="accept" propagation="REQUIRED"/>
+            <tx:method name="reject" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>
     </tx:advice>
 
@@ -78,6 +85,7 @@
     <bean id="dataService" class="com.zenika.zenfoot.service.DefaultDataService">
         <property name="userDao" ref="userDao" />
         <property name="betDao" ref="betDao" />
+        <property name="matchDao" ref="gameDao" />
     </bean>
 
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
@@ -95,12 +103,12 @@
     </bean>
 
     <bean id="javaMailSenderWithConfig" class="com.zenika.zenfoot.service.email.JavaMailSenderWithConfig">
-    	<description>Raw Java Mail Sender</description>
+        <description>Raw Java Mail Sender</description>
         <property name="configLocation" value="classpath:application.properties" />
     </bean>
 
     <bean id="emailService" class="com.zenika.zenfoot.service.email.DefaultEmailService">
-    	<description>Email Service to send personalized email</description>
+        <description>Email Service to send personalized email</description>
         <constructor-arg ref="javaMailSenderWithConfig"/>
         <constructor-arg ref="velocityEngine"/>
     </bean>
