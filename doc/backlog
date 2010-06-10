@@ -1,8 +1,8 @@
 
 === URGENT
 - Match nul : 1pts !!! 
-- Ajouter une page de feedback
-- Ajouter un bouton "Valider/Rafraichir mes paris"
+- Ajouter une page de feedback [Une question ? Une remarque !]
+- Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa
 - Ajouter le CRUD sur les teams
 - Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
 - afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
@@ -14,9 +14,20 @@
 - FAQ under Feedback
 -- Comment valider mes paris ?
 
-=== LATER / MAYBE ?
+=== LATER
+- Remettre en service l'inscription par email (desactiver l'inscription automagique !)
 - Service de mails de rappels avant les matchs (3 jours ?)
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
+
+=== MAYBE
+- 2 classements (pts - pts pondere par nb paris) !?
+- FORUM intégré
+- Fil de news (ex: Fifa depuis la page d'accueil)
+- Mettre plus en avant les matchs à venir car c'est cela l'interessant
+- Design
+-- Animations... ballon animé (tourne sur lui même, ...)
+-- Look trop sobre (Ex: tête de zidane en gros plans ... !?)
+-- différencier les titres grisé
 
 === DONE
 - ajouter nos paris dans liste matchs en cours
