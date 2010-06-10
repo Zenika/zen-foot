@@ -4,7 +4,7 @@
 - Ajouter une page de feedback [Une question ? Une remarque !]
 - Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa
 - afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
-- Précisez dans les règles si les buts sont 1. fin de matchs, 2. prolongation, 3. penalty
+- Précisez dans les règles si les buts sont 1. fin de matchs, 2. prolongation, 3. penalty => On décide que 2. Prolongation
 - Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
 -- DELETE Bet -> rien
 -- DELETE Player -> DELETE Bet
