@@ -1,18 +1,18 @@
 
 === URGENT
 - Ajouter une page de feedback [Une question ? Une remarque !]
-- Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
--- DELETE Bet -> rien
--- DELETE Player -> DELETE Bet
--- DELETE Match -> DELETE Bet
--- DELETE Team -> DELETE Match -> DELETE Bet
+- FAQ under Feedback
+-- Comment valider mes paris ?
 
 === NOW
 - Ajouter un champ String "comments" sur un Match ou on peut remplir par exemple (TAB 2:3)
 - coloration selont le nombre de points
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
-- FAQ under Feedback
--- Comment valider mes paris ?
+- Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
+-- DELETE Bet -> rien
+-- DELETE Player -> DELETE Bet
+-- DELETE Match -> DELETE Bet
+-- DELETE Team -> DELETE Match -> DELETE Bet
 
 === LATER
 - Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa
