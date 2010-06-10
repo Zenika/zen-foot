@@ -1,13 +1,20 @@
 
+=== URGENT
+- Match nul : 1pts !!! 
+- Ajouter une page de feedback
+- Ajouter un bouton "Valider/Rafraichir mes paris"
+- Ajouter le CRUD sur les teams
+- Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
+- afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
+
 === NOW
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
-- afficher la version dans le footer en le lisant depuis le properties !
-- ajouter une page de feedback
 - Check pari avec date déjà commence!!!
-- Ajouter un bouton rafraichir les données
+- FAQ under Feedback
+-- Comment valider mes paris ?
 
-=== LATER
+=== LATER / MAYBE ?
 - Service de mails de rappels avant les matchs (3 jours ?)
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
