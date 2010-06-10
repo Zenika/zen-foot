@@ -2,6 +2,7 @@ package com.zenika.zenfoot.dao.mock;
 
 import com.zenika.zenfoot.dao.GameDao;
 import com.zenika.zenfoot.model.Match;
+import com.zenika.zenfoot.model.Team;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,6 +67,11 @@ public class MockGameDao implements GameDao {
 
     @Override
     public Match load(long id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int count(Team team) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

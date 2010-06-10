@@ -221,7 +221,7 @@ public class AdminPage extends BasePage {
                 public void onClick() {
                     teamDao.delete(getModelObject());
                 }
-            }.setVisible(false));
+            }.setVisible(matchDao.count(team) == 0));
         }
     }
 
