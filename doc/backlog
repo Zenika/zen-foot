@@ -7,6 +7,7 @@
 - afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
 
 === NOW
+- coloration selont le nombre de points
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
 - Check pari avec date déjà commence!!!
@@ -14,6 +15,8 @@
 -- Comment valider mes paris ?
 
 === LATER
+- refactoring wicket
+- Sectionner la liste des matchs
 - Remettre en service l'inscription par email (desactiver l'inscription automagique !)
 - Service de mails de rappels avant les matchs (3 jours ?)
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
