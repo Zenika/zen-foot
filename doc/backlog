@@ -1,19 +1,18 @@
 
 === URGENT
+- Ajouter le CRUD sur les teams
+
 - Ajouter une page de feedback [Une question ? Une remarque !]
 
 - Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa
 
-- Ajouter le CRUD sur les teams
+- afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
 
 - Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
 -- DELETE Bet -> rien
 -- DELETE Player -> DELETE Bet
 -- DELETE Match -> DELETE Bet
 -- DELETE Team -> DELETE Match -> DELETE Bet
--- ATTENTION à mettre à jour le script create.sql avec les bonnes CASCADE
-
-- afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
 
 === NOW
 - coloration selont le nombre de points
