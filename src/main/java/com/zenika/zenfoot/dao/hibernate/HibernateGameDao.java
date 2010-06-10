@@ -19,7 +19,7 @@ public class HibernateGameDao extends HibernateDao<Match> implements GameDao {
     public List<Match> findIncoming() {
         return getSession().createCriteria(Match.class).
 		add(Restrictions.gt("kickoff", now())).
-		add(Order.asc("kickoff")).
+		addOrder(Order.asc("kickoff")).
 		list();
     }
 
@@ -29,7 +29,7 @@ public class HibernateGameDao extends HibernateDao<Match> implements GameDao {
                 add(Restrictions.le("kickoff", now())).
                 add(Restrictions.ge("goalsForTeam1", 0)).
                 add(Restrictions.ge("goalsForTeam2", 0)).
-		add(Order.desc("kickoff")).
+		addOrder(Order.desc("kickoff")).
                 list();
     }
 

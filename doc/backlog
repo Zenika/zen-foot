@@ -3,7 +3,6 @@
 - Ajouter le CRUD sur les teams
 - Ajouter une page de feedback [Une question ? Une remarque !]
 - afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
-- Précisez dans les règles si les buts sont 1. fin de matchs, 2. prolongation, 3. penalty => On décide que 2. Prolongation
 - Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
 -- DELETE Bet -> rien
 -- DELETE Player -> DELETE Bet
@@ -39,6 +38,7 @@
 -- différencier les titres grisé
 
 === DONE
+- Précisez dans les règles si les buts sont 1. fin de matchs, 2. prolongation, 3. penalty => On décide que 2. Prolongation
 - Vérifier que si un player laisse ouvert son navigateur alors qu'un match commence, il ne peut pas mettre à jour ses scores
 - Enlever le CEST "z"
 - ajouter nos paris dans liste matchs en cours
