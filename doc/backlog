@@ -2,7 +2,6 @@
 === URGENT
 - Ajouter le CRUD sur les teams
 - Ajouter une page de feedback [Une question ? Une remarque !]
-- Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa
 - afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
 - Précisez dans les règles si les buts sont 1. fin de matchs, 2. prolongation, 3. penalty => On décide que 2. Prolongation
 - Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
@@ -15,12 +14,11 @@
 - Ajouter un champ String "comments" sur un Match ou on peut remplir par exemple (TAB 2:3)
 - coloration selont le nombre de points
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
-- faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
-- Check pari avec date déjà commence!!!
 - FAQ under Feedback
 -- Comment valider mes paris ?
 
 === LATER
+- Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa
 - Mettre la date au début de incoming matches
 - change password
 - refactoring wicket
@@ -30,6 +28,7 @@
 - Service de mail pour les admin pour leur rappeler de mettre à jour les résultas de matchs
 
 === MAYBE
+- faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
 - 2 classements (pts - pts pondere par nb paris) !?
 - FORUM intégré
 - Fil de news (ex: Fifa depuis la page d'accueil)
@@ -40,6 +39,7 @@
 -- différencier les titres grisé
 
 === DONE
+- Vérifier que si un player laisse ouvert son navigateur alors qu'un match commence, il ne peut pas mettre à jour ses scores
 - Enlever le CEST "z"
 - ajouter nos paris dans liste matchs en cours
 - ajouter nos paris dans liste matchs passe
