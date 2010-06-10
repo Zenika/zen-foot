@@ -40,7 +40,7 @@ public class DefaultDataService implements DataService {
         }
     }
 
-    private int computePoints(Bet bet, Match match) {
+    public int computePoints(Bet bet, Match match) {
         if (logger.isDebugEnabled()) {
             logger.debug("bet is set :: BET(" + bet.getGoalsForTeam1() + "," + bet.getGoalsForTeam2() + ") <> MATCH(" + match.getGoalsForTeam1() + "," + match.getGoalsForTeam2() + ") :: comp::" + NumberUtils.compare(bet.getGoalsForTeam1(), match.getGoalsForTeam1()) + "::" + NumberUtils.compare(bet.getGoalsForTeam2(), match.getGoalsForTeam2()));
         }

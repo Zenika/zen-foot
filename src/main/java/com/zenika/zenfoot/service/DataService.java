@@ -13,4 +13,6 @@ public interface DataService {
     public Bet saveBet(Player player, Match match, int goalsForTeam1, int goalsForTeam2);
 
     public Match saveMatch(Match match, int goalsForTeam1, int goalsForTeam2);
+    
+    public int computePoints(Bet bet, Match match);
 }

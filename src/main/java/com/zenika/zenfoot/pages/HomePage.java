@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -143,16 +144,34 @@ public class HomePage extends BasePage {
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
             li.add(new Label("goalsForTeam2"));
-            Player user = ZenFootSession.get().getUser();
-            int betGoalForTeam1 = -1;
+          
+            li.add(buildBetLabel("betResult", match));
+        }
+        
+        private Label buildBetLabel(String wicketId, Match match){
+            boolean isSignedIn = ZenFootSession.get().getUser() != null;
+            String betResult = null;
+            String color = null;
+            Label label = new Label(wicketId);
             int betGoalForTeam2 = -1;
-            if ( user != null ){
-            	Bet bet = betDao.findOrCreate(userDao.find(ZenFootSession.get().getUser().getEmail()), match);
-            	betGoalForTeam1 = bet.getGoalsForTeam1();
-            	betGoalForTeam2 = bet.getGoalsForTeam2();
-            }
-            li.add(new Label("betGoalsForTeam1", new Model(betGoalForTeam1)).setVisible(user != null && betGoalForTeam1 != -1));
-            li.add(new Label("betGoalsForTeam2", new Model(betGoalForTeam2)).setVisible(user != null && betGoalForTeam1 != -1));
+            if ( isSignedIn ){
+            	Bet bet = betDao.find(userDao.find(ZenFootSession.get().getUser().getEmail()), match);
+            	if ( bet != null && bet.isBetSet() ){
+	            	betResult = bet.getGoalsForTeam1() + " - " +  bet.getGoalsForTeam2(); 
+	            	int points = dataService.computePoints(bet, match);
+	            	if ( points == 3 ){
+	             		color = "green";
+	             	} else if ( points == 1 ){
+	            		color = "orange";
+	            	} else if ( points == 0 ){
+	            		color = "red";
+	            	} 
+	            	label.setDefaultModel(new Model(betResult));
+	            	label.add(new SimpleAttributeModifier("class", color));
+            	}
+            }  
+            label.setVisible(isSignedIn && betResult != null);
+            return label;
         }
     }
 
