@@ -214,6 +214,10 @@
                 </excludes>
             </resource>
             <resource>
+                <filtering>false</filtering>
+                <directory>src/main/sql</directory>
+            </resource>
+            <resource>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**</include>
