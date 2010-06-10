@@ -3,14 +3,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
-        <title>ZenFoot | Les paris sont ouvert pour le Mondial 2010</title>
+        <title wicket:id="headerTitle">ZenFoot</title>
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
         <div id="container">
             <div id="header">
-                <h1>ZenFoot</h1>
-                <h2>Mondial 2010 - Les paris sont ouvert</h2>
+                <h1><span wicket:id="title">ZenFoot</span></h1>
+                <h2><span wicket:id="subtitle">Mondial 2010 - Les paris sont ouvert</span></h2>
             </div>
 
             <div id="linkbar">
@@ -27,7 +27,9 @@
                 <wicket:child/>
 
                 <div id="footer">
-                    ZenFoot v1.0 by Olivier & Maghen for Zenika | <a href="http://www.zenika.com">www.zenika.com</a>
+                    <span wicket:id="appName">ZenFoot</span> v<span wicket:id="version" >[Version]</span> by Olivier & Maghen for Zenika | <a href="http://www.zenika.com">www.zenika.com</a>
+                    <div style="clear:both;"></div>
+                    <span wicket:id="buildNumber" style="color:white;float: right;margin-top:-21px">[BuildNumber]</span>
                 </div>
             </div>
 

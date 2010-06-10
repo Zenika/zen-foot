@@ -22,11 +22,14 @@ import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.service.account.AccountService;
+import java.util.Properties;
 
 public class BasePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
     transient Logger logger = LoggerFactory.getLogger(BasePage.class);
+    @SpringBean
+    private Properties applicationProperties;
     @SpringBean
     private AccountService accountService;
     @SpringBean
@@ -40,6 +43,12 @@ public class BasePage extends WebPage {
         add(new LoginForm("loginForm"));
         add(loggedUser("loggedUser"));
         add(logout("logout"));
+        add(new Label("headerTitle", applicationProperties.getProperty("application.title")+" | "+applicationProperties.getProperty("application.subtitle")));
+        add(new Label("appName", applicationProperties.getProperty("application.title")));
+        add(new Label("title", applicationProperties.getProperty("application.title")));
+        add(new Label("subtitle", applicationProperties.getProperty("application.subtitle")));
+        add(new Label("version", applicationProperties.getProperty("application.version")));
+        add(new Label("buildNumber", applicationProperties.getProperty("pom.build.number")));
     }
 
     public static boolean userIsAdmin() {
