@@ -1,7 +1,5 @@
 
 === URGENT
-- Enlever le CEST "z"
-
 - Ajouter le CRUD sur les teams
 
 - Ajouter une page de feedback [Une question ? Une remarque !]
@@ -43,6 +41,7 @@
 -- différencier les titres grisé
 
 === DONE
+- Enlever le CEST "z"
 - ajouter nos paris dans liste matchs en cours
 - ajouter nos paris dans liste matchs passe
 - production mode
