@@ -38,12 +38,13 @@ public class BasePage extends WebPage {
     public BasePage() {
         add(new BookmarkablePageLink("homePage", HomePage.class));
         add(new BookmarkablePageLink("rulesPage", RulesPage.class));
+        add(new BookmarkablePageLink("feedbackPage", FeedbackPage.class).setVisible(ZenFootSession.get().isSignedIn()));
         add(new BookmarkablePageLink("adminPage", AdminPage.class).setVisible(ZenFootSession.get().getRoles().hasRole(Roles.ADMIN)));
 
         add(new LoginForm("loginForm"));
         add(loggedUser("loggedUser"));
         add(logout("logout"));
-        add(new Label("headerTitle", applicationProperties.getProperty("application.title")+" | "+applicationProperties.getProperty("application.subtitle")));
+        add(new Label("headerTitle", applicationProperties.getProperty("application.title") + " | " + applicationProperties.getProperty("application.subtitle")));
         add(new Label("appName", applicationProperties.getProperty("application.title")));
         add(new Label("title", applicationProperties.getProperty("application.title")));
         add(new Label("subtitle", applicationProperties.getProperty("application.subtitle")));

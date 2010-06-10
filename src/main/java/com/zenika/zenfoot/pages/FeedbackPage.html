@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<wicket:extend>
+    <div id="sub_left">
+        <h3>FAQ</h3>
+        <p><b>Comment je valide mes paris ?</b></p>
+        <p>C'est automatique... mais pour être sûr vous pouvez soit quitter le champ soit appuyer sur la touche entrée tout simplement.<br/>
+            Une petite animation rouge vous indique que votre changement est bien pris en compte.</p>
+    </div>
+    <!--
+        <div id="sub_right">
+        </div>
+    -->
+    <div style="margin-left: 35%;">
+        <h3>Laissez nous un message...</h3>
+        <form wicket:id="feedbackForm">
+            <p><textarea wicket:id="feedbackMessage" cols="48" rows="8"></textarea></p>
+            <div wicket:id="errors"></div>
+            <p><input type="submit" value="Envoyer le message" class="button"/></p>
+        </form>
+    </div>
+</wicket:extend>

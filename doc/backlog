@@ -1,8 +1,5 @@
 
 === URGENT
-- Ajouter une page de feedback [Une question ? Une remarque !]
-- FAQ under Feedback
--- Comment valider mes paris ?
 
 === NOW
 - Ajouter un champ String "comments" sur un Match ou on peut remplir par exemple (TAB 2:3)
@@ -36,6 +33,8 @@
 -- différencier les titres grisé
 
 === DONE
+- Ajouter une page de feedback [Une question ? Une remarque !]
+- FAQ under Feedback -- Comment valider mes paris ?
 - afficher la version dans le footer en le lisant depuis le properties ! ainsi que le titre et sous titre...
 - Ajouter le CRUD sur les teams
 - Précisez dans les règles si les buts sont 1. fin de matchs, 2. prolongation, 3. penalty => On décide que 2. Prolongation

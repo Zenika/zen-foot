@@ -11,13 +11,11 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import org.slf4j.Logger;
@@ -27,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * Facility to send email out of velocity templates.
  */
 public class DefaultEmailService implements EmailService {
+
     static final private Logger logger = LoggerFactory.getLogger(DefaultEmailService.class);
     protected JavaMailSender javaMailSender;
     protected VelocityEngine velocityEngine;
@@ -119,6 +118,7 @@ public class DefaultEmailService implements EmailService {
     @Override
     public void sendEmailAsynchronously(final String toEmail, final String fromEmail, final String templateFolder, final Map<String, Object> templateContext) {
         (new Thread() {
+
             @Override
             public void run() {
                 try {

@@ -94,6 +94,15 @@ public class DefaultAccountService implements AccountService {
     }
 
     @Override
+    public void feedback(Player user, String message) {
+        Map<String, Object> templateContext = new HashMap<String, Object>();
+        templateContext.put("appUrl", appUrl);
+        templateContext.put("userEmail", user.getEmail());
+        templateContext.put("message", message);
+        emailService.sendEmailAsynchronously(adminEmail, adminEmail, VELOCITY_EMAILS + "feedback", templateContext);
+    }
+
+    @Override
     public void setAppUrl(String appUrl) {
         this.appUrl = appUrl;
     }

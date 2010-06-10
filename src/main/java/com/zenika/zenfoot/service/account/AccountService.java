@@ -14,4 +14,6 @@ public interface AccountService {
     public void setAdminEmail(String adminEmail);
 
     public void setAppUrl(String appUrl);
+
+    public void feedback(Player user, String message);
 }
