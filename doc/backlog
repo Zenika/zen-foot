@@ -23,6 +23,7 @@
 -- Comment valider mes paris ?
 
 === LATER
+- change password
 - refactoring wicket
 - Sectionner la liste des matchs
 - Remettre en service l'inscription par email (desactiver l'inscription automagique !)
