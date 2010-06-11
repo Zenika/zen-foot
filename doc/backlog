@@ -7,6 +7,7 @@
 - Mettre la date au début de incoming matches
 - Ajouter un champ String "comments" sur un Match ou on peut remplir par exemple (TAB 2:3)
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
+- une icone de point d'interrogation qui fasse surgir une bulle d'aide, avec ton texte de la FAQ . . .
 
 === LATER
 - Ajouter un bouton "Valider/Rafraichir mes paris" avec une icône sympa

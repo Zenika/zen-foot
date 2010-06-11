@@ -79,7 +79,7 @@ public class AdminPage extends BasePage {
             li.add(new Label("team1.name"));
             li.add(new Flag("team2.imageName", new Model(match.getTeam2().getImageName())));
             li.add(new Label("team2.name"));
-            li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm z", Locale.FRANCE).format(match.getKickoff()))));
+            li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm", Locale.FRANCE).format(match.getKickoff()))));
             li.add(new ConfirmLink<Match>("deleteLink", li.getModel()) {
 
                 @Override
