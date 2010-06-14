@@ -23,6 +23,7 @@
         <h3>Matchs à venir - Prenez les paris !</h3>
         <table style="white-space: nowrap">
             <tr wicket:id="incomingMatchList">
+            	<td style="padding-right: 10px"><span wicket:id="kickoff">1 juin 10:30 GMT</span></td>
                 <td><img wicket:id="team1.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team1.name">USA</span></td>
                 <td>&nbsp;-&nbsp;</td>
                 <td><img wicket:id="team2.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team2.name">Italie</span></td>
@@ -33,7 +34,6 @@
                         <input type="text" wicket:id="goalsForTeam2" class="betinput" />
                     </form>
                     &nbsp;
-                    <span wicket:id="kickoff">1 juin 10:30 GMT</span>
                 </td>
             </tr>
         </table>
@@ -41,6 +41,7 @@
         <h3>Matchs en cours...</h3>
         <table style="white-space: nowrap">
             <tr wicket:id="runningMatchList">
+            	<td style="padding-right: 10px"><span wicket:id="kickoff">1 juin 10:30 GMT</span></td>
                 <td><img wicket:id="team1.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team1.name">USA</span></td>
                 <td>&nbsp;-&nbsp;</td>
                 <td><img wicket:id="team2.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team2.name">USA</span></td>
@@ -51,7 +52,6 @@
                         &nbsp;:&nbsp;
                         <input type="text" wicket:id="goalsForTeam2" class="betinput" />
                     </form>
-                    <span wicket:id="kickoff">1 juin 10:30 GMT</span>
                 </td>
                 <wicket:enclosure child="betGoalsForTeam1">
               		<td>&nbsp;|&nbsp;</td>
