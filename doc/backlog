@@ -2,6 +2,7 @@
 === URGENT
 
 === NOW
+- Setter correctement le champ Reply-To des mails lorsqu'un utilisateur nous ecrit depuis le module de Feedback
 - Formulaire d'envoi de mail pour l'admin -> chaque player
 - Remettre en service l'inscription par email (desactiver l'inscription automagique !)
 - Mettre la date au début de incoming matches
