@@ -12,12 +12,14 @@
         <ul class="allOfFame" wicket:id="userListWrapper">
             <li wicket:id="userList">
                 <img wicket:id="medal"/>
-                <span wicket:id="points">[20]</span>pts&nbsp;-&nbsp;<span wicket:id="alias">[User Alias]</span>
+                <span wicket:id="points">[20]</span>pts&nbsp;-&nbsp;<a wicket:id="link" href="#"><span wicket:id="alias">[User Alias]</span></a>
             </li>
         </ul>
         <p/>
         <a wicket:id="updatePts" href="#">Mettre à jour les points</a>
     </div>
+
+	<div wicket:id="modal"></div>
 
     <div id="sub_right">
         <h3>Matchs à venir - Prenez les paris !</h3>

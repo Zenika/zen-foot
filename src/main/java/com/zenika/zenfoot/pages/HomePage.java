@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -48,18 +50,40 @@ public class HomePage extends BasePage {
 
     public HomePage(final PageParameters parameters) {
         InjectorHolder.getInjector().inject(this);
+        ModalWindow modal = buildModalWindow("modal");
+        BetMatchPanel betMatchPanel = buildBetMatchPanel(modal);
         add(updatePts("updatePts"));
         add(labelFooter("footer"));
         userListWrapper = new WebMarkupContainer("userListWrapper");
         userListWrapper.setOutputMarkupId(true);
-        userListWrapper.add(new UserList("userList"));
+        userListWrapper.add(new UserList("userList",modal, betMatchPanel));
         add(userListWrapper);
         add(new IncomingMatchList("incomingMatchList"));
         add(new PastMatchList("pastMatchList"));
         add(new RunningMatchList("runningMatchList"));
+        add(modal);
     }
     
-    private Label labelFooter(String id) {
+    private ModalWindow buildModalWindow(String id) {
+    	final ModalWindow modal = new ModalWindow("modal");
+    	modal.setCssClassName(ModalWindow.CSS_CLASS_GRAY);
+    	modal.setMaskType(ModalWindow.MaskType.TRANSPARENT);
+    	modal.setWidthUnit("px");
+    	modal.setResizable(false);
+    	modal.setUseInitialHeight(false);
+    	modal.setCookieName("wicket-tips/styledModal");
+        return modal;
+    }
+    
+    private BetMatchPanel buildBetMatchPanel(ModalWindow modal){
+        BetMatchPanel betMatchPanel = new BetMatchPanel(modal.getContentId());
+		modal.setContent(betMatchPanel );
+		return betMatchPanel;
+    }
+
+
+
+	private Label labelFooter(String id) {
     	Label footer = new Label(id,"* Paris que vous avez effectués") {
 
             @Override
@@ -88,9 +112,14 @@ public class HomePage extends BasePage {
     }
 
     public class UserList extends ListView<Player> {
+    	
+    	private ModalWindow modal;
+		private BetMatchPanel betMatchPanel;
 
-        public UserList(String id) {
+        public UserList(String id, ModalWindow modal, BetMatchPanel betMatchPanel) {
             super(id, new UserListModel());
+            this.modal = modal;
+            this.betMatchPanel = betMatchPanel;
             setOutputMarkupId(true);
         }
 
@@ -100,8 +129,30 @@ public class HomePage extends BasePage {
             li.setModel(new CompoundPropertyModel<Player>(user));
             li.add(new StaticImage("medal", new Model("medal" + li.getIndex() + ".png")).setVisible(li.getIndex() < 3 && user.getPoints() > 0));
             li.add(new Label("points"));
-            li.add(new Label("alias"));
+            li.add(buildLink("link", user));
         }
+
+        private AjaxLink<?> buildLink(String id, final Player user) {
+        	AjaxLink<?> aliasLink = new AjaxLink<Long>(id) {
+        		
+        		
+        		@Override
+        		public boolean isEnabled() {
+        			return ZenFootSession.get().getUser() != null;
+        		}
+
+				@Override
+				public void onClick(AjaxRequestTarget target) {
+					betMatchPanel.setUser(user);
+					modal.setTitle("Pari de "+user.getAlias());
+					modal.show(target);
+				}
+        		
+        	};
+        	aliasLink.add(new Label("alias"));
+        	return aliasLink;
+        }
+        
     }
 
     public class IncomingMatchList extends ListView<Match> {
