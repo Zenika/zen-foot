@@ -1,6 +1,8 @@
 package com.zenika.zenfoot.service;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.zenika.zenfoot.dao.BetDao;
 import com.zenika.zenfoot.dao.GameDao;
@@ -8,8 +10,6 @@ import com.zenika.zenfoot.dao.UserDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Player;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DefaultDataService implements DataService {
 
@@ -68,10 +68,11 @@ public class DefaultDataService implements DataService {
     }
 
     @Override
-    public Match saveMatch(Match match, int goalsForTeam1, int goalsForTeam2) {
+    public Match saveMatch(Match match, int goalsForTeam1, int goalsForTeam2, String comments) {
         Match m = matchDao.load(match.getId());
         m.setGoalsForTeam1(goalsForTeam1);
         m.setGoalsForTeam2(goalsForTeam2);
+        m.setComments(comments);
         matchDao.save(m);
         updateUserPoints();
         return m;

@@ -24,6 +24,7 @@ CREATE TABLE matches (
  ,kickoff	DATETIME    	NOT NULL
  ,goals_team_1  INTEGER         NOT NULL DEFAULT -1
  ,goals_team_2  INTEGER         NOT NULL DEFAULT -1
+ ,comments  VARCHAR(255)        DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0;
 
 CREATE TABLE bets (

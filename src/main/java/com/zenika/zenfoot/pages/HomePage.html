@@ -47,12 +47,14 @@
                 <td><img wicket:id="team1.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team1.name">USA</span></td>
                 <td>&nbsp;-&nbsp;</td>
                 <td><img wicket:id="team2.imageName" alt="[FLAG]" src="images/delete.png"/> <span wicket:id="team2.name">USA</span></td>
-                <td>&nbsp;:&nbsp;</td>
                 <td>
                     <form wicket:id="matchAjaxForm" style="display: inline;">
+		                &nbsp;:&nbsp;
                         <input type="text" wicket:id="goalsForTeam1" class="betinput" />
                         &nbsp;:&nbsp;
                         <input type="text" wicket:id="goalsForTeam2" class="betinput" />
+                        &nbsp;&nbsp;
+                        <input type="text" wicket:id="comments" class="comments" />
                     </form>
                 </td>
                 <wicket:enclosure child="betGoalsForTeam1">
@@ -75,6 +77,8 @@
                 <td style="font-weight: 700"><span wicket:id="goalsForTeam1">3</span></td>
                 <td style="font-weight: 700">&nbsp;-&nbsp;</td>
                 <td style="font-weight: 700"><span wicket:id="goalsForTeam2">0</span></td>
+                <td style="font-weight: 700">&nbsp;&nbsp;</td>
+                <td style="font-weight: 500"><span wicket:id="comments">blabla</span></td>
                 <wicket:enclosure child="betResult">
               		<td>&nbsp;|&nbsp;</td>
                		<td style="font-weight: 700; font-style:italic"><span wicket:id="betResult">3</span></td>

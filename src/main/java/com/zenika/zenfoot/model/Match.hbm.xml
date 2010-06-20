@@ -13,5 +13,6 @@
         <property name="kickoff" not-null="true" />
         <property name="goalsForTeam1" column="goals_team_1" not-null="true"/>
         <property name="goalsForTeam2" column="goals_team_2" not-null="true"/>
+        <property name="comments" column="comments" not-null="false"/>
     </class>
 </hibernate-mapping>

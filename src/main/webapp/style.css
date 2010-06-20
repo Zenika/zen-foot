@@ -224,6 +224,13 @@ a:active {
     padding:2px;
 }
 
+.comments {
+    width:60px;
+    margin:1px;
+    border: 1px solid #5f1c23;
+    padding:2px;
+}
+
 /********************* FEEDBACK */
 .feedbackPanel {
     width: 170px;

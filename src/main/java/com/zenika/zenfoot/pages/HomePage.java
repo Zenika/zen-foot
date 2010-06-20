@@ -195,7 +195,7 @@ public class HomePage extends BasePage {
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
             li.add(new Label("goalsForTeam2"));
-          
+            li.add(new Label("comments"));
             li.add(buildBetLabel("betResult", match));
         }
         
@@ -246,7 +246,7 @@ public class HomePage extends BasePage {
             int betGoalForTeam1 = -1;
             int betGoalForTeam2 = -1;
             if ( user != null ){
-            	Bet bet = betDao.findOrCreate(userDao.find(ZenFootSession.get().getUser().getEmail()), match);
+            	Bet bet = betDao.findOrCreate(userDao.find(user.getEmail()), match);
             	betGoalForTeam1 = bet.getGoalsForTeam1();
             	betGoalForTeam2 = bet.getGoalsForTeam2();
             }
@@ -350,6 +350,7 @@ public class HomePage extends BasePage {
         public static final String ONKEYEVENT = "onchange";
         private String goalsForTeam1;
         private String goalsForTeam2;
+        private String comments = null;
 
         String parse(int goalAsInt) {
             return goalAsInt < 0 ? null : String.valueOf(goalAsInt);
@@ -373,7 +374,7 @@ public class HomePage extends BasePage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2));
+                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2), comments);
                     goalsForTeam1 = parse(m.getGoalsForTeam1());
                     target.addComponent(goal1);
                     target.addComponent(userListWrapper);
@@ -386,7 +387,20 @@ public class HomePage extends BasePage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2));
+                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2), comments);
+                    goalsForTeam2 = parse(m.getGoalsForTeam2());
+                    target.addComponent(goal2);
+                    target.addComponent(userListWrapper);
+                    target.appendJavascript("new Effect.Highlight($('" + goal2.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
+                }
+            });
+            final TextField commentsField = new TextField("comments", new PropertyModel(MatchAjaxForm.this, "comments"));
+            commentsField.setOutputMarkupId(true);
+            commentsField.add(new AjaxFormComponentUpdatingBehavior(ONKEYEVENT) {
+
+                @Override
+                protected void onUpdate(AjaxRequestTarget target) {
+                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2), comments);
                     goalsForTeam2 = parse(m.getGoalsForTeam2());
                     target.addComponent(goal2);
                     target.addComponent(userListWrapper);
@@ -395,6 +409,7 @@ public class HomePage extends BasePage {
             });
             add(goal1);
             add(goal2);
+            add(commentsField);
         }
     }
 

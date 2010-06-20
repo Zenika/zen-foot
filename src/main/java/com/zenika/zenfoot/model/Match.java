@@ -10,6 +10,7 @@ public class Match extends AbstractModel implements Serializable, Comparable<Mat
     private Date kickoff;
     private int goalsForTeam1 = -1;
     private int goalsForTeam2 = -1;
+    private String comments = null;
 
     public Match() {
     }
@@ -107,4 +108,13 @@ public class Match extends AbstractModel implements Serializable, Comparable<Mat
         hash = 23 * hash + (this.kickoff != null ? this.kickoff.hashCode() : 0);
         return hash;
     }
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
 }
