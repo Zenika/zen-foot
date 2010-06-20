@@ -2,10 +2,10 @@
 === URGENT
 
 === NOW
+- Mettre une 'flèche' permettant de voir les montées et descentes sur le classement des joueurs
 - Setter correctement le champ Reply-To des mails lorsqu'un utilisateur nous ecrit depuis le module de Feedback
 - Formulaire d'envoi de mail pour l'admin -> chaque player
 - Remettre en service l'inscription par email (desactiver l'inscription automagique !)
-- Mettre la date au début de incoming matches
 - Ajouter un champ String "comments" sur un Match ou on peut remplir par exemple (TAB 2:3)
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - une icone de point d'interrogation qui fasse surgir une bulle d'aide, avec ton texte de la FAQ . . .
@@ -30,6 +30,8 @@
 -- différencier les titres grisé
 
 === DONE
+- Voir les paris des autres joueurs sur les 'running/past' matchs
+- Mettre la date au début de incoming matches
 - Vérifier les CASCADE hibernate en particulier lors de la suppression d'un user ou d'une team
 -- DELETE Bet -> rien
 -- DELETE Player -> DELETE Bet
