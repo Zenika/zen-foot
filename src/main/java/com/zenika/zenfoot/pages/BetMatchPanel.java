@@ -24,7 +24,7 @@ import com.zenika.zenfoot.pages.common.Flag;
 import com.zenika.zenfoot.service.DataService;
 
 public class BetMatchPanel extends Panel {
-	
+
     @SpringBean
     private UserDao userDao;
     @SpringBean
@@ -33,22 +33,22 @@ public class BetMatchPanel extends Panel {
     private BetDao betDao;
     @SpringBean
     private DataService dataService;
-	private Player user;
+    private Player user;
 
-	public BetMatchPanel(String id) {
-		super(id);
-		InjectorHolder.getInjector().inject(this);
+    public BetMatchPanel(String id) {
+        super(id);
+        InjectorHolder.getInjector().inject(this);
         add(new PastMatchList("pastMatchList"));
         add(new RunningMatchList("runningMatchList"));
 
-	}
-	
+    }
+
     public class PastMatchList extends ListView<Match> {
 
         public PastMatchList(String id) {
             super(id, new PastMatchListModel());
         }
-        
+
         String parse(int goalAsInt) {
             return goalAsInt < 0 ? null : String.valueOf(goalAsInt);
         }
@@ -64,32 +64,31 @@ public class BetMatchPanel extends Panel {
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM").format(match.getKickoff()))));
             li.add(new Label("goalsForTeam1"));
             li.add(new Label("goalsForTeam2"));
-          
+
             li.add(buildBetLabel("betResult", match));
         }
-        
-        private Label buildBetLabel(String wicketId, Match match){
+
+        private Label buildBetLabel(String wicketId, Match match) {
             boolean isSignedIn = user != null;
             String betResult = null;
             String color = null;
             Label label = new Label(wicketId);
-            int betGoalForTeam2 = -1;
-            if ( isSignedIn ){
-            	Bet bet = betDao.find(userDao.find(user.getEmail()), match);
-            	if ( bet != null && bet.isBetSet() ){
-	            	betResult = bet.getGoalsForTeam1() + " - " +  bet.getGoalsForTeam2(); 
-	            	int points = dataService.computePoints(bet, match);
-	            	if ( points == 3 ){
-	             		color = "green";
-	             	} else if ( points == 1 ){
-	            		color = "orange";
-	            	} else if ( points == 0 ){
-	            		color = "red";
-	            	} 
-	            	label.setDefaultModel(new Model(betResult));
-	            	label.add(new SimpleAttributeModifier("class", color));
-            	}
-            }  
+            if (isSignedIn) {
+                Bet bet = betDao.find(userDao.find(user.getEmail()), match);
+                if (bet != null && bet.isBetSet()) {
+                    betResult = bet.getGoalsForTeam1() + " - " + bet.getGoalsForTeam2();
+                    int points = dataService.computePoints(bet, match);
+                    if (points == 3) {
+                        color = "green";
+                    } else if (points == 1) {
+                        color = "orange";
+                    } else if (points == 0) {
+                        color = "red";
+                    }
+                    label.setDefaultModel(new Model(betResult));
+                    label.add(new SimpleAttributeModifier("class", color));
+                }
+            }
             label.setVisible(isSignedIn && betResult != null);
             return label;
         }
@@ -112,16 +111,15 @@ public class BetMatchPanel extends Panel {
             li.add(new Label("kickoff", new Model<String>(new SimpleDateFormat("d MMM H:mm").format(match.getKickoff()))));
             int betGoalForTeam1 = -1;
             int betGoalForTeam2 = -1;
-            if ( user != null ){
-            	Bet bet = betDao.findOrCreate(userDao.find(user.getEmail()), match);
-            	betGoalForTeam1 = bet.getGoalsForTeam1();
-            	betGoalForTeam2 = bet.getGoalsForTeam2();
+            if (user != null) {
+                Bet bet = betDao.findOrCreate(userDao.find(user.getEmail()), match);
+                betGoalForTeam1 = bet.getGoalsForTeam1();
+                betGoalForTeam2 = bet.getGoalsForTeam2();
             }
             li.add(new Label("betGoalsForTeam1", new Model(betGoalForTeam1)).setVisible(user != null && betGoalForTeam1 != -1));
             li.add(new Label("betGoalsForTeam2", new Model(betGoalForTeam2)).setVisible(user != null && betGoalForTeam1 != -1));
         }
     }
-
 
     public class RunningMatchListModel extends LoadableDetachableModel<List<? extends Match>> {
 
@@ -138,9 +136,8 @@ public class BetMatchPanel extends Panel {
             return gameDao.findPast();
         }
     }
-    
-    public void setUser(Player user){
-    	this.user = user;
-    }
 
+    public void setUser(Player user) {
+        this.user = user;
+    }
 }

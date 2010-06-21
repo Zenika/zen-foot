@@ -68,9 +68,10 @@ public class HomePage extends BasePage {
     	final ModalWindow modal = new ModalWindow("modal");
     	modal.setCssClassName(ModalWindow.CSS_CLASS_GRAY);
     	modal.setMaskType(ModalWindow.MaskType.TRANSPARENT);
-    	modal.setWidthUnit("px");
-    	modal.setResizable(false);
     	modal.setUseInitialHeight(false);
+    	modal.setResizable(false);
+    	modal.setWidthUnit("px");
+    	modal.setInitialWidth(500);
     	modal.setCookieName("wicket-tips/styledModal");
         return modal;
     }
@@ -144,7 +145,7 @@ public class HomePage extends BasePage {
 				@Override
 				public void onClick(AjaxRequestTarget target) {
 					betMatchPanel.setUser(user);
-					modal.setTitle("Pari de "+user.getAlias());
+					modal.setTitle("Paris de "+user.getAlias());
 					modal.show(target);
 				}
         		
@@ -400,11 +401,9 @@ public class HomePage extends BasePage {
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target) {
-                    Match m = dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2), comments);
-                    goalsForTeam2 = parse(m.getGoalsForTeam2());
-                    target.addComponent(goal2);
-                    target.addComponent(userListWrapper);
-                    target.appendJavascript("new Effect.Highlight($('" + goal2.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
+                    dataService.saveMatch(match, parse(goalsForTeam1), parse(goalsForTeam2), comments);
+                    target.addComponent(commentsField);
+                    target.appendJavascript("new Effect.Highlight($('" + commentsField.getMarkupId(true) + "'), { startcolor: '#ff0000',endcolor: '#ffffff' });");
                 }
             });
             add(goal1);

@@ -1,0 +1,1 @@
+ALTER TABLE matches ADD comments VARCHAR(255);
