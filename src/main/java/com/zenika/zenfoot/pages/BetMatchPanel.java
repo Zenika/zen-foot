@@ -15,8 +15,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.zenika.zenfoot.dao.BetDao;
-import com.zenika.zenfoot.dao.GameDao;
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.MatchDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Player;
@@ -26,9 +26,9 @@ import com.zenika.zenfoot.service.DataService;
 public class BetMatchPanel extends Panel {
 
     @SpringBean
-    private UserDao userDao;
+    private PlayerDao userDao;
     @SpringBean
-    private GameDao gameDao;
+    private MatchDao gameDao;
     @SpringBean
     private BetDao betDao;
     @SpringBean

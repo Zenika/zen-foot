@@ -1,6 +1,6 @@
 package com.zenika.zenfoot.dao.mock;
 
-import com.zenika.zenfoot.dao.GameDao;
+import com.zenika.zenfoot.dao.MatchDao;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 import static com.zenika.zenfoot.dao.mock.MockUtil.matchs;
 import static com.zenika.zenfoot.dao.mock.MockUtil.persist;
 
-public class MockGameDao implements GameDao {
+public class MockGameDao implements MatchDao {
     public List<Match> find() {
         return matchs();
     }

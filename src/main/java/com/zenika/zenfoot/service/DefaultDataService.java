@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zenika.zenfoot.dao.BetDao;
-import com.zenika.zenfoot.dao.GameDao;
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.MatchDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Player;
@@ -14,9 +14,9 @@ import com.zenika.zenfoot.model.Player;
 public class DefaultDataService implements DataService {
 
     Logger logger = LoggerFactory.getLogger(DefaultDataService.class);
-    private UserDao userDao;
+    private PlayerDao userDao;
     private BetDao betDao;
-    private GameDao matchDao;
+    private MatchDao matchDao;
 
     @Override
     public void updateUserPoints(Player player) {
@@ -78,11 +78,11 @@ public class DefaultDataService implements DataService {
         return m;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(PlayerDao userDao) {
         this.userDao = userDao;
     }
 
-    public UserDao getUserDao() {
+    public PlayerDao getUserDao() {
         return userDao;
     }
 
@@ -94,11 +94,11 @@ public class DefaultDataService implements DataService {
         return betDao;
     }
 
-    public GameDao getMatchDao() {
+    public MatchDao getMatchDao() {
         return matchDao;
     }
 
-    public void setMatchDao(GameDao matchDao) {
+    public void setMatchDao(MatchDao matchDao) {
         this.matchDao = matchDao;
     }
 }

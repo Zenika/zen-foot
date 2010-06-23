@@ -1,15 +1,15 @@
 package com.zenika.zenfoot.dao.hibernate;
 
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Player;
 import java.util.List;
 import org.hibernate.criterion.Order;
 
 import org.hibernate.criterion.Restrictions;
 
-public class HibernateUserDao extends HibernateDao<Player> implements UserDao {
+public class HibernatePlayerDao extends HibernateDao<Player> implements PlayerDao {
 
-    public HibernateUserDao() {
+    public HibernatePlayerDao() {
         super(Player.class);
     }
 

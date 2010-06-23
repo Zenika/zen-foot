@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.pages;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -19,10 +20,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zenika.zenfoot.ZenFootSession;
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.service.account.AccountService;
 import java.util.Properties;
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AbstractAjaxTimerBehavior;
+import org.apache.wicket.util.time.Duration;
 
 public class BasePage extends WebPage {
 
@@ -33,13 +37,29 @@ public class BasePage extends WebPage {
     @SpringBean
     private AccountService accountService;
     @SpringBean
-    private UserDao userDao;
+    private PlayerDao userDao;
 
     public BasePage() {
         add(new BookmarkablePageLink("homePage", HomePage.class));
         add(new BookmarkablePageLink("rulesPage", RulesPage.class));
         add(new BookmarkablePageLink("feedbackPage", FeedbackPage.class).setVisible(ZenFootSession.get().isSignedIn()));
+        final Component chatLink;
+        add(chatLink = new BookmarkablePageLink("chatPage", ChatPage.class).setVisible(ZenFootSession.get().isSignedIn()));
+        chatLink.setOutputMarkupPlaceholderTag(true);
         add(new BookmarkablePageLink("adminPage", AdminPage.class).setVisible(ZenFootSession.get().getRoles().hasRole(Roles.ADMIN)));
+
+        if (ZenFootSession.get().isSignedIn()) {
+            add(new AbstractAjaxTimerBehavior(Duration.seconds(5)) {
+
+                @Override
+                protected void onTimer(AjaxRequestTarget target) {
+                    if (ZenFootSession.get().newMessages()) {
+                        target.appendJavascript("new Effect.Pulsate($('" + chatLink.getMarkupId(true) + "'), { pulses: 6, duration: 3 });");
+                        target.addComponent(chatLink);
+                    }
+                }
+            });
+        }
 
         add(new LoginForm("loginForm"));
         add(loggedUser("loggedUser"));
@@ -80,11 +100,11 @@ public class BasePage extends WebPage {
         return logout;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(PlayerDao userDao) {
         this.userDao = userDao;
     }
 
-    public UserDao getUserDao() {
+    public PlayerDao getUserDao() {
         return userDao;
     }
 

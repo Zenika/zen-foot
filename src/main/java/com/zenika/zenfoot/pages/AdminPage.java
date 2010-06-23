@@ -31,9 +31,9 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.RangeValidator;
 
-import com.zenika.zenfoot.dao.GameDao;
+import com.zenika.zenfoot.dao.MatchDao;
 import com.zenika.zenfoot.dao.TeamDao;
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
 import com.zenika.zenfoot.model.Player;
@@ -48,11 +48,11 @@ public class AdminPage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     @SpringBean
-    private UserDao userDao;
+    private PlayerDao userDao;
     @SpringBean
     private TeamDao teamDao;
     @SpringBean
-    private GameDao matchDao;
+    private MatchDao matchDao;
     @SpringBean
     private AccountService accountService;
 

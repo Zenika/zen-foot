@@ -26,8 +26,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.zenika.zenfoot.ZenFootSession;
 import com.zenika.zenfoot.dao.BetDao;
-import com.zenika.zenfoot.dao.GameDao;
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.MatchDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Bet;
 import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Player;
@@ -39,9 +39,9 @@ public class HomePage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     @SpringBean
-    private UserDao userDao;
+    private PlayerDao userDao;
     @SpringBean
-    private GameDao gameDao;
+    private MatchDao gameDao;
     @SpringBean
     private BetDao betDao;
     @SpringBean
@@ -413,20 +413,20 @@ public class HomePage extends BasePage {
     }
 
     @Override
-    public UserDao getUserDao() {
+    public PlayerDao getUserDao() {
         return userDao;
     }
 
     @Override
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(PlayerDao userDao) {
         this.userDao = userDao;
     }
 
-    public GameDao getGameDao() {
+    public MatchDao getGameDao() {
         return gameDao;
     }
 
-    public void setGameDao(GameDao gameDao) {
+    public void setGameDao(MatchDao gameDao) {
         this.gameDao = gameDao;
     }
 

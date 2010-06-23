@@ -3,7 +3,7 @@ package com.zenika.zenfoot.dao;
 import com.zenika.zenfoot.model.Player;
 import java.util.List;
 
-public interface UserDao extends BaseDao<Player> {
+public interface PlayerDao extends BaseDao<Player> {
     public List<Player> findActive();
 
     public List<Player> findPending();

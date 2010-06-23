@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 import com.zenika.zenfoot.pages.AdminPage;
+import com.zenika.zenfoot.pages.ChatPage;
 import com.zenika.zenfoot.pages.FeedbackPage;
 import com.zenika.zenfoot.pages.HomePage;
 import com.zenika.zenfoot.pages.RulesPage;
@@ -20,6 +21,7 @@ public class ZenFootApplication extends AuthenticatedWebApplication {
         mountBookmarkablePage("/regles", RulesPage.class);
         mountBookmarkablePage("/contact", FeedbackPage.class);
         mountBookmarkablePage("/admin", AdminPage.class);
+        mountBookmarkablePage("/chat", ChatPage.class);
     }
 
     @Override

@@ -231,6 +231,34 @@ a:active {
     padding:2px;
 }
 
+.chatinput {
+    margin:0 0 0 5px;
+    width:500px;
+    border: 1px solid #5f1c23;
+    padding:2px;
+}
+
+.chatlabel {
+    margin:0 0 0 5px;
+    background-color: white;
+    border: 1px solid #5f1c23;
+    padding:3px 400px 3px 3px;
+    line-height: 1.3em;
+}
+
+.chat-datetime {
+    font-style: italic;
+    color: gray;
+}
+
+.chat-player {
+    font-weight: bold;
+}
+
+.chatlist li {
+    padding:5px;
+}
+
 /********************* FEEDBACK */
 .feedbackPanel {
     width: 170px;

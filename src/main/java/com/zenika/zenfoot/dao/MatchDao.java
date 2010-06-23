@@ -4,7 +4,7 @@ import com.zenika.zenfoot.model.Match;
 import com.zenika.zenfoot.model.Team;
 import java.util.List;
 
-public interface GameDao extends BaseDao<Match> {
+public interface MatchDao extends BaseDao<Match> {
     public List<Match> findIncoming();
 
     public List<Match> findPast();

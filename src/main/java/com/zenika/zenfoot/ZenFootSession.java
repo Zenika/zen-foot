@@ -1,5 +1,6 @@
 package com.zenika.zenfoot;
 
+import com.zenika.zenfoot.dao.MessageDao;
 import java.util.Locale;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -11,14 +12,17 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Player;
 
 public class ZenFootSession extends AuthenticatedWebSession {
 
     private static Logger logger = LoggerFactory.getLogger(ZenFootSession.class);
     @SpringBean
-    private UserDao userDao;
+    private PlayerDao userDao;
+    @SpringBean
+    private MessageDao messageDao;
+    long lastMessageId;
     private Player user = null;
 
     public ZenFootSession(Request request) {
@@ -63,11 +67,27 @@ public class ZenFootSession extends AuthenticatedWebSession {
         return roles;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(PlayerDao userDao) {
         this.userDao = userDao;
     }
 
-    public UserDao getUserDao() {
+    public PlayerDao getUserDao() {
         return userDao;
+    }
+
+    public boolean newMessages() {
+        return lastMessageId != messageDao.findLastOne().getId();
+    }
+
+    public void setLastMessage() {
+        this.lastMessageId = messageDao.findLastOne().getId();
+    }
+
+    public MessageDao getMessageDao() {
+        return messageDao;
+    }
+
+    public void setMessageDao(MessageDao messageDao) {
+        this.messageDao = messageDao;
     }
 }

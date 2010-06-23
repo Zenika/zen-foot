@@ -35,6 +35,7 @@
                 <value>classpath:com/zenika/zenfoot/model/Team.hbm.xml</value>
                 <value>classpath:com/zenika/zenfoot/model/Bet.hbm.xml</value>
                 <value>classpath:com/zenika/zenfoot/model/Match.hbm.xml</value>
+                <value>classpath:com/zenika/zenfoot/model/Message.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -81,6 +82,9 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     <bean id="teamDao" class="com.zenika.zenfoot.dao.hibernate.HibernateTeamDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="messageDao" class="com.zenika.zenfoot.dao.hibernate.HibernateMessageDao">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 

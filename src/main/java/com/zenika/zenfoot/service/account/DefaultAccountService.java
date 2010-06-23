@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Player;
 import com.zenika.zenfoot.service.email.EmailService;
 import com.zenika.zenfoot.util.StringUtil;
@@ -13,7 +13,7 @@ import com.zenika.zenfoot.util.StringUtil;
 public class DefaultAccountService implements AccountService {
 
     public static final String VELOCITY_EMAILS = "velocity/emails/";
-    private UserDao userDao;
+    private PlayerDao userDao;
     private EmailService emailService;
     private String adminEmail = "huber.olivier@gmail.com";
     private String appUrl = "http://zenfoot";
@@ -107,11 +107,11 @@ public class DefaultAccountService implements AccountService {
         this.appUrl = appUrl;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(PlayerDao userDao) {
         this.userDao = userDao;
     }
 
-    public UserDao getUserDao() {
+    public PlayerDao getUserDao() {
         return userDao;
     }
 

@@ -1,6 +1,6 @@
 package com.zenika.zenfoot.dao.mock;
 
-import com.zenika.zenfoot.dao.UserDao;
+import com.zenika.zenfoot.dao.PlayerDao;
 import com.zenika.zenfoot.model.Player;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.List;
 import static com.zenika.zenfoot.dao.mock.MockUtil.users;
 import static com.zenika.zenfoot.dao.mock.MockUtil.persist;
 
-public class MockUserDao implements UserDao {
+public class MockUserDao implements PlayerDao {
     public List<Player> find() {
         List<Player> nonPendingUsers = new ArrayList<Player>();
         for (Player user : users()) {

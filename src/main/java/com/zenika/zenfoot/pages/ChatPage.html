@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<wicket:extend>
+    <!--
+        <div id="sub_left">
+        </div>-->
+    <!--
+        <div id="sub_right">
+        </div>
+    -->
+    <div style="margin-left: 15%;">
+        <div wicket:id="newMessage"></div>
+        <p></p>
+        <ul wicket:id="messageListWrapper" class="chatlist">
+            <li wicket:id="messageList">
+                <span wicket:id="datetime" class="chat-datetime">22 juin</span>&nbsp;
+                <span wicket:id="player.alias" class="chat-player">olivier</span>:
+                <span wicket:id="message">Message</span>
+            </li>
+        </ul>
+    </div>
+</wicket:extend>

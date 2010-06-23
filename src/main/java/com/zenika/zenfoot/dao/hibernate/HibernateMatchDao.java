@@ -5,16 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 
-import com.zenika.zenfoot.dao.GameDao;
+import com.zenika.zenfoot.dao.MatchDao;
 import com.zenika.zenfoot.model.Match;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
-public class HibernateGameDao extends HibernateDao<Match> implements GameDao {
+public class HibernateMatchDao extends HibernateDao<Match> implements MatchDao {
 
-    public HibernateGameDao() {
+    public HibernateMatchDao() {
         super(Match.class);
     }
 
