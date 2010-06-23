@@ -32,11 +32,10 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     public void register(String userEmail, String password) {
-        //TODO REINSTAURER L'INSCRIPTION !!!
         final Player newAutoInscriptionPlayer = new Player(userEmail, DigestUtils.md5Hex(password));
-        newAutoInscriptionPlayer.setPending(false);
+        newAutoInscriptionPlayer.setPending(true);
         userDao.save(newAutoInscriptionPlayer);
-//        notifyUserWithRegistration(userEmail);
+        notifyUserWithRegistration(userEmail);
         notifyAdminWithRegistration(userEmail);
     }
 
@@ -62,35 +61,35 @@ public class DefaultAccountService implements AccountService {
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", userEmail);
         templateContext.put("password", newPassword);
-        emailService.sendEmailAsynchronously(userEmail, adminEmail, VELOCITY_EMAILS + "renewPassword", templateContext);
+        emailService.sendEmailAsynchronously(userEmail, adminEmail, null, VELOCITY_EMAILS + "renewPassword", templateContext);
     }
 
     private void notifyUserWithRegistration(String userEmail) {
         Map<String, Object> templateContext = new HashMap<String, Object>();
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", userEmail);
-        emailService.sendEmailAsynchronously(userEmail, adminEmail, VELOCITY_EMAILS + "registerUser", templateContext);
+        emailService.sendEmailAsynchronously(userEmail, adminEmail, null, VELOCITY_EMAILS + "registerUser", templateContext);
     }
 
     private void notifyAdminWithRegistration(String userEmail) {
         Map<String, Object> templateContext = new HashMap<String, Object>();
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", userEmail);
-        emailService.sendEmailAsynchronously(adminEmail, adminEmail, VELOCITY_EMAILS + "notifyRegistration", templateContext);
+        emailService.sendEmailAsynchronously(adminEmail, adminEmail, null, VELOCITY_EMAILS + "notifyRegistration", templateContext);
     }
 
     private void notifyUserForAcceptance(String userEmail) {
         Map<String, Object> templateContext = new HashMap<String, Object>();
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", userEmail);
-        emailService.sendEmailAsynchronously(userEmail, adminEmail, VELOCITY_EMAILS + "acceptUser", templateContext);
+        emailService.sendEmailAsynchronously(userEmail, adminEmail, null, VELOCITY_EMAILS + "acceptUser", templateContext);
     }
 
     private void notifyUserForRejection(String userEmail) {
         Map<String, Object> templateContext = new HashMap<String, Object>();
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", userEmail);
-        emailService.sendEmailAsynchronously(userEmail, adminEmail, VELOCITY_EMAILS + "rejectUser", templateContext);
+        emailService.sendEmailAsynchronously(userEmail, adminEmail, null, VELOCITY_EMAILS + "rejectUser", templateContext);
     }
 
     @Override
@@ -99,7 +98,7 @@ public class DefaultAccountService implements AccountService {
         templateContext.put("appUrl", appUrl);
         templateContext.put("userEmail", user.getEmail());
         templateContext.put("message", message);
-        emailService.sendEmailAsynchronously(adminEmail, adminEmail, VELOCITY_EMAILS + "feedback", templateContext);
+        emailService.sendEmailAsynchronously(adminEmail, adminEmail, user.getEmail(), VELOCITY_EMAILS + "feedback", templateContext);
     }
 
     @Override

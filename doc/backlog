@@ -3,9 +3,7 @@
 
 === NOW
 - Mettre une 'flèche' permettant de voir les montées et descentes sur le classement des joueurs
-- Setter correctement le champ Reply-To des mails lorsqu'un utilisateur nous ecrit depuis le module de Feedback
 - Formulaire d'envoi de mail pour l'admin -> chaque player
-- Remettre en service l'inscription par email (desactiver l'inscription automagique !)
 - ajouter la possibilité de modifier les résultats d'un match passe pour la partie admin
 - une icone de point d'interrogation qui fasse surgir une bulle d'aide, avec ton texte de la FAQ . . .
 
@@ -20,7 +18,6 @@
 === MAYBE
 - faire la verification qu'une meme equipe ne peut pas jouer deux matchs a la meme date
 - 2 classements (pts - pts pondere par nb paris) !?
-- FORUM intégré
 - Fil de news (ex: Fifa depuis la page d'accueil)
 - Mettre plus en avant les matchs à venir car c'est cela l'interessant
 - Design
@@ -29,6 +26,9 @@
 -- différencier les titres grisé
 
 === DONE
+- Setter correctement le champ Reply-To des mails lorsqu'un utilisateur nous ecrit depuis le module de Feedback
+- FORUM intégré
+- Remettre en service l'inscription par email (desactiver l'inscription automagique !)
 - Ajouter un champ String "comments" sur un Match ou on peut remplir par exemple (TAB 2:3)
 - Voir les paris des autres joueurs sur les 'running/past' matchs
 - Mettre la date au début de incoming matches

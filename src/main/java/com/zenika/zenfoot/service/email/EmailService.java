@@ -23,7 +23,7 @@ public interface EmailService {
      * @param templateContext - context passed to the velocity engine.
      * @throws EmailNotSentException
      */
-    void sendEmail(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext) throws MailException;
+    void sendEmail(String toEmail, String fromEmail, String replyTo, String templateFolder, Map<String, Object> templateContext) throws MailException;
 
     /**
      * Same as sendEmail but launch a separate thread.
@@ -34,5 +34,5 @@ public interface EmailService {
      * @param templateContext
      * @throws EmailNotSentException
      */
-    void sendEmailAsynchronously(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext);
+    void sendEmailAsynchronously(String toEmail, String fromEmail, String replyTo, String templateFolder, Map<String, Object> templateContext);
 }

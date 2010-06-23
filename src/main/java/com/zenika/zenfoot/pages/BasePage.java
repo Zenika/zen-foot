@@ -182,16 +182,8 @@ public class BasePage extends WebPage {
                     } else {
                         try {
                             accountService.register(email, password);
-                            //TODO REINSTAURER L'INSCRIPTION !!!
-//                            info("Merci !");
-//                            info("Nous vous contacterons par mail très prochainement à l'adresse " + email);
-                            if (ZenFootSession.get().signIn(email, password)) {
-                                if (!continueToOriginalDestination()) {
-                                    setResponsePage(getApplication().getHomePage());
-                                }
-                            } else {
-                                error("Email/Mot de passe incorrect !");
-                            }
+                            info("Merci !");
+                            info("Nous vous contacterons par mail très prochainement à l'adresse " + email);
                         } catch (Exception e) {
                             error("Impossible de vous enregistrer avec l'adresse " + email);
                         }

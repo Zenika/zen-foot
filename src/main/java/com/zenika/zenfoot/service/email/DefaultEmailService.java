@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import org.apache.commons.lang.StringUtils;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
@@ -51,7 +52,7 @@ public class DefaultEmailService implements EmailService {
      * @param templateContext - context passed to the velocity engine.
      */
     @Override
-    public void sendEmail(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext) throws MailException {
+    public void sendEmail(String toEmail, String fromEmail, String replyTo, String templateFolder, Map<String, Object> templateContext) throws MailException {
         AssertUtil.hasLength(toEmail);
         AssertUtil.hasLength(fromEmail);
         AssertUtil.hasLength(templateFolder);
@@ -70,7 +71,7 @@ public class DefaultEmailService implements EmailService {
         }
 
         // construct the message
-        MimeMessage mm = buildMimeMessage(toEmail, fromEmail, templateContext, subjectTemplate, textBodyTemplate, htmlBodyTemplate);
+        MimeMessage mm = buildMimeMessage(toEmail, fromEmail, replyTo, templateContext, subjectTemplate, textBodyTemplate, htmlBodyTemplate);
 
         // send the prepared message
         javaMailSender.send(mm);
@@ -80,7 +81,7 @@ public class DefaultEmailService implements EmailService {
         }
     }
 
-    private MimeMessage buildMimeMessage(String toEmail, String fromEmail, Map<String, Object> templateContext, String subjectTemplate,
+    private MimeMessage buildMimeMessage(String toEmail, String fromEmail, String replyTo, Map<String, Object> templateContext, String subjectTemplate,
             String textBodyTemplate, String htmlBodyTemplate) {
 
         MimeMessage mm = javaMailSender.createMimeMessage();
@@ -102,6 +103,9 @@ public class DefaultEmailService implements EmailService {
             // create mime message
             mmh.setTo(toEmail);
             mmh.setFrom(fromEmail);
+            if (StringUtils.isNotBlank(replyTo)) {
+                mmh.setReplyTo(replyTo);
+            }
             mmh.setSubject(subject);
             mmh.setText(textBody, htmlBody);
             return mm;
@@ -116,13 +120,13 @@ public class DefaultEmailService implements EmailService {
      * Same as sendEmail but in a separate thread.
      */
     @Override
-    public void sendEmailAsynchronously(final String toEmail, final String fromEmail, final String templateFolder, final Map<String, Object> templateContext) {
+    public void sendEmailAsynchronously(final String toEmail, final String fromEmail, final String replyTo, final String templateFolder, final Map<String, Object> templateContext) {
         (new Thread() {
 
             @Override
             public void run() {
                 try {
-                    sendEmail(toEmail, fromEmail, templateFolder, templateContext);
+                    sendEmail(toEmail, fromEmail, replyTo, templateFolder, templateContext);
                 } catch (Exception e) {
                     if (logger.isErrorEnabled()) {
                         logger.error("Could not send email from a separate thread. toEmail=" + toEmail, e);

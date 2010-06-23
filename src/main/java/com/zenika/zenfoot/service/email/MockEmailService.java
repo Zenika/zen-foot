@@ -23,7 +23,7 @@ public class MockEmailService implements EmailService {
     }
 
     @Override
-    public void sendEmail(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext) throws MailException {
+    public void sendEmail(String toEmail, String fromEmail, String replyTo, String templateFolder, Map<String, Object> templateContext) throws MailException {
         AssertUtil.hasLength(toEmail);
         AssertUtil.hasLength(fromEmail);
         AssertUtil.hasLength(templateFolder);
@@ -70,12 +70,12 @@ public class MockEmailService implements EmailService {
      * Same as sendEmail but in a separate thread.
      */
     @Override
-    public void sendEmailAsynchronously(final String toEmail, final String fromEmail, final String templateFolder, final Map<String, Object> templateContext) {
+    public void sendEmailAsynchronously(final String toEmail, final String fromEmail, final String replyTo, final String templateFolder, final Map<String, Object> templateContext) {
         (new Thread() {
             @Override
             public void run() {
                 try {
-                    sendEmail(toEmail, fromEmail, templateFolder, templateContext);
+                    sendEmail(toEmail, fromEmail, replyTo, templateFolder, templateContext);
                 } catch (Exception e) {
                     if (logger.isErrorEnabled()) {
                         logger.error("Could not send email from a separate thread. toEmail=" + toEmail, e);
