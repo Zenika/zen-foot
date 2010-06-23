@@ -37,7 +37,7 @@ public class BasePage extends WebPage {
     @SpringBean
     private AccountService accountService;
     @SpringBean
-    private PlayerDao userDao;
+    private PlayerDao playerDao;
 
     public BasePage() {
         add(new BookmarkablePageLink("homePage", HomePage.class));
@@ -100,12 +100,12 @@ public class BasePage extends WebPage {
         return logout;
     }
 
-    public void setUserDao(PlayerDao userDao) {
-        this.userDao = userDao;
+    public void setPlayerDao(PlayerDao playerDao) {
+        this.playerDao = playerDao;
     }
 
-    public PlayerDao getUserDao() {
-        return userDao;
+    public PlayerDao getPlayerDao() {
+        return playerDao;
     }
 
     private class LoginForm extends StatelessForm {
@@ -176,7 +176,7 @@ public class BasePage extends WebPage {
                 public void onSubmit() {
                     if (password == null || password.isEmpty()) {
                         error("Le mot de passe est vide ?");
-                    } else if (getUserDao().find(email) != null) {
+                    } else if (playerDao.find(email) != null) {
                         error("Ce compte existe déjà !");
                         warn("Avez vous perdu votre mot de passe ?");
                     } else {
@@ -198,7 +198,7 @@ public class BasePage extends WebPage {
                 @Override
                 public void onSubmit() {
                     try {
-                        Player player = userDao.find(email);
+                        Player player = playerDao.find(email);
                         if (player != null && player.isAdmin()) {
                             String msg = "Impossible de réinitialiser le mot de passe d'un admin !";
                             logger.error(msg);

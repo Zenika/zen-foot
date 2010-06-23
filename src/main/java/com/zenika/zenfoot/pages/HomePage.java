@@ -39,9 +39,9 @@ public class HomePage extends BasePage {
 
     private static final long serialVersionUID = 1L;
     @SpringBean
-    private PlayerDao userDao;
+    private PlayerDao playerDao;
     @SpringBean
-    private MatchDao gameDao;
+    private MatchDao matchDao;
     @SpringBean
     private BetDao betDao;
     @SpringBean
@@ -207,7 +207,7 @@ public class HomePage extends BasePage {
             Label label = new Label(wicketId);
             int betGoalForTeam2 = -1;
             if ( isSignedIn ){
-            	Bet bet = betDao.find(userDao.find(ZenFootSession.get().getUser().getEmail()), match);
+            	Bet bet = betDao.find(playerDao.find(ZenFootSession.get().getUser().getEmail()), match);
             	if ( bet != null && bet.isBetSet() ){
 	            	betResult = bet.getGoalsForTeam1() + " - " +  bet.getGoalsForTeam2(); 
 	            	int points = dataService.computePoints(bet, match);
@@ -247,7 +247,7 @@ public class HomePage extends BasePage {
             int betGoalForTeam1 = -1;
             int betGoalForTeam2 = -1;
             if ( user != null ){
-            	Bet bet = betDao.findOrCreate(userDao.find(user.getEmail()), match);
+            	Bet bet = betDao.findOrCreate(playerDao.find(user.getEmail()), match);
             	betGoalForTeam1 = bet.getGoalsForTeam1();
             	betGoalForTeam2 = bet.getGoalsForTeam2();
             }
@@ -260,7 +260,7 @@ public class HomePage extends BasePage {
 
         @Override
         protected List<? extends Player> load() {
-            return userDao.findActive();
+            return playerDao.findActive();
         }
     }
 
@@ -268,7 +268,7 @@ public class HomePage extends BasePage {
 
         @Override
         protected List<? extends Match> load() {
-            return gameDao.findIncoming();
+            return matchDao.findIncoming();
         }
     }
 
@@ -276,7 +276,7 @@ public class HomePage extends BasePage {
 
         @Override
         protected List<? extends Match> load() {
-            return gameDao.findPast();
+            return matchDao.findPast();
         }
     }
 
@@ -284,7 +284,7 @@ public class HomePage extends BasePage {
 
         @Override
         protected List<? extends Match> load() {
-            return gameDao.findRunning();
+            return matchDao.findRunning();
         }
     }
 
@@ -413,21 +413,21 @@ public class HomePage extends BasePage {
     }
 
     @Override
-    public PlayerDao getUserDao() {
-        return userDao;
+    public PlayerDao getPlayerDao() {
+        return playerDao;
     }
 
     @Override
-    public void setUserDao(PlayerDao userDao) {
-        this.userDao = userDao;
+    public void setPlayerDao(PlayerDao playerDao) {
+        this.playerDao = playerDao;
     }
 
-    public MatchDao getGameDao() {
-        return gameDao;
+    public MatchDao getMatchDao() {
+        return matchDao;
     }
 
-    public void setGameDao(MatchDao gameDao) {
-        this.gameDao = gameDao;
+    public void setMatchDao(MatchDao matchDao) {
+        this.matchDao = matchDao;
     }
 
     public BetDao getBetDao() {

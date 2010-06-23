@@ -72,13 +72,13 @@
         </tx:attributes>
     </tx:advice>
 
-    <bean id="userDao" class="com.zenika.zenfoot.dao.hibernate.HibernateUserDao">
+    <bean id="playerDao" class="com.zenika.zenfoot.dao.hibernate.HibernatePlayerDao">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     <bean id="betDao" class="com.zenika.zenfoot.dao.hibernate.HibernateBetDao">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <bean id="gameDao" class="com.zenika.zenfoot.dao.hibernate.HibernateGameDao">
+    <bean id="matchDao" class="com.zenika.zenfoot.dao.hibernate.HibernateMatchDao">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     <bean id="teamDao" class="com.zenika.zenfoot.dao.hibernate.HibernateTeamDao">
@@ -89,9 +89,9 @@
     </bean>
 
     <bean id="dataService" class="com.zenika.zenfoot.service.DefaultDataService">
-        <property name="userDao" ref="userDao" />
+        <property name="playerDao" ref="playerDao" />
         <property name="betDao" ref="betDao" />
-        <property name="matchDao" ref="gameDao" />
+        <property name="matchDao" ref="matchDao" />
     </bean>
 
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
@@ -122,7 +122,7 @@
     <bean id="accountService" class="com.zenika.zenfoot.service.account.DefaultAccountService">
         <property name="adminEmail" value="${admin.email}" />
         <property name="appUrl" value="${app.url}" />
-        <property name="userDao" ref="userDao" />
+        <property name="playerDao" ref="playerDao" />
         <property name="emailService" ref="emailService" />
     </bean>
 

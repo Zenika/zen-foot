@@ -13,7 +13,7 @@ import com.zenika.zenfoot.util.StringUtil;
 public class DefaultAccountService implements AccountService {
 
     public static final String VELOCITY_EMAILS = "velocity/emails/";
-    private PlayerDao userDao;
+    private PlayerDao playerDao;
     private EmailService emailService;
     private String adminEmail = "huber.olivier@gmail.com";
     private String appUrl = "http://zenfoot";
@@ -24,9 +24,9 @@ public class DefaultAccountService implements AccountService {
     @Override
     public void sendPassword(String userEmail) {
         String newPassword = StringUtil.getRandomCode();
-        final Player player = userDao.find(userEmail);
+        final Player player = playerDao.find(userEmail);
         player.setPassword(DigestUtils.md5Hex(newPassword));
-        userDao.save(player);
+        playerDao.save(player);
         emailUserWithNewPassword(userEmail, newPassword);
     }
 
@@ -34,20 +34,20 @@ public class DefaultAccountService implements AccountService {
     public void register(String userEmail, String password) {
         final Player newAutoInscriptionPlayer = new Player(userEmail, DigestUtils.md5Hex(password));
         newAutoInscriptionPlayer.setPending(true);
-        userDao.save(newAutoInscriptionPlayer);
+        playerDao.save(newAutoInscriptionPlayer);
         notifyUserWithRegistration(userEmail);
         notifyAdminWithRegistration(userEmail);
     }
 
     @Override
     public void accept(Player user) {
-        userDao.accept(user);
+        playerDao.accept(user);
         notifyUserForAcceptance(user.getEmail());
     }
 
     @Override
     public void reject(Player user) {
-        userDao.delete(user);
+        playerDao.delete(user);
         notifyUserForRejection(user.getEmail());
     }
 
@@ -106,12 +106,12 @@ public class DefaultAccountService implements AccountService {
         this.appUrl = appUrl;
     }
 
-    public void setUserDao(PlayerDao userDao) {
-        this.userDao = userDao;
+    public void setPlayerDao(PlayerDao playerDao) {
+        this.playerDao = playerDao;
     }
 
-    public PlayerDao getUserDao() {
-        return userDao;
+    public PlayerDao getPlayerDao() {
+        return playerDao;
     }
 
     public EmailService getEmailService() {

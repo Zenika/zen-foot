@@ -14,7 +14,7 @@ import com.zenika.zenfoot.model.Player;
 public class DefaultDataService implements DataService {
 
     Logger logger = LoggerFactory.getLogger(DefaultDataService.class);
-    private PlayerDao userDao;
+    private PlayerDao playerDao;
     private BetDao betDao;
     private MatchDao matchDao;
 
@@ -30,12 +30,12 @@ public class DefaultDataService implements DataService {
             }
         }
         player.setPoints(points);
-        userDao.save(player);
+        playerDao.save(player);
     }
 
     @Override
     public void updateUserPoints() {
-        for (Player user : getUserDao().findAll()) {
+        for (Player user : playerDao.findAll()) {
             updateUserPoints(user);
         }
     }
@@ -78,12 +78,12 @@ public class DefaultDataService implements DataService {
         return m;
     }
 
-    public void setUserDao(PlayerDao userDao) {
-        this.userDao = userDao;
+    public void setPlayerDao(PlayerDao playerDao) {
+        this.playerDao = playerDao;
     }
 
-    public PlayerDao getUserDao() {
-        return userDao;
+    public PlayerDao getPlayerDao() {
+        return playerDao;
     }
 
     public void setBetDao(BetDao betDao) {

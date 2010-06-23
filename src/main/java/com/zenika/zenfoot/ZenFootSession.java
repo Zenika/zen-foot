@@ -19,7 +19,7 @@ public class ZenFootSession extends AuthenticatedWebSession {
 
     private static Logger logger = LoggerFactory.getLogger(ZenFootSession.class);
     @SpringBean
-    private PlayerDao userDao;
+    private PlayerDao playerDao;
     @SpringBean
     private MessageDao messageDao;
     long lastMessageId;
@@ -44,9 +44,9 @@ public class ZenFootSession extends AuthenticatedWebSession {
 
     @Override
     public boolean authenticate(String email, String password) {
-        Player u = userDao.find(email);
+        Player u = playerDao.find(email);
         if (u != null && !u.isPending() && u.getPassword().equals(DigestUtils.md5Hex(password))) {
-            user = userDao.find(email);
+            user = playerDao.find(email);
             dirty();
             return true;
         } else {
@@ -67,12 +67,12 @@ public class ZenFootSession extends AuthenticatedWebSession {
         return roles;
     }
 
-    public void setUserDao(PlayerDao userDao) {
-        this.userDao = userDao;
+    public void setPlayerDao(PlayerDao playerDao) {
+        this.playerDao = playerDao;
     }
 
-    public PlayerDao getUserDao() {
-        return userDao;
+    public PlayerDao getPlauerDao() {
+        return playerDao;
     }
 
     public boolean newMessages() {
