@@ -53,7 +53,7 @@ public class BasePage extends WebPage {
 
                 @Override
                 protected void onTimer(AjaxRequestTarget target) {
-                    if (ZenFootSession.get().newMessages()) {
+                    if (ZenFootSession.get().hasNewMessages()) {
                         target.appendJavascript("new Effect.Pulsate($('" + chatLink.getMarkupId(true) + "'), { pulses: 6, duration: 3 });");
                         target.addComponent(chatLink);
                     }

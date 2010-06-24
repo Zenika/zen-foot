@@ -1,6 +1,7 @@
 package com.zenika.zenfoot;
 
 import com.zenika.zenfoot.dao.MessageDao;
+import com.zenika.zenfoot.model.Message;
 import java.util.Locale;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -75,12 +76,16 @@ public class ZenFootSession extends AuthenticatedWebSession {
         return playerDao;
     }
 
-    public boolean newMessages() {
-        return lastMessageId != messageDao.findLastOne().getId();
+    public boolean hasNewMessages() {
+        final Message lastMessage = messageDao.findLastOne();
+        return lastMessage != null && lastMessageId != lastMessage.getId();
     }
 
     public void setLastMessage() {
-        this.lastMessageId = messageDao.findLastOne().getId();
+        final Message lastMessage = messageDao.findLastOne();
+        if (lastMessage != null) {
+            this.lastMessageId = lastMessage.getId();
+        }
     }
 
     public MessageDao getMessageDao() {
