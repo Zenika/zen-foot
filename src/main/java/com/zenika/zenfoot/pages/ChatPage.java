@@ -59,7 +59,6 @@ public class ChatPage extends BasePage {
                 } catch (Exception e) {
                     logger.error("ChatPageTimer", e);
                 }
-
             }
         });
     }
@@ -91,11 +90,13 @@ public class ChatPage extends BasePage {
 
         @Override
         protected void onSubmit(AjaxRequestTarget target) {
-            try {
-                messageDao.save(new Message(ZenFootSession.get().getUser(), message));
-                ZenFootSession.get().setLastMessage();
-            } catch (Exception e) {
-                logger.error("Chat", e);
+            if (StringUtils.isNotBlank(message)) {
+                try {
+                    messageDao.save(new Message(ZenFootSession.get().getUser(), message));
+                    ZenFootSession.get().setLastMessage();
+                } catch (Exception e) {
+                    logger.error("Chat", e);
+                }
             }
             message = "";
             target.addComponent(messageListWrapper);
