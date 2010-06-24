@@ -5,7 +5,7 @@
     <groupId>com.zenika.zenfoot</groupId>
     <artifactId>zenfoot</artifactId>
     <packaging>war</packaging>
-    <version>1.5</version>
+    <version>1.6</version>
     <name>ZenFoot</name>
     <description>Le site de paris du Mondial 2010</description>
     <organization>
