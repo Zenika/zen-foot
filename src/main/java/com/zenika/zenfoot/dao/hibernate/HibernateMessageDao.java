@@ -12,8 +12,8 @@ public class HibernateMessageDao extends HibernateDao<Message> implements Messag
     }
 
     @Override
-    public List<Message> findLast30() {
-        return getSession().createCriteria(Message.class).addOrder(Order.desc("datetime")).setMaxResults(30).list();
+    public List<Message> findLast(int nbMessages) {
+        return getSession().createCriteria(Message.class).addOrder(Order.desc("datetime")).setMaxResults(nbMessages).list();
     }
 
     @Override

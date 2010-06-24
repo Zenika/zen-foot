@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface MessageDao extends BaseDao<Message> {
 
-    public List<Message> findLast30();
+    public List<Message> findLast(int nbMessages);
 
     public Message findLastOne();
 }

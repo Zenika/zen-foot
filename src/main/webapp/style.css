@@ -255,8 +255,13 @@ a:active {
     font-weight: bold;
 }
 
+ul.chatlist {
+    height: 500px;
+    overflow: auto;
+}
+
 .chatlist li {
-    padding:5px;
+    padding:1px;
 }
 
 /********************* FEEDBACK */

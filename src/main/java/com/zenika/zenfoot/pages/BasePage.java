@@ -49,13 +49,17 @@ public class BasePage extends WebPage {
         add(new BookmarkablePageLink("adminPage", AdminPage.class).setVisible(ZenFootSession.get().getRoles().hasRole(Roles.ADMIN)));
 
         if (ZenFootSession.get().isSignedIn()) {
-            add(new AbstractAjaxTimerBehavior(Duration.seconds(5)) {
+            add(new AbstractAjaxTimerBehavior(Duration.seconds(10)) {
 
                 @Override
                 protected void onTimer(AjaxRequestTarget target) {
-                    if (ZenFootSession.get().hasNewMessages()) {
-                        target.appendJavascript("new Effect.Pulsate($('" + chatLink.getMarkupId(true) + "'), { pulses: 6, duration: 3 });");
-                        target.addComponent(chatLink);
+                    try {
+                        if (ZenFootSession.get().hasNewMessages()) {
+                            target.appendJavascript("new Effect.Pulsate($('" + chatLink.getMarkupId(true) + "'), { pulses: 8, duration: 8 });");
+                            target.addComponent(chatLink);
+                        }
+                    } catch (Exception e) {
+                        logger.error("BasePageChatTimer", e);
                     }
                 }
             });
@@ -74,6 +78,10 @@ public class BasePage extends WebPage {
 
     public static boolean userIsAdmin() {
         return ZenFootSession.get().isSignedIn() ? ZenFootSession.get().getRoles().hasRole(Roles.ADMIN) : false;
+    }
+
+    public static Player user() {
+        return ZenFootSession.get().getUser();
     }
 
     private Label loggedUser(String id) {
