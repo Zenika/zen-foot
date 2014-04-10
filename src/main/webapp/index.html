@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="zenContact.app">
+<head>
+<title>zenFoot</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<link href="css/bootstrap.css" rel="stylesheet" media="screen">
+<link href="css/zencontact.css" rel="stylesheet" media="screen">
+</head>
+<body>
+
+	<form action="" method="post" class="form-horizontal"
+		name="contactForm">
+		<div class="control-group">
+			<label for="name" class="control-label">Nom :</label>
+			<div class="controls">
+				<input type="text" name="name" id="name" ng-init="nom='zenika'"
+					ng-model="nom">
+			</div>
+		</div>
+
+		<div class="controls">
+			<div data-ng-cloack>Bonjour {{nom}}</div>
+		</div>
+
+
+
+
+	</form>
+
+</body>
+
+<script type="text/javascript" src="js/jquery/jquery.js"></script>
+<script type="text/javascript" src="js/angular/angular.js"></script>
+<script type="text/javascript" src="js/angular/angular-route.js"></script>
+<script type="text/javascript" src="js/angular-ui/angular-ui-router.js">
+	
+</script>
+<script type="text/javascript" src="js/angular/angular-resource.js"></script>
+<script type="text/javascript" src="js/angular/angular-cookies.js"></script>
+<script type="text/javascript" src="js/fuse/fuse.js"></script>
+<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="js/markdown/markdown.js"></script>
+
+
+
+<script type="text/javascript" src="js/app/service.js"></script>
+<script type="text/javascript" src="js/app/app.js"></script>
+<script type="text/javascript" src="js/app/controller.js"></script>
+<script type="text/javascript" src="js/app/filtres.js"></script>
+<script type="text/javascript" src="js/angular-ui/unique.js">
+	
+</script>
+
+<script type="text/javascript" src="js/app/directive.js"></script>
+
+
+</html>

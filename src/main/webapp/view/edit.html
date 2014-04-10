@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="span12">
+		<div class="well" autoHeight>
+			<h2>Edit contact</h2>
+
+			<form action="" method="post" class="form-horizontal"
+				name="contactForm">
+
+
+				<div
+					class="control-group {{!contactForm.firstName.$error.required || 'error'}}">
+					<label for="firstName" class="control-label">First name</label>
+
+					<div class="controls">
+						<input type="text" name="firstName" id="firstName"
+							class="input-xlarge" ng-model="contact.firstName" required /><br />
+						<span class="help-inline"
+							data-ng-show="contactForm.firstName.$error.required">Ce
+							champ est requis</span>
+					</div>
+
+				</div>
+
+				<div
+					class="control-group {{!contactForm.lastName.$error.required || 'error'}}">
+					<label for="lastName" class="control-label">Last name</label>
+
+					<div class="controls">
+						<input type="text" name="lastName" id="lastName"
+							class="input-xlarge" ng-model="contact.lastName" required /><br />
+						<span class="help-inline"
+							data-ng-show="contactForm.lastName.$error.required">Ce
+							champ est requis</span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label for="address" class="control-label">Address</label>
+
+					<div class="controls">
+						<textarea rows="3" name="address" id="address"
+							class="input-xlarge" ng-model=contact.address></textarea>
+					</div>
+				</div>
+				<div class="control-group {{contactForm.phone.$valid || 'error'}}">
+					<label for="phone" class="control-label">Phone</label>
+
+					<div class="controls">
+						<span class=help-inline ng-show="{{contactForm.phone.$valid}}">
+							<input type="text" name="phone" id="phone" class="input-xlarge"
+							ng-model="contact.phone" required
+							data-ng-pattern="/^555-\w{1,6}$/" /><br /> Ex : 555-...
+						</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="description" class="control-label">Description</label>
+					<div class="controls">
+						<markdown ng-model="markdown"> </markdown>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" value="Save" class="btn btn-primary"
+							ng-click="saveContact(contact)"
+							ng-disabled="contactForm.$invalid" /> <a href="#/list"><input
+							type="button" value="Cancel" class="btn btn-link" /></a> <input
+							type="button" value="Delete" class="btn btn-danger"
+							data-ng-click="deleteContact(contact)"
+							data-ng-enabled="contact.id" />
+					</div>
+
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
