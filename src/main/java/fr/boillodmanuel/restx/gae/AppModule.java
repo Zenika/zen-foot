@@ -50,7 +50,14 @@ public class AppModule {
                         // this is the default restx admin, useful to access the restx admin console.
                         // if one user with restx-admin role is defined in the repository, this default user won't be
                         // available anymore
-                        new StdUser("admin", ImmutableSet.<String>of("*"))),
+                        new StdUser("admin", ImmutableSet.<String>of("*")),
+
+                        "admin",
+                        // admin username
+
+                        "$2a$10$9AkQpUHb5.hI5CPQO9.xrOiqOWZ75Jcn9tZTdSu8mEZ5jLxRYyxWq"
+                        // hash of 'admin' password
+                        ),
                 credentialsStrategy, defaultAdminPasswordHash),
                 securitySettings);
     }
