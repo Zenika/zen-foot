@@ -11,6 +11,6 @@ Use restx forked version on my [github](https://github.com/boillodmanuel/restx/)
 
 ```
 mvn package
-appcfg.sh --no_cookies --email=<EMAIL> update target/gae_restx-0-1
+appcfg.sh --no_cookies --email=<EMAIL> update target/gae-restx-poc-0-1
 
 ```
