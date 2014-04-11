@@ -18,6 +18,8 @@ zenContactDirectives.directive('auto-height',function(){
 	};
 });
 
+
+
 zenContactDirectives.directive('popup',function($http){
 	
 	$modal = $('<div class="modal hide fade" tabindex="-1"><div class="modal-body"></div></div>')

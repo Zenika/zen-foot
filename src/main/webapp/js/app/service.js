@@ -69,6 +69,23 @@ zenContactService.factory('Contact', [ '$resource', function($resource) {
 	});
 } ]);
 
+// Resource to give the hour to "who"
+zenContactService.factory('HelloNHour', [ '$resource', function($resource) {
+	return $resource('/api/hello', {
+		who : "@who"
+	}, {
+		update: { method: 'GET' },
+	});
+} ]);
+
+zenContactService.factory('updateSentenceService',function(HelloNHour) {
+	return {
+		update : function(nom) {
+			return HelloNHour.get({who : nom});
+		}
+	};
+});
+
 zenContactService.factory('authService', function($location, $cookieStore) {
 	return {
 		redirectToLogin : function() {

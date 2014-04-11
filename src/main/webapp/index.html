@@ -19,11 +19,13 @@
 					ng-model="nom">
 			</div>
 		</div>
-
-		<div class="controls">
-			<div data-ng-cloack>Bonjour {{nom}}</div>
+		<div class="control-group">
+			<div class="controls" ng-controller="SimpleController">
+				<div update-sentence>
+					<span ng-bind="sentence.message"></span>
+				</div>
+			</div>
 		</div>
-
 
 
 

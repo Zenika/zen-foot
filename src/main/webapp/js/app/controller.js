@@ -5,7 +5,17 @@
 'use strict';
 var controllers = angular.module('controllers', []);
 
-
+controllers.controller('SimpleController',[
+ '$scope',
+ 'HelloNHour',
+ 'updateSentenceService',
+ function($scope, HelloNHour){
+	$scope.sentence=HelloNHour.update({ who: $scope.nom });
+	$scope.$watch('nom', function (newValue) {
+		$scope.sentence=HelloNHour.update({who: newValue});
+	});
+	
+}]);
 
 
 controllers.controller('LogginController',['$scope', 'authService', '$http',function($scope, authService, $http){
