@@ -8,54 +8,47 @@
 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
 <link href="css/zencontact.css" rel="stylesheet" media="screen">
 </head>
+
+
 <body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">ZenFoot</a>
+				<ul class="nav">
+					<li data-ng-class="{active: location.path() == '/list'}"><a
+						href="#/list">Paris</a></li>
+				</ul>
+				<ul class="nav pull-right" data-ng-controller="LoginController">
+					<li data-ng-show="loggedIn()"><a data-ng-click="logout()">Logout</a></li>
 
-	<form action="" method="post" class="form-horizontal"
-		name="contactForm">
-		<div class="control-group">
-			<label for="name" class="control-label">Nom :</label>
-			<div class="controls">
-				<input type="text" name="name" id="name" ng-init="nom='zenika'"
-					ng-model="nom">
+				</ul>
 			</div>
 		</div>
-		<div class="control-group">
-			<div class="controls" ng-controller="SimpleController">
-				<div update-sentence>
-					<span ng-bind="sentence.message"></span>
-				</div>
-			</div>
-		</div>
-
-
-
-	</form>
-
+	</div>
 </body>
 
-<script type="text/javascript" src="js/jquery/jquery.js"></script>
-<script type="text/javascript" src="js/angular/angular.js"></script>
-<script type="text/javascript" src="js/angular/angular-route.js"></script>
-<script type="text/javascript" src="js/angular-ui/angular-ui-router.js">
-	
-</script>
-<script type="text/javascript" src="js/angular/angular-resource.js"></script>
+<div ng-view></div>
+
+
+
+
+<script type="text/javascript"
+	src="js/jquery/jquery.js"></script> <script type="text/javascript"
+	src="js/angular/angular.js"></script> <script type="text/javascript"
+	src="js/angular/angular-route.js"></script> <script
+	type="text/javascript" src="js/angular-ui/angular-ui-router.js">
+		
+	</script> <script type="text/javascript" src="js/angular/angular-resource.js"></script>
 <script type="text/javascript" src="js/angular/angular-cookies.js"></script>
-<script type="text/javascript" src="js/fuse/fuse.js"></script>
-<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
-<script type="text/javascript" src="js/markdown/markdown.js"></script>
-
-
-
-<script type="text/javascript" src="js/app/service.js"></script>
-<script type="text/javascript" src="js/app/app.js"></script>
-<script type="text/javascript" src="js/app/controller.js"></script>
-<script type="text/javascript" src="js/app/filtres.js"></script>
-<script type="text/javascript" src="js/angular-ui/unique.js">
-	
-</script>
-
-<script type="text/javascript" src="js/app/directive.js"></script>
-
-
+<script type="text/javascript" src="js/fuse/fuse.js"></script> <script
+	type="text/javascript" src="js/bootstrap/bootstrap.js"></script> <script
+	type="text/javascript" src="js/markdown/markdown.js"></script> <script
+	type="text/javascript" src="js/app/service.js"></script> <script
+	type="text/javascript" src="js/app/app.js"></script> <script
+	type="text/javascript" src="js/app/controller.js"></script> <script
+	type="text/javascript" src="js/app/filtres.js"></script> <script
+	type="text/javascript" src="js/angular-ui/unique.js">
+		
+	</script> <script type="text/javascript" src="js/app/directive.js"></script>
 </html>

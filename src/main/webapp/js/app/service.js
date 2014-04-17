@@ -69,6 +69,13 @@ zenContactService.factory('Contact', [ '$resource', function($resource) {
 	});
 } ]);
 
+zenContactService.factory('Token',['$resource', function($resource){
+	return $resource('/api/auth/:user/:password', {
+		user :'@user',
+		password:'@password'
+	});
+}]);
+
 // Resource to give the hour to "who"
 zenContactService.factory('HelloNHour', [ '$resource', function($resource) {
 	return $resource('/api/hello', {
@@ -77,6 +84,13 @@ zenContactService.factory('HelloNHour', [ '$resource', function($resource) {
 		update: { method: 'GET' },
 	});
 } ]);
+
+zenContactService.factory('User', function(){
+	return{
+		name:'',
+		token:''
+	};
+});
 
 zenContactService.factory('updateSentenceService',function(HelloNHour) {
 	return {
@@ -93,11 +107,13 @@ zenContactService.factory('authService', function($location, $cookieStore) {
 		},
 
 		redirectToHome : function() {
-			$location.path('/list');
+			$location.path('/index');
 		},
 
 		storeToken : function(response) {
-			var token = response.headers('Auth-Token');
+			var token = response;
+			console.log("this is the token :");
+			console.log(response);
 			if (token) {
 				$cookieStore.put("Auth-Token", token);
 			}

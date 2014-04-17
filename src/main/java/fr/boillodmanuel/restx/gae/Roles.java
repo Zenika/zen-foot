@@ -7,4 +7,9 @@ package fr.boillodmanuel.restx.gae;
  */
 public final class Roles {
     public static final String HELLO_ROLE = "hello";
+   
+    /**
+     * A basic gambler, the lowest level on the user hierarchy
+     */
+	public static final String GAMBLER="gambler";
 }
