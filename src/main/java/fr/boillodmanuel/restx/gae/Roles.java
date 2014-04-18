@@ -12,4 +12,5 @@ public final class Roles {
      * A basic gambler, the lowest level on the user hierarchy
      */
 	public static final String GAMBLER="gambler";
+    public static final String ADMIN="ADMIN";
 }

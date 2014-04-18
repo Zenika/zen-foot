@@ -4,146 +4,47 @@
 
 var zenContactService = angular.module("zenContact.services", [ 'ngResource' ]);
 
-zenContactService.service("contactService", [ '$http', function($http) {
-	this.contacts = [];
-
-	this.getAllContacts = function(fonction) {
-		$http({
-			method : 'GET',
-			url : '/rest/contacts'
-		}).success(function(contacts) {
-			fonction(contacts);
-		});
-	};
-
-	this.getContactById = function(id, fonctionCBack) {
-		$http({
-			method : 'GET',
-			url : '/rest/contacts/' + id
-		}).success(function(contact) {
-			fonctionCBack(contact);
-		}).error(function() {
-			fonctionCBack({});
-		});
-	};
-
-	this.indexOf = function(contact) {
-		if (contact.id == undefined)
-			return -1;
-		for (var i = 0; i < this.contacts.length; i++) {
-			if (this.contacts[i].id == contact.id) {
-				return i;
-			}
-			return -1;
-		}
-	};
-
-	this.saveContact = function(contact) {
-		if (contact.id) {
-			$http({
-				method : 'PUT',
-				url : '/rest/contacts/' + id
-			});
-		} else {
-			$http({
-				method : 'POST',
-				url : '/rest/contacts',
-				data : contact
-			});
-		}
-	};
-
-} ]);
 
 // Contact resource
 
-zenContactService.factory('Contact', [ '$resource', function($resource) {
+zenContactService.factory('Contact', [ '$resource', function ($resource) {
 
-	return $resource('/rest/contacts/:id', {
-		id : '@id'
-	}, {
-		update : {
-			method : 'PUT',
-			id : '@id'
-		}
-	});
+    return $resource('/rest/contacts/:id', {
+        id: '@id'
+    }, {
+        update: {
+            method: 'PUT',
+            id: '@id'
+        }
+    });
 } ]);
 
-zenContactService.factory('Token',['$resource', function($resource){
-	return $resource('/api/auth/:user/:password', {
-		user :'@user',
-		password:'@password'
-	});
-}]);
+zenContactService.factory('Session', function ($resource) {
+    var s = $resource('/api/sessions/:sessionKey', {sessionKey: 'current'},
+        {
+            'get': {method: 'GET', withCredentials: true},
+            'save': {method: 'POST', withCredentials: true},
+            'delete': {method: 'DELETE', withCredentials: true}
+        });
+    s.user = { connected: false };
+    return  s;
+})
+    .factory('SecurityHttpInterceptor', function ($q, $location) {
+        return function (promise) {
+            return promise.then(function (response) {
+                return response;
+            }, function (response) {
+                if (response.status == 401 || response.status == 403) {
+                    $location.path('/login');
+                }
+                return $q.reject(response);
+            });
+        }
+    })
+    .config(function ($httpProvider) {
+        $httpProvider.responseInterceptors.push('SecurityHttpInterceptor');
+    })
+;
 
-// Resource to give the hour to "who"
-zenContactService.factory('HelloNHour', [ '$resource', function($resource) {
-	return $resource('/api/hello', {
-		who : "@who"
-	}, {
-		update: { method: 'GET' },
-	});
-} ]);
-
-zenContactService.factory('User', function(){
-	return{
-		name:'',
-		token:''
-	};
-});
-
-zenContactService.factory('updateSentenceService',function(HelloNHour) {
-	return {
-		update : function(nom) {
-			return HelloNHour.get({who : nom});
-		}
-	};
-});
-
-zenContactService.factory('authService', function($location, $cookieStore) {
-	return {
-		redirectToLogin : function() {
-			$location.path('/login');
-		},
-
-		redirectToHome : function() {
-			$location.path('/index');
-		},
-
-		storeToken : function(response) {
-			var token = response;
-			console.log("this is the token :");
-			console.log(response);
-			if (token) {
-				$cookieStore.put("Auth-Token", token);
-			}
-		},
-
-		logOut : function() {
-			$cookieStore.remove("Auth-Token");
-		},
-
-		loggedIn : function() {
-			return $cookieStore.get("Auth-Token");
-		}
-	};
-
-});
-
-zenContactService.factory('isActiveService', function($location) {
-	return {
-		isActive : function(path) {
-			return $location.path().indexOf(path) != -1;
-
-		},
-
-		time : function() {
-			var date = new Date();
-
-			return date.getHours() + ":" + date.getMinutes + ":"
-					+ date.getSeconds();
-		}
-	};
-});
 
 

@@ -2,6 +2,9 @@ package fr.boillodmanuel.restx.gae;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
+
+import fr.boillodmanuel.restx.gae.services.MockUserService;
+import fr.boillodmanuel.restx.gae.services.ZenFootUserRepository;
 import restx.config.ConfigLoader;
 import restx.config.ConfigSupplier;
 import restx.factory.Module;
@@ -12,6 +15,10 @@ import javax.inject.Named;
 
 @Module
 public class AppModule {
+	
+	public static final String ADMIN = "admin";
+    public static final String USER = "user";
+
     @Provides
     public SignatureKey signatureKey() {
          return new SignatureKey("-7155845384686390950 gae_restx e21eb686-6e0d-4a30-8ad0-ca74107f423a gae_restx".getBytes(Charsets.UTF_8));
@@ -36,29 +43,12 @@ public class AppModule {
 
     @Provides
     public BasicPrincipalAuthenticator basicPrincipalAuthenticator(
-            SecuritySettings securitySettings, CredentialsStrategy credentialsStrategy,
-            @Named("restx.admin.passwordHash") String defaultAdminPasswordHash) {
-        return new StdBasicPrincipalAuthenticator(new StdUserService<>(
-                // use file based users repository.
-                // Developer's note: prefer another storage mechanism for your users if you need real user management
-                // and better perf
-                new SimpleUserRepository<>(
-                        StdUser.class, // this is the class for the User objects, that you can get in your app code
-                        // with RestxSession.current().getPrincipal().get()
-                        // it can be a custom user class, it just need to be json deserializable
-
-                        // this is the default restx admin, useful to access the restx admin console.
-                        // if one user with restx-admin role is defined in the repository, this default user won't be
-                        // available anymore
-                        new StdUser("admin", ImmutableSet.<String>of("*")),
-
-                        "admin",
-                        // admin username
-
-                        "$2a$10$9AkQpUHb5.hI5CPQO9.xrOiqOWZ75Jcn9tZTdSu8mEZ5jLxRYyxWq"
-                        // hash of 'admin' password
-                        ),
-                credentialsStrategy, defaultAdminPasswordHash),
-                securitySettings);
+            @Named("userService") UserService userService, SecuritySettings securitySettings,
+            CredentialsStrategy credentialsStrategy,
+            @Named("restx.admin.passwordHash") String adminPasswordHash) {
+        return new StdBasicPrincipalAuthenticator(
+                userService, securitySettings);
     }
+    
+   
 }

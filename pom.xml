@@ -79,6 +79,11 @@
 			<version>${restx.version}</version>
 			<scope>test</scope>
 		</dependency>
+		 <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-jongo</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

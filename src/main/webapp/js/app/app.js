@@ -1,6 +1,6 @@
 'use strict';
 
-var zenContactApp = angular.module('zenContact.app',
+var zenContactApp = angular.module('zenFoot.app',
 		[ 'zenContact.services', 'controllers', 'zenContact.filters',
 				'ui.unique', 'zenContact.directives', 'ngCookies', 'ngRoute',
 				'ui.router', 'ngRoute', 'ngResource' ]);
