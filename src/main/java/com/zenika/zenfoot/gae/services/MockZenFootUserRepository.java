@@ -1,9 +1,9 @@
-package fr.boillodmanuel.restx.gae.services;
+package com.zenika.zenfoot.gae.services;
 
 import java.util.*;
 
-import fr.boillodmanuel.restx.gae.Roles;
-import fr.boillodmanuel.restx.user.User;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 import restx.admin.AdminModule;
 import restx.factory.Component;
