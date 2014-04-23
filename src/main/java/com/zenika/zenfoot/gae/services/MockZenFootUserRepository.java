@@ -1,24 +1,23 @@
 package com.zenika.zenfoot.gae.services;
 
-import java.util.*;
-
+import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 import restx.admin.AdminModule;
 import restx.factory.Component;
-import restx.jongo.UserCredentials;
 
-import com.google.common.base.Optional;
-import restx.security.UserRepository;
+import java.util.*;
 
 @Component
 public class MockZenFootUserRepository implements ZenFootUserRepository {
 
 	private Map<String, Optional<User>> users;
+   // private UserDao userDao;
 
 	public MockZenFootUserRepository() {
 		this.users = new HashMap<>();
+      //  this.userDao = Factory.getInstance().getComponent(UserDao.class);
 
         User raphael = new User().setName("raphael").setEmail(
                 "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN,Roles.GAMBLER, AdminModule.RESTX_ADMIN_ROLE));
@@ -26,6 +25,8 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
         raphael.setLastUpdated(DateTime.now());
         raphael.setPasswordHash("2205");
         Optional<User> userOpt = Optional.of(raphael);
+
+     //   this.userDao.addUser(raphael);
         users.put(raphael.getEmail(), userOpt);
 
 

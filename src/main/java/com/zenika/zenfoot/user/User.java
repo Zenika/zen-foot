@@ -1,14 +1,18 @@
 package com.zenika.zenfoot.user;
 
-import java.util.Collection;
-
+import com.google.common.collect.ImmutableSet;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import org.joda.time.DateTime;
 import restx.security.RestxPrincipal;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collection;
 
+@Entity
 public class User implements RestxPrincipal {
 
+
+    @Id
 	private String email;
 
 	private String name;
