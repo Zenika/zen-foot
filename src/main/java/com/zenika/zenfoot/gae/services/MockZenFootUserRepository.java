@@ -2,51 +2,73 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.UserDao;
 import com.zenika.zenfoot.user.User;
-import org.joda.time.DateTime;
 import restx.admin.AdminModule;
 import restx.factory.Component;
+import restx.factory.Factory;
 
 import java.util.*;
 
 @Component
 public class MockZenFootUserRepository implements ZenFootUserRepository {
 
-	private Map<String, Optional<User>> users;
-   // private UserDao userDao;
+    private Map<String, Optional<User>> users;
+    private UserDao userDao;
 
-	public MockZenFootUserRepository() {
-		this.users = new HashMap<>();
-      //  this.userDao = Factory.getInstance().getComponent(UserDao.class);
+    public MockZenFootUserRepository() {
+        this.users = new HashMap<>();
+        this.userDao = Factory.getInstance().getComponent(UserDao.class);
 
         User raphael = new User().setName("raphael").setEmail(
-                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN,Roles.GAMBLER, AdminModule.RESTX_ADMIN_ROLE));
+                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, Roles.GAMBLER, AdminModule.RESTX_ADMIN_ROLE));
 
-        raphael.setLastUpdated(DateTime.now());
+        //raphael.setLastUpdated(DateTime.now());
         raphael.setPasswordHash("2205");
         Optional<User> userOpt = Optional.of(raphael);
 
-     //   this.userDao.addUser(raphael);
+        this.userDao.addUser(raphael);
         users.put(raphael.getEmail(), userOpt);
 
 
-	}
-
+    }
+/*
     @Override
     public Optional<User> findUserByName(String email) {
 
-        if(email!=null) {
+        if (email != null) {
             Optional<User> userOptional = this.users.get(email);
             if (userOptional != null) {
                 return userOptional;
             }
             return Optional.absent();
+        } else {
+            return Optional.absent();
         }
-        else{
+    }
+    */
+
+    @Override
+    public Optional<User> findUserByName(String email) {
+        if (email != null) {
+            User user = this.userDao.getUser(email);
+            return Optional.fromNullable(user);
+        } else {
             return Optional.absent();
         }
     }
 
+    @Override
+    public Optional<String> findCredentialByUserName(String email) {
+        Optional<User> user = findUserByName(email);
+        if (!user.isPresent()) {
+            return Optional.absent();
+        } else {
+            return Optional.fromNullable(user.get().getPasswordHash());
+        }
+    }
+
+    /*
     @Override
     public Optional<String> findCredentialByUserName(String email) {
         System.out.println("------------EMAIL de la personne cherchant à s'ID----------");
@@ -61,6 +83,8 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
             return Optional.fromNullable(user.get().getPasswordHash());
         }
     }
+    */
+
 
     @Override
     public boolean isAdminDefined() {
@@ -88,7 +112,7 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
 
     public Iterable<User> findAllUsers() {
         ArrayList<User> iterable = new ArrayList<>();
-        for (Iterator<String> it = this.users.keySet().iterator(); it.hasNext();) {
+        for (Iterator<String> it = this.users.keySet().iterator(); it.hasNext(); ) {
 
             Optional<User> opt = this.users.get(it.next());
             if (opt.isPresent()) {
@@ -101,7 +125,6 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     public void deleteUser(String userRef) {
         this.users.remove(userRef);
     }
-
 
 
 }

@@ -1,16 +1,15 @@
 package com.zenika.zenfoot.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import org.joda.time.DateTime;
 import restx.security.RestxPrincipal;
 
 import java.util.Collection;
 
 @Entity
 public class User implements RestxPrincipal {
-
 
     @Id
 	private String email;
@@ -19,9 +18,11 @@ public class User implements RestxPrincipal {
 
 	private Collection<String> roles;
 
+    @JsonIgnore
     private String passwordHash;
 
-    private DateTime lastUpdated;
+    //TODO persist DateTime object
+    //private transient DateTime lastUpdated;
 
 	public User() {
 
@@ -63,13 +64,17 @@ public class User implements RestxPrincipal {
         this.passwordHash = passwordHash;
     }
 
+    /*
+    @Transient
     public DateTime getLastUpdated() {
         return lastUpdated;
     }
 
+
     public void setLastUpdated(DateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
+    */
 
     @Override
 	public ImmutableSet<String> getPrincipalRoles() {
