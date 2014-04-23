@@ -12,7 +12,7 @@
 
                     <div class="controls">
                         <input type="text" name="user" id="user" class="input-xlarge" data-ng-model="login.email" required=""/><br/>
-                        <span class="help-inline" data-ng-show="loginForm.user.$error.required">Required</span>
+                        <span class="help-inline" data-ng-show="loginForm.user.$error.required">L'email est requis</span>
                     </div>
                 </div>
                 <div class="control-group {{!loginForm.pass.$error.required || 'error'}}">
@@ -20,7 +20,7 @@
 
                     <div class="controls">
                         <input type="password" name="pass" id="pass" class="input-xlarge" data-ng-model="login.password" required=""/><br/>
-                        <span class="help-inline" data-ng-show="loginForm.pass.$error.required">Required</span>
+                        <span class="help-inline" data-ng-show="loginForm.pass.$error.required">Le mot de passe est requis</span>
                     </div>
                 </div>
                 <div class="control-group">
