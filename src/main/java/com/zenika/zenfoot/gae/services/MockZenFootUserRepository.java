@@ -21,12 +21,12 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
 		this.users = new HashMap<>();
 
         User raphael = new User().setName("raphael").setEmail(
-                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
+                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN,Roles.GAMBLER, AdminModule.RESTX_ADMIN_ROLE));
 
         raphael.setLastUpdated(DateTime.now());
         raphael.setPasswordHash("2205");
         Optional<User> userOpt = Optional.of(raphael);
-        users.put("raphael.martignoni@zenika.com", userOpt);
+        users.put(raphael.getEmail(), userOpt);
 
 
 	}
@@ -68,7 +68,7 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
 
     @Override
     public User defaultAdmin() {
-        return this.users.get("raphael").get();
+        return this.users.get("raphael.martignoni@zenika.com").get();
     }
 
     // ///////////////////////////////////////////////////////

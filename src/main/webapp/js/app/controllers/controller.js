@@ -17,7 +17,12 @@ controllers.controller('SimpleController', [ '$scope', 'HelloNHour',
 			});
 
 		} ]);
-controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $location, md5) {
+
+
+/**
+ * This controller sends the login request to restx and spread an AUTHENTICATED event to scopes.
+ */
+controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $location) {
     $scope.login = { };
 
     $scope.submit = function() {
@@ -37,7 +42,7 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
 });
 
 
-controllers.controller('UserCtrl', function ($rootScope, $scope, $location, Session, User) {
+controllers.controller('UserCtrl', function ($rootScope, $scope, $location, Session, User, $http) {
     function onConnected(principal) {
         Session.user.connected = true;
         Session.user.email = principal.email;
@@ -49,6 +54,10 @@ controllers.controller('UserCtrl', function ($rootScope, $scope, $location, Sess
         onConnected(principal);
     })
 
+    $http.get('/api/coucou');
+    //.success(function(data) {console.log(data);}).error(function() {console.log('error');});
+
+    /*
     User.get({email: 'current' }).$promise
         .then(onConnected)
         .catch(function() {
@@ -56,6 +65,8 @@ controllers.controller('UserCtrl', function ($rootScope, $scope, $location, Sess
             delete Session.user.fullName;
             delete Session.user.email;
         });
+
+        */
 
     $scope.login = function() {
         $location.path('/login');
@@ -74,6 +85,3 @@ controllers.controller('navBarController', function($scope, $location,
 
 });
 
-controllers.controller('logOutController', function() {
-
-});

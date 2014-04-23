@@ -16,8 +16,6 @@ import javax.inject.Named;
 @Module
 public class AppModule {
 	
-	public static final String ADMIN = "admin";
-    public static final String USER = "user";
 
     @Provides
     public SignatureKey signatureKey() {

@@ -1,24 +1,25 @@
 'use strict';
 
 var zenContactApp = angular.module('zenFoot.app',
-		[ 'zenContact.services', 'controllers', 'zenContact.filters',
-				'ui.unique', 'zenContact.directives', 'ngCookies', 'ngRoute',
-				'ui.router', 'ngRoute', 'ngResource' ]);
+		[ 'zenFoot.services', 'controllers', 'zenContact.filters',
+				'ui.unique', 'zenContact.directives', 'ngCookies',
+				'ui.router', 'ngResource', 'ngRoute' ]);
 
-zenContactApp.config(function($routeProvider, $httpProvider) {
+zenContactApp.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-	$routeProvider.when('/login', {
-		templateUrl : 'view/login.html',
-		controller : 'LoginController'
+	$stateProvider.state('loginState',
+        {
+
+        url:'/login',
+		templateUrl : 'view/login.html'
+
 	});
-	$routeProvider.when('/index', {
-		templateUrl : 'view/index-content.html',
-		controller : 'ContactListController'
+	$stateProvider.state('indexState', {
+        url:'/index',
+		templateUrl : 'view/index-content.html'
 	});
 
-	$routeProvider.otherwise({
-		redirectTo : '/login'
-	});
+	$urlRouterProvider.otherwise('/index');
 	// zenContactApp.config(function($stateProvider, $urlRouterProvider,
 	// $httpProvider) {
 

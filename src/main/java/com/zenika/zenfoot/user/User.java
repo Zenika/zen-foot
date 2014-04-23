@@ -25,7 +25,7 @@ public class User implements RestxPrincipal {
 
 	@Override
 	public String getName() {
-		return name;
+		return email;
 	}
 
 	public User setName(String name) {

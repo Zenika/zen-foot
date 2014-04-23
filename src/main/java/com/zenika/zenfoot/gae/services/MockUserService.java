@@ -22,8 +22,12 @@ public class MockUserService implements UserService<User>{
     public Optional<User> findAndCheckCredentials(String email, String passwordHash) {
 
         Optional<User> toRet = zenFootUserRepository.findUserByName(email);
+        if(!toRet.isPresent()) return toRet;
 
-        boolean returns = zenFootUserRepository.findCredentialByUserName(email).get().equals(passwordHash);
+        Optional<String> credentials = zenFootUserRepository.findCredentialByUserName(email);
+        if(!credentials.isPresent()) return Optional.absent();
+
+        boolean returns = credentials.get().equals(passwordHash);
         if(returns){
             return toRet;
         }

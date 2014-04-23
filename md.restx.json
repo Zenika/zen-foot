@@ -1,5 +1,5 @@
 {
-    "module": "fr.boillodmanuel.restx.gae:gae_restx:0.1-SNAPSHOT",
+    "module": "com.zenika.zenfoot.gae:gae_restx:0.1-SNAPSHOT",
     "packaging": "war",
 
     "properties": {

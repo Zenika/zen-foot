@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('zenFoot.app')
-  .controller('UserCtrl', function ($rootScope, $scope, $location, Session, User) {
+  .controller('UserCtrl', function ($rootScope, $scope, $state, Session, User) {
         function onConnected(principal) {
+           // debugger;
             Session.user.connected = true;
             Session.user.email = principal.email;
             Session.user.fullName = principal.fullName;
@@ -26,6 +27,14 @@ angular.module('zenFoot.app')
         }
 
         $scope.logout = function() {
-            Session.delete(function() { $location.reload() });
+            Session.delete(function() { $state.go('loginState'); });
+            Session.user.connected=false;
+            delete Session.user.fullName;
+            delete Session.user.email;
         }
+
+        $scope.loggedIn= function(){
+            return Session.user.connected;
+        }
+
     });

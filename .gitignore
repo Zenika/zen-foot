@@ -10,3 +10,5 @@ release.properties
 .idea
 *.iml
 node_modules
+deployGAE.*
+test/
