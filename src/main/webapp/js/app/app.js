@@ -1,7 +1,7 @@
 'use strict';
 
 var zenContactApp = angular.module('zenFoot.app',
-		[ 'zenFoot.services', 'controllers', 'zenContact.filters',
+		[ 'zenFoot.services', 'zenFoot.controllers', 'zenContact.filters',
 				'ui.unique', 'zenContact.directives', 'ngCookies',
 				'ui.router', 'ngResource', 'ngRoute' ]);
 
@@ -54,7 +54,6 @@ zenContactApp.config(function($stateProvider, $urlRouterProvider, $httpProvider)
 
 			},
 			'response' : function(response) {
-				authService.storeToken(response);
 				return response || $q.when(response);
 			}
 		};

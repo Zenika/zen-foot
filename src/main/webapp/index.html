@@ -24,11 +24,11 @@
             <ul class="nav pull-right" data-ng-controller="UserCtrl">
 
                 <li data-ng-show="user.connected">Bonjour {{user.email}}</li>
-                <li data-ng-show="user.connected" data-ng-controller="LoginCtrl"><a data-ng-click="logout()">Logout</a></li>
+                <li data-ng-show="user.connected" data-ng-controller="LoginCtrl"><a data-ng-click="logout()">Logout</a>
+                </li>
 
 
             </ul>
-
 
 
         </div>
@@ -55,4 +55,5 @@
 <script type="text/javascript" src="js/app/controllers/user.js"></script>
 <script type="text/javascript" src="js/angular-ui/unique.js"></script>
 <script type="text/javascript" src="js/app/directive.js"></script>
+<script type="text/javascript" src="js/app/controllers/login.js"></script>
 </html>
