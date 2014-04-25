@@ -3,6 +3,7 @@ package com.zenika.zenfoot.gae.dao;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.impl.translate.opt.joda.JodaTimeTranslators;
 import com.zenika.zenfoot.user.User;
 
 /**
@@ -18,6 +19,8 @@ public class OfyService {
         return ObjectifyService.ofy();
     }
     public static ObjectifyFactory factory(){
-        return ObjectifyService.factory();
+        ObjectifyFactory objectifyFactory = ObjectifyService.factory();
+        JodaTimeTranslators.add(objectifyFactory);
+        return objectifyFactory;
     }
 }

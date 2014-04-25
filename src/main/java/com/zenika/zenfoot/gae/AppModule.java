@@ -1,10 +1,7 @@
 package com.zenika.zenfoot.gae;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableSet;
-
-import com.zenika.zenfoot.gae.services.MockUserService;
-import com.zenika.zenfoot.gae.services.ZenFootUserRepository;
+import com.zenika.zenfoot.gae.services.SessionInfo;
 import restx.config.ConfigLoader;
 import restx.config.ConfigSupplier;
 import restx.factory.Module;
@@ -46,6 +43,12 @@ public class AppModule {
             @Named("restx.admin.passwordHash") String adminPasswordHash) {
         return new StdBasicPrincipalAuthenticator(
                 userService, securitySettings);
+    }
+
+    @Provides
+    @Named("sessioninfo")
+    public SessionInfo getSessionInfo(){
+        return new SessionInfo();
     }
     
    

@@ -1,14 +1,22 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import org.joda.time.DateTime;
 
+@Entity
 public class Match {
+
+    @Id
+    private Long id;
 	
 	private DateTime date;
-	
+
+
 	private Pays participant1;
 	
 	private Pays participant2;
+
 
 	public Match(DateTime date, Pays participant1, Pays participant2) {
 		super();
@@ -17,7 +25,9 @@ public class Match {
 		this.participant2 = participant2;
 	}
 
-	public DateTime getDate() {
+
+
+    public DateTime getDate() {
 		return date;
 	}
 
@@ -43,8 +53,14 @@ public class Match {
 		this.participant2 = participant2;
 		return this;
 	}
-	
-	@Override
+
+    public boolean commence(){
+        return DateTime.now().isAfter(this.getDate());
+    }
+
+
+
+    @Override
 	public boolean equals(Object match){
 		if(!(match instanceof Match))return false;
 		

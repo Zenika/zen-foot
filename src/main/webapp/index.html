@@ -4,39 +4,73 @@
     <title>zenFoot</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="css/zencontact.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="js/bootstrap/bootstrap-3.1.1-dist/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="js/bootstrap/bootstrap-3.1.1-dist/css/bootstrap-theme.min.css" media="screen">
+
 </head>
 
 
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="brand" ui-sref="indexState">ZenFoot</a>
-            <ul class="nav">
-                <li data-ng-class="{active: location.path() == '/list'}"><a
-                        ui-sref="indexState">Paris</a></li>
-            </ul>
 
+<!--
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="navbar navbar-left">
+        <ul class="nav nav-tabs">
+            <li><a class="brand" ui-sref="indexState">ZenFoot</a></li>
 
-            <ul class="nav pull-right" data-ng-controller="UserCtrl">
-
-                <li data-ng-show="user.connected">Bonjour {{user.email}}</li>
-                <li data-ng-show="user.connected" data-ng-controller="LoginCtrl"><a data-ng-click="logout()">Logout</a>
-                </li>
-
-
-            </ul>
-
-
-        </div>
+            <li data-ng-class="{active: location.path() == '/list'}"><a
+                    ui-sref="indexState">Paris par match</a></li>
+            <li><a>Paris sur compétition</a></li>
+        </ul>
     </div>
+
+    <div class="navbar navbar-right">
+        <ul class="nav nav-tabs" data-ng-controller="UserCtrl">
+
+            <li data-ng-show="user.connected">Bonjour {{user.email}}</li>
+            <li data-ng-show="user.connected" data-ng-controller="LoginCtrl"><a data-ng-click="logout()">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+
 </div>
-</body>
+!-->
+
+
+<!-- Static navbar -->
+
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#">zenfoot</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li data-ng-class="{active: location.path() == '/list'}"><a
+                        ui-sref="indexState">Paris par match</a></li>
+                <li><a>Paris sur compétition</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" data-ng-controller="UserCtrl">
+
+                <li data-ng-show="user.connected"><a>Bonjour {{user.email}}</a></li>
+                <li data-ng-show="user.connected" data-ng-controller="LoginCtrl"><a
+                        data-ng-click="logout()">Logout</a>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+ </div>
+
+
+
+
 
 <div ui-view></div>
+
+
+</body>
 
 
 <script type="text/javascript" src="js/jquery/jquery.js"></script>
@@ -56,6 +90,7 @@
 <script type="text/javascript" src="js/app/controllers/user.js"></script>
 <script type="text/javascript" src="js/angular-ui/unique.js"></script>
 <script type="text/javascript" src="js/app/directive.js"></script>
+<script type="text/javascript" src="js/bootstrap/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
 <!--
 <script type="text/javascript" src="js/app/controllers/login.js"></script>
 !-->

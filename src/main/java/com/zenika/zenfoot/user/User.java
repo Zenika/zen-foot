@@ -81,4 +81,9 @@ public class User implements RestxPrincipal {
 		return ImmutableSet.copyOf(this.roles);
 	}
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof User))return false;
+        return ((User)obj).getEmail().equals(this.getEmail());
+    }
 }
