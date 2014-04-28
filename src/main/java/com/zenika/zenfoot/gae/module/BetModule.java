@@ -1,12 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.zenika.zenfoot.gae.model.BetMatch;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Pays;
-import com.zenika.zenfoot.gae.services.BetRepository;
-import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.user.User;
-import org.joda.time.DateTime;
+import com.zenika.zenfoot.gae.services.MatchRepository;
+import com.zenika.zenfoot.gae.services.MatchService;
 import restx.factory.Module;
 import restx.factory.Provides;
 
@@ -19,21 +14,18 @@ import javax.inject.Named;
 public class BetModule {
 
     @Provides
-    @Named("betrepository")
-    public BetRepository getRepositories(@Named("sessioninfo")SessionInfo sessionInfo) {
+    @Named("matchService")
+    public MatchService matchService(MatchRepository matchRepository) {
 
-        User user = new User().setEmail("raphael.martignoni@zenika.com").setName("raphael");
-        for(int i=0;i<10;i++){
-            System.out.printf("ICIICICICICICICICICICICICICICI");
-        }
+        MatchService matchService = new MatchService(matchRepository);
 
-        Pays bresil = new Pays().setName("Bresil");
-        Pays croatie = new Pays().setName("Croatie");
-        Match match = new Match(new DateTime(2014, 6, 22, 22, 0), bresil, croatie);
-        BetMatch betMatch = new BetMatch(match);
+        return matchService;
 
-        BetRepository betRepository = new BetRepository();
-        betRepository.addBet(user, betMatch);
-        return betRepository;
+    }
+
+    @Provides
+    @Named("matchRepo")
+    public MatchRepository matchRepository() {
+        return new MatchRepository();
     }
 }

@@ -1,12 +1,7 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.Gambler;
 import restx.factory.Component;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by raphael on 24/04/14.
@@ -15,33 +10,18 @@ import java.util.List;
 @Component
 public class BetRepository {
 
-
-    private HashMap<User, List<Bet>> userBet;
-
-    public BetRepository() {
-
-        userBet = new HashMap<>();
-
+    /**
+     * Returns the gambler corresponding to a given user id.
+     * @param id
+     * @return the Gambler corresponding to the given id
+     */
+    public Gambler getGambler(String id){
+        return null;
     }
 
-    public List<Bet> getBets(User user) {
-        return userBet.get(user);
-    }
 
-    public void addBet(User user, Bet bet) {
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println("ICICICICICICI");
-        }
-        List<Bet> bets = this.userBet.get(user);
-        if (bets == null) {
-            bets = new ArrayList<>();
-            bets.add(bet);
-            this.userBet.put(user, bets);
 
-        } else {
-            bets.add(bet);
-            this.userBet.put(user, bets);
-        }
-    }
+
+
 }

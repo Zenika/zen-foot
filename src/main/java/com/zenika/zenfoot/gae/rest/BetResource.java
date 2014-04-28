@@ -1,10 +1,9 @@
 package com.zenika.zenfoot.gae.rest;
 
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.services.BetRepository;
+import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.user.User;
 import restx.annotations.GET;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
@@ -19,15 +18,15 @@ import java.util.List;
 public class BetResource {
 
 
-    private BetRepository betRepository;
+    private final MatchService matchService;
 
      private SessionInfo sessionInfo;
 
-    public BetResource(@Named("betrepository") BetRepository betRepository
+    public BetResource(MatchService matchService
                        , @Named("sessioninfo") SessionInfo sessionInfo
     ) {
-        this.betRepository = betRepository;
              this.sessionInfo = sessionInfo;
+        this.matchService = matchService;
     }
 
 
@@ -44,15 +43,10 @@ public class BetResource {
     }
 
 
-    @GET("/bets")
+    @GET("/matchs")
     @PermitAll
-    public List<Bet> getBets() {
-        User user =sessionInfo.getUser();
-        List<Bet> bets = betRepository.getBets(user);
-        for(int i=0;i<20;i++) {
-            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
-        }
-        return bets;
+    public List<Match> getBets() {
+        return matchService.getMatchs();
     }
 
 }

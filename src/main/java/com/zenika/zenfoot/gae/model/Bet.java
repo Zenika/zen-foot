@@ -1,21 +1,36 @@
 package com.zenika.zenfoot.gae.model;
 
 /**
- * Created by raphael on 24/04/14.
+ * This is an implementation of a match bet.
+ *
+ * Created by raphael on 28/04/14.
  */
-public interface Bet {
+public class Bet extends  IssueMatchAbs implements IBet{
 
 
     /**
-     * Says whether or not the bet is on a match
-     * @return true if the bet is on a match
+     * Reference to a match id
      */
-    boolean isOnMatch();
+    protected Long matchId;
 
-    /**
-     * Says whether the bet is on the competition or not.
-     * @return true if the bet is on the competition
-     */
-    boolean isOnCompetition();
 
+
+    public Bet(Long matchId) {
+        super();
+        this.matchId=matchId;
+    }
+
+
+
+    @Override
+    public boolean isWon() {
+        //TODO
+        return false;
+    }
+
+    @Override
+    public boolean hasHappened() {
+        //TODO
+        return false;
+    }
 }
