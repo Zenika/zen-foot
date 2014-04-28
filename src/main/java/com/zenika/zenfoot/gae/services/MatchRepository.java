@@ -20,7 +20,7 @@ public class MatchRepository {
 
         Participant participant1 = new Participant().setPays("France");
         Participant participant2 = new Participant().setPays("Bresil");
-        Match match1 = new Match(new DateTime(2014,6,22,22,0),participant1,participant2);
+        Match match1 = new Match(new DateTime(2014,6,22,22,0),participant1,participant2).setId(new Long(1));
 
         Participant participant3 = new Participant().setPays("Coree du Sud");
         Participant participant4 = new Participant().setPays("Moldavie");

@@ -63,8 +63,9 @@ public class Match implements Event {
         return this;
     }
 
-    public void setId(Long id) {
+    public Match setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Long getId() {

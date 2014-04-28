@@ -37,12 +37,23 @@ zenFootService.factory('Session', function ($resource) {
 
     .factory('User', function ($resource) {
         return $resource('/api/sessions/:email', null,
-            {email:'@email'},
+            {email: '@email'},
             {
                 'get': {method: 'GET', withCredentials: true},
                 'save': {method: 'POST', withCredentials: true}
             });
-    });
+    })
 
+    .factory('Match', ['$resource', function ($resource) {
+        return $resource('/api/bets');
+    }])
+
+    .factory('MatchService',['Match', function(Match){
+        return {
+            getAll:function(){
+                return Match.get();
+            }
+        }
+    }])
 
 
