@@ -45,13 +45,13 @@ zenFootService.factory('Session', function ($resource) {
     })
 
     .factory('Match', ['$resource', function ($resource) {
-        return $resource('/api/bets');
+        return $resource('/api/matchs');
     }])
 
-    .factory('MatchService',['Match', function(Match){
+    .factory('matchService',['Match', function(Match){
         return {
             getAll:function(){
-                return Match.get();
+                return Match.query();
             }
         }
     }])

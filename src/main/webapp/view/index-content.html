@@ -7,14 +7,49 @@
     </div>
 
     <div class="page-header">
-        <h1>Liste des matchs</h1>
+      <h1>Liste des matchs</h1>
     </div>
-    <p data-ng-repeat="match in matchs">
-        {{match.participant1.pays}}   {{match.participant2.pays}}
-    </p>
+
+    <!-- Solution de base-->
+    <!--
+    <form class="form-inline" role="form" data-ng-repeat="match in matchs">
+        <div class="form-group">
+            <label for="inputPart1">{{match.participant1.pays}}</label>
+            <input type="number" class="form-control" id="inputPart1" placeholder="score">
+
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" id="inputPart2" placeholder="score">
+            <label for="inputPart2">{{match.participant2.pays}}</label>
+        </div>
+
+    </form>
+    -->
+
+    <div class="row" data-ng-repeat="match in matchs">
+        <div class="col-sm-2">
+            {{match.date|date:'dd/MM/yyyy à hh:mm'}}
+        </div>
+        <div class="col-sm-2">
+            {{match.participant1.pays}}
+        </div>
+        <div class="col-sm-1">
+            <input type="text" class="form-control" placeholder="score">
+        </div>
+        <div class="col-sm-1">
+            <input type="text" class="form-control" placeholder="score">
+        </div>
+        <div class="col-sm-2 col-sm-offset-2">
+            {{match.participant2.pays}}
+        </div>
+
+    </div>
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary">Pariez !</button>
+
+    </div>
+
 </div>
 
-<div data-ng-controller="HelloCtrl">{{sentence}}</div>
 
-
-<

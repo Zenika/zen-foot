@@ -7,7 +7,6 @@ import com.zenika.zenfoot.gae.services.SessionInfo;
 import restx.annotations.GET;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
-import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 
 import javax.inject.Named;
@@ -44,7 +43,7 @@ public class BetResource {
 
 
     @GET("/matchs")
-    @PermitAll
+    @RolesAllowed({Roles.GAMBLER,Roles.ADMIN})
     public List<Match> getBets() {
         return matchService.getMatchs();
     }
