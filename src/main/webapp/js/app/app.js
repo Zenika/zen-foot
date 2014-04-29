@@ -2,7 +2,7 @@
 
 var zenContactApp = angular.module('zenFoot.app',
 		[ 'zenFoot.services', 'zenFoot.controllers', 'zenContact.filters',
-				'ui.unique', 'zenContact.directives', 'ngCookies',
+				'ui.unique', 'zenFoot.directives', 'ngCookies',
 				'ui.router', 'ngResource', 'ngRoute', 'angular-md5' ]);
 
 zenContactApp.config(function($stateProvider, $urlRouterProvider, $httpProvider) {

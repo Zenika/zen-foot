@@ -13,10 +13,10 @@ public class MatchService {
     }
 
     public List<Match> getMatchs(){
-        return matchRepository.getAll();
+        return matchRepository.getAll2();
     }
 
     public Match getMatch(Long id){
-        return matchRepository.getMatch(id);
+        return matchRepository.getMatch2(id);
     }
 }

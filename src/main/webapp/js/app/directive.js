@@ -2,9 +2,9 @@
  * 
  */
 
-zenContactDirectives=angular.module('zenContact.directives',[]);
+zenFootDirectives=angular.module('zenFoot.directives',[]);
 
-zenContactDirectives.directive('auto-height',function(){
+zenFootDirectives.directive('auto-height',function(){
 	return function($scope,$element,$attributes){
 		 $element.css('overflow', 'auto');
 
@@ -20,7 +20,7 @@ zenContactDirectives.directive('auto-height',function(){
 
 
 
-zenContactDirectives.directive('popup',function($http){
+zenFootDirectives.directive('popup',function($http){
 	
 	$modal = $('<div class="modal hide fade" tabindex="-1"><div class="modal-body"></div></div>')
 	$content = $modal.find('.modal-body');
@@ -34,7 +34,7 @@ zenContactDirectives.directive('popup',function($http){
 	};
 });
 
-zenContactDirectives.directive('markdown',function($sce){
+zenFootDirectives.directive('markdown',function($sce){
 	return {restrict:'E',
 			replace:true,
 			template: '<div>' +
@@ -57,9 +57,21 @@ zenContactDirectives.directive('markdown',function($sce){
 	};
 });
 
-zenContactDirectives.directive('coucou',function(){
+zenFootDirectives.directive('coucou',function(){
 	return {restrict:'E',
 		replace:true,
 		templateUrl: 'view/coucou.html'
 	};
 });
+
+
+zenFootDirectives.directive('groupeDirective',function(){
+    return {
+        restrict:'E',
+        replace:true,
+        template:'view/groupe.html',
+        scope:{
+            groupe:'=groupe'
+        }
+    };
+})

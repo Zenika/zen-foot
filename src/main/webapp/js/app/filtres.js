@@ -6,17 +6,16 @@ var zenContactFilters=angular.module('zenContact.filters',[]);
 
 
 
-zenContactFilters.filter('fuzzyFilter', function () {
-	  return function (contacts, search, threshold) {
-	    if (!search) {
-	      return contacts;
-	    }
+zenContactFilters.filter('groupeFilter',[function(){
+    return function(matchs,groupe){
+        var groupeList = [];
 
-	    var fuse = new Fuse(contacts, {
-	    	keys: ['firstName', 'lastName'],
-	      	threshold: threshold
-	    });
-	    
-	    return fuse.search(search);
-	  };
-	});
+        angular.forEach(matchs,function(match){
+            if(match.participant1.groupe==groupe){
+                groupeList.push(match);
+            }
+        });
+
+        return groupeList;
+    };
+}])

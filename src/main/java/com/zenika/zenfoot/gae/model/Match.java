@@ -18,6 +18,8 @@ public class Match implements Event {
 
     protected MatchOutcome outcome;
 
+
+
     public Match(DateTime date, Participant participant1, Participant participant2) {
         super();
         this.date = date;

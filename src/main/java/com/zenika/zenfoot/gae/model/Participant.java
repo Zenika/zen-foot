@@ -12,6 +12,8 @@ public class Participant {
     @Id
     protected String pays;
 
+    protected Groupe groupe;
+
     public Participant() {
     }
 
@@ -22,6 +24,15 @@ public class Participant {
     public Participant setPays(String pays) {
         this.pays = pays;
         return this;
+    }
+
+    public Participant setGroupe(Groupe groupe) {
+        this.groupe = groupe;
+        return this;
+    }
+
+    public Groupe getGroupe() {
+        return groupe;
     }
 
     @Override
