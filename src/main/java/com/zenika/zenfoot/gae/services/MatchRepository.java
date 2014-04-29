@@ -66,7 +66,7 @@ public class MatchRepository {
 
         Participant argentine = new Participant().setPays("Argentine");
         Participant bosnie = new Participant().setPays("Bosnie-et-Herzégovine");
-        Match match11=new Match(new DateTime(2014,6,15,0,0),argentine,argentine);
+        Match match11=new Match(new DateTime(2014,6,15,0,0),argentine,bosnie);
 
         //16 juin
         Participant allemagne = new Participant().setPays("Allemagne");

@@ -1,55 +1,280 @@
-<div class="container theme-showcase" role="main" data-ng-controller="MatchCtrl">
+<div class="container theme-showcase" role="main" data-ng-controller="MatchMockCtrl">
 
     <div class="jumbotron">
 
-        <p>Pour parier sur un match, rentrez un score et cliquez sur "parier !"</p>
+        <p class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</p>
 
     </div>
 
     <div class="page-header">
-      <h1>Liste des matchs</h1>
+        <h1 >Liste des matchs</h1>
     </div>
 
-    <!-- Solution de base-->
+
     <!--
-    <form class="form-inline" role="form" data-ng-repeat="match in matchs">
-        <div class="form-group">
-            <label for="inputPart1">{{match.participant1.pays}}</label>
-            <input type="number" class="form-control" id="inputPart1" placeholder="score">
+    <div data-ng-repeat="match in matchs">
 
-        </div>
-        <div class="form-group">
-            <input type="number" class="form-control" id="inputPart2" placeholder="score">
-            <label for="inputPart2">{{match.participant2.pays}}</label>
-        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                {{match.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{match.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
 
-    </form>
-    -->
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{match.participant2.pays}}
+            </div>
+        </div>
+        </br>
 
-    <div class="row" data-ng-repeat="match in matchs">
-        <div class="col-sm-2">
-            {{match.date|date:'dd/MM/yyyy à hh:mm'}}
+    </div>
+-->
+
+    <h3>Groupe A</h3>
+    <div data-ng-repeat="matchA in groupeA">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchA.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchA.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchA.participant2.pays}}
+            </div>
         </div>
-        <div class="col-sm-2">
-            {{match.participant1.pays}}
-        </div>
-        <div class="col-sm-1">
-            <input type="text" class="form-control" placeholder="score">
-        </div>
-        <div class="col-sm-1">
-            <input type="text" class="form-control" placeholder="score">
-        </div>
-        <div class="col-sm-2 col-sm-offset-2">
-            {{match.participant2.pays}}
-        </div>
+        </br>
 
     </div>
 
-    <div class="pull-right">
-        <button type="button" class="btn btn-primary">Pariez !</button>
+    <h3>Groupe B</h3>
+    <div data-ng-repeat="matchB in groupeB">
 
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchB.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchB.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchB.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+
+    <h3>Groupe C</h3>
+    <div data-ng-repeat="matchC in groupeC">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchC.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchC.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchC.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+    <h3>Groupe D</h3>
+    <div data-ng-repeat="matchD in groupeD">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchD.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchD.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchD.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+    <h3>Groupe E</h3>
+    <div data-ng-repeat="matchE in groupeE">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchE.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchE.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchE.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+
+    <h3>Groupe F</h3>
+    <div data-ng-repeat="matchF in groupeF">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchF.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchF.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchF.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+    <h3>Groupe G</h3>
+    <div data-ng-repeat="matchG in groupeG">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchG.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchG.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchG.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+    <h3>Groupe H</h3>
+    <div data-ng-repeat="matchH in groupeH">
+
+        <div class="row">
+            <div class="col-sm-2">
+                {{matchH.date|date:'dd/MM/yyyy à HH:mm'}}
+            </div>
+            <div class="col-sm-2 text-right">
+                {{matchH.participant1.pays}}
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-1 text-center">
+
+                :
+            </div>
+            <div class="col-sm-1">
+                <input type="text" class="form-control input-sm" placeholder="score">
+            </div>
+            <div class="col-sm-2 text-left">
+                {{matchH.participant2.pays}}
+            </div>
+        </div>
+        </br>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-1 col-lg-offset-8">
+            <button type="button" class="btn btn-danger">Pariez !</button>
+        </div>
     </div>
 
 </div>
+
+
+
 
 
