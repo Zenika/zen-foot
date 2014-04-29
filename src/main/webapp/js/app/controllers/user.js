@@ -7,7 +7,7 @@ angular.module('zenFoot.app')
             Session.user.connected = true;
             Session.user.email = principal.email;
             Session.user.fullName = principal.fullName;
-            console.log(Session.user.email);
+            console.log('user email: '+Session.user.email);
         }
 
         $scope.user = Session.user;
@@ -16,6 +16,9 @@ angular.module('zenFoot.app')
         })
 
         User.get({email: 'current' }).$promise
+            .then(function(response){
+                return response.principal;
+            })
             .then(onConnected)
             .catch(function() {
                 Session.user.connected = false;

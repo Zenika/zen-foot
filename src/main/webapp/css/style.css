@@ -29,6 +29,10 @@ h2{
     color: #942723;
 }
 
+.zen-login{
+   vertical-align: middle;
+}
+
 
 .navbar-inverse-zen {
     background-color: #942723;
@@ -119,5 +123,6 @@ h2{
 .navbar-inverse-zen .navbar-link:hover {
     color: #f2f2f2;
 }
+
 
 
