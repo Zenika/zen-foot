@@ -105,6 +105,50 @@ public class MatchRepository {
         Match match23 = new Match(new DateTime(2014, 6, 19, 0, 0), japon, grece);
 
 
+        //20 juin
+        Match match24 = new Match(new DateTime(2014,6,20,18,0),italie,costaRica);
+        Match match25 = new Match(new DateTime(2014,6,20,21,0),suisse,france);
+        Match match26=new Match(new DateTime(2014,6,20,0,0),honduras,equateur);
+
+        //21 juin
+        Match match27=new Match(new DateTime(2014,6,21,18,0),argentine,iran);
+        Match match28=new Match(new DateTime(2014,6,21,21,0),allemagne,ghana);
+        Match match29=new Match(new DateTime(2014,6,21,0,0),nigeria,bosnie);
+
+        //22 juin
+        Match match30=new Match(new DateTime(2014,6,22,18,0),belgique,russie);
+        Match match31=new Match(new DateTime(2014,6,22,21,0),coree,algerie);
+        Match match32=new Match(new DateTime(2014,6,22,0,0),usa,portugal);
+
+        //23 juin
+        Match match33=new Match(new DateTime(2014,6,23,18,0),paysBas,chili);
+        Match match34=new Match(new DateTime(2014,6,23,18,0),australie,espagne);
+        Match match35=new Match(new DateTime(2014,6,23,22,0),cameroun,bresil);
+        Match match36=new Match(new DateTime(2014,6,23,22,0),croatie,mexique);
+
+        //24 juin
+        Match match37=new Match(new DateTime(2014,6,24,18,0),uruguay,italie);
+        Match match38=new Match(new DateTime(2014,6,24,18,0),costaRica,angleterre);
+        Match match39=new Match(new DateTime(2014,6,24,22,0),japon,colombie);
+        Match match40=new Match(new DateTime(2014,6,24,22,0),grece,coteIvoir);
+
+
+        //25 juin
+        Match match41=new Match(new DateTime(2014,6,25,18,0),nigeria,argentine);
+        Match match42=new Match(new DateTime(2014,6,25,18,0),bosnie,iran);
+        Match match43=new Match(new DateTime(2014,6,25,22,0),honduras,suisse);
+        Match match44=new Match(new DateTime(2014,6,25,22,0),equateur,france);
+
+
+        //26 juin
+        Match match45=new Match(new DateTime(2014,6,26,18,0),portugal,ghana);
+        Match match46=new Match(new DateTime(2014,6,26,18,0),usa,allemagne);
+        Match match47=new Match(new DateTime(2014,6,26,22,0),coree,belgique);
+        Match match48=new Match(new DateTime(2014,6,26,22,0),algerie,russie);
+
+
+
+
 
         ArrayList<Match> matchsArray = new ArrayList<>();
 
@@ -132,12 +176,39 @@ public class MatchRepository {
         matchsArray.add(match21);
         matchsArray.add(match22);
         matchsArray.add(match23);
+        matchsArray.add(match24);
+        matchsArray.add(match25);
+        matchsArray.add(match26);
+        matchsArray.add(match27);
+        matchsArray.add(match28);
+        matchsArray.add(match29);
+        matchsArray.add(match30);
+        matchsArray.add(match31);
+        matchsArray.add(match32);
+        matchsArray.add(match33);
+        matchsArray.add(match34);
+        matchsArray.add(match35);
+        matchsArray.add(match36);
+        matchsArray.add(match37);
+        matchsArray.add(match38);
+        matchsArray.add(match39);
+        matchsArray.add(match40);
+        matchsArray.add(match41);
+        matchsArray.add(match42);
+        matchsArray.add(match43);
+        matchsArray.add(match44);
+        matchsArray.add(match45);
+        matchsArray.add(match46);
+        matchsArray.add(match47);
+        matchsArray.add(match48);
+
+
 
         //TODO : delete this method and register matches once and for all
         //Delete every match before storing them in the database
 
 
-        //deleteAll();
+        deleteAll();
 
 
         int index = 0;
