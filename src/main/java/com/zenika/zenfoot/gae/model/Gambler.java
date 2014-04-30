@@ -34,6 +34,9 @@ public class Gambler {
         this.email = email;
     }
 
+    public Gambler() {
+    }
+
     public Long getId() {
         return id;
     }

@@ -11,7 +11,7 @@ zenContactFilters.filter('groupeFilter',[function(){
         var groupeList = [];
 
         angular.forEach(matchs,function(match){
-            if(match.participant1.groupe==groupe){
+            if(match.match.participant1.groupe==groupe){
                 groupeList.push(match);
             }
         });

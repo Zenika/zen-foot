@@ -51,7 +51,8 @@ zenFootService.factory('Session', function ($resource) {
     .factory('matchService',['Match', function(Match){
         return {
             getAll:function(){
-                return Match.query();
+                var objTmp = Match.query();
+                return objTmp;
             }
         }
     }])
