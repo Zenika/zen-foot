@@ -15,26 +15,26 @@
         <h3>Groupe {{groupe}}</h3>
 
 
-        <div data-ng-repeat="match in groupeA=(matchs|groupeFilter:groupe|orderBy:'date')">
+        <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:groupe|orderBy:'date')" name="formgp{{groupe}}{{match.match.id}}" class="css-form">
 
             <div class="row">
                 <div class="col-sm-2">
-                    {{match.date|date:'dd/MM/yyyy à HH:mm'}}
+                    {{match.match.date|date:'dd/MM/yyyy à HH:mm'}}
                 </div>
                 <div class="col-sm-2 text-right">
-                    {{match.participant1.pays}}
+                    {{match.match.participant1.pays}}
                 </div>
                 <div class="col-sm-1">
-                    <input type="number" class="form-control input-sm" placeholder="score">
+                    <input type="number" class="form-control input-sm" placeholder="score" data-ng-model="match.bet.score1.score" min="0">
                 </div>
                 <div class="col-sm-1 text-center">
                     :
                 </div>
                 <div class="col-sm-1">
-                    <input type="number" class="form-control input-sm" placeholder="score">
+                    <input type="number" class="form-control input-sm" placeholder="score" data-ng-model="match.bet.score2.score" min="0">
                 </div>
-                <div class="col-sm-2 text-left">
-                    {{match.participant2.pays}}
+                 <div class="col-sm-2 text-left">
+                    {{match.match.participant2.pays}}
                 </div>
             </div>
             </br>

@@ -12,6 +12,11 @@
     height:20;
 }
 
+.has-error, .css-form input.ng-invalid.ng-dirty {
+}
+
+
+
 div{
     color:#4c4c4c;
 }
