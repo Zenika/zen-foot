@@ -4,6 +4,8 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.impl.translate.opt.joda.JodaTimeTranslators;
+import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.user.User;
 
@@ -15,7 +17,9 @@ public class OfyService {
     static{
         factory().register(User.class);
         factory().register(Match.class);
-      //  factory().register(Gambler.class);
+        factory().register(Gambler.class);
+        factory().register(Bet.class);
+
     }
 
     public static Objectify ofy(){
