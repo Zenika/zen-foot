@@ -35,7 +35,7 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
 });
 
 controllers.controller('MatchCtrl', ['$scope', 'matchService', function ($scope, matchService) {
-    $scope.matchs = matchService.getAll();
+    $scope.matchsBets = matchService.getAll();
 
     $scope.groupes=["A","B","C","D","E","F","G","H"];
 

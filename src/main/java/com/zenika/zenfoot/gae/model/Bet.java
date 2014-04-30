@@ -35,6 +35,10 @@ public class Bet extends IssueMatchAbs implements IBet {
         return this;
     }
 
+    public Long getMatchId() {
+        return matchId;
+    }
+
     @Override
     public boolean isWon() {
         //TODO

@@ -2,8 +2,7 @@ package com.zenika.zenfoot.gae.module;
 
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
-import com.zenika.zenfoot.gae.services.MatchRepository;
-import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.*;
 import restx.factory.Module;
 import restx.factory.Provides;
 
@@ -15,15 +14,6 @@ import javax.inject.Named;
 @Module
 public class ModelModule {
 
-    @Provides
-    @Named("matchService")
-    public MatchService matchService(MatchRepository matchRepository) {
-
-        MatchService matchService = new MatchService(matchRepository);
-
-        return matchService;
-
-    }
 
     @Provides
     @Named("matchRepo")
@@ -37,5 +27,35 @@ public class ModelModule {
     @Named("matchDAO")
     public MatchDAO matchDAO(){
         return new MatchDAOImpl();
+    }
+
+    //Services
+
+    @Provides
+    @Named("betrepo")
+    public BetRepository betRepository(){
+        return new BetRepository();
+    }
+
+
+    @Provides
+    @Named("betservice")
+    public BetService betService(@Named("betrepo")BetRepository betRepository){
+        return new BetService(betRepository);
+    }
+
+    @Provides
+    @Named("matchService")
+    public MatchService matchService(MatchRepository matchRepository) {
+
+        MatchService matchService = new MatchService(matchRepository);
+
+        return matchService;
+
+    }
+
+    @Provides
+    public GamblerService gamblerService(){
+        return new GamblerService();
     }
 }
