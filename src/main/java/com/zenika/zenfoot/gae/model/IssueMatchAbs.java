@@ -1,5 +1,9 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+import javax.persistence.Embedded;
+
 /**
  * This is a representation for the result of a match. The result of a match corresponds to
  * two Score objects, corresponding to the scores of each team participating to a match. This
@@ -8,10 +12,13 @@ package com.zenika.zenfoot.gae.model;
  *
  * Created by raphael on 28/04/14.
  */
+@Subclass
 public abstract class IssueMatchAbs {
 
+    @Embedded
     protected Score score1;
 
+    @Embedded
     protected Score score2;
 
     protected IssueMatchAbs() {

@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.user.User;
 import restx.factory.Component;
 import restx.security.RestxSession;
@@ -28,6 +29,13 @@ public class SessionInfo {
         }
         return user;
 
+    }
+
+    public Gambler getGambler(){
+        User user = this.getUser();
+        if(user==null)return null;
+
+        return null;
     }
 
 

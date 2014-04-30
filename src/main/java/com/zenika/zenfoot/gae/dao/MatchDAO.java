@@ -19,4 +19,5 @@ public interface MatchDAO {
 
     //TODO delete
     void deleteAll();
+
 }

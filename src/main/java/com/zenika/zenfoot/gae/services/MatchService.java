@@ -19,4 +19,5 @@ public class MatchService {
     public Match getMatch(Long id){
         return matchRepository.getMatch2(id);
     }
+
 }

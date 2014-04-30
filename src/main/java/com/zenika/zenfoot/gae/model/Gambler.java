@@ -1,39 +1,61 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
+import javax.persistence.Embedded;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by raphael on 28/04/14.
  */
+@Entity
 public class Gambler {
+
+    @Id
+    private Long id;
 
     /**
      * The list of bets of the gambler
      */
-    protected List<IBet> bets;
+
+
+    @Embedded
+    protected List<Bet> bets = new ArrayList<Bet>();
+
 
     /**
-     * The id of the user to which the gambler instance is attached
+     * The id of the user this gambler instance is attached to
      */
     protected String email;
 
     public Gambler(String email) {
         this.email = email;
-        this.bets = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Gambler setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void addBet(IBet bet) {
+
+    public void addBet(Bet bet) {
         this.bets.add(bet);
     }
 
-    public List<IBet> getBets() {
+    public List<Bet> getBets() {
         return this.bets;
     }
+
 
     @Override
     public boolean equals(Object obj) {

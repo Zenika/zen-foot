@@ -27,6 +27,8 @@ public class Match implements Event {
         this.participant2 = participant2;
     }
 
+    public Match() {
+    }
 
     public DateTime getDate() {
         return date;

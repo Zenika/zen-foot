@@ -15,6 +15,7 @@ public class OfyService {
     static{
         factory().register(User.class);
         factory().register(Match.class);
+      //  factory().register(Gambler.class);
     }
 
     public static Objectify ofy(){

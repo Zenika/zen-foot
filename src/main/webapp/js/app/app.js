@@ -47,7 +47,7 @@ zenContactApp.config(function($stateProvider, $urlRouterProvider, $httpProvider)
 	$httpProvider.interceptors.push(function($q, authService) {
 		return {
 			'responseError' : function(rejection) {
-				if (rejection.status == '401') {
+				if (rejection.status == '401' || rejection.status=='403') {
 					authService.redirectToLogin();
 				}
 				return $q.reject(rejection);

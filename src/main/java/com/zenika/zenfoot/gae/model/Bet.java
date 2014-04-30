@@ -1,12 +1,19 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
 /**
  * This is an implementation of a match bet.
- *
+ * <p/>
  * Created by raphael on 28/04/14.
  */
-public class Bet extends  IssueMatchAbs implements IBet{
+@Entity
+public class Bet extends IssueMatchAbs implements IBet {
 
+
+    @Id
+    protected Long id;
 
     /**
      * Reference to a match id
@@ -14,13 +21,19 @@ public class Bet extends  IssueMatchAbs implements IBet{
     protected Long matchId;
 
 
-
     public Bet(Long matchId) {
         super();
-        this.matchId=matchId;
+        this.matchId = matchId;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public Bet setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     @Override
     public boolean isWon() {

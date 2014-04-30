@@ -6,6 +6,7 @@ package com.zenika.zenfoot.gae.model;
 
 public class Score {
 
+
     protected Participant participant;
 
     protected int score;

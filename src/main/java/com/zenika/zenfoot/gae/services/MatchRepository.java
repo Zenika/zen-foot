@@ -105,6 +105,7 @@ public class MatchRepository {
         Match match23 = new Match(new DateTime(2014, 6, 19, 0, 0), japon, grece);
 
 
+
         ArrayList<Match> matchsArray = new ArrayList<>();
 
 
@@ -134,7 +135,10 @@ public class MatchRepository {
 
         //TODO : delete this method and register matches once and for all
         //Delete every match before storing them in the database
-        deleteAll();
+
+
+        //deleteAll();
+
 
         int index = 0;
         for (Match matchArray : matchsArray) {
@@ -142,6 +146,7 @@ public class MatchRepository {
             index++;
             this.createMatch2(matchArray);
         }
+
 
 
     }
@@ -182,5 +187,7 @@ public class MatchRepository {
     public void deleteAll(){
         matchDAO.deleteAll();
     }
+
+
 
 }

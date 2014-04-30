@@ -1,6 +1,5 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.zenika.zenfoot.gae.model.Match;
 
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public class MatchDAOImpl implements MatchDAO {
 
-    public static Objectify ofy=OfyService.ofy();
+    private static Objectify ofy=OfyService.ofy();
 
     @Override
     public void addMatch(Match match) {
@@ -35,9 +34,15 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public void deleteAll() {
-        List<Key<Match>> keys = ofy.load().type(Match.class).keys().list();
-        ofy.delete().keys(keys).now();
+
+        List<Match> matchs = getAll();
+        for(Match match : matchs){
+            this.deleteMatch(match.getId());
+        }
+
     }
+
+
 
 
 }
