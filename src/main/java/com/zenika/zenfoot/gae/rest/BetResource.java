@@ -57,8 +57,13 @@ public class BetResource {
     @RolesAllowed({Roles.GAMBLER, Roles.ADMIN})
     public List<MatchAndBet> getBets() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
-        List<Bet> bets = gambler.getBets();
         List<Match> matchs = matchService.getMatchs();
+
+        if(gambler==null){
+            gambler = gamblerService.createGambler(sessionInfo.getUser(),matchs);
+        }
+
+        List<Bet> bets = gambler.getBets();
         List<MatchAndBet> matchAndBets = new ArrayList<>();
 
         for(Match match : matchs){

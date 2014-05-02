@@ -9,7 +9,7 @@ public class Score {
 
     protected Participant participant;
 
-    protected int score;
+    protected int score=-1;
 
     public Score() {
     }
@@ -32,10 +32,16 @@ public class Score {
         return this;
     }
 
+    public boolean isUnknown(){
+        return score==-1;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Score))return false;
         Score score = (Score) obj;
         return score.getParticipant().equals(this.getParticipant()) && (score.getScore() == this.getScore());
     }
+
+
 }
