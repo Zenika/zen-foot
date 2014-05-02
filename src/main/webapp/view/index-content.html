@@ -11,7 +11,7 @@
     </div>
 
 
-    <form>
+    <form name="scoreform">
         <div data-ng-repeat="groupe in groupes">
             <h3>Groupe {{groupe}}</h3>
 
@@ -27,15 +27,15 @@
                         {{match.match.participant1.pays}}
                     </div>
                     <div class="col-sm-1" class="css-form">
-                        <input type="number" class="form-control input-sm" placeholder="score"
-                               data-ng-model="match.bet.score1.score" min="0" required>
+                        <input class="form-control input-sm" placeholder="score"
+                               data-ng-model="match.bet.score1.score" min="0" ng-pattern=scoreRegexp>
                     </div>
                     <div class="col-sm-1 text-center">
                         :
                     </div>
                     <div class="col-sm-1">
-                        <input type="number" class="form-control input-sm" placeholder="score"
-                               data-ng-model="match.bet.score2.score" min="0" required>
+                        <input class="form-control input-sm" placeholder="score"
+                               data-ng-model="match.bet.score2.score" min="0" ng-pattern=scoreRegexp>
                     </div>
                     <div class="col-sm-2 text-left">
                         {{match.match.participant2.pays}}
@@ -49,7 +49,7 @@
 
         <div class="row">
             <div class="col-sm-1 col-lg-offset-8">
-                <button type="button" class="btn btn-danger">Pariez !</button>
+                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid">Pariez !</button>
             </div>
         </div>
 

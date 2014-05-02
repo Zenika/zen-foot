@@ -54,7 +54,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', function ($scope,
     $scope.grpA="H";
 
 
-
+    $scope.scoreRegexp=/^[0-9]{1,2}$|^$/;
 
 
 }]);
