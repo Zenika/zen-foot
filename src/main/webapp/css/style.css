@@ -12,8 +12,14 @@
     height:20;
 }
 
-.has-error, .css-form input.ng-invalid.ng-dirty {
-}
+/*
+.has-error,
+*/
+ .warning-score input.ng-invalid.ng-dirty {
+     background-color: #FA787E;
+
+ }
+
 
 
 

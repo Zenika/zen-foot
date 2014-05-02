@@ -11,4 +11,5 @@ release.properties
 *.iml
 node_modules
 deployGAE.*
+deploy*
 test/
