@@ -22,6 +22,8 @@ public abstract class IssueMatchAbs {
     protected Score score2;
 
     protected IssueMatchAbs() {
+        this.score1=new Score();
+        this.score2=new Score();
     }
 
     public Score getScore1() {

@@ -27,15 +27,15 @@
                         {{match.match.participant1.pays}}
                     </div>
                     <div class="col-sm-1" class="css-form">
-                        <input class="form-control input-sm" placeholder="score"
-                               data-ng-model="match.bet.score1.score" min="0" ng-pattern=scoreRegexp>
+                        <input class="form-control input-sm" placeholder="score" data-ng-init="score1=match.bet.score1"
+                               data-ng-model="score1.score" ng-pattern=scoreRegexp>
                     </div>
                     <div class="col-sm-1 text-center">
                         :
                     </div>
                     <div class="col-sm-1">
-                        <input class="form-control input-sm" placeholder="score"
-                               data-ng-model="match.bet.score2.score" min="0" ng-pattern=scoreRegexp>
+                        <input class="form-control input-sm" placeholder="score" data-ng-init="score2=match.bet.score2"
+                               data-ng-model="score2.score" ng-pattern=scoreRegexp>
                     </div>
                     <div class="col-sm-2 text-left">
                         {{match.match.participant2.pays}}

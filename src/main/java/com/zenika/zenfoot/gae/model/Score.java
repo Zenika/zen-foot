@@ -1,5 +1,10 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zenika.zenfoot.gae.jackson.ScoreDeserializer;
+import com.zenika.zenfoot.gae.jackson.ScoreSerializer;
+
 /**
  * Created by raphael on 28/04/14.
  */
@@ -9,6 +14,8 @@ public class Score {
 
     protected Participant participant;
 
+    @JsonSerialize(using = ScoreSerializer.class)
+    @JsonDeserialize(using= ScoreDeserializer.class)
     protected int score=-1;
 
     public Score() {

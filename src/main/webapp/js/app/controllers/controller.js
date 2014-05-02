@@ -56,6 +56,10 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', function ($scope,
 
     $scope.scoreRegexp=/^[0-9]{1,2}$|^$/;
 
+    $scope.writeScore=function(score){
+
+    }
+
 
 }]);
 
