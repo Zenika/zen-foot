@@ -48,9 +48,9 @@ zenFootService.factory('Session', function ($resource) {
         return $resource('/api/matchs');
     }])
 
-    .factory('matchService',['Match', function(Match){
+    .factory('matchService', ['Match', function (Match) {
         return {
-            getAll:function(){
+            getAll: function () {
                 var objTmp = Match.query();
                 console.log(objTmp)
                 //.bet.score1.score
@@ -58,5 +58,9 @@ zenFootService.factory('Session', function ($resource) {
             }
         }
     }])
+
+    .factory('postBetService',['resource'],function($resource){
+        return $resource('/api/bets');
+})
 
 

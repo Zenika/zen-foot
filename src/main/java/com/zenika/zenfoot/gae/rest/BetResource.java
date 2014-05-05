@@ -73,10 +73,18 @@ public class BetResource {
         return matchAndBets;
     }
 
-    @POST("/bet")
+    @POST("/bets")
     @RolesAllowed(Roles.GAMBLER)
-    public void bet(List<Bet> bets) {
+    public void postBets(List<MatchAndBet> matchAndBets){
+        //TODO to implement
+
+        for(MatchAndBet matchAndBet:matchAndBets){
+            if(matchAndBet.getBet().getId().equals(1000L)){
+                System.out.println(matchAndBet.getBet());
+            }
+        }
     }
+
 
 
 }

@@ -50,4 +50,9 @@ public class Bet extends IssueMatchAbs implements IBet {
         //TODO
         return false;
     }
+
+    @Override
+    public String toString() {
+        return id+" "+score1.getScore()+" : "+score2.getScore();
+    }
 }

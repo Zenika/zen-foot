@@ -37,9 +37,15 @@ public class GamblerService {
 
     public Gambler createGambler(User user, List<Match> matchs){
         Gambler gambler = new Gambler(user.getEmail());
+
+        long betId=1;
         for(Match match:matchs){
-            Bet bet = new Bet(match.getId());
+            Bet bet = new Bet(match.getId()).setId(betId);
+            if(match.getParticipant1().getPays().equals("Croatie") && match.getParticipant2().getPays().equals("Bresil")){
+                bet.setId(1000L);
+            }
             gambler.addBet(bet);
+            betId++;
         }
         this.gamblers.put(user.getEmail(),gambler);
         return gambler;
