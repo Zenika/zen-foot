@@ -60,14 +60,21 @@ public class BetResource {
         List<Match> matchs = matchService.getMatchs();
 
         if(gambler==null){
-            gambler = gamblerService.createGambler(sessionInfo.getUser(),matchs);
+            gambler = gamblerService.createGambler(sessionInfo.getUser(), matchs);
         }
 
         List<Bet> bets = gambler.getBets();
         List<MatchAndBet> matchAndBets = new ArrayList<>();
 
         for(Match match : matchs){
-            matchAndBets.add(new MatchAndBet().setMatch(match).setBet(gamblerService.getBet(gambler,match)));
+            Bet bet=gamblerService.getBet(gambler, match);
+            if(bet==null) {
+                System.out.println("--------------------------------");
+                System.out.println("WHILE RETRIEVING ALL BETS");
+                System.out.println("NULL BET FOR MATCH " + match);
+            }
+
+            matchAndBets.add(new MatchAndBet().setMatch(match).setBet(bet));
         }
 
         return matchAndBets;
@@ -76,14 +83,29 @@ public class BetResource {
     @POST("/bets")
     @RolesAllowed(Roles.GAMBLER)
     public void postBets(List<MatchAndBet> matchAndBets){
-        //TODO to implement
 
-        for(MatchAndBet matchAndBet:matchAndBets){
-            if(matchAndBet.getBet().getId().equals(1000L)){
-                System.out.println(matchAndBet.getBet());
+
+        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        List<Bet> newList =new ArrayList<>();
+
+        System.out.println("--------------------------------");
+        System.out.println(matchAndBets.size()+" matchAndBet json objects received");
+
+        for(MatchAndBet matchAndBet: matchAndBets){
+
+            if(matchAndBet==null){
+                System.out.println("------------------------------------------");
+                System.out.println("WHILE POSTING BETS");
+                System.out.println("NULL BET FOR MATCH "+matchAndBet.getMatch());
             }
+            newList.add(matchAndBet.getBet());
         }
+
+        gambler.setBets(newList);
+
     }
+
+
 
 
 

@@ -89,4 +89,9 @@ public class Match implements Event {
         //TODO implement method
         return false;
     }
+
+    @Override
+    public String toString() {
+        return participant1+" / "+participant2+" ("+this.getDate()+")";
+    }
 }

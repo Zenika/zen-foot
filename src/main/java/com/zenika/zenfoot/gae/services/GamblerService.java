@@ -5,7 +5,6 @@ import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.user.User;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,21 +12,26 @@ import java.util.List;
  */
 public class GamblerService {
 
-    private HashMap<String, Gambler> gamblers;
+    private GamblerRepository gamblerRepository;
 
-    public GamblerService(){
-        this.gamblers=new HashMap<>();
+    public GamblerService(GamblerRepository gamblerRepository) {
+        this.gamblerRepository = gamblerRepository;
     }
 
-    public Gambler get(User user) {
-        return this.gamblers.get(user.getEmail());
+
+    public Gambler get(User user){
+        return this.gamblerRepository.getGamblerFromEmail(user.getEmail());
     }
 
-    public Bet getBet(Gambler gambler, Match match){
-        Bet toRet=null;
+    public Gambler getFromEmail(String email){
+        return this.gamblerRepository.getGamblerFromEmail(email);
+    }
 
-        for(Bet bet:gambler.getBets()){
-            if(bet.getMatchId().equals(match.getId())){
+    public Bet getBet(Gambler gambler, Match match) {
+        Bet toRet = null;
+
+        for (Bet bet : gambler.getBets()) {
+            if (bet.getMatchId().equals(match.getId())) {
                 toRet = bet;
                 break;
             }
@@ -35,19 +39,26 @@ public class GamblerService {
         return toRet;
     }
 
-    public Gambler createGambler(User user, List<Match> matchs){
-        Gambler gambler = new Gambler(user.getEmail());
 
-        long betId=1;
-        for(Match match:matchs){
-            Bet bet = new Bet(match.getId()).setId(betId);
-            if(match.getParticipant1().getPays().equals("Croatie") && match.getParticipant2().getPays().equals("Bresil")){
-                bet.setId(1000L);
-            }
+
+
+
+    public Gambler createGambler(User user, List<Match> matchs){
+
+        System.out.println("creating gambler with email "+user.getEmail());
+        Gambler gambler = new Gambler(user.getEmail());
+        for (Match match : matchs) {
+            Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
-            betId++;
+
         }
-        this.gamblers.put(user.getEmail(),gambler);
-        return gambler;
+        this.gamblerRepository.saveGambler(gambler);
+        return this.get(user);
     }
+
+    public Gambler updateGambler(Gambler gambler){
+        gamblerRepository.saveGambler(gambler);
+        return getFromEmail(gambler.getEmail());
+    }
+
 }

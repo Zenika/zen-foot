@@ -40,4 +40,9 @@ public class Participant {
         if(!(obj instanceof Participant)) return false;
         return ((Participant)obj).getPays().equals(this.getPays());
     }
+
+    @Override
+    public String toString() {
+        return this.pays;
+    }
 }

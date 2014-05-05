@@ -1,5 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
+import com.zenika.zenfoot.gae.dao.GamblerDAO;
+import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.services.*;
@@ -55,7 +57,17 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(){
-        return new GamblerService();
+    public GamblerDAO gamblerDAO(){
+        return new GamblerDAOImpl();
+    }
+
+    @Provides
+    public GamblerRepository gamblerRepository(GamblerDAO gamblerDAO){
+        return new GamblerRepository(gamblerDAO);
+    }
+
+    @Provides
+    public GamblerService gamblerService(GamblerRepository gamblerRepository){
+        return new GamblerService(gamblerRepository);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface GamblerDAO {
 
-    void addGambler(Gambler gambler);
+    void saveGambler(Gambler gambler);
 
     Gambler getGambler(Long id);
 
@@ -19,5 +19,7 @@ public interface GamblerDAO {
 
     //TODO delete
     void deleteAll();
+
+    Gambler getGamblerFromEmail(String email);
 
 }

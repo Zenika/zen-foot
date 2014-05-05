@@ -8,32 +8,24 @@ import com.googlecode.objectify.annotation.Id;
  * <p/>
  * Created by raphael on 28/04/14.
  */
-@Entity
 public class Bet extends IssueMatchAbs implements IBet {
 
-
-    @Id
-    protected Long id;
 
     /**
      * Reference to a match id
      */
     protected Long matchId;
 
+    public Bet(){
+
+    }
 
     public Bet(Long matchId) {
         super();
         this.matchId = matchId;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public Bet setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Long getMatchId() {
         return matchId;
@@ -53,6 +45,6 @@ public class Bet extends IssueMatchAbs implements IBet {
 
     @Override
     public String toString() {
-        return id+" "+score1.getScore()+" : "+score2.getScore();
+        return" "+score1.getScore()+" : "+score2.getScore();
     }
 }

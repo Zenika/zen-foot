@@ -59,8 +59,8 @@ zenFootService.factory('Session', function ($resource) {
         }
     }])
 
-    .factory('postBetService',['resource'],function($resource){
+    .factory('postBetService',['$resource',function($resource){
         return $resource('/api/bets');
-})
+}])
 
 

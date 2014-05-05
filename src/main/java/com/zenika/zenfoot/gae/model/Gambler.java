@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.model;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import javax.persistence.Embedded;
 import java.util.ArrayList;
@@ -21,13 +22,13 @@ public class Gambler {
      */
 
 
-    @Embedded
     protected List<Bet> bets = new ArrayList<Bet>();
 
 
     /**
      * The id of the user this gambler instance is attached to
      */
+    @Index
     protected String email;
 
     public Gambler(String email) {
@@ -59,6 +60,10 @@ public class Gambler {
         return this.bets;
     }
 
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
+    }
 
     @Override
     public boolean equals(Object obj) {

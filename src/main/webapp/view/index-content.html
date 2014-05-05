@@ -10,6 +10,11 @@
         <h1>Liste des matchs</h1>
     </div>
 
+    <p class="alert alert-warning" data-ng-show="modified">
+        Un match ou plus ne contenait un score que pour un participant.
+        Le score pour le deuxième participant a été mis à 0.
+    </p>
+
 
     <form name="scoreform">
         <div data-ng-repeat="groupe in groupes">
@@ -47,9 +52,11 @@
         </div>
 
 
+
+
         <div class="row">
             <div class="col-sm-1 col-lg-offset-8">
-                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid" data-ng-click="submit()">Pariez !</button>
+                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid" data-ng-click="postez()">Pariez !</button>
             </div>
         </div>
 

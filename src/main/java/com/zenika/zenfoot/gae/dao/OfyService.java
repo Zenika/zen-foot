@@ -18,7 +18,6 @@ public class OfyService {
         factory().register(User.class);
         factory().register(Match.class);
         factory().register(Gambler.class);
-        factory().register(Bet.class);
 
     }
 

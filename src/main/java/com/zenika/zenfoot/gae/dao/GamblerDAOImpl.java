@@ -13,9 +13,12 @@ public class GamblerDAOImpl implements GamblerDAO{
     private static Objectify ofy=OfyService.ofy();
 
     @Override
-    public void addGambler(Gambler gambler) {
-        ofy.save().entity(gambler);
+    public void saveGambler(Gambler gambler) {
+        ofy.save().entity(gambler).now();
+
     }
+
+
 
     @Override
     public Gambler getGambler(Long id) {
@@ -38,5 +41,29 @@ public class GamblerDAOImpl implements GamblerDAO{
         for(Gambler gambler:gamblers){
             deleteGambler(gambler.getId());
         }
+    }
+
+
+    /**
+     * Returns the gambler corresponding to the given email, or null if no Gambler corresponds to this email
+     * @param email a string representation of a user email
+     * @return the gambler ccorresponding to the email in param
+     */
+    @Override
+    public Gambler getGamblerFromEmail(String email) {
+        List<Gambler> gamblers = ofy.load().type(Gambler.class).filter("email",email).limit(1).list();
+
+        Gambler toRet=null;
+        if(gamblers.size()>0) {
+            System.out.println("looking for "+email);
+            System.out.println(gamblers.size()+" gamblers found");
+            toRet= gamblers.get(0);
+        }
+        else
+        {
+            System.out.println("------------------------------------");
+            System.out.println("no gambler found with email "+email);
+        }
+        return toRet;
     }
 }

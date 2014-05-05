@@ -204,7 +204,10 @@ public class MatchRepository {
 
 
 
-        //TODO : delete this method and register matches once and for all
+        //TODO : create a cleaner method/class which initializes these data.
+        //This shouldn't be done in the repository, as we'd like to expand our application to several kinds
+        // of competitions
+
         //Delete every match before storing them in the database
 
 

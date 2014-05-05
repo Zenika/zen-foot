@@ -11,12 +11,14 @@ import com.zenika.zenfoot.gae.jackson.ScoreSerializer;
 
 public class Score {
 
+    private final static int unrated=-1;
+
 
     protected Participant participant;
 
     @JsonSerialize(using = ScoreSerializer.class)
     @JsonDeserialize(using= ScoreDeserializer.class)
-    protected int score=-1;
+    protected int score=unrated;
 
     public Score() {
     }
@@ -40,7 +42,7 @@ public class Score {
     }
 
     public boolean isUnknown(){
-        return score==-1;
+        return score==unrated;
     }
 
     @Override
