@@ -20,8 +20,6 @@ public class Gambler {
     /**
      * The list of bets of the gambler
      */
-
-
     protected List<Bet> bets = new ArrayList<Bet>();
 
 

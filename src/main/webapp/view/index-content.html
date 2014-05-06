@@ -1,4 +1,4 @@
-<div class="container theme-showcase" role="main" data-ng-controller="MatchCtrl">
+<div class="container theme-showcase" role="main" data-ng-controller="MatchCtrl" xmlns="http://www.w3.org/1999/html">
 
     <div class="jumbotron">
 
@@ -9,11 +9,6 @@
     <div class="page-header">
         <h1>Liste des matchs</h1>
     </div>
-
-    <p class="alert alert-warning" data-ng-show="modified">
-        Un match ou plus ne contenait un score que pour un participant.
-        Le score pour le deuxième participant a été mis à 0.
-    </p>
 
 
     <form name="scoreform">
@@ -32,19 +27,22 @@
                         {{match.match.participant1.pays}}
                     </div>
                     <div class="col-sm-1">
-                        <input name="score1{{match.match.id}}" class="form-control input-sm" placeholder="score" data-ng-init="score1=match.bet.score1"
+                        <input name="score1input" class="form-control input-sm" placeholder="score"
+                               data-ng-init="score1=match.bet.score1"
                                data-ng-model="score1.score" ng-pattern=scoreRegexp>
+
                     </div>
                     <div class="col-sm-1 text-center">
                         :
                     </div>
                     <div class="col-sm-1">
-                        <input name="score2{{match.match.id}}" class="form-control input-sm" placeholder="score" data-ng-init="score2=match.bet.score2"
-                               data-ng-model="score2.score" ng-pattern=scoreRegexp>
-                        <span class="error" ng-show="scoreform.score2{{match.match.id}}.$valid">invalid</span>
-                    </div>
+                        <input name="score2input" class="form-control input-sm" placeholder="score"
+                               data-ng-init="score2=match.bet.score2"
+                               data-ng-model="score2.score" ng-pattern=scoreRegexp></div>
                     <div class="col-sm-2 text-left">
                         {{match.match.participant2.pays}}
+                    </div>
+                    <div class="col-sm-2" data-ng-show="showWarning(match.bet)"><span class="label label-warning">mis à z&eacute;ro</span>
                     </div>
                 </div>
                 </br>
@@ -52,12 +50,18 @@
             </div>
         </div>
 
-
+        <p data-ng-show="modified" class="alert alert-warning">
+            Un match ou plus ne contenait un score que pour un participant.
+            Le score pour le deuxième participant a été mis à 0. Pour accepter
+            ces changements et prendre en compte votre pari, cliquez à nouveau sur "pariez !".
+        </p>
 
 
         <div class="row">
             <div class="col-sm-1 col-lg-offset-8">
-                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid" data-ng-click="postez()">Pariez !</button>
+                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid"
+                        data-ng-click="postez()">Pariez !
+                </button>
             </div>
         </div>
 

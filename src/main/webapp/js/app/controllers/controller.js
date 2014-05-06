@@ -56,19 +56,34 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
     $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
+
+    /**
+     * Function called when "postez" is clicked
+     */
     $scope.postez = function () {
         $scope.modified = false;
         submit();
     }
 
+
+    /**
+     * Function called via $scope.postez() when "postez" is clicked
+     */
     var submit = function () {
         checkScores(postBets);
 
     }
-
+    /**
+     * This variable says whether or not a 0 value has been assigned automatically to a score which was not assigned
+     * It is put to false again every time the "postez" button is clicked.
+     * @type {boolean}
+     */
     $scope.modified = false;
 
 
+    /**
+     * Posts the result to the restx backend. Called within checkscores, only if no score was assigned 0 value automatically
+     */
     var postBets = function () {
 
 
@@ -82,14 +97,12 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
     }
 
     var checkScores = function (callBack) {
-        /*
-         for(var matchBet in $scope.matchsBets){
-         checkScore(matchBet);
-         }
-         */
+
 
         angular.forEach($scope.matchsBets, checkScore);
-        postBets();
+        if(!$scope.modified){
+            callBack();
+        }
     }
 
 
@@ -98,6 +111,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
         var unsetScore = scoreUnset(matchAndBet);
         if (unsetScore) {
             unsetScore.score = 0;
+            unsetScore.assignedZero=true;
             return true;
         }
         else {
@@ -124,6 +138,18 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
         return undefined;
     }
+
+    /**
+     * Returns true if one of the scores was assigned a zero value automatically
+     * @param bet
+     * @returns {boolean|*}
+     */
+    $scope.showWarning=function(bet){
+
+        return bet.score1.assignedZero||bet.score2.assignedZero;
+        //return true;
+    }
+
 
 }]);
 
