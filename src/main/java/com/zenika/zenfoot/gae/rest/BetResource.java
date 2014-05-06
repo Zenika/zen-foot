@@ -17,6 +17,8 @@ import restx.security.RolesAllowed;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestxResource
 @Component
@@ -59,16 +61,24 @@ public class BetResource {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
         List<Match> matchs = matchService.getMatchs();
 
+
+
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+
         if(gambler==null){
+            logger.log(Level.WARNING,"gambler is null when calling /matchs");
             gambler = gamblerService.createGambler(sessionInfo.getUser(), matchs);
         }
 
         List<Bet> bets = gambler.getBets();
         List<MatchAndBet> matchAndBets = new ArrayList<>();
 
+        logger.log(Level.WARNING,"after creating the gambler, there are "+bets.size()+" bets");
         for(Match match : matchs){
             Bet bet=gamblerService.getBet(gambler, match);
             if(bet==null) {
+                logger.log(Level.WARNING,"bet is null!");
+                logger.log(Level.WARNING,"bet corresponds to match ");
                 System.out.println("--------------------------------");
                 System.out.println("WHILE RETRIEVING ALL BETS");
                 System.out.println("NULL BET FOR MATCH " + match);

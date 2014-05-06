@@ -4,11 +4,13 @@ import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
+import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
 import restx.factory.Module;
 import restx.factory.Provides;
 
 import javax.inject.Named;
+import java.util.ArrayList;
 
 /**
  * Created by raphael on 24/04/14.
@@ -18,11 +20,23 @@ public class ModelModule {
 
 
     @Provides
-    @Named("matchRepo")
+    @Named("matchRepoDev")
     public MatchRepository matchRepository(@Named("matchDAO") MatchDAO matchDAO) {
-        return new MatchRepository(matchDAO);
+        MatchRepository matchRepository=new MatchRepository(matchDAO);
+        ArrayList<Match> matchs=GenerateMatches.generate();
+        for(Match match:matchs){
+            matchRepository.createMatch2(match);
+        }
+        return matchRepository;
     }
 
+    @Provides
+    @Named("matchRepoGAE")
+    public MatchRepository matchRepositoryGAE(@Named("matchDAO") MatchDAO matchDAO) {
+        MatchRepository matchRepository=new MatchRepository(matchDAO);
+
+        return matchRepository;
+    }
 
     //DAOs
     @Provides
@@ -48,7 +62,7 @@ public class ModelModule {
 
     @Provides
     @Named("matchService")
-    public MatchService matchService(MatchRepository matchRepository) {
+    public MatchService matchService(@Named("matchRepoDev")MatchRepository matchRepository) {
 
         MatchService matchService = new MatchService(matchRepository);
 

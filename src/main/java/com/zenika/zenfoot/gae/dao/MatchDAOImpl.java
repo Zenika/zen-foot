@@ -4,6 +4,8 @@ import com.googlecode.objectify.Objectify;
 import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by raphael on 29/04/14.
@@ -34,11 +36,13 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public void deleteAll() {
-
+        Logger logger = Logger.getLogger(MatchDAOImpl.class.getName());
         List<Match> matchs = getAll();
         for(Match match : matchs){
             this.deleteMatch(match.getId());
         }
+        logger.log(Level.WARNING,"deleted "+matchs.size()+ " matchs");
+
 
     }
 

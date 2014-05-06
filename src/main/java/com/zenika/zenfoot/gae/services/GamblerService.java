@@ -6,6 +6,8 @@ import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.user.User;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by raphael on 30/04/14.
@@ -30,6 +32,7 @@ public class GamblerService {
     public Bet getBet(Gambler gambler, Match match) {
         Bet toRet = null;
 
+
         for (Bet bet : gambler.getBets()) {
             if (bet.getMatchId().equals(match.getId())) {
                 toRet = bet;
@@ -47,6 +50,8 @@ public class GamblerService {
 
         System.out.println("creating gambler with email "+user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
+        Logger logger = Logger.getLogger(GamblerService.class.getName()+1);
+        logger.log(Level.WARNING,"while creating gambler, there are "+matchs.size());
         for (Match match : matchs) {
             Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
