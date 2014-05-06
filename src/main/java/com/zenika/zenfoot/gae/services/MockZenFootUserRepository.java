@@ -27,7 +27,11 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
         raphael.setPasswordHash("2205");
         Optional<User> userOpt = Optional.of(raphael);
 
+        User jean = new User().setName("jean").setEmail("jean.bon@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+        jean.setPasswordHash("999");
+
         this.userDao.addUser(raphael);
+        this.userDao.addUser(jean);
         users.put(raphael.getEmail(), userOpt);
 
 
