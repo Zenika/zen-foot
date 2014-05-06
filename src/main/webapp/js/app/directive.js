@@ -75,3 +75,14 @@ zenFootDirectives.directive('groupeDirective',function(){
         }
     };
 })
+/*
+zenFootDirectives.directive('zenToolTip',[function(){
+    function link(scope,element,attrs){
+
+    }
+
+    return {
+
+    }
+}])
+    */

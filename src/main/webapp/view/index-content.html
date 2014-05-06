@@ -24,22 +24,22 @@
             <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:groupe|orderBy:'date')"
                  name="formgp{{groupe}}{{match.match.id}}" class="warning-score">
 
-                <div class="row">
+                <div name="row" class="row">
                     <div class="col-sm-2">
                         {{match.match.date|date:'dd/MM/yyyy à HH:mm'}}
                     </div>
                     <div class="col-sm-2 text-right">
                         {{match.match.participant1.pays}}
                     </div>
-                    <div class="col-sm-1" class="css-form">
-                        <input class="form-control input-sm" placeholder="score" data-ng-init="score1=match.bet.score1"
+                    <div class="col-sm-1">
+                        <input name="score1" class="form-control input-sm" placeholder="score" data-ng-init="score1=match.bet.score1"
                                data-ng-model="score1.score" ng-pattern=scoreRegexp>
                     </div>
                     <div class="col-sm-1 text-center">
                         :
                     </div>
                     <div class="col-sm-1">
-                        <input class="form-control input-sm" placeholder="score" data-ng-init="score2=match.bet.score2"
+                        <input name="score2" class="form-control input-sm" placeholder="score" data-ng-init="score2=match.bet.score2"
                                data-ng-model="score2.score" ng-pattern=scoreRegexp>
                     </div>
                     <div class="col-sm-2 text-left">
