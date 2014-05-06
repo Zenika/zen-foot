@@ -27,18 +27,27 @@
                         {{match.match.participant1.pays}}
                     </div>
                     <div class="col-sm-1">
-                        <input name="score1input" class="form-control input-sm" placeholder="score"
-                               data-ng-init="score1=match.bet.score1"
-                               data-ng-model="score1.score" ng-pattern=scoreRegexp>
+                        <ng-form name="score1Form">
+                            <input name="score1input" class="form-control input-sm" placeholder="score"
+                                   data-ng-init="score1=match.bet.score1"
+                                   data-ng-model="score1.score" ng-pattern=scoreRegexp>
+                            <span class="label label-danger" ng-hide="score1Form.score1input.$valid">score : entre 0 et 99</span>
+
+                        </ng-form>
 
                     </div>
                     <div class="col-sm-1 text-center">
                         :
                     </div>
                     <div class="col-sm-1">
-                        <input name="score2input" class="form-control input-sm" placeholder="score"
-                               data-ng-init="score2=match.bet.score2"
-                               data-ng-model="score2.score" ng-pattern=scoreRegexp></div>
+                        <ng-form name="score2Form">
+
+                            <input name="score2input" class="form-control input-sm" placeholder="score"
+                                   data-ng-init="score2=match.bet.score2"
+                                   data-ng-model="score2.score" ng-pattern=scoreRegexp>
+                            <span class="label label-danger" ng-hide="score2Form.score2input.$valid">score : entre 0 et 99</span>
+                        </ng-form>
+                    </div>
                     <div class="col-sm-2 text-left">
                         {{match.match.participant2.pays}}
                     </div>
