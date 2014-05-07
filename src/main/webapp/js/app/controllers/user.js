@@ -7,7 +7,6 @@ angular.module('zenFoot.app')
             Session.user.connected = true;
             Session.user.email = principal.email;
             Session.user.fullName = principal.fullName;
-            console.log('user email: '+Session.user.email);
         }
 
         $scope.user = Session.user;

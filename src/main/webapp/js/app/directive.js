@@ -75,6 +75,22 @@ zenFootDirectives.directive('groupeDirective',function(){
         }
     };
 })
+
+zenFootDirectives.directive('zenDisable',function(){
+    return{
+        scope:{
+        },
+        link:function(scope,element,attrs){
+            scope.$watch(attrs.oldmatch,function(oldmatch){
+                if(oldmatch) {
+                    element.prop('disabled',true)
+                }
+            });
+        }
+    }
+})
+
+
 /*
 zenFootDirectives.directive('zenToolTip',[function(){
     function link(scope,element,attrs){

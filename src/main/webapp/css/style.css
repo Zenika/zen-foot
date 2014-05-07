@@ -45,6 +45,22 @@ h2{
 }
 
 
+.former-match div{
+    color:lightgrey;
+}
+
+
+
+
+
+
+
+
+
+/*
+navbar css with zenika colors
+*/
+
 .navbar-inverse-zen {
     background-color: #942723;
     border-color: #942723;

@@ -150,6 +150,14 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
         //return true;
     }
 
+    $scope.isFormer=function(date){
+        var now = new Date(2014,5,14);
+        var matchDate = new Date(date);
+
+        var toRet = matchDate<=now;
+        return toRet;
+    }
+
 
 }]);
 

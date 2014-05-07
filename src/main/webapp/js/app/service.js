@@ -52,7 +52,6 @@ zenFootService.factory('Session', function ($resource) {
         return {
             getAll: function () {
                 var objTmp = Match.query();
-                console.log(objTmp)
                 //.bet.score1.score
                 return objTmp;
             }
