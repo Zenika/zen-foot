@@ -47,9 +47,9 @@ public class Score {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Score))return false;
+        if(obj==null||!(obj instanceof Score))return false;
         Score score = (Score) obj;
-        return score.getParticipant().equals(this.getParticipant()) && (score.getScore() == this.getScore());
+        return  (score.getScore() == this.getScore());
     }
 
 

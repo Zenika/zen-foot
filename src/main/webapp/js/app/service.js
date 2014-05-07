@@ -49,17 +49,42 @@ zenFootService.factory('Session', function ($resource) {
     }])
 
     .factory('matchService', ['Match', function (Match) {
+
+        function findMatchById(id, matchBets) {
+            var toRet;
+            for (var matchBet in matchBets) {
+                if (matchBet.match.id == id) {
+                    toRet = matchBet;
+                    break;
+                }
+            }
+            return toRet;
+
+        }
+
+
         return {
             getAll: function () {
                 var objTmp = Match.query();
                 //.bet.score1.score
                 return objTmp;
+            },
+
+            signalUnreg: function (betServs, betCls) {
+                for (var betCl in betCls) {
+                    var betServ = findMatchById(betCl.match.id, betServs);
+                    var bool1 = betServ.bet.score1.score == betCl.bet.score.score1;
+                    var bool2 = betServ.bet.score2.score == betCl.bet.score.score2;
+                    if(!(bool1&&bool2)){
+                        betServ.unregistered=true;
+                    }
+                }
             }
         }
     }])
 
-    .factory('postBetService',['$resource',function($resource){
+    .factory('postBetService', ['$resource', function ($resource) {
         return $resource('/api/bets');
-}])
+    }])
 
 

@@ -81,7 +81,7 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository){
-        return new GamblerService(gamblerRepository);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService){
+        return new GamblerService(gamblerRepository, matchService);
     }
 }

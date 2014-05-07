@@ -72,6 +72,10 @@ public class Match implements Event {
         return this;
     }
 
+    public boolean hasOccured(DateTime now){
+        return this.getDate().isBefore(now);
+    }
+
     public Long getId() {
         return id;
     }

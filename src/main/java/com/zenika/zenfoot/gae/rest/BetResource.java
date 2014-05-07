@@ -111,7 +111,7 @@ public class BetResource {
             newList.add(matchAndBet.getBet());
         }
 
-        gambler.setBets(newList);
+        gamblerService.updateBets(newList,gambler);
 
     }
 

@@ -16,7 +16,7 @@ public class Bet extends IssueMatchAbs implements IBet {
      */
     protected Long matchId;
 
-    public Bet(){
+    public Bet() {
 
     }
 
@@ -24,7 +24,6 @@ public class Bet extends IssueMatchAbs implements IBet {
         super();
         this.matchId = matchId;
     }
-
 
 
     public Long getMatchId() {
@@ -43,8 +42,26 @@ public class Bet extends IssueMatchAbs implements IBet {
         return false;
     }
 
+    /**
+     * Used to know if a bet is exactly the same as another one. That includes checking the match the bet is related to is the same, and checking
+     * that scores are equals.
+     * @param bet the bet to compare
+     * @return true if the bets are related to the same match and have same scores
+     */
+    public boolean exactSame(Bet bet){
+        return (bet.getMatchId().equals(this.getMatchId()) && bet.getScore1().equals(this.getScore1()) && bet.getScore2().equals(this.getScore2()));
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Bet)) return false;
+        Bet betObj = (Bet) obj;
+        return (betObj.getMatchId().equals(this.getMatchId()) && betObj.getScore1().equals(this.getScore1()) && betObj.getScore2().equals(this.getScore2()));
+    }
+
     @Override
     public String toString() {
-        return" "+score1.getScore()+" : "+score2.getScore();
+        return " " + score1.getScore() + " : " + score2.getScore();
     }
 }

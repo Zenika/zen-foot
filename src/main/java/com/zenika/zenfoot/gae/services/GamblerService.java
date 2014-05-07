@@ -4,6 +4,8 @@ import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.user.User;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -15,8 +17,10 @@ import java.util.logging.Logger;
 public class GamblerService {
 
     private GamblerRepository gamblerRepository;
+    private MatchService matchService;
 
-    public GamblerService(GamblerRepository gamblerRepository) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService) {
+        this.matchService=matchService;
         this.gamblerRepository = gamblerRepository;
     }
 
@@ -29,17 +33,52 @@ public class GamblerService {
         return this.gamblerRepository.getGamblerFromEmail(email);
     }
 
+
+
     public Bet getBet(Gambler gambler, Match match) {
+      return getBetByMatchId(gambler,match.getId());
+    }
+
+    public Bet getBetByMatchId(Gambler gambler, Long matchId) {
         Bet toRet = null;
 
 
         for (Bet bet : gambler.getBets()) {
-            if (bet.getMatchId().equals(match.getId())) {
+            if (bet.getMatchId().equals(matchId)) {
                 toRet = bet;
                 break;
             }
         }
         return toRet;
+    }
+
+    public void updateBets(List<Bet> newBets, Gambler gambler) {
+
+        DateTime now = DateTime.now();
+
+
+        for (Bet bet : newBets) {
+            Bet existingBet = this.getBetByMatchId(gambler,bet.getMatchId());
+            //Check the bet already existed in the database
+            if(existingBet==null){
+                Logger logger = Logger.getLogger(Gambler.class.getName());
+                logger.log(Level.SEVERE,"tried to update a bet which didn't exist");
+            }
+            else {
+                //If the bet has changed (after a user input), rewrite the object in the database
+                if (!existingBet.exactSame(bet)) {
+                    Match match = matchService.getMatch(bet.getMatchId());
+
+                    //We have to check that the bet was made before the beginning of the match before registering it
+                    if(!match.hasOccured(now)){
+                        gambler.remove(existingBet);
+                        gambler.addBet(bet);
+                    }
+
+
+                }
+            }
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.google.apphosting.api.ApiProxy;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -7,6 +8,8 @@ import com.googlecode.objectify.annotation.Index;
 import javax.persistence.Embedded;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by raphael on 28/04/14.
@@ -54,16 +57,37 @@ public class Gambler {
         this.bets.add(bet);
     }
 
+    public void remove(Bet bet){
+        this.bets.remove(bet);
+    }
+
     public List<Bet> getBets() {
         return this.bets;
     }
 
 
-    public void setBets(List<Bet> bets) {
-        this.bets = bets;
+
+
+    /**
+     * Return the bet with matchId, null if doesn't exist
+     *
+     * @param matchId
+     * @return the bet with matchId, null if doesn't exist
+     */
+    private Bet getBet(Long matchId) {
+        Bet toRet = null;
+        for (Bet bet : bets) {
+            if (bet.getMatchId().equals(matchId)) {
+                toRet = bet;
+                break;
+            }
+        }
+        return toRet;
     }
 
+
     @Override
+
     public boolean equals(Object obj) {
         if (!(obj instanceof Gambler)) return false;
         return ((Gambler) obj).getEmail().equals(this.getEmail());

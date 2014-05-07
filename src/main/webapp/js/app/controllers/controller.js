@@ -34,8 +34,38 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
     }
 });
 
-controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService', function ($scope, matchService, postBetService) {
+controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService','$rootScope','$q', function ($scope, matchService, postBetService,$rootScope,$q) {
     $scope.matchsBets = matchService.getAll();
+
+    var fetchMatchs = function () {
+
+        var defer = $q.defer();
+        defer.promise
+            .then(function(){
+                var clMatch= angular.copy($scope.matchsBets);
+                return clMatch;
+
+            })
+            .then(function(clMatch){
+                var srvMatchs = matchService.getAll();
+               return {srvMatchs:srvMatchs,clMatch:clMatch};
+
+            })
+            .then(function(matchLists){
+                $scope.matchsBets=matchLists.srvMatchs;
+                return matchLists;
+            })
+            .then(function(matchLists){
+                matchService.signalUnreg(matchLists.srvMatchs,matchLists.clMatch)
+            })
+
+
+
+        .catch(function () {
+            console.log('error retrieving bets from server');
+        })
+        defer.resolve();
+    }
 
     $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
@@ -62,7 +92,8 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
      */
     $scope.postez = function () {
         $scope.modified = false;
-        submit();
+        //submit();
+        fetchMatchs();
     }
 
 
@@ -100,7 +131,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
 
         angular.forEach($scope.matchsBets, checkScore);
-        if(!$scope.modified){
+        if (!$scope.modified) {
             callBack();
         }
     }
@@ -111,7 +142,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
         var unsetScore = scoreUnset(matchAndBet);
         if (unsetScore) {
             unsetScore.score = 0;
-            unsetScore.assignedZero=true;
+            unsetScore.assignedZero = true;
             return true;
         }
         else {
@@ -144,17 +175,18 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
      * @param bet
      * @returns {boolean|*}
      */
-    $scope.showWarning=function(bet){
+    $scope.showWarning = function (bet) {
 
-        return bet.score1.assignedZero||bet.score2.assignedZero;
+        return bet.score1.assignedZero || bet.score2.assignedZero;
         //return true;
     }
 
-    $scope.isFormer=function(date){
-        var now = new Date(2014,5,14);
+    $scope.isFormer = function (date) {
+        var now = new Date();
         var matchDate = new Date(date);
 
-        var toRet = matchDate<=now;
+        var toRet = matchDate <= now;
+
         return toRet;
     }
 
