@@ -16,7 +16,7 @@
             <h3>Groupe {{groupe}}</h3>
 
 
-            <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:groupe|orderBy:'date')"
+            <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:groupe|orderBy:'match.date')"
                  name="formgp" class="warning-score">
 
                 <div name="row" class="row">
