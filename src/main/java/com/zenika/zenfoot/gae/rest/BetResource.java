@@ -55,8 +55,9 @@ public class BetResource {
     }
 
 
-    @GET("/matchs")
-    @RolesAllowed({Roles.GAMBLER, Roles.ADMIN})
+
+    @GET("/matchbets")
+    @RolesAllowed({Roles.GAMBLER})
     public List<MatchAndBet> getBets() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
         List<Match> matchs = matchService.getMatchs();

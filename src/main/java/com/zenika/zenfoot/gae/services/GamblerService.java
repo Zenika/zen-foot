@@ -1,8 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.user.User;
 
 import java.util.List;
@@ -21,11 +19,11 @@ public class GamblerService {
     }
 
 
-    public Gambler get(User user){
+    public Gambler get(User user) {
         return this.gamblerRepository.getGamblerFromEmail(user.getEmail());
     }
 
-    public Gambler getFromEmail(String email){
+    public Gambler getFromEmail(String email) {
         return this.gamblerRepository.getGamblerFromEmail(email);
     }
 
@@ -43,17 +41,22 @@ public class GamblerService {
     }
 
 
+    public Gambler createGambler(User user, List<Match> matchs) {
 
-
-
-    public Gambler createGambler(User user, List<Match> matchs){
-
-        System.out.println("creating gambler with email "+user.getEmail());
+        System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
-        Logger logger = Logger.getLogger(GamblerService.class.getName()+1);
-        logger.log(Level.WARNING,"while creating gambler, there are "+matchs.size());
+        Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
+        logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
         for (Match match : matchs) {
+
             Bet bet = new Bet(match.getId());
+            //TODO remove this :
+            if (match.getParticipant1().equals(new Participant().setPays("Croatie"))
+                    && match.getParticipant2().equals(new Participant().setPays("Bresil"))) {
+                bet.setScore1(new Score().setScore(1));
+                bet.setScore2(new Score().setScore(3));
+            }
+
             gambler.addBet(bet);
 
         }
@@ -61,7 +64,7 @@ public class GamblerService {
         return this.get(user);
     }
 
-    public Gambler updateGambler(Gambler gambler){
+    public Gambler updateGambler(Gambler gambler) {
         gamblerRepository.saveGambler(gambler);
         return getFromEmail(gambler.getEmail());
     }

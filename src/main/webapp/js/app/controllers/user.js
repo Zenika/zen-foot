@@ -9,7 +9,7 @@ angular.module('zenFoot.app')
             Session.user.fullName = principal.fullName;
         }
 
-        $scope.user = Session.user;
+        $rootScope.user = Session.user;
         $scope.$on('AUTHENTICATED', function(event, principal) {
             onConnected(principal);
         })

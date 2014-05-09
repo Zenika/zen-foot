@@ -21,7 +21,7 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
         this.userDao = Factory.getInstance().getComponent(UserDao.class);
 
         User raphael = new User().setName("raphael").setEmail(
-                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, Roles.GAMBLER, AdminModule.RESTX_ADMIN_ROLE));
+                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
 
         //raphael.setLastUpdated(DateTime.now());
         raphael.setPasswordHash("2205");
