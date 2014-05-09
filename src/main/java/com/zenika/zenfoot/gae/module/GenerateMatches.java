@@ -1,8 +1,6 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.zenika.zenfoot.gae.model.Groupe;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Participant;
+import com.zenika.zenfoot.gae.model.*;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ public class GenerateMatches {
         Participant croatie = new Participant().setPays("Croatie").setGroupe(Groupe.A);
         Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A);
         Match match1 = new Match(new DateTime(2014, 6, 12, 22, 0), croatie, bresil);
-
+        match1.setOutcome(new MatchOutcome(new Score().setScore(2),new Score().setScore(4)));
 
         //13 juin
         Participant cameroun = new Participant().setPays("Cameroun").setGroupe(Groupe.A);

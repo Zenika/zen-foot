@@ -182,6 +182,11 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
     }
 
 
+    $scope.knownResult=function(match){
+        return $scope.isFormer(match.date)&&match.outcome;
+    }
+
+
 }]);
 
 
