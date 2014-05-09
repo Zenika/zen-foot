@@ -1,12 +1,8 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.zenika.zenfoot.gae.dao.MatchDAO;
-import com.zenika.zenfoot.gae.model.Groupe;
 import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Participant;
-import org.joda.time.DateTime;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +27,7 @@ public class MatchRepository {
 
 
 
-
+        //deleteAll();
 
 
 

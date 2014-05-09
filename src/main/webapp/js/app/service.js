@@ -49,11 +49,53 @@ zenFootService.factory('Session', function ($resource) {
     }])
 
     .factory('matchService', ['Match', function (Match) {
+
+        var equals=function(bet1,bet2){
+            if(bet1&&bet2){
+                return (bet1.score1.score==bet2.score1.score )&&(bet1.score2.score==bet2.score2.score);
+            }
+            return false;
+        }
+
+        var mark=function(matchBetCl, matchBetServ){
+            if(!equals(matchBetCl.bet,matchBetServ.bet)){
+                matchBetServ.unreg=true;
+            }
+
+        }
+
+
+
+        var findBetByMatchId=function(id, matchBetsServ){
+            var toRet;
+            for(var x in matchBetsServ){
+                var matchBetServ = matchBetsServ[x];
+                if(matchBetServ.bet.matchId==id){
+                    toRet=matchBetServ;
+                    break;
+                }
+            }
+            return toRet;
+        }
+
         return {
+
+
+
             getAll: function () {
                 var objTmp = Match.query();
                 //.bet.score1.score
                 return objTmp;
+            },
+
+
+
+            markUnreg:function(matchBetsCl, matchBetsServ){
+                for(var x in matchBetsCl){
+                    var matchBetCl = matchBetsCl[x];
+                    var matchBetServ = findBetByMatchId(matchBetCl.bet.matchId,matchBetsServ);
+                    mark(matchBetCl,matchBetServ);
+                }
             }
         }
     }])

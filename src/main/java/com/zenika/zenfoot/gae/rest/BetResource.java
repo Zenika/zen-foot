@@ -111,6 +111,7 @@ public class BetResource {
             newList.add(matchAndBet.getBet());
         }
 
+        //TODO : decommenter cette ligne
         gambler.setBets(newList);
 
     }
