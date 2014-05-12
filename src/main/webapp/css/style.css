@@ -15,7 +15,7 @@
 /*
 .has-error,
 */
- .warning-score input.ng-invalid.ng-dirty {
+ .warning-score {
      background-color: #FA787E;
 
  }
