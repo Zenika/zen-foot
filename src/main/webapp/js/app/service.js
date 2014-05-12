@@ -15,11 +15,6 @@ zenFootService.factory('Session', function ($resource) {
             'delete': {method: 'DELETE', withCredentials: true}
         });
     s.user = { connected: false };
-    s.user.isAdmin=function(){
-        //return true;
-
-        return _.contains(this.principal.roles,'ADMIN');
-    }
 
     return  s;
 })

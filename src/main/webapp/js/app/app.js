@@ -54,12 +54,15 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
             'responseError': function (rejection) {
                 if (rejection.status == '401' || rejection.status == '403') {
 
-                    if (rejection.status == '403' && $rootScope.user.isAdmin()) {
+                    if (rejection.status == '403' && $rootScope.isAdmin()) {
                         console.log('I\'m admin!');
-                       // $location.path('/admin')
+                        $location.path('/admin')
+                    }
+                    else{
+                        authService.redirectToLogin();
+
                     }
 
-                    authService.redirectToLogin();
                 }
                 return $q.reject(rejection);
 

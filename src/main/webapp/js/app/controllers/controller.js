@@ -109,7 +109,6 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
      */
     var postBets = function () {
 
-
         postBetService.save($scope.matchsBets, function () {
             console.log('bets were sucessfully sent');
            // $scope.matchsBets = matchService.getAll();

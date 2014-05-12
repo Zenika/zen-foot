@@ -7,6 +7,7 @@ angular.module('zenFoot.app')
             Session.user.connected = true;
             Session.user.email = principal.email;
             Session.user.fullName = principal.fullName;
+            Session.user.roles=principal.roles;
         }
 
         $rootScope.user = Session.user;
@@ -38,6 +39,10 @@ angular.module('zenFoot.app')
 
         $scope.loggedIn= function(){
             return Session.user.connected;
+        }
+
+        $rootScope.isAdmin=function(){
+            return _.contains($rootScope.user.roles,'ADMIN');
         }
 
     });
