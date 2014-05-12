@@ -12,6 +12,7 @@ import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
+import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 
 import javax.inject.Named;
@@ -54,6 +55,13 @@ public class BetResource {
         return "coucou";
     }
 
+
+    @GET("/matchs")
+    @PermitAll
+    public List<Match> getMatchs(){
+        List<Match> matchs = matchService.getMatchs();
+        return matchs;
+    }
 
 
     @GET("/matchbets")
