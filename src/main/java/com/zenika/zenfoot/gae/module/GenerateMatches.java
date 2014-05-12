@@ -18,7 +18,7 @@ public class GenerateMatches {
         Participant croatie = new Participant().setPays("Croatie").setGroupe(Groupe.A);
         Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A);
         DateTime dateTime=new DateTime(2014, 6, 12, 22, 0);
-        Match match1 = new Match(DateTime.now().plusSeconds(15), croatie, bresil);
+        Match match1 = new Match(dateTime, croatie, bresil);
 
 
         //13 juin
