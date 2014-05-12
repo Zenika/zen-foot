@@ -17,10 +17,11 @@
 */
  .warning-score {
      background-color: #FA787E;
-
  }
 
-
+.score-input input{
+   /*width:40px;*/
+}
 
 
 div{
