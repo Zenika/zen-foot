@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.model.Gambler;
 
@@ -21,11 +22,15 @@ public class GamblerRepository {
         return gamblerDAO.getGambler(id);
 
     }
+
+    public Gambler getGambler(Key<Gambler> key){
+        return gamblerDAO.getGambler(key);
+    }
     public Gambler getGamblerFromEmail(String email){
         return gamblerDAO.getGamblerFromEmail(email);
     }
 
-    public void saveGambler(Gambler gambler) {
-        gamblerDAO.saveGambler(gambler);
+    public Key<Gambler> saveGambler(Gambler gambler) {
+        return gamblerDAO.saveGambler(gambler);
     }
 }

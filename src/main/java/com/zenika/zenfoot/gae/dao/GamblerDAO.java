@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Gambler;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.List;
  */
 public interface GamblerDAO {
 
-    void saveGambler(Gambler gambler);
+    com.googlecode.objectify.Key<Gambler> saveGambler(Gambler gambler);
 
     Gambler getGambler(Long id);
+    Gambler getGambler(Key<Gambler> key);
+
 
     void deleteGambler(Long id);
 

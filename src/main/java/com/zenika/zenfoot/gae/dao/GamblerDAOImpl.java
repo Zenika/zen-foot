@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.zenika.zenfoot.gae.model.Gambler;
 
@@ -13,9 +14,9 @@ public class GamblerDAOImpl implements GamblerDAO{
     private static Objectify ofy=OfyService.ofy();
 
     @Override
-    public void saveGambler(Gambler gambler) {
-        ofy.save().entity(gambler).now();
-
+    public Key<Gambler> saveGambler(Gambler gambler) {
+        Key<Gambler> key= ofy.save().entity(gambler).now();
+        return key;
     }
 
 
@@ -23,6 +24,11 @@ public class GamblerDAOImpl implements GamblerDAO{
     @Override
     public Gambler getGambler(Long id) {
         return ofy.load().type(Gambler.class).id(id).now();
+    }
+
+    @Override
+    public Gambler getGambler(Key<Gambler> key) {
+        return ofy.load().key(key).now();
     }
 
     @Override

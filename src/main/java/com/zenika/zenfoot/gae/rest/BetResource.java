@@ -99,7 +99,7 @@ public class BetResource {
         List<Bet> newList =new ArrayList<>();
 
         System.out.println("--------------------------------");
-        System.out.println(matchAndBets.size()+" matchAndBet json objects received");
+        System.out.println("/bets "+matchAndBets.size()+" matchAndBet json objects received");
 
         for(MatchAndBet matchAndBet: matchAndBets){
 
@@ -111,9 +111,9 @@ public class BetResource {
             newList.add(matchAndBet.getBet());
         }
 
-        gamblerService.updateBets(newList,gambler);
-
-
+        Gambler gambler1=gamblerService.updateBets(newList,gambler);
+        System.out.println("/ bets After posting bets ");
+        System.out.println("There are "+gambler.getBets().size());
     }
 
 

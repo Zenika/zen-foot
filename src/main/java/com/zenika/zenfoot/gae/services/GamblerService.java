@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
@@ -26,18 +27,12 @@ public class GamblerService {
 
 
     public Gambler get(User user){
-
-
         return this.getFromEmail(user.getEmail());
     }
 
     public Gambler getFromEmail(String email){
 
         Gambler gambler = this.gamblerRepository.getGamblerFromEmail(email);
-
-
-
-
         return gambler;
     }
 
@@ -49,7 +44,6 @@ public class GamblerService {
                 gambler.addBet(new Bet(match.getId()));
             }
         }
-
         gamblerRepository.saveGambler(gambler);
     }
 
@@ -62,7 +56,6 @@ public class GamblerService {
 
     public Bet getBetByMatchId(Gambler gambler, Long matchId) {
         Bet toRet = null;
-
 
         for (Bet bet : gambler.getBets()) {
             if (bet.getMatchId().equals(matchId)) {
@@ -83,7 +76,7 @@ public class GamblerService {
         return false;
     }
 
-    public void updateBets(List<Bet> newBets, Gambler gambler) {
+    public Gambler updateBets(List<Bet> newBets, Gambler gambler) {
 
         DateTime now = DateTime.now();
 
@@ -110,6 +103,8 @@ public class GamblerService {
                 }
             }
         }
+
+        return gambler;
     }
 
 
@@ -125,10 +120,9 @@ public class GamblerService {
         for (Match match : matchs) {
             Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
-
         }
-        this.gamblerRepository.saveGambler(gambler);
-        Gambler toRet = this.get(user);
+        Key<Gambler> key= this.gamblerRepository.saveGambler(gambler);
+       Gambler toRet = gamblerRepository.getGambler(key);
         logger.log(Level.WARNING,"after retrieving gambler, there are "+toRet.getBets().size()+" bets");
         return toRet;
     }
