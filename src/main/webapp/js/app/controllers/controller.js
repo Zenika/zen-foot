@@ -212,6 +212,20 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
         return toRet;
     }
 
+    /**
+     * Says whether the formular can be validated (necessary condition). If one score is set, the other one has to
+     * be as well.
+     * @param bet
+     * @returns {boolean}
+     */
+    $scope.hasTwoScores=function(bet){
+        var sc1Empty=!bet.score1.score||bet.score1.score.trim() ==""
+        var sc2empty=!bet.score2.score||bet.score2.score.trim()=="";
+        var notOk = (sc1Empty&&!sc2empty)||(!sc1Empty&&sc2empty)
+
+        return notOk;
+    }
+
 
 }]);
 
