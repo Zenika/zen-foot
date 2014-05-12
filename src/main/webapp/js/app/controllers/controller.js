@@ -88,12 +88,34 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
 
     /**
+     * This function get bets from the server and compare them to the bets client side,
+     * in order to identify bets which were not registered (usefull to identify bets which were
+     * voted but were posted after the beginning of the match
+     */
+    var updateBets=function(){
+        var matchAndBets = matchService.getAll().$promise;
+        matchAndBets.then(function(result){
+            var matchBetsCl = angular.copy($scope.matchsBets);
+            return {result:result,matchBetsCl:matchBetsCl};
+
+        })
+            .then(function(couple){
+                $scope.matchsBets=couple.result;
+                return couple;
+            })
+            .then(function(couple){
+                matchService.markUnreg(couple.matchBetsCl,$scope.matchsBets);
+            })
+
+    }
+
+
+    /**
      * Function called when "postez" is clicked
      */
     $scope.postez = function () {
         $scope.modified = false;
-        //submit();
-        fetchMatchs();
+        submit();
     }
 
 
@@ -120,8 +142,8 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
         postBetService.save($scope.matchsBets, function () {
             console.log('bets were sucessfully sent');
-            $scope.matchsBets = matchService.getAll();
-
+           // $scope.matchsBets = matchService.getAll();
+            updateBets();
         }, function () {
             console.log('sending bets failed');
         })

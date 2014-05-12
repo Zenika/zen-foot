@@ -50,11 +50,29 @@ zenFootService.factory('Session', function ($resource) {
 
     .factory('matchService', ['Match', function (Match) {
 
-        function findMatchById(id, matchBets) {
+
+        var equals=function(bet1,bet2){
+            if(bet1&&bet2){
+                return (bet1.score1.score==bet2.score1.score )&&(bet1.score2.score==bet2.score2.score);
+            }
+            return false;
+        }
+
+        var mark=function(matchBetCl, matchBetServ){
+            if(!equals(matchBetCl.bet,matchBetServ.bet)){
+                matchBetServ.unreg=true;
+            }
+
+        }
+
+
+
+        var findBetByMatchId=function(id, matchBetsServ){
             var toRet;
-            for (var matchBet in matchBets) {
-                if (matchBet.match.id == id) {
-                    toRet = matchBet;
+            for(var x in matchBetsServ){
+                var matchBetServ = matchBetsServ[x];
+                if(matchBetServ.bet.matchId==id){
+                    toRet=matchBetServ;
                     break;
                 }
             }
@@ -62,22 +80,24 @@ zenFootService.factory('Session', function ($resource) {
 
         }
 
-
         return {
+
+
+
             getAll: function () {
                 var objTmp = Match.query();
                 //.bet.score1.score
                 return objTmp;
             },
 
-            signalUnreg: function (betServs, betCls) {
-                for (var betCl in betCls) {
-                    var betServ = findMatchById(betCl.match.id, betServs);
-                    var bool1 = betServ.bet.score1.score == betCl.bet.score.score1;
-                    var bool2 = betServ.bet.score2.score == betCl.bet.score.score2;
-                    if(!(bool1&&bool2)){
-                        betServ.unregistered=true;
-                    }
+
+
+
+            markUnreg:function(matchBetsCl, matchBetsServ){
+                for(var x in matchBetsCl){
+                    var matchBetCl = matchBetsCl[x];
+                    var matchBetServ = findBetByMatchId(matchBetCl.bet.matchId,matchBetsServ);
+                    mark(matchBetCl,matchBetServ);
                 }
             }
         }

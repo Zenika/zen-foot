@@ -113,6 +113,7 @@ public class BetResource {
 
         gamblerService.updateBets(newList,gambler);
 
+
     }
 
 
