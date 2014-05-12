@@ -26,12 +26,33 @@ public class GamblerService {
 
 
     public Gambler get(User user){
-        return this.gamblerRepository.getGamblerFromEmail(user.getEmail());
+
+
+        return this.getFromEmail(user.getEmail());
     }
 
     public Gambler getFromEmail(String email){
-        return this.gamblerRepository.getGamblerFromEmail(email);
+
+        Gambler gambler = this.gamblerRepository.getGamblerFromEmail(email);
+
+
+
+
+        return gambler;
     }
+
+    public void updateBets(Gambler gambler){
+        List<Match> matchs = matchService.getMatchs();
+        for(Match match:matchs){
+
+            if(!this.hasBet(gambler,match.getId())){
+                gambler.addBet(new Bet(match.getId()));
+            }
+        }
+
+        gamblerRepository.saveGambler(gambler);
+    }
+
 
 
 
@@ -50,6 +71,16 @@ public class GamblerService {
             }
         }
         return toRet;
+    }
+
+    public boolean hasBet(Gambler gambler, Long matchId){
+        for(Bet bet:gambler.getBets()){
+            if (bet.getMatchId().equals(matchId)) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     public void updateBets(List<Bet> newBets, Gambler gambler) {
@@ -97,7 +128,9 @@ public class GamblerService {
 
         }
         this.gamblerRepository.saveGambler(gambler);
-        return this.get(user);
+        Gambler toRet = this.get(user);
+        logger.log(Level.WARNING,"after retrieving gambler, there are "+toRet.getBets().size()+" bets");
+        return toRet;
     }
 
     public Gambler updateGambler(Gambler gambler){

@@ -61,14 +61,14 @@ public class BetResource {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
         List<Match> matchs = matchService.getMatchs();
 
-
-
         Logger logger = Logger.getLogger(BetResource.class.getName());
 
         if(gambler==null){
             logger.log(Level.WARNING,"gambler is null when calling /matchs");
             gambler = gamblerService.createGambler(sessionInfo.getUser(), matchs);
         }
+
+        gamblerService.updateBets(gambler);
 
         List<Bet> bets = gambler.getBets();
         List<MatchAndBet> matchAndBets = new ArrayList<>();
