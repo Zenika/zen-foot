@@ -27,10 +27,10 @@
                         {{match.match.participant1.pays}}
                     </div>
                     <div class="col-sm-1">
-                        <ng-form name="score1Form">
+                        <ng-form name="score1Form" ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
                             <input name="score1input" class="form-control input-sm" zen-disable oldmatch="{{isFormer(match.match.date)}}"
                                    data-ng-init="score1=match.bet.score1"
-                                   data-ng-model="score1.score" ng-pattern=scoreRegexp ng-class="{'warning-score':score1Form.score1input.$error.pattern||score1Form.$invalid}"
+                                   data-ng-model="score1.score" ng-pattern=scoreRegexp
                                     ng-required="hasTwoScores(match.bet)">
                             <span class="label label-danger" data-ng-show="score1Form.score1input.$error.pattern" >score : entre 0 et 99</span>
 
@@ -40,12 +40,12 @@
                         :
                     </div>
                     <div class="col-sm-1">
-                        <ng-form name="score2Form">
+                        <ng-form name="score2Form" ng-class="{'has-error':score2Form.score2input.$error.pattern||score2Form.$invalid}">
 
                             <input name="score2input" class="form-control input-sm" zen-disable oldmatch="{{isFormer(match.match.date)}}"
                                    data-ng-init="score2=match.bet.score2"
                                    data-ng-model="score2.score" ng-pattern=scoreRegexp
-                                   ng-class="{'warning-score':score2Form.score2input.$error.pattern||score2Form.$invalid}"
+
                                     ng-required="hasTwoScores(match.bet)">
                             <span class="label label-danger" data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
                         </ng-form>
