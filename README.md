@@ -79,4 +79,4 @@ Feel free to add a comment on the trello !
 
 # Architecture of the application
 
-For more information about the architecture of the project, have a look at the [architecture document](./architecture.txt)
+For more information about the architecture of the project, have a look at the [architecture document](./architecture.md)
