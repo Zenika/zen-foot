@@ -50,12 +50,16 @@ So far a gambler can bet on the result of a match, but a possible extension is t
 
  The "/matchs" resource is what retrieves all the matches and the gambler object with all its bets. It returns a list of MatchBet
  object, which is a simple way to bind a match and its corresponding bet server side.
+ 
  The flow is the following :
+ 
  the connected gambler is retrieved --> if it doesn't exist, it's created with all its bets object --> new bets are added if new matches
  have been added to the list ---> The list of MatchAndBet is created and sent.
 
  The "/bets" resource allows the gambler to post its bets.
+ 
  The flow is the following :
+ 
  the connected gambler is retrieved --> the list of bets is passed to the GamblerService which checks that the match has not started -->
  if it hasn't, it updates the bet, if it had, it doesn't update it
 
