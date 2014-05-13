@@ -37,9 +37,7 @@ public class ModelModule {
     @Named("matchRepoGAE")
     public MatchRepository matchRepositoryGAE(@Named("matchDAO") MatchDAO matchDAO) {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
-        matchRepository.createMatch2(new Match().setDate(DateTime.now().plusMinutes(2))
-                .setParticipant1(new Participant().setGroupe(Groupe.A).setPays("Azerbaïjan"))
-                .setParticipant2(new Participant().setGroupe(Groupe.A).setPays("Corée du Nord")));
+
 
         return matchRepository;
     }
