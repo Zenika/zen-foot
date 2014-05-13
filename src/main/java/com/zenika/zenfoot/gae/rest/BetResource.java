@@ -12,6 +12,7 @@ import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
+import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 
 import javax.inject.Named;
@@ -56,7 +57,15 @@ public class BetResource {
 
 
     @GET("/matchs")
-    @RolesAllowed({Roles.GAMBLER, Roles.ADMIN})
+    @PermitAll
+    public List<Match> getMatchs(){
+        List<Match> matchs = matchService.getMatchs();
+        return matchs;
+    }
+
+
+    @GET("/matchbets")
+    @RolesAllowed({Roles.GAMBLER})
     public List<MatchAndBet> getBets() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
         List<Match> matchs = matchService.getMatchs();

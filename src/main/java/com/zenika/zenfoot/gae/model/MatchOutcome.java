@@ -12,6 +12,11 @@ public class MatchOutcome extends IssueMatchAbs implements Outcome{
     public MatchOutcome() {
     }
 
+    public MatchOutcome(Score score1,Score score2){
+        this.setScore1(score1);
+        this.setScore2(score2);
+    }
+
 
 
     @Override

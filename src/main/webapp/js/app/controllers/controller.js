@@ -139,7 +139,6 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
      */
     var postBets = function () {
 
-
         postBetService.save($scope.matchsBets, function () {
             console.log('bets were sucessfully sent');
            // $scope.matchsBets = matchService.getAll();
@@ -224,6 +223,11 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
         var notOk = (sc1Empty&&!sc2empty)||(!sc1Empty&&sc2empty)
 
         return notOk;
+    }
+
+
+    $scope.knownResult=function(match){
+        return $scope.isFormer(match.date)&&match.outcome;
     }
 
 

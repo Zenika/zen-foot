@@ -28,7 +28,8 @@
                     </div>
                     <div class="col-sm-1">
                         <ng-form name="score1Form" ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
-                            <input name="score1input" class="form-control input-sm" zen-disable oldmatch="{{isFormer(match.match.date)}}"
+                            <input name="score1input" class="form-control input-sm text-center" zen-disable oldmatch="{{isFormer(match.match.date)}}"
+
                                    data-ng-init="score1=match.bet.score1"
                                    data-ng-model="score1.score" ng-pattern=scoreRegexp
                                     ng-required="hasTwoScores(match.bet)">
@@ -42,7 +43,8 @@
                     <div class="col-sm-1">
                         <ng-form name="score2Form" ng-class="{'has-error':score2Form.score2input.$error.pattern||score2Form.$invalid}">
 
-                            <input name="score2input" class="form-control input-sm" zen-disable oldmatch="{{isFormer(match.match.date)}}"
+                            <input name="score2input" class="form-control input-sm text-center" zen-disable oldmatch="{{isFormer(match.match.date)}}"
+
                                    data-ng-init="score2=match.bet.score2"
                                    data-ng-model="score2.score" ng-pattern=scoreRegexp
 
@@ -57,6 +59,26 @@
                     </div>
                     <div class="col-sm-2" data-ng-show="match.unreg"><span class="label label-danger">non enregistr&eacute</span> </div>
                 </div>
+
+
+                <div class="row panel panel-default zen-margin" data-ng-show="knownResult(match.match)">
+                    <div class="col-sm-2">
+                        Resultat :
+                    </div>
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-1 text-center">
+                        {{match.match.outcome.score1.score}}
+                    </div>
+                    <div class="col-sm-1">
+
+                    </div>
+                    <div class="col-sm-1 text-center">
+                        {{match.match.outcome.score2.score}}
+                    </div>
+                </div>
+
                 </br>
 
             </div>
