@@ -116,12 +116,7 @@ public class GamblerService {
         for (Match match : matchs) {
 
             Bet bet = new Bet(match.getId());
-            //TODO remove this :
-            if (match.getParticipant1().equals(new Participant().setPays("Croatie"))
-                    && match.getParticipant2().equals(new Participant().setPays("Bresil"))) {
-                bet.setScore1(new Score().setScore(1));
-                bet.setScore2(new Score().setScore(3));
-            }
+
 
             gambler.addBet(bet);
         }
