@@ -46,7 +46,7 @@ So far a gambler can bet on the result of a match, but a possible extension is t
 
  The resource we are using is module.BetResource class.
  Note that @RolesAllowed enables us to allow access to our resources according to the role of the user that's requesting it.
- For more information about RestX syntaxes, the link to the RestX documentation is provided in the documentation section.
+
 
  The "/matchs" resource is what retrieves all the matches and the gambler object with all its bets. It returns a list of MatchBet
  object, which is a simple way to bind a match and its corresponding bet server side.
@@ -58,3 +58,24 @@ So far a gambler can bet on the result of a match, but a possible extension is t
  The flow is the following :
  the connected gambler is retrieved --> the list of bets is passed to the GamblerService which checks that the match has not started -->
  if it hasn't, it updates the bet, if it had, it doesn't update it
+
+
+## Client
+The client is developed using angular. To modify it, access static resources in src/main/webapp/
+
+The angular code is in js/app. The rest is simple separation between directive, controllers, services and so on.
+The controller for the main gambler page is called MatchCtrl and you can find it in app/controllers/controller.js
+The corresponding html page is in view/index-content.html.
+Note that we are using ui-router to manage the routing of pages.
+
+## Documentation
+
+### RestX
+[RestX documentation](http://restx.io/docs/)
+
+### Google App Engine
+[datastore documentation](https://developers.google.com/appengine/docs/java/datastore/)
+
+### Objectify
+[objectify v5 documentation](https://code.google.com/p/objectify-appengine/wiki/Introduction)
+[The javadoc](http://docs.objectify-appengine.googlecode.com/git/apidocs/index.html)
