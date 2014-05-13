@@ -1,9 +1,8 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.*;
+
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -25,7 +24,6 @@ public class GamblerService {
         this.gamblerRepository = gamblerRepository;
     }
 
-
     public Gambler get(User user){
         return this.getFromEmail(user.getEmail());
     }
@@ -45,6 +43,7 @@ public class GamblerService {
             }
         }
         gamblerRepository.saveGambler(gambler);
+
     }
 
 
@@ -108,17 +107,17 @@ public class GamblerService {
     }
 
 
+    public Gambler createGambler(User user, List<Match> matchs) {
 
-
-
-    public Gambler createGambler(User user, List<Match> matchs){
-
-        System.out.println("creating gambler with email "+user.getEmail());
+        System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
-        Logger logger = Logger.getLogger(GamblerService.class.getName()+1);
-        logger.log(Level.WARNING,"while creating gambler, there are "+matchs.size());
+        Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
+        logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
         for (Match match : matchs) {
+
             Bet bet = new Bet(match.getId());
+
+
             gambler.addBet(bet);
         }
         Key<Gambler> key= this.gamblerRepository.saveGambler(gambler);
@@ -127,7 +126,7 @@ public class GamblerService {
         return toRet;
     }
 
-    public Gambler updateGambler(Gambler gambler){
+    public Gambler updateGambler(Gambler gambler) {
         gamblerRepository.saveGambler(gambler);
         return getFromEmail(gambler.getEmail());
     }

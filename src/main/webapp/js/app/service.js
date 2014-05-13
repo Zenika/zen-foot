@@ -15,6 +15,7 @@ zenFootService.factory('Session', function ($resource) {
             'delete': {method: 'DELETE', withCredentials: true}
         });
     s.user = { connected: false };
+
     return  s;
 })
 
@@ -36,16 +37,19 @@ zenFootService.factory('Session', function ($resource) {
     })
 
     .factory('User', function ($resource) {
-        return $resource('/api/sessions/:email', null,
+
+       var user=  $resource('/api/sessions/:email', null,
             {email: '@email'},
             {
                 'get': {method: 'GET', withCredentials: true},
                 'save': {method: 'POST', withCredentials: true}
             });
+
+        return user;
     })
 
     .factory('Match', ['$resource', function ($resource) {
-        return $resource('/api/matchs');
+        return $resource('/api/matchbets');
     }])
 
     .factory('matchService', ['Match', function (Match) {
