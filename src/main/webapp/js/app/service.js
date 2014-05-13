@@ -52,7 +52,7 @@ zenFootService.factory('Session', function ($resource) {
         return $resource('/api/matchbets');
     }])
 
-    .factory('matchService', ['Match', function (Match) {
+    .factory('betMatchService', ['Match', function (Match) {
 
 
         var equals=function(bet1,bet2){

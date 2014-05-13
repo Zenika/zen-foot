@@ -34,8 +34,8 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
     }
 });
 
-controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService','$rootScope','$q', function ($scope, matchService, postBetService,$rootScope,$q) {
-    $scope.matchsBets = matchService.getAll();
+controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService','$rootScope','$q', function ($scope, betMatchService, postBetService,$rootScope,$q) {
+    $scope.matchsBets = betMatchService.getAll();
 
     var fetchMatchs = function () {
 
@@ -47,7 +47,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
             })
             .then(function(clMatch){
-                var srvMatchs = matchService.getAll();
+                var srvMatchs = betMatchService.getAll();
                return {srvMatchs:srvMatchs,clMatch:clMatch};
 
             })
@@ -56,7 +56,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
                 return matchLists;
             })
             .then(function(matchLists){
-                matchService.signalUnreg(matchLists.srvMatchs,matchLists.clMatch)
+                betMatchService.signalUnreg(matchLists.srvMatchs,matchLists.clMatch)
             })
 
 
@@ -93,7 +93,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
      * voted but were posted after the beginning of the match
      */
     var updateBets=function(){
-        var matchAndBets = matchService.getAll().$promise;
+        var matchAndBets = betMatchService.getAll().$promise;
         matchAndBets.then(function(result){
             var matchBetsCl = angular.copy($scope.matchsBets);
             return {result:result,matchBetsCl:matchBetsCl};
@@ -104,7 +104,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
                 return couple;
             })
             .then(function(couple){
-                matchService.markUnreg(couple.matchBetsCl,$scope.matchsBets);
+                betMatchService.markUnreg(couple.matchBetsCl,$scope.matchsBets);
             })
 
     }
@@ -141,7 +141,7 @@ controllers.controller('MatchCtrl', ['$scope', 'matchService', 'postBetService',
 
         postBetService.save($scope.matchsBets, function () {
             console.log('bets were sucessfully sent');
-           // $scope.matchsBets = matchService.getAll();
+           // $scope.matchsBets = betMatchService.getAll();
             updateBets();
         }, function () {
             console.log('sending bets failed');

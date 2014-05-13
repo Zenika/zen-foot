@@ -21,7 +21,7 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
 
     $stateProvider.state('adminState', {
         url: '/admin',
-        templateUrl: 'view/admin.html'
+        templateUrl: 'view/admin-tmp.html'
     });
 
     $urlRouterProvider.otherwise('/index');
