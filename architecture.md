@@ -31,7 +31,7 @@ So far a gambler can bet on the result of a match, but a possible extension is t
  a Bet and a MatchOutCome, as a Bet is a guess of what the outcome of a match is. This implies the java model for a Bet and
  and MatchOutCome has many similarities (it consists of the scores of the two participating teams).
 
- ## DataBase
+## DataBase
 
  We use objectify v5 to map our objects to the datastore
  Use gae.dao.OfyService to register a new class. You can then create a DAO for each kind of object you need to register,
@@ -42,7 +42,7 @@ So far a gambler can bet on the result of a match, but a possible extension is t
  Have a look at gae.module.ModelModule to understand how RestX dependency injection is used. The link to RestX documentation is
  below this document, in documentation section.
 
- ## Rest resource
+## Rest resource
 
  The resource we are using is module.BetResource class.
  Note that @RolesAllowed enables us to allow access to our resources according to the role of the user that's requesting it.
