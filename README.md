@@ -15,6 +15,10 @@ The pom.xml in zenfoot project is set to correspond to that forked version.
 
 # Deployment
 
+Required :
+-App engine SDK
+-npm and node.js if you want to modify the UI significantly
+
 Locally :
 ---
 
@@ -39,6 +43,8 @@ node server.js
 On Google App Engine (GAE) :
 ---
 
+If you are contributing to zenfoot, you won't have to deploy the application to app engine, as we are functioning
+with pull requests. You can see the deployed app [here](http://1-dot-zen-foot.appspot.com/)
 ```
 mvn package
 appcfg.sh --no_cookies --email=<EMAIL> update target/gae-restx-poc-0-1
@@ -64,10 +70,13 @@ About bugs :
 - if they are related to an "in progress" or "ready for acceptance story", please add a checklist or a comment
 into the checklist
 
-- Otherwise, if the bug is related to a done story (in "Done" or "sprint X (done)", you can create a new ticket to add to
-the backlog
+- Otherwise, if the bug is related to a done story (in "Done" or "sprint X (done)", or is not related to any story,
+ you can create a new ticket to add to the backlog.
 
 # Any comment to make about user stories ?
 
 Feel free to add a comment on the trello !
 
+# Architecture of the application
+
+For more information about the architecture of the project, have a look at the [architecture document](./architecture.txt)

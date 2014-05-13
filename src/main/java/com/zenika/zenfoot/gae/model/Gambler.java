@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * Created by raphael on 28/04/14.
  */
 @Entity
-public class Gambler {
+public class Gambler implements IGambler {
 
     @Id
     private Long id;
