@@ -1,21 +1,20 @@
 /**
- * 
+ *
  */
 
-var zenContactFilters=angular.module('zenContact.filters',[]);
+var zenContactFilters = angular.module('zenContact.filters', []);
 
 
-
-zenContactFilters.filter('groupeFilter',[function(){
-    return function(matchs,groupe){
-       return triMatch(matchs,groupe,conditionMatchBet)
+zenContactFilters.filter('groupeFilter', [function () {
+    return function (matchs, groupe) {
+        return triMatch(matchs, groupe, conditionMatchBet)
     };
 }])
 
 
-zenContactFilters.filter('matchFilter',[function(){
-    return function(matchs, groupe){
-        return triMatch(matchs,groupe,conditionMatch)
+zenContactFilters.filter('matchFilter', [function () {
+    return function (matchs, groupe) {
+        return triMatch(matchs, groupe, conditionMatch)
     }
 }])
 
@@ -26,11 +25,11 @@ zenContactFilters.filter('matchFilter',[function(){
  * @param condition
  * @returns {Array}
  */
-var triMatch=function(matchs,groupe,condition){
+var triMatch = function (matchs, groupe, condition) {
     var groupeList = [];
 
-    angular.forEach(matchs,function(match){
-        if(condition(match,groupe)){
+    angular.forEach(matchs, function (match) {
+        if (condition(match, groupe)) {
             groupeList.push(match);
         }
     });
@@ -38,11 +37,44 @@ var triMatch=function(matchs,groupe,condition){
     return groupeList;
 }
 
-var conditionMatch=function(match, groupe){
-    return match.participant1.groupe==groupe;
+var conditionMatch = function (match, groupe) {
+    return match.participant1.groupe == groupe;
 }
 
-var conditionMatchBet=function(matchBet, groupe){
-    return matchBet.match.participant1.groupe==groupe;
+var conditionMatchBet = function (matchBet, groupe) {
+    return matchBet.match.participant1.groupe == groupe;
 }
 
+zenContactFilters.filter('passedMFilter', function () {
+    return function (matchs) {
+        return triMatch(matchs, '', conditionPassedM);
+    }
+})
+
+var conditionPassedM = function (match, groupe) {
+    return new Date(match.date) < new Date();
+}
+
+/**
+ * This filter, when turned on (apply==true), filters only matches whose score hasn't been
+ * registered yet.
+ */
+zenContactFilters.filter('updatedMFilter', function () {
+
+
+    return function (matchs, apply) {
+        if (apply == true) {
+            return triMatch(matchs, '', conditionUpdatedM)
+
+        }
+        else {
+            return matchs;
+
+        }
+    }
+})
+
+var conditionUpdatedM = function (match) {
+
+    return !match.outcome.updated;
+}

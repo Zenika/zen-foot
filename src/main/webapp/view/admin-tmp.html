@@ -1,90 +1,100 @@
-<div class="container theme-showcase" role="main" data-ng-controller="AdminCtrl" xmlns="http://www.w3.org/1999/html">
 
-    <div class="jumbotron">
+<div id = "wrapper active" data-ng-controller="AdminCtrl">
+<div id="sidebar-wrapper" data-ng-init="applyFilter=false">
+   <div>afficher les matchs déjà édités</div>
+</div>
 
-        <p class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</p>
+<div id="page-content-wrapper">
+    <div class="page-content">
+        <div class="container" >
 
-    </div>
+            <div class="jumbotron">
 
-    <div class="page-header">
-        <h1>Liste des matchs</h1>
-    </div>
+                <p class="text-center">Remplissez les scores des matchs passés, puis cliquez sur le bouton "poster"
+                    correspondant</p>
+
+            </div>
+
+            <div class="page-header">
+                <h1>Liste des matchs</h1>
+            </div>
 
 
-    <form name="scoreform">
-        <div data-ng-repeat="groupe in groupes">
-            <h3>Groupe {{groupe}}</h3>
+            <form name="scoreform">
 
 
-            <div data-ng-repeat="match in matches=(matchs|matchFilter:groupe|orderBy:'date')"
-                 name="formgp">
+                <div data-ng-repeat="match in matches=(matchs|passedMFilter|updatedMFilter:applyFilter|orderBy:'date')"
+                     name="formgp">
 
-                <div name="row" class="row score-input">
-                    <div class="col-sm-2">
-                        {{match.date|date:'dd/MM/yyyy à HH:mm'}}
-                    </div>
-                    <div class="col-sm-2 text-right">
-                        {{match.participant1.pays}}
-                    </div>
-                    <div class="col-sm-1">
-                        <ng-form name="score1Form" ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
-                            <input name="score1input" class="form-control input-sm text-center"
-                                   data-ng-init="score1=match.outcome.score1"
-                                   data-ng-model="score1.score" ng-pattern=scoreRegexp
-                                   ng-required="hasTwoScores(match.outcome)">
-                            <span class="label label-danger" data-ng-show="score1Form.score1input.$error.pattern" >score : entre 0 et 99</span>
+                    <div name="row" class="row score-input">
+                        <div class="col-sm-2">
+                            {{match.date|date:'dd/MM/yyyy à HH:mm'}}
+                        </div>
+                        <div class="col-sm-2 text-right">
+                            {{match.participant1.pays}}
+                        </div>
+                        <ng-form name="ngscoreForm">
+
+                            <div class="col-sm-1"
+                                 ng-class="{'has-error':ngscoreForm.score1input.$error.pattern||ngscoreForm.score1input.$invalid}">
+                                <input name="score1input" class="form-control input-sm text-center"
+                                       data-ng-init="score1=match.outcome.score1"
+                                       data-ng-model="score1.score" ng-pattern=scoreRegexp
+                                       ng-required="hasTwoScores(match.outcome)">
+                                <span class="label label-danger" data-ng-show="ngscoreForm.score1input.$error.pattern">score : entre 0 et 99</span>
+                            </div>
+                            <div class="col-sm-1 text-center">
+                                :
+                            </div>
+                            <div class="col-sm-1"
+                                 ng-class="{'has-error':ngscoreForm.score2input.$error.pattern||ngscoreForm.score2input.$invalid}">
+
+                                <input name="score2input" class="form-control input-sm text-center"
+
+                                       data-ng-init="score2=match.outcome.score2"
+                                       data-ng-model="score2.score" ng-pattern=scoreRegexp
+
+                                       ng-required="hasTwoScores(match.outcome)">
+                                <span class="label label-danger" data-ng-show="ngscoreForm.score2input.$error.pattern">score : entre 0 et 99</span>
+                            </div>
                         </ng-form>
-                    </div>
-                    <div class="col-sm-1 text-center">
-                        :
-                    </div>
-                    <div class="col-sm-1">
-                        <ng-form name="score2Form" ng-class="{'has-error':score2Form.score2input.$error.pattern||score2Form.$invalid}">
+                        <div class="col-sm-2 text-left">
+                            {{match.participant2.pays}}
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-danger"
+                                    data-ng-disabled="ngscoreForm.$invalid||cannotPost(match)||match.outcome.updated"
+                                    data-ng-click="poster(match)">
+                                Poster
+                            </button>
+                        </div>
 
-                            <input name="score2input" class="form-control input-sm text-center"
 
-                                   data-ng-init="score2=match.outcome.score2"
-                                   data-ng-model="score2.score" ng-pattern=scoreRegexp
-
-                                   ng-required="hasTwoScores(match.outcome)">
-                            <span class="label label-danger" data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
-                        </ng-form>
-                    </div>
-                    <div class="col-sm-2 text-left">
-                        {{match.participant2.pays}}
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid">Poster</button>
                     </div>
 
+
+                    </br>
 
                 </div>
 
+                <div data-ng-show="matches.length<1">Pas de match à éditer</div>
 
 
+                <!--
+                        <div class="row" data-ng-hide="modified">
+                            <div class="col-sm-1 col-lg-offset-8">
+                                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid"
+                                        data-ng-click="postez()">Poster
+                                </button>
+                            </div>
+                        </div>
+                -->
 
-                </br>
+            </form>
 
-            </div>
         </div>
 
 
-
-<!--
-        <div class="row" data-ng-hide="modified">
-            <div class="col-sm-1 col-lg-offset-8">
-                <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid"
-                        data-ng-click="postez()">Poster
-                </button>
-            </div>
-        </div>
--->
-
-    </form>
-
+    </div>
 </div>
-
-
-
-
-
+</div>

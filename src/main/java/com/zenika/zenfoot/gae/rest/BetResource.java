@@ -10,6 +10,7 @@ import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
 import restx.annotations.GET;
 import restx.annotations.POST;
+import restx.annotations.PUT;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.security.PermitAll;
@@ -55,6 +56,16 @@ public class BetResource {
         return "coucou";
     }
 
+
+    @PUT("/matchs/{id}")
+    @RolesAllowed(Roles.ADMIN)
+    public void updateMatch(String id, Match match){
+        if(!match.getOutcome().isUpdated()) {
+            matchService.createUpdate(match);
+            match.getOutcome().setUpdated(true);
+
+        }
+    }
 
     @GET("/matchs")
     @PermitAll

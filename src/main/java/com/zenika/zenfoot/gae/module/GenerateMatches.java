@@ -21,7 +21,8 @@ public class GenerateMatches {
         //13 juin
         Participant cameroun = new Participant().setPays("Cameroun").setGroupe(Groupe.A);
         Participant mexique = new Participant().setPays("Mexique").setGroupe(Groupe.A);
-        Match match2 = new Match(new DateTime(2014, 6, 13, 18, 0)
+        DateTime dateTime1=new DateTime(2014, 6, 13, 18, 0);
+        Match match2 = new Match(DateTime.now()
                 , cameroun, mexique);
 
         Participant espagne = new Participant().setPays("Espagne").setGroupe(Groupe.B);

@@ -7,6 +7,7 @@ package com.zenika.zenfoot.gae.model;
  */
 public class MatchOutcome extends IssueMatchAbs implements Outcome{
 
+    protected boolean updated=false;
 
     public MatchOutcome() {
         this(Score.getUnknown(),Score.getUnknown());
@@ -26,5 +27,18 @@ public class MatchOutcome extends IssueMatchAbs implements Outcome{
     @Override
     public boolean hasHappened() {
         return false;
+    }
+
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public boolean updated() {
+        return isUpdated();
     }
 }

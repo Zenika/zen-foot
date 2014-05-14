@@ -7,4 +7,6 @@ public interface IBet extends Prediction {
 
     boolean isWon();
 
+    int calculateScore(Outcome outcome);
+
 }

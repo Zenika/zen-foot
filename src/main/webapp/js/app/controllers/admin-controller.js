@@ -2,7 +2,7 @@
  * Created by raphael on 12/05/14.
  */
 angular.module('zenFoot.app')
-.controller('AdminCtrl',['matchService', '$scope', 'SCORE_REGEXP','$resource',function(matchService, $scope,scoreRegexp,$resource){
+.controller('AdminCtrl',['matchService', '$scope', 'SCORE_REGEXP','$resource','$filter',function(matchService, $scope,scoreRegexp,$resource,$filter){
         $scope.matchs = matchService.getAll();
 
         $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -17,13 +17,31 @@ angular.module('zenFoot.app')
             return notOk;
         }
 
-        $scope.postez=function(){
-            $resource('/api/matchs').save($scope.matchs,function(){
-                console.log('matchs results posted!')
-            },
-            function(httpResponse){
-                console.log(httpResponse);
-            })
+
+
+        $scope.poster=function(match){
+            var date = $filter('date')(match.date,'le dd/MM/yyyy à HH:mm')
+
+            var message = "Etes vous sûr de vouloir enregistrer le match suivant :";
+            message+="\n"+date;
+            message+="\n"+match.participant1.pays+" : "+match.outcome.score1.score;
+            message+="\n"+match.participant2.pays+" : "+match.outcome.score2.score;
+            var result=confirm(message)
+            if(!result||!match.id) return;
+           $resource('/api/matchs/:id',{id:match.id},{put:{method:'PUT'}}).put(match,function(){
+               match.outcome.updated=true;
+           });
+        }
+
+
+
+
+        $scope.cannotPost=function(match){
+            var score1=match.outcome.score1.score;
+            var score2=match.outcome.score2.score;
+            if((!(score1))||(!(score2)))return true;
+
+            return match.outcome.score1.score.trim()==""||match.outcome.score2.score.trim()=="";
         }
 
     }])

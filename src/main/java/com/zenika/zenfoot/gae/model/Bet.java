@@ -37,6 +37,13 @@ public class Bet extends IssueMatchAbs implements IBet {
     }
 
     @Override
+    public int calculateScore(Outcome outcome) {
+        //TODO implement this
+        return 0;
+    }
+
+
+    @Override
     public boolean hasHappened() {
         //TODO
         return false;
@@ -64,4 +71,7 @@ public class Bet extends IssueMatchAbs implements IBet {
     public String toString() {
         return " " + score1.getScore() + " : " + score2.getScore();
     }
+
+
+
 }
