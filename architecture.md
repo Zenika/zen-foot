@@ -48,7 +48,7 @@ So far a gambler can bet on the result of a match, but a possible extension is t
  Note that @RolesAllowed enables us to allow access to our resources according to the role of the user that's requesting it.
 
 
- The "/matchs" resource is what retrieves all the matches and the gambler object with all its bets. It returns a list of MatchBet
+ The "/matchbets" resource is what retrieves all the matches and the gambler object with all its bets. It returns a list of MatchBet
  object, which is a simple way to bind a match and its corresponding bet server side.
  
  The flow is the following :
