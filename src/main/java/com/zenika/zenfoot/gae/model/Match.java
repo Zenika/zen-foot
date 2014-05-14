@@ -25,9 +25,12 @@ public class Match implements Event {
         this.date = date;
         this.participant1 = participant1;
         this.participant2 = participant2;
+        this.outcome=new MatchOutcome();
     }
 
     public Match() {
+        this(null,null,null);
+
     }
 
     public DateTime getDate() {

@@ -52,5 +52,11 @@ public class Score {
         return  (score.getScore() == this.getScore());
     }
 
+    //STATIC METHODS
+
+    public static Score getUnknown(){
+        return new Score().setScore(unrated);
+    }
+
 
 }

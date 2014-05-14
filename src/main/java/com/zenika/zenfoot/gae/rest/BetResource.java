@@ -63,6 +63,14 @@ public class BetResource {
         return matchs;
     }
 
+    @POST("/matchs")
+    @RolesAllowed(Roles.ADMIN)
+    public void updateMatchs(List<Match> matchs){
+        for(Match match:matchs){
+            matchService.createUpdate(match);
+        }
+    }
+
 
     @GET("/matchbets")
     @RolesAllowed({Roles.GAMBLER})

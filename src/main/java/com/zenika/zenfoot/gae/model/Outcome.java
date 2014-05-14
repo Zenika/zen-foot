@@ -6,4 +6,6 @@ package com.zenika.zenfoot.gae.model;
 public interface Outcome {
 
     boolean isLike(Prediction prediction);
+
+    boolean hasHappened();
 }

@@ -9,7 +9,8 @@ import java.util.List;
  */
 public interface MatchDAO {
 
-    void addMatch(Match match);
+    void createUpdate(Match match);
+
 
     Match getMatch(Long id);
 

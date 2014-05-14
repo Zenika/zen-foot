@@ -29,7 +29,6 @@
                     <div class="col-sm-1">
                         <ng-form name="score1Form" ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
                             <input name="score1input" class="form-control input-sm text-center"
-
                                    data-ng-init="score1=match.outcome.score1"
                                    data-ng-model="score1.score" ng-pattern=scoreRegexp
                                    ng-required="hasTwoScores(match.outcome)">
@@ -54,9 +53,11 @@
                     <div class="col-sm-2 text-left">
                         {{match.participant2.pays}}
                     </div>
-                    <div class="col-sm-1" data-ng-show="showWarning(match.bet)"><span class="label label-warning">mis à z&eacute;ro</span>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid">Poster</button>
                     </div>
-                    <div class="col-sm-2" data-ng-show="match.unreg"><span class="label label-danger">non enregistr&eacute</span> </div>
+
+
                 </div>
 
 
@@ -69,14 +70,15 @@
 
 
 
-
+<!--
         <div class="row" data-ng-hide="modified">
             <div class="col-sm-1 col-lg-offset-8">
                 <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid"
-                        data-ng-click="postez()">Pariez !
+                        data-ng-click="postez()">Poster
                 </button>
             </div>
         </div>
+-->
 
     </form>
 

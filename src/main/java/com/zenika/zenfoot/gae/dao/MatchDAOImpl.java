@@ -15,9 +15,10 @@ public class MatchDAOImpl implements MatchDAO {
     private static Objectify ofy=OfyService.ofy();
 
     @Override
-    public void addMatch(Match match) {
+    public void createUpdate(Match match) {
         ofy.save().entity(match).now();
     }
+
 
     @Override
     public Match getMatch(Long id) {

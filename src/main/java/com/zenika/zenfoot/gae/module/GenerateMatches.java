@@ -17,10 +17,6 @@ public class GenerateMatches {
         Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A);
         DateTime dateTime=new DateTime(2014, 6, 12, 22, 0);
         Match match1 = new Match(DateTime.now().plusSeconds(15), croatie, bresil);
-        match1.setOutcome(new MatchOutcome(new Score().setScore(2),new Score().setScore(4)));
-
-
-
 
         //13 juin
         Participant cameroun = new Participant().setPays("Cameroun").setGroupe(Groupe.A);

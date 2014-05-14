@@ -8,8 +8,8 @@ package com.zenika.zenfoot.gae.model;
 public class MatchOutcome extends IssueMatchAbs implements Outcome{
 
 
-
     public MatchOutcome() {
+        this(Score.getUnknown(),Score.getUnknown());
     }
 
     public MatchOutcome(Score score1,Score score2){
@@ -17,11 +17,14 @@ public class MatchOutcome extends IssueMatchAbs implements Outcome{
         this.setScore2(score2);
     }
 
-
-
     @Override
     public boolean isLike(Prediction prediction) {
         //TODO implement method
+        return false;
+    }
+
+    @Override
+    public boolean hasHappened() {
         return false;
     }
 }

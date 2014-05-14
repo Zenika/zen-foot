@@ -40,28 +40,28 @@ public class MatchRepository {
 
 
 
-    public void createMatch2(Match match) {
-        this.matchDAO.addMatch(match);
+    public void createUpdate(Match match) {
+        this.matchDAO.createUpdate(match);
     }
 
 
 
 
-    public void delete2(Long id) {
+    public void delete(Long id) {
         this.matchDAO.deleteMatch(id);
     }
 
 
 
 
-    public Match getMatch2(Long id) {
+    public Match getMatch(Long id) {
         return this.matchDAO.getMatch(id);
     }
 
 
 
 
-    public List<Match> getAll2() {
+    public List<Match> getAll() {
         return matchDAO.getAll();
     }
 
