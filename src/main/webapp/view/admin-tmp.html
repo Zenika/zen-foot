@@ -1,7 +1,9 @@
 
 <div id = "wrapper active" data-ng-controller="AdminCtrl">
-<div id="sidebar-wrapper" data-ng-init="applyFilter=false">
-   <div>afficher les matchs déjà édités</div>
+<div id="sidebar-wrapper" data-ng-init="afficher=false">
+   <form name="displayForm">afficher les matchs déjà édités
+   <input type="checkbox" data-ng-model="afficher">
+   </form>
 </div>
 
 <div id="page-content-wrapper">
@@ -23,7 +25,7 @@
             <form name="scoreform">
 
 
-                <div data-ng-repeat="match in matches=(matchs|passedMFilter|updatedMFilter:applyFilter|orderBy:'date')"
+                <div data-ng-repeat="match in matches=(matchs|passedMFilter|updatedMFilter:!afficher|orderBy:'date')"
                      name="formgp">
 
                     <div name="row" class="row score-input">
@@ -61,7 +63,7 @@
                         <div class="col-sm-2 text-left">
                             {{match.participant2.pays}}
                         </div>
-                        <div class="col-sm-1">
+                        <div class="col-sm-1" data-ng-show="!match.outcome.updated">
                             <button type="button" class="btn btn-danger"
                                     data-ng-disabled="ngscoreForm.$invalid||cannotPost(match)||match.outcome.updated"
                                     data-ng-click="poster(match)">

@@ -4,8 +4,11 @@ import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
+import com.zenika.zenfoot.gae.model.Groupe;
 import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.Participant;
 import com.zenika.zenfoot.gae.services.*;
+import org.joda.time.DateTime;
 import restx.factory.Module;
 import restx.factory.Provides;
 
@@ -34,7 +37,10 @@ public class ModelModule {
     @Named("matchRepoGAE")
     public MatchRepository matchRepositoryGAE(@Named("matchDAO") MatchDAO matchDAO) {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
-
+       /* Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
+        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
+        Match match = new Match().setDate(DateTime.now()).setParticipant1(participant1).setParticipant2(participant2);
+        matchRepository.createUpdate(match);*/
 
         return matchRepository;
     }
