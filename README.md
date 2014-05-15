@@ -36,9 +36,17 @@ time you modify you client.
 
 To do this, you have to install node, and then in src/main/webapp run :
 
+If it is the first time you run it, you'll first have to run the following line to load the dependencies listed in the 
+package.json :
+```
+npm install
+```
+And then every time you start deploying locally, run the following :
 ```
 node server.js
 ```
+The static files will be running on localhost:9000, and every call to the api will be redirected to localhost:8080. So you can
+now test the app on localhost:9000
 
 On Google App Engine (GAE) :
 ---
