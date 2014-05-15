@@ -55,10 +55,13 @@ remove --no_cookies if you want to type your PW only once.
 # How to log in ?
 
 Two accounts are registered in the database :
-user : raphael.martignoni@zenika.com
-PW : 2205
+
+ user : raphael.martignoni@zenika.com
+
+ PW : 2205
 
 user : jean.bon@zenika.com
+
 PW : 999
 
 # Bug, Backlog, Trello
