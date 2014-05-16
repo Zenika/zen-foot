@@ -76,7 +76,7 @@ public class ModelModule {
 
     @Provides
     @Named("matchService")
-    public MatchService matchService(@Named("matchRepoGAE") MatchRepository matchRepository) {
+    public MatchService matchService(@Named("matchRepoDev") MatchRepository matchRepository) {
 
         MatchService matchService = new MatchService(matchRepository);
 
