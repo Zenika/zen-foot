@@ -38,7 +38,7 @@ zenFootService.factory('Session', function ($resource) {
 
     .factory('User', function ($resource) {
 
-       var user=  $resource('/api/sessions/:email', null,
+        var user = $resource('/api/sessions/:email', null,
             {email: '@email'},
             {
                 'get': {method: 'GET', withCredentials: true},
@@ -55,28 +55,27 @@ zenFootService.factory('Session', function ($resource) {
     .factory('betMatchService', ['Match', function (Match) {
 
 
-        var equals=function(bet1,bet2){
-            if(bet1&&bet2){
-                return (bet1.score1.score==bet2.score1.score )&&(bet1.score2.score==bet2.score2.score);
+        var equals = function (bet1, bet2) {
+            if (bet1 && bet2) {
+                return (bet1.score1.score == bet2.score1.score ) && (bet1.score2.score == bet2.score2.score);
             }
             return false;
         }
 
-        var mark=function(matchBetCl, matchBetServ){
-            if(!equals(matchBetCl.bet,matchBetServ.bet)){
-                matchBetServ.unreg=true;
+        var mark = function (matchBetCl, matchBetServ) {
+            if (!equals(matchBetCl.bet, matchBetServ.bet)) {
+                matchBetServ.unreg = true;
             }
 
         }
 
 
-
-        var findBetByMatchId=function(id, matchBetsServ){
+        var findBetByMatchId = function (id, matchBetsServ) {
             var toRet;
-            for(var x in matchBetsServ){
+            for (var x in matchBetsServ) {
                 var matchBetServ = matchBetsServ[x];
-                if(matchBetServ.bet.matchId==id){
-                    toRet=matchBetServ;
+                if (matchBetServ.bet.matchId == id) {
+                    toRet = matchBetServ;
                     break;
                 }
             }
@@ -86,22 +85,17 @@ zenFootService.factory('Session', function ($resource) {
 
         return {
 
-
-
             getAll: function () {
                 var objTmp = Match.query();
                 //.bet.score1.score
                 return objTmp;
             },
 
-
-
-
-            markUnreg:function(matchBetsCl, matchBetsServ){
-                for(var x in matchBetsCl){
+            markUnreg: function (matchBetsCl, matchBetsServ) {
+                for (var x in matchBetsCl) {
                     var matchBetCl = matchBetsCl[x];
-                    var matchBetServ = findBetByMatchId(matchBetCl.bet.matchId,matchBetsServ);
-                    mark(matchBetCl,matchBetServ);
+                    var matchBetServ = findBetByMatchId(matchBetCl.bet.matchId, matchBetsServ);
+                    mark(matchBetCl, matchBetServ);
                 }
             }
         }
@@ -110,5 +104,19 @@ zenFootService.factory('Session', function ($resource) {
     .factory('postBetService', ['$resource', function ($resource) {
         return $resource('/api/bets');
     }])
+
+/**
+ * This service is used for any information that's required for display functionalities
+ */
+    .factory('displayService', function () {
+        return {
+            isWinner:function(score,scoreConcerne,autreScore){
+                var scoreConcerne=score[scoreConcerne]
+                var autreScore=score[autreScore]
+                if((!autreScore.score)||autreScore.score.trim()=='') return false;
+                return (scoreConcerne.score>autreScore.score);
+            }
+        }
+    })
 
 

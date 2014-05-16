@@ -34,7 +34,7 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
     }
 });
 
-controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService','$rootScope','$q', function ($scope, betMatchService, postBetService,$rootScope,$q) {
+controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService','$rootScope','$q','displayService', function ($scope, betMatchService, postBetService,$rootScope,$q,displayService) {
     $scope.matchsBets = betMatchService.getAll();
 
     var fetchMatchs = function () {
@@ -230,13 +230,7 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
         return $scope.isFormer(match.date)&&match.outcome;
     }
 
-    $scope.isWinner=function(score,scoreConcerne,autreScore){
-        var scoreConcerne=score[scoreConcerne]
-        var autreScore=score[autreScore]
-        if((!autreScore.score)||autreScore.score.trim()=='') return false;
-        return (scoreConcerne.score>autreScore.score);
-
-    }
+    $scope.isWinner=displayService.isWinner;
 
 
 }]);

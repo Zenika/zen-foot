@@ -2,7 +2,7 @@
  * Created by raphael on 12/05/14.
  */
 angular.module('zenFoot.app')
-.controller('AdminCtrl',['matchService', '$scope', 'SCORE_REGEXP','$resource','$filter',function(matchService, $scope,scoreRegexp,$resource,$filter){
+.controller('AdminCtrl',['matchService', '$scope', 'SCORE_REGEXP','$resource','$filter','displayService',function(matchService, $scope,scoreRegexp,$resource,$filter,displayService){
         $scope.matchs = matchService.getAll();
 
         $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -43,5 +43,7 @@ angular.module('zenFoot.app')
 
             return match.outcome.score1.score.trim()==""||match.outcome.score2.score.trim()=="";
         }
+
+        $scope.isWinner=displayService.isWinner;
 
     }])

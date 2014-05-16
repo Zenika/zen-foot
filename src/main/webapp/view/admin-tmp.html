@@ -1,14 +1,6 @@
 
-<div id = "wrapper active" data-ng-controller="AdminCtrl">
-<div id="sidebar-wrapper" data-ng-init="afficher=false">
-   <form name="displayForm">afficher les matchs déjà édités
-   <input type="checkbox" data-ng-model="afficher">
-   </form>
-</div>
 
-<div id="page-content-wrapper">
-    <div class="page-content">
-        <div class="container" >
+        <div class="container" data-ng-controller="AdminCtrl" >
 
             <div class="jumbotron">
 
@@ -17,8 +9,14 @@
 
             </div>
 
-            <div class="page-header">
+            <div class="page-header" >
                 <h1>Liste des matchs</h1>
+            </div>
+
+            <div data-ng-init="afficher=false" style="padding-bottom: 20px">
+                <form name="displayForm">afficher les matchs déjà édités
+                    <input type="checkbox" data-ng-model="afficher">
+                </form>
             </div>
 
 
@@ -32,7 +30,7 @@
                         <div class="col-sm-2">
                             {{match.date|date:'dd/MM/yyyy à HH:mm'}}
                         </div>
-                        <div class="col-sm-2 text-right">
+                        <div class="col-sm-2 text-right" data-ng-class="{'zen-bold':isWinner(match.outcome,'score1','score2')}">
                             {{match.participant1.pays}}
                         </div>
                         <ng-form name="ngscoreForm">
@@ -60,14 +58,14 @@
                                 <span class="label label-danger" data-ng-show="ngscoreForm.score2input.$error.pattern">score : entre 0 et 99</span>
                             </div>
                         </ng-form>
-                        <div class="col-sm-2 text-left">
+                        <div class="col-sm-2 text-left" data-ng-class="{'zen-bold':isWinner(match.outcome,'score2','score1')}">
                             {{match.participant2.pays}}
                         </div>
                         <div class="col-sm-1" data-ng-show="!match.outcome.updated">
                             <button type="button" class="btn btn-danger"
                                     data-ng-disabled="ngscoreForm.$invalid||cannotPost(match)||match.outcome.updated"
                                     data-ng-click="poster(match)">
-                                Poster
+                                Valider
                             </button>
                         </div>
 
@@ -97,6 +95,3 @@
         </div>
 
 
-    </div>
-</div>
-</div>
