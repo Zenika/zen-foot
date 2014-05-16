@@ -230,6 +230,14 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
         return $scope.isFormer(match.date)&&match.outcome;
     }
 
+    $scope.isWinner=function(score,scoreConcerne,autreScore){
+        var scoreConcerne=score[scoreConcerne]
+        var autreScore=score[autreScore]
+        if((!autreScore.score)||autreScore.score.trim()=='') return false;
+        return (scoreConcerne.score>autreScore.score);
+
+    }
+
 
 }]);
 
