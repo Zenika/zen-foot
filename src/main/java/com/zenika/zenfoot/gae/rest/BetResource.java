@@ -1,5 +1,8 @@
 package com.zenika.zenfoot.gae.rest;
 
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
+
 
 @RestxResource
 @Component
@@ -32,9 +37,10 @@ public class BetResource {
     private SessionInfo sessionInfo;
     private BetService betService;
     private GamblerService gamblerService;
+    private String coucou="salut";
 
-    public BetResource(MatchService matchService
-            , @Named("sessioninfo") SessionInfo sessionInfo,
+    public BetResource(MatchService matchService,
+                       @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
                        GamblerService gamblerService) {
         this.sessionInfo = sessionInfo;
@@ -60,9 +66,11 @@ public class BetResource {
     @PUT("/matchs/{id}")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match){
-        if(!match.getOutcome().isUpdated()) {
-            matchService.createUpdate(match);
+        boolean isRegistered = matchService.getMatch(Long.parseLong(id)).getOutcome().isUpdated();
+
+        if(!isRegistered) {
             match.getOutcome().setUpdated(true);
+            matchService.createUpdate(match);
 
         }
     }
@@ -74,13 +82,13 @@ public class BetResource {
         return matchs;
     }
 
-    @POST("/matchs")
+    /*@POST("/matchs")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatchs(List<Match> matchs){
         for(Match match:matchs){
             matchService.createUpdate(match);
         }
-    }
+    }*/
 
 
     @GET("/matchbets")
@@ -144,8 +152,31 @@ public class BetResource {
         System.out.println("There are "+gambler.getBets().size());
     }
 
+    @GET("/setgreet")
+    @RolesAllowed(Roles.ADMIN)
+    public void coucou(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.coucou="coucou";
 
 
+    }
 
+    @GET("/queue")
+    @RolesAllowed(Roles.ADMIN)
+    public void queue(){
+        Queue queue = QueueFactory.getDefaultQueue();
+        queue.add(withUrl("/api/setgreet").method(TaskOptions.Method.GET));
+    }
+
+    @GET("/greet")
+    @PermitAll
+    public String greet(){
+        return this.coucou;
+    }
 
 }

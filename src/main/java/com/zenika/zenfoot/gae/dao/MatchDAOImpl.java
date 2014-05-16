@@ -43,8 +43,6 @@ public class MatchDAOImpl implements MatchDAO {
             this.deleteMatch(match.getId());
         }
         logger.log(Level.WARNING,"deleted "+matchs.size()+ " matchs");
-
-
     }
 
 

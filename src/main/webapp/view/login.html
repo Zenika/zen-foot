@@ -1,15 +1,19 @@
-<div class="container col-md-2 col-md-offset-5">
+    <div class="panel panel-danger col-md-2 col-md-offset-5" style="padding-left: 0px;padding-right: 0px">
+
+        <div class="panel-heading" style="text-align: center">
+            Login
+        </div>
+
+        <div class="panel-body" data-ng-controller="LoginCtrl">
 
 
-    <div data-ng-controller="LoginCtrl">
+            <form class="form-horizontal" action="" method="post"  name="loginForm" role="form">
+                <h2 style="text-align: center ; margin-bottom: 30px">Login</h2>
 
-
-            <form action="" method="post" class="form-horizontal" name="loginForm" role="form">
-                <h2>Login</h2>
-                <div class="form-group {{!loginForm.user.$error.required || 'error'}}">
+                <div class="zen-login form-group {{!loginForm.user.$error.required || 'error'}}">
                     <label for="user" class="sr-only">Email</label>
 
-                    <input type="email" name="user" id="user" class="input-xlarge" data-ng-model="login.email"
+                    <input type="email" name="user" id="user" class="form-control" data-ng-model="login.email"
                            required="" placeholder="email"/><br/>
 
                     <p class="text-danger"
@@ -17,11 +21,11 @@
                     <span class="text-danger" ng-show="loginForm.user.$error.email&&!loginForm.user.$error.required">
    Email non valide</span>
                 </div>
-                <div class="form-group {{!loginForm.pass.$error.required || 'error'}}">
+                <div class="zen-login form-group {{!loginForm.pass.$error.required || 'error'}}">
                     <label for="pass" class="sr-only">Password</label>
 
                     <div class="controls">
-                        <input type="password" name="pass" id="pass" class="input-xlarge"
+                        <input type="password" name="pass" id="pass" class="form-control"
                                data-ng-model="login.password" required="" placeholder="mot de passe"/><br/>
 
                         <p class="text-danger" data-ng-show="loginForm.pass.$error.required">Le mot de passe est
@@ -29,12 +33,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="controls">
-                        <input type="submit" value="Authenticate" class="btn btn-primary" data-ng-click="submit()"
+                    <div class="controls" style="text-align: center">
+                        <input type="submit" value="login" class="btn btn-primary" data-ng-click="submit()"
                                data-ng-disabled="loginForm.$invalid"/>
                     </div>
                 </div>
             </form>
-    </div>
-</div>
+        </div>
 
+
+    </div>

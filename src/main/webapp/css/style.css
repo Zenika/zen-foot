@@ -1,66 +1,57 @@
 .form-inline .form-group input {
-    width : 50px;
+    width: 50px;
 }
 
 .gridStyle {
-    border: 1px solid rgb(212,212,212);
+    border: 1px solid rgb(212, 212, 212);
     width: 400px;
     height: 300px;
 }
 
-.zen-space{
-    height:20;
+.zen-space {
+    height: 20;
 }
 
-.zen-margin{
+.zen-margin {
     margin-top: 10px;
 }
 
 /*
 .has-error,
 */
- .warning-score {
-     background-color: #FA787E;
- }
-
-.score-input input{
-   /*width:40px;*/
+.warning-score {
+    background-color: #FA787E;
 }
 
-
-div{
-    color:#4c4c4c;
+.score-input input {
+    /*width:40px;*/
 }
 
-h1{
-    color:#4c4c4c;
+div {
+    color: #4c4c4c;
 }
 
-h2{
-    color:#4c4c4c;
+h1 {
+    color: #4c4c4c;
+}
+
+h2 {
+    color: #4c4c4c;
 
 }
 
-.zen-red{
+.zen-red {
     color: #942723;
 }
 
-.zen-login{
-   vertical-align: middle;
+.zen-login {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-
-.former-match div{
-    color:lightgrey;
+.former-match div {
+    color: lightgrey;
 }
-
-
-
-
-
-
-
-
 
 /*
 navbar css with zenika colors
@@ -70,78 +61,96 @@ navbar css with zenika colors
     background-color: #942723;
     border-color: #942723;
 }
+
 .navbar-inverse-zen .navbar-brand {
-    color:  #b5b5b5;
+    color: #b5b5b5;
 }
+
 .navbar-inverse-zen .navbar-brand:hover,
 .navbar-inverse-zen .navbar-brand:focus {
     color: #f2f2f2;
     background-color: transparent;
 }
+
 .navbar-inverse-zen .navbar-text {
-    color:  #b5b5b5;
+    color: #b5b5b5;
 }
+
 .navbar-inverse-zen .navbar-nav > li > a {
-    color:  #b5b5b5;
+    color: #b5b5b5;
 }
+
 .navbar-inverse-zen .navbar-nav > li > a:hover,
 .navbar-inverse-zen .navbar-nav > li > a:focus {
     color: #f2f2f2;
     background-color: transparent;
 }
+
 .navbar-inverse-zen .navbar-nav > .active > a,
 .navbar-inverse-zen .navbar-nav > .active > a:hover,
 .navbar-inverse-zen .navbar-nav > .active > a:focus {
     color: #f2f2f2;
     background-color: #7C0B08;
 }
+
 .navbar-inverse-zen .navbar-nav > .disabled > a,
 .navbar-inverse-zen .navbar-nav > .disabled > a:hover,
 .navbar-inverse-zen .navbar-nav > .disabled > a:focus {
     color: #4c4c4c;
     background-color: transparent;
 }
+
 .navbar-inverse-zen .navbar-toggle {
     border-color: #333;
 }
+
 .navbar-inverse-zen .navbar-toggle:hover,
 .navbar-inverse-zen .navbar-toggle:focus {
     background-color: #333;
 }
+
 .navbar-inverse-zen .navbar-toggle .icon-bar {
     background-color: #f2f2f2;
 }
+
 .navbar-inverse-zen .navbar-collapse,
 .navbar-inverse-zen .navbar-form {
     border-color: #101010;
 }
+
 .navbar-inverse-zen .navbar-nav > .open > a,
 .navbar-inverse-zen .navbar-nav > .open > a:hover,
 .navbar-inverse-zen .navbar-nav > .open > a:focus {
     color: #f2f2f2;
     background-color: #7C0B08;
 }
+
 @media (max-width: 767px) {
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .dropdown-header {
         border-color: #7C0B08;
     }
+
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu .divider {
         background-color: #7C0B08;
     }
+
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > li > a {
         color: #b5b5b5;
     }
+
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > li > a:hover,
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > li > a:focus {
         color: #f2f2f2;
         background-color: transparent;
     }
+
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .active > a,
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .active > a:hover,
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .active > a:focus {
         color: #f2f2f2;
         background-color: #7C0B08;
     }
+
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .disabled > a,
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .disabled > a:hover,
     .navbar-inverse-zen .navbar-nav .open .dropdown-menu > .disabled > a:focus {
@@ -149,14 +158,14 @@ navbar css with zenika colors
         background-color: transparent;
     }
 }
+
 .navbar-inverse-zen .navbar-link {
     color: #b5b5b5;
 }
+
 .navbar-inverse-zen .navbar-link:hover {
     color: #f2f2f2;
 }
-
-
 
 /*
 css for side bar
@@ -193,7 +202,7 @@ css for side bar
     padding: 0;
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
 
     #wrapper {
         padding-left: 0;
@@ -215,3 +224,4 @@ css for side bar
     }
 
 }
+
