@@ -52,6 +52,12 @@ zenFootService.factory('Session', function ($resource) {
         return $resource('/api/matchbets');
     }])
 
+
+/**
+ * All the services relative to match and bets. Used to get matches and bets from the server, get matches which were not
+ * registered (in case the client sent a bet for a match that has already started), and also to calculate points for a given bet
+ * if the result's known
+ */
     .factory('betMatchService', ['Match', function (Match) {
 
 
@@ -83,6 +89,24 @@ zenFootService.factory('Session', function ($resource) {
 
         }
 
+        /**
+         * Return whether or not the prediction contains a result (either the outcome of a match or a bet).
+         * @param prediction
+         * @returns {boolean} true if the prediction is not empty (i.e. the scores are not ==""
+         */
+        var scoreGiven=function(prediction){
+            return prediction.score1.score.trim()!=""&&prediction.score2.score.trim()!="";
+        }
+
+
+        var betMade=function(bet){
+            return scoreGiven(bet);
+        }
+
+        var knownOutcome=function(match){
+            return scoreGiven(match.outcome);
+        }
+
         return {
 
             getAll: function () {
@@ -97,7 +121,38 @@ zenFootService.factory('Session', function ($resource) {
                     var matchBetServ = findBetByMatchId(matchBetCl.bet.matchId, matchBetsServ);
                     mark(matchBetCl, matchBetServ);
                 }
-            }
+            },
+
+
+
+            /**
+             * Calculates the score for one bet once the result is known. This is only used to display to
+             * the user, as the score server side is not kept for every bet.
+             * @param matchBet
+             */
+            calculatePoints: function(matchBet){
+                var match = matchBet.match;
+                var bet = matchBet.bet;
+
+                //Conditions pour pouvoir calculer les points : l'outcome du match est connu et le parieur a fait un pronostic
+                if(knownOutcome(match)&&betMade(bet)){
+                    var actualSc1=match.outcome.score1.score;
+                    var actualSc2=match.outcome.score2.score;
+                    var predicSc1=bet.score1.score;
+                    var predicSc2=bet.score2.score;
+                    if(actualSc1==predicSc1&&actualSc2==predicSc2)return 3;
+                    if((actualSc1>actualSc2)==(predicSc1>predicSc2)){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+            },
+
+            knownOutcome: knownOutcome,
+
+            betMade:betMade
         }
     }])
 
@@ -108,16 +163,19 @@ zenFootService.factory('Session', function ($resource) {
 /**
  * This service is used for any information that's required for display functionalities
  */
-    .factory('displayService', function () {
+    .factory('displayService', ['betMatchService',function (betMatchService) {
         return {
             isWinner:function(score,scoreConcerne,autreScore){
                 var scoreConcerne=score[scoreConcerne]
                 var autreScore=score[autreScore]
                 if((!autreScore.score)||autreScore.score.trim()=='') return false;
                 return (scoreConcerne.score>autreScore.score);
+            },
+            dispPoints:function(matchBet){
+                return betMatchService.knownOutcome(matchBet.match)&&betMatchService.betMade(matchBet.bet);
             }
         }
-    })
+    }])
 
     .factory('Gambler',['$resource',function($resource){
         return $resource('/api/gambler');

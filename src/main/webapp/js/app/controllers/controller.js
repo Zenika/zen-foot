@@ -34,25 +34,21 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
     }
 });
 
-controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService','$rootScope','$q','displayService','$rootScope', function ($scope, betMatchService, postBetService,$rootScope,$q,displayService,Match) {
+controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope','Gambler', function ($scope, betMatchService, postBetService, $rootScope, $q, displayService, Match,Gambler) {
     $scope.matchsBets = betMatchService.getAll();
 
-       /*
-        .$promise.then(
-        function(){
-            Gambler.get().$promise
-                .then(function(response){
-                    return response;
-                })
-                .then(onGamblerRetrieved)
-                .catch(function(){
-                })
-        }
 
-    );*/
+    Gambler.get().$promise
+        .then(function (response) {
+            return response;
+        })
+        .then(onGamblerRetrieved)
+        .catch(function () {
+        })
 
-    function onGamblerRetrieved(gambler){
-        $rootScope.user.points=gambler.points;
+
+    function onGamblerRetrieved(gambler) {
+        $rootScope.user.points = gambler.points;
 
     }
 
@@ -61,29 +57,28 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
 
         var defer = $q.defer();
         defer.promise
-            .then(function(){
-                var clMatch= angular.copy($scope.matchsBets);
+            .then(function () {
+                var clMatch = angular.copy($scope.matchsBets);
                 return clMatch;
 
             })
-            .then(function(clMatch){
+            .then(function (clMatch) {
                 var srvMatchs = betMatchService.getAll();
-               return {srvMatchs:srvMatchs,clMatch:clMatch};
+                return {srvMatchs: srvMatchs, clMatch: clMatch};
 
             })
-            .then(function(matchLists){
-                $scope.matchsBets=matchLists.srvMatchs;
+            .then(function (matchLists) {
+                $scope.matchsBets = matchLists.srvMatchs;
                 return matchLists;
             })
-            .then(function(matchLists){
-                betMatchService.signalUnreg(matchLists.srvMatchs,matchLists.clMatch)
+            .then(function (matchLists) {
+                betMatchService.signalUnreg(matchLists.srvMatchs, matchLists.clMatch)
             })
 
 
-
-        .catch(function () {
-            console.log('error retrieving bets from server');
-        })
+            .catch(function () {
+                console.log('error retrieving bets from server');
+            })
         defer.resolve();
     }
 
@@ -112,19 +107,19 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
      * in order to identify bets which were not registered (usefull to identify bets which were
      * voted but were posted after the beginning of the match
      */
-    var updateBets=function(){
+    var updateBets = function () {
         var matchAndBets = betMatchService.getAll().$promise;
-        matchAndBets.then(function(result){
+        matchAndBets.then(function (result) {
             var matchBetsCl = angular.copy($scope.matchsBets);
-            return {result:result,matchBetsCl:matchBetsCl};
+            return {result: result, matchBetsCl: matchBetsCl};
 
         })
-            .then(function(couple){
-                $scope.matchsBets=couple.result;
+            .then(function (couple) {
+                $scope.matchsBets = couple.result;
                 return couple;
             })
-            .then(function(couple){
-                betMatchService.markUnreg(couple.matchBetsCl,$scope.matchsBets);
+            .then(function (couple) {
+                betMatchService.markUnreg(couple.matchBetsCl, $scope.matchsBets);
             })
 
     }
@@ -161,7 +156,7 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
 
         postBetService.save($scope.matchsBets, function () {
             console.log('bets were sucessfully sent');
-           // $scope.matchsBets = betMatchService.getAll();
+            // $scope.matchsBets = betMatchService.getAll();
             updateBets();
         }, function () {
             console.log('sending bets failed');
@@ -237,20 +232,24 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
      * @param bet
      * @returns {boolean}
      */
-    $scope.hasTwoScores=function(bet){
-        var sc1Empty=!bet.score1.score||bet.score1.score.trim() ==""
-        var sc2empty=!bet.score2.score||bet.score2.score.trim()=="";
-        var notOk = (sc1Empty&&!sc2empty)||(!sc1Empty&&sc2empty)
+    $scope.hasTwoScores = function (bet) {
+        var sc1Empty = !bet.score1.score || bet.score1.score.trim() == ""
+        var sc2empty = !bet.score2.score || bet.score2.score.trim() == "";
+        var notOk = (sc1Empty && !sc2empty) || (!sc1Empty && sc2empty)
 
         return notOk;
     }
 
 
-    $scope.knownResult=function(match){
-        return $scope.isFormer(match.date)&&match.outcome;
+    $scope.knownResult = function (match) {
+        return $scope.isFormer(match.date) && match.outcome;
     }
 
-    $scope.isWinner=displayService.isWinner;
+    $scope.isWinner = displayService.isWinner;
+
+    $scope.calculatePoints = betMatchService.calculatePoints;
+
+    $scope.dispPoints=displayService.dispPoints;
 
 
 }]);

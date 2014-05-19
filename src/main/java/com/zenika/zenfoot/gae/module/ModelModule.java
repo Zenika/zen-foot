@@ -43,10 +43,7 @@ public class ModelModule {
     @Named("matchRepoGAE")
     public MatchRepository matchRepositoryGAE(@Named("matchDAO") MatchDAO matchDAO) {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
-/*        Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
-        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
-        Match match = new Match().setDate(DateTime.now()).setParticipant1(participant1).setParticipant2(participant2);
-        matchRepository.createUpdate(match);*/
+
 
 
         return matchRepository;
@@ -79,6 +76,11 @@ public class ModelModule {
     public MatchService matchService(@Named("matchRepoDev") MatchRepository matchRepository) {
 
         MatchService matchService = new MatchService(matchRepository);
+
+        Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
+        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
+        Match match = new Match().setDate(DateTime.now().plusMinutes(2)).setParticipant1(participant1).setParticipant2(participant2);
+        matchRepository.createUpdate(match);
 
         return matchService;
 
