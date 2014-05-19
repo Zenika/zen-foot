@@ -37,7 +37,6 @@ public class BetResource {
     private SessionInfo sessionInfo;
     private BetService betService;
     private GamblerService gamblerService;
-    private String coucou="salut";
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
@@ -48,7 +47,6 @@ public class BetResource {
         this.betService = betService;
         this.gamblerService = gamblerService;
     }
-
 
     @GET("/hello")
     @RolesAllowed(Roles.ADMIN)
@@ -71,6 +69,7 @@ public class BetResource {
         if(!isRegistered) {
             match.getOutcome().setUpdated(true);
             matchService.createUpdate(match);
+            gamblerService.calculateScores(match);
 
         }
     }
@@ -100,7 +99,7 @@ public class BetResource {
         Logger logger = Logger.getLogger(BetResource.class.getName());
 
         if(gambler==null){
-            logger.log(Level.WARNING,"gambler is null when calling /matchs");
+            logger.log(Level.WARNING,"gambler is null when calling /matchsbet");
             gambler = gamblerService.createGambler(sessionInfo.getUser(), matchs);
         }
 
@@ -138,7 +137,6 @@ public class BetResource {
         System.out.println("/bets "+matchAndBets.size()+" matchAndBet json objects received");
 
         for(MatchAndBet matchAndBet: matchAndBets){
-
             if(matchAndBet==null){
                 System.out.println("------------------------------------------");
                 System.out.println("WHILE POSTING BETS");
@@ -146,37 +144,17 @@ public class BetResource {
             }
             newList.add(matchAndBet.getBet());
         }
-
         Gambler gambler1=gamblerService.updateBets(newList,gambler);
         System.out.println("/ bets After posting bets ");
         System.out.println("There are "+gambler.getBets().size());
     }
 
-    @GET("/setgreet")
-    @RolesAllowed(Roles.ADMIN)
-    public void coucou(){
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        this.coucou="coucou";
-
-
+    @GET("/gambler")
+    @RolesAllowed(Roles.GAMBLER)
+    public Gambler getGambler(){
+        Gambler gambler=gamblerService.get(sessionInfo.getUser());
+        return gambler;
     }
 
-    @GET("/queue")
-    @RolesAllowed(Roles.ADMIN)
-    public void queue(){
-        Queue queue = QueueFactory.getDefaultQueue();
-        queue.add(withUrl("/api/setgreet").method(TaskOptions.Method.GET));
-    }
-
-    @GET("/greet")
-    @PermitAll
-    public String greet(){
-        return this.coucou;
-    }
 
 }

@@ -25,6 +25,7 @@ public class Gambler implements IGambler {
      */
     protected List<Bet> bets = new ArrayList<Bet>();
 
+    protected int points=0;
 
     /**
      * The id of the user this gambler instance is attached to
@@ -66,7 +67,15 @@ public class Gambler implements IGambler {
     }
 
 
+    public int getPoints() {
+        return points;
+    }
 
+
+
+    public void addPoints(int points){
+        this.points+=points;
+    }
 
     /**
      * Return the bet with matchId, null if doesn't exist

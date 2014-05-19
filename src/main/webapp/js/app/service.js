@@ -119,4 +119,8 @@ zenFootService.factory('Session', function ($resource) {
         }
     })
 
+    .factory('Gambler',['$resource',function($resource){
+        return $resource('/api/gambler');
+    }])
+
 

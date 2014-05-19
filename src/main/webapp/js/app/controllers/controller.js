@@ -34,8 +34,28 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
     }
 });
 
-controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService','$rootScope','$q','displayService', function ($scope, betMatchService, postBetService,$rootScope,$q,displayService) {
+controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService','$rootScope','$q','displayService','$rootScope', function ($scope, betMatchService, postBetService,$rootScope,$q,displayService,Match) {
     $scope.matchsBets = betMatchService.getAll();
+
+       /*
+        .$promise.then(
+        function(){
+            Gambler.get().$promise
+                .then(function(response){
+                    return response;
+                })
+                .then(onGamblerRetrieved)
+                .catch(function(){
+                })
+        }
+
+    );*/
+
+    function onGamblerRetrieved(gambler){
+        $rootScope.user.points=gambler.points;
+
+    }
+
 
     var fetchMatchs = function () {
 

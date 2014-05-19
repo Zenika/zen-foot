@@ -37,9 +37,25 @@ public class Bet extends IssueMatchAbs implements IBet {
     }
 
     @Override
-    public int calculateScore(Outcome outcome) {
-        //TODO implement this
-        return 0;
+    public boolean wasMade() {
+        return !this.getScore1().isUnknown()&&!this.getScore2().isUnknown();
+    }
+
+    @Override
+    public boolean isLike1Point(Outcome outcome) {
+        MatchOutcome matchOutcome = (MatchOutcome) outcome;
+        boolean p1winOutcome=matchOutcome.getScore1().getScore()>matchOutcome.getScore2().getScore();
+        boolean p1winBet = this.getScore1().getScore()>this.getScore2().getScore();
+
+        return p1winBet==p1winOutcome;
+    }
+
+    @Override
+    public boolean isLike3Points(Outcome outcome) {
+        MatchOutcome matchOutcome = (MatchOutcome) outcome;
+        boolean bool1=matchOutcome.getScore1().equals(this.getScore1());
+        boolean bool2=matchOutcome.getScore2().equals(this.getScore2());
+        return bool1&&bool2;
     }
 
 

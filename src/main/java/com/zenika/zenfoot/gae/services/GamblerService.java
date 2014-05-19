@@ -131,11 +131,23 @@ public class GamblerService {
         return getFromEmail(gambler.getEmail());
     }
 
-    public void updateScores(Match match) {
-     /*   List<Gambler> gamblers = gamblerRepository.getAll();
+
+
+
+    public void calculateScores(Match match) {
+        List<Gambler> gamblers = gamblerRepository.getAll();
         for(Gambler gambler:gamblers){
             Bet bet = this.getBet(gambler,match);
-            bet.calculateScore(match);
-        }*/
+            if(bet.wasMade()){
+                if(bet.isLike3Points(match.getOutcome())){
+                    gambler.addPoints(3);
+                }
+                else{
+                    if(bet.isLike1Point(match.getOutcome())){
+                        gambler.addPoints(1);
+                    }
+                }
+            }
+        }
     }
 }

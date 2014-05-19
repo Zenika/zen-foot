@@ -23,9 +23,7 @@
     background-color: #FA787E;
 }
 
-.score-input input {
-    /*width:40px;*/
-}
+
 
 div {
     color: #4c4c4c;
@@ -228,3 +226,14 @@ css for side bar
 
 }
 
+/*
+Some CSS properties on the size of inputs
+*/
+
+#score-input-1{
+    width: 50px;
+}
+
+#score1input{
+    width: 50px;
+}

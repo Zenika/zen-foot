@@ -7,6 +7,13 @@ public interface IBet extends Prediction {
 
     boolean isWon();
 
-    int calculateScore(Outcome outcome);
+    /**
+     * Is used to know whether the gambler made a bet on this.
+     * @return true if the gambler bet something, false otherwise
+     */
+    boolean wasMade();
 
+    boolean isLike1Point(Outcome outcome);
+
+    boolean isLike3Points(Outcome outcome);
 }

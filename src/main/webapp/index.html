@@ -57,6 +57,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li data-ng-show="user.connected"><a>Bonjour {{user.email}}</a></li>
+
                 <li data-ng-show="user.connected" data-ng-controller="LoginCtrl"><a
                         data-ng-click="logout()">Logout</a>
                 </li>
