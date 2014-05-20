@@ -19,7 +19,7 @@ zenContactFilters.filter('matchFilter', [function () {
 }])
 
 /**
- * The global algorithm for the filter
+ * The global algorithm for the filter used to sort matches given their group
  * @param matchs
  * @param groupe
  * @param condition
@@ -78,3 +78,14 @@ var conditionUpdatedM = function (match) {
 
     return !match.outcome.updated;
 }
+
+zenContactFilters.filter('classementFilter',function(){
+    return function(classement,search,threshold){
+        if(!search) return classement;
+        var fuseFilter = new Fuse(classement,{
+            keys:['nom','prenom'],
+            threshold:threshold
+        })
+        return fuseFilter.search(search)
+    }
+})

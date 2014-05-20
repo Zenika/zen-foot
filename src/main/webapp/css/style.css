@@ -2,11 +2,7 @@
     width: 50px;
 }
 
-.gridStyle {
-    border: 1px solid rgb(212, 212, 212);
-    width: auto;
-    height: 400px;
-}
+
 
 .zen-space {
     height: 20;
@@ -244,6 +240,9 @@ Some CSS properties on the size of inputs
     font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
 }
 
+.zen-search{
+    height: 400px;
+}
 /*For containers used for search*/
 .zen-search > div, .zen-search > input{
     margin-top: 10px;
@@ -253,7 +252,11 @@ Some CSS properties on the size of inputs
     padding-left: 15px;
     padding-right: 15px;
 }
-
+.gridStyle {
+    border: 1px solid rgb(212, 212, 212);
+    width: auto;
+    height: 400px;
+}
 
 
 
