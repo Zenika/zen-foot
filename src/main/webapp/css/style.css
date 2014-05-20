@@ -4,8 +4,8 @@
 
 .gridStyle {
     border: 1px solid rgb(212, 212, 212);
-    width: 400px;
-    height: 300px;
+    width: auto;
+    height: 400px;
 }
 
 .zen-space {
@@ -243,5 +243,17 @@ Some CSS properties on the size of inputs
     font-style: italic;
     font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
 }
+
+/*For containers used for search*/
+.zen-search > div, .zen-search > input{
+    margin-top: 10px;
+}
+
+.zen-tab-classt{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
 
 

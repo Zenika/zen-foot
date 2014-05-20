@@ -3,7 +3,7 @@
 var zenContactApp = angular.module('zenFoot.app',
     [ 'zenFoot.services', 'zenFoot.controllers', 'zenContact.filters',
         'ui.unique', 'zenFoot.directives', 'ngCookies',
-        'ui.router', 'ngResource', 'ngRoute', 'angular-md5' ]);
+        'ui.router', 'ngResource', 'ngRoute', 'angular-md5', 'ngGrid' ]);
 
 zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $provide) {
 
@@ -23,6 +23,11 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
         url: '/admin',
         templateUrl: 'view/admin-tmp.html'
     });
+
+    $stateProvider.state('classState',{
+        url:'/classement',
+        templateUrl:'view/classement.html'
+    })
 
     $urlRouterProvider.otherwise('/index');
     // zenContactApp.config(function($stateProvider, $urlRouterProvider,

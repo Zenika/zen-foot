@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="js/bootstrap/bootstrap-3.1.1-dist/css/bootstrap-theme.css" media="screen">
     <link rel="stylesheet" href="js/ng-grid/ng-grid.min.css" media="screen">
     <link rel="stylesheet" href="css/style.css" media="screen">
+    <link rel="stylesheet" href="js/ng-grid/ng-grid.min.css" media="screen">
 
 </head>
 
@@ -52,7 +53,7 @@
             <ul class="nav navbar-nav">
                 <li data-ng-show="user.connected"><a
                         ui-sref="indexState">Paris par match</a></li>
-                <li data-ng-show="user.connected"><a>Classement</a></li>
+                <li data-ng-show="user.connected"><a ui-sref="classState">Classement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
 
@@ -82,19 +83,21 @@
 <script type="text/javascript" src="js/angular/angular-resource.js"></script>
 <script type="text/javascript" src="js/angular/angular-cookies.js"></script>
 <script type="text/javascript" src="js/angular/angular-md5.js"></script>
+<script type="text/javascript" src="js/ng-grid/ng-grid.min.js"></script>
+
 <script type="text/javascript" src="js/markdown/markdown.js"></script>
 <script type="text/javascript" src="js/app/service.js"></script>
 <script type="text/javascript" src="js/app/app.js"></script>
 <script type="text/javascript" src="js/app/constants.js"></script>
 <script type="text/javascript" src="js/app/controllers/controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
 <script type="text/javascript" src="js/app/filtres.js"></script>
 <script type="text/javascript" src="js/app/controllers/user.js"></script>
 <script type="text/javascript" src="js/app/admin-service.js"></script>
 <script type="text/javascript" src="js/angular-ui/unique.js"></script>
 <script type="text/javascript" src="js/app/directive.js"></script>
 <script type="text/javascript" src="js/bootstrap/bootstrap-3.1.1-dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="js/ng-grid/ng-grid.min.js"></script>
 <script type="text/javascript" src="js/underscore/underscore-min.js"></script>
 <!--
 <script type="text/javascript" src="js/app/controllers/login.js"></script>
