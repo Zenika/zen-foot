@@ -32,7 +32,7 @@ import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
 public class BetResource {
 
 
-    private final MatchService matchService;
+    private MatchService matchService;
 
     private SessionInfo sessionInfo;
     private BetService betService;
@@ -154,6 +154,12 @@ public class BetResource {
     public Gambler getGambler(){
         Gambler gambler=gamblerService.get(sessionInfo.getUser());
         return gambler;
+    }
+
+    @POST("/essai")
+    @RolesAllowed({Roles.GAMBLER,Roles.ADMIN})
+    public void essaiPost(String string){
+        string.substring(1);
     }
 
 

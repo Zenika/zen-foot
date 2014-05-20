@@ -33,7 +33,7 @@ zenfootModule.controller('ClassementCtrl',['$scope',function($scope){
     var parieurTemplate = '<div>{{row.entity.prenom}} {{row.entity.nom}}</div>'
 
     $scope.gridOptions={
-        data:'classement',
+        data:'pageData',
         columnDefs: [
             {displayName:'classement',cellTemplate:classementTemplate},
             {displayName:'parieur',cellTemplate:parieurTemplate},
@@ -42,4 +42,27 @@ zenfootModule.controller('ClassementCtrl',['$scope',function($scope){
         enablePaging: true,
         showFooter:true
     }
+
+    $scope.pagingOptions={
+        pageSizes:[10],
+        pageSize:10,
+        currentPage:1,
+        totalServerItems:$scope.classement.length
+    }
+
+    $scope.setPagingData=function(data,page,pageSize){
+        var pageData=data.slice((page-1)*pageSize,page*pageSize)
+        $scope.pageData=pageData;
+        var bool = scopeApplied=false;
+
+
+    }
+
+    $scope.setPagingData($scope.classement,$scope.pagingOptions.currentPage,$scope.pagingOptions.pageSize);
+
+    $scope.watch('pagingOptions',function(newVal,oldVal){
+        if(newVal!=oldVal){
+            $scope.setPagingData($scope.classement,$scope.pagingOptions.currentPage,$scope.pagingOptions.pageSize);
+        }
+    })
 }])
