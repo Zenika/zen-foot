@@ -81,7 +81,7 @@ var conditionUpdatedM = function (match) {
 
 zenContactFilters.filter('classementFilter',function(){
     return function(classement,search,threshold){
-        if(!search) return classement;
+        if(!search) return [];
         var fuseFilter = new Fuse(classement,{
             keys:['nom','prenom'],
             threshold:threshold
