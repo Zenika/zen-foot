@@ -38,7 +38,7 @@ public class AppModule {
 
     @Provides
     public BasicPrincipalAuthenticator basicPrincipalAuthenticator(
-            @Named("userService") UserService userService, SecuritySettings securitySettings,
+            @Named("userServiceDev") UserService userService, SecuritySettings securitySettings,
             CredentialsStrategy credentialsStrategy,
             @Named("restx.admin.passwordHash") String adminPasswordHash) {
         return new StdBasicPrincipalAuthenticator(

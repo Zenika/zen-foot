@@ -24,6 +24,10 @@ public class GamblerService {
         this.gamblerRepository = gamblerRepository;
     }
 
+    public List<Gambler> getAll(){
+        return gamblerRepository.getAll();
+    }
+
     public Gambler get(User user){
         return this.getFromEmail(user.getEmail());
     }
@@ -111,17 +115,17 @@ public class GamblerService {
 
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
+        gambler.setPrenom(user.getPrenom());
+        gambler.setNom(user.getNom());
+
         Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
         logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
         for (Match match : matchs) {
-
             Bet bet = new Bet(match.getId());
-
-
             gambler.addBet(bet);
         }
         Key<Gambler> key= this.gamblerRepository.saveGambler(gambler);
-       Gambler toRet = gamblerRepository.getGambler(key);
+        Gambler toRet = gamblerRepository.getGambler(key);
         logger.log(Level.WARNING,"after retrieving gambler, there are "+toRet.getBets().size()+" bets");
         return toRet;
     }

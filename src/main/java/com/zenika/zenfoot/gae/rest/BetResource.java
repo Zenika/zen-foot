@@ -1,13 +1,11 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.jackson.Views;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Score;
 import com.zenika.zenfoot.gae.services.BetService;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
@@ -25,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
 
 
 @RestxResource
@@ -93,6 +89,7 @@ public class BetResource {
 
 
     @GET("/matchbets")
+
     @RolesAllowed({Roles.GAMBLER})
     public List<MatchAndBet> getBets() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
@@ -100,10 +97,7 @@ public class BetResource {
 
         Logger logger = Logger.getLogger(BetResource.class.getName());
 
-        if (gambler == null) {
-            logger.log(Level.WARNING, "gambler is null when calling /matchsbet");
-            gambler = gamblerService.createGambler(sessionInfo.getUser(), matchs);
-        }
+
 
         gamblerService.updateBets(gambler);
 
@@ -152,15 +146,18 @@ public class BetResource {
     }
 
     @GET("/gambler")
+    //@JsonView(Views.GamblerView.class)
     @RolesAllowed(Roles.GAMBLER)
     public Gambler getGambler() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
 
-        if (gambler == null) {
-            List<Match> matches = matchService.getMatchs();
-            gambler=gamblerService.createGambler(sessionInfo.getUser(),matches);
-        }
         return gambler;
+    }
+
+    @GET("/gamblers")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<Gambler> getGamblers(){
+        return gamblerService.getAll();
     }
 
 

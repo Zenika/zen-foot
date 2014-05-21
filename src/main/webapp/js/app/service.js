@@ -181,4 +181,12 @@ zenFootService.factory('Session', function ($resource) {
         return $resource('/api/gambler');
     }])
 
+    .factory('GamblerService',['Gambler','$resource',function(Gambler,$resource){
+        return {
+        getAll:function(){
+            return $resource('/api/gamblers').query();
+        }
+        }
+    }])
+
 

@@ -6,9 +6,9 @@ import restx.security.UserService;
 
 public class MockUserService implements UserService<User>{
 
-    private final ZenFootUserRepository zenFootUserRepository;
+    private final MockZenFootUserRepository zenFootUserRepository;
 
-    public MockUserService(ZenFootUserRepository zenFootUserRepository){
+    public MockUserService(MockZenFootUserRepository zenFootUserRepository){
         this.zenFootUserRepository = zenFootUserRepository;
     }
 
@@ -34,5 +34,9 @@ public class MockUserService implements UserService<User>{
         else{
             return Optional.absent();
         }
+    }
+
+    public void createUser(User user){
+        zenFootUserRepository.createUser(user);
     }
 }

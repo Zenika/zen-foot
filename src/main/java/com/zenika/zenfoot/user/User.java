@@ -16,6 +16,8 @@ public class User implements RestxPrincipal {
 
 	private String name;
 
+    private String prenom;
+
 	private Collection<String> roles;
 
     @JsonIgnore
@@ -33,12 +35,25 @@ public class User implements RestxPrincipal {
 		return email;
 	}
 
+    public String getNom(){
+        return this.name;
+    }
+
 	public User setName(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public String getEmail() {
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public User setPrenom(String prenom) {
+        this.prenom = prenom;
+        return this;
+    }
+
+    public String getEmail() {
 		return email;
 	}
 

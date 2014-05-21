@@ -12,14 +12,11 @@
         </div>
     </div>
     <div class="row" style="padding-left: 15px">
-        <div class="col-lg-2 well zen-search">
+        <div class="col-lg-2 well zen-search" style="overflow:auto">
             <div>
                 <h4>
                     Trouver un parieur :
                 </h4>
-            </div>
-            <div>
-
             </div>
 
             <div>
@@ -30,13 +27,12 @@
 
             <div data-ng-show="gamblersFound.length>1">
                 {{gamblersFound.length}} parieurs ont été trouvés, veuillez en sélectionner un parmi les suivants :
-
             </div>
             <div data-ng-show="gamblersFound.length==1">
                 parieur trouvé (cliquer dessus pour afficher):
             </div>
             <div data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')" data-ng-click="changePage(gambler)">
-               {{gambler.prenom}} {{gambler.nom}}
+               - {{gambler.prenom}} {{gambler.nom}}
             </div>
         </div>
         <div class="col-sm-10 zen-tab-classt">

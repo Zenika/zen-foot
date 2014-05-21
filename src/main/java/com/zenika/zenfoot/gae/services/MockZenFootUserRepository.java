@@ -20,19 +20,9 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
         this.users = new HashMap<>();
         this.userDao = Factory.getInstance().getComponent(UserDao.class);
 
-        User raphael = new User().setName("raphael").setEmail(
-                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
 
-        //raphael.setLastUpdated(DateTime.now());
-        raphael.setPasswordHash("2205");
-        Optional<User> userOpt = Optional.of(raphael);
 
-        User jean = new User().setName("jean").setEmail("jean.bon@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-        jean.setPasswordHash("999");
 
-        this.userDao.addUser(raphael);
-        this.userDao.addUser(jean);
-        users.put(raphael.getEmail(), userOpt);
 
 
     }
@@ -105,29 +95,21 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     // ///////////////////////////////////////////////////////
     public User createUser(User user) {
 
-        this.users.put(user.getEmail(), Optional.fromNullable(user));
+        this.userDao.addUser(user);
         return user;
     }
 
     public User updateUser(User user) {
-        this.users.put(user.getEmail(), Optional.fromNullable(user));
+        this.userDao.addUser(user);
         return user;
     }
 
     public Iterable<User> findAllUsers() {
-        ArrayList<User> iterable = new ArrayList<>();
-        for (Iterator<String> it = this.users.keySet().iterator(); it.hasNext(); ) {
-
-            Optional<User> opt = this.users.get(it.next());
-            if (opt.isPresent()) {
-                iterable.add(opt.get());
-            }
-        }
-        return iterable;
+       return this.userDao.getAll();
     }
 
     public void deleteUser(String userRef) {
-        this.users.remove(userRef);
+        this.userDao.deleteUser(userRef);
     }
 
 

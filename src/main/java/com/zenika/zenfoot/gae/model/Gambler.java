@@ -1,15 +1,13 @@
 package com.zenika.zenfoot.gae.model;
 
-import com.google.apphosting.api.ApiProxy;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.zenika.zenfoot.gae.jackson.Views;
 
-import javax.persistence.Embedded;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by raphael on 28/04/14.
@@ -23,6 +21,7 @@ public class Gambler implements IGambler {
     /**
      * The list of bets of the gambler
      */
+    //@JsonView(Views.GamblerView.class)
     protected List<Bet> bets = new ArrayList<Bet>();
 
     protected int points=0;
@@ -32,6 +31,10 @@ public class Gambler implements IGambler {
      */
     @Index
     protected String email;
+
+    protected String nom;
+
+    protected String prenom;
 
     public Gambler(String email) {
         this.email = email;
@@ -49,10 +52,28 @@ public class Gambler implements IGambler {
         return this;
     }
 
+
+
     public String getEmail() {
         return email;
     }
 
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
 
     public void addBet(Bet bet) {
         this.bets.add(bet);

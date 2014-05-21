@@ -3,34 +3,53 @@
  */
 var zenfootModule=angular.module('zenFoot.app');
 
-zenfootModule.controller('ClassementCtrl',['$scope',function($scope){
+zenfootModule.controller('ClassementCtrl',['$scope','GamblerService','$q',function($scope,GamblerService,$q){
+
+    var mock= [
+                          {id:1,email:"raphael.martignoni@zenika.com", nom:"Martignoni",prenom:"Raphaël",points:40},
+                          {id:2,email:"bertrand.bouchard@zenika.com", nom:"Bouchard",prenom:"Bertrand",points:140},
+                          {id:3,email:"jean-claude.duss@zenika.com", nom:"Duss",prenom:"Jean-Claude",points:44},
+                          {id:4,email:"richard.virenque@zenika.com", nom:"Virenque",prenom:"Richard",points:45},
+                          {id:5,email:"olivier.martinez@zenika.com", nom:"Martinez",prenom:"Olivier",points:50},
+                          {id:6,email:"mira.sorvino@zenika.com", nom:"Sorvino",prenom:"Mira",points:90},
+                          {id:7,email:"kate.winslet@zenika.com", nom:"Winslet",prenom:"Kate",points:60},
+                          {id:8,email:"leonardo.dicaprio@zenika.com", nom:"Di-Caprio",prenom:"Leonardo",points:52},
+                          {id:9,email:"russel.crowe@zenika.com", nom:"Crowe",prenom:"Russell",points:49},
+                          {id:10,email:"andy.mac-dowell@zenika.com", nom:"Mac-Dowell",prenom:"Andy",points:83},
+                          {id:11,email:"bart.simson@zenika.com", nom:"Murray",prenom:"Bill",points:51},
+                          {id:12,email:"harold.ramis@zenika.com", nom:"Ramis",prenom:"Harold",points:69},
+                          {id:13,email:"sophie.marceau@zenika.com", nom:"Marceau",prenom:"Sophie",points:78}
+                      ];
 
     var classementFunc=function(){
-        var ranking= [
-            {id:1,email:"raphael.martignoni@zenika.com", nom:"Martignoni",prenom:"Raphaël",points:40},
-            {id:2,email:"bertrand.bouchard@zenika.com", nom:"Bouchard",prenom:"Bertrand",points:140},
-            {id:3,email:"jean-claude.duss@zenika.com", nom:"Duss",prenom:"Jean-Claude",points:44},
-            {id:4,email:"richard.virenque@zenika.com", nom:"Virenque",prenom:"Richard",points:45},
-            {id:5,email:"olivier.martinez@zenika.com", nom:"Martinez",prenom:"Olivier",points:50},
-            {id:6,email:"mira.sorvino@zenika.com", nom:"Sorvino",prenom:"Mira",points:90},
-            {id:7,email:"kate.winslet@zenika.com", nom:"Winslet",prenom:"Kate",points:60},
-            {id:8,email:"leonardo.dicaprio@zenika.com", nom:"Di-Caprio",prenom:"Leonardo",points:52},
-            {id:9,email:"russel.crowe@zenika.com", nom:"Crowe",prenom:"Russell",points:49},
-            {id:10,email:"andy.mac-dowell@zenika.com", nom:"Mac-Dowell",prenom:"Andy",points:83},
-            {id:11,email:"bart.simson@zenika.com", nom:"Murray",prenom:"Bill",points:51},
-            {id:12,email:"harold.ramis@zenika.com", nom:"Ramis",prenom:"Harold",points:69},
-            {id:13,email:"sophie.marceau@zenika.com", nom:"Marceau",prenom:"Sophie",points:78}
-        ]
-         var rankingSorted= _.sortBy(ranking,function(peopleRanking){
-         return -peopleRanking.points;
-         })
+        var ranking= GamblerService.getAll();
+        var promise = ranking.$promise;
 
-        for(var x in rankingSorted){
-            rankingSorted[x].classement=parseInt(x)+1;
-        }
-        return rankingSorted;
+        //var ranking=mock;
+        //var promise=$q.when(ranking);
+
+        promise.then(function(ranking){
+             var rankingSorted= _.sortBy(ranking,function(peopleRanking){
+                  return -peopleRanking.points;
+                  })
+
+                 for(var x in rankingSorted){
+                     rankingSorted[x].classement=parseInt(x)+1;
+                 }
+                 $scope.classement=rankingSorted;
+                 return rankingSorted;
+
+        })
+        .then(function(rankingSorted){
+            $scope.setPagingData(rankingSorted,$scope.pagingOptions.currentPage,$scope.pagingOptions.pageSize);
+
+        })
+
+        //promise.resolve();
+
     }
-    $scope.classement= classementFunc()
+
+    classementFunc();
 
 
 
@@ -83,7 +102,6 @@ zenfootModule.controller('ClassementCtrl',['$scope',function($scope){
 
     }
 
-    $scope.setPagingData($scope.classement,$scope.pagingOptions.currentPage,$scope.pagingOptions.pageSize);
 
     var watchAction=function(){
         $scope.setPagingData($scope.classement,$scope.pagingOptions.currentPage,$scope.pagingOptions.pageSize);
