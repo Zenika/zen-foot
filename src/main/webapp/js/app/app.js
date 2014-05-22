@@ -31,7 +31,7 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
 
     $urlRouterProvider.otherwise('/index');
 
- /*   $provide.factory('authInterceptor', function ($q, authService, $rootScope, $location) {
+    $provide.factory('authInterceptor', function ($q, authService, $rootScope, $location) {
         return {
             'responseError': function (rejection) {
                 if (rejection.status == '401' || rejection.status == '403') {
@@ -55,7 +55,7 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
         };
     })
 
-    $httpProvider.interceptors.push('authInterceptor');*/
+    $httpProvider.interceptors.push('authInterceptor');
 
 
 
@@ -70,7 +70,7 @@ zenContactApp.run(function ($rootScope, authService,$location) {
     $rootScope.loggedIn = authService.loggedIn;
     $rootScope.logOut = authService.logOut;
 
-    $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams){
+   /* $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams){
 
 
         console.log('ici')
@@ -86,5 +86,5 @@ zenContactApp.run(function ($rootScope, authService,$location) {
                 console.log($location.path())
             }
         }
-    })
+    })*/
 });
