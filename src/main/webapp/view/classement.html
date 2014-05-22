@@ -3,8 +3,12 @@
 
         <div class="col-lg-12">
             <div class="jumbotron">
-                <p style="text-align: center">Vous êtes <span class="zen-bold"/>15ème</span> au classement, avec <span
-                        class="zen-bold">47</span> points</p>
+                <p style="text-align: center">Vous êtes <span class="zen-bold"/>{{findClassement(gambler)}}</span><sup
+                        ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup> au
+                    classement, avec <span
+                            class="zen-bold">{{gambler.points}}</span> point<span ng-pluralize count="gambler.points"
+                                                                                  when="{'0':'','1':'','other':'s'}"></span>
+                </p>
             </div>
             <div>
 
@@ -31,8 +35,12 @@
             <div data-ng-show="gamblersFound.length==1">
                 parieur trouvé (cliquer dessus pour afficher):
             </div>
-            <div data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')" data-ng-click="changePage(gambler)">
-               - {{gambler.prenom}} {{gambler.nom}}
+            <div data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')"
+                 data-ng-click="changePage(gambler)" style="cursor:pointer;">
+                - {{gambler.prenom}} {{gambler.nom}}
+            </div>
+            <div id="metrouver">
+                <button class="btn btn-primary" data-ng-click="changePage(findGambler())">me trouver</button>
             </div>
         </div>
         <div class="col-sm-10 zen-tab-classt">

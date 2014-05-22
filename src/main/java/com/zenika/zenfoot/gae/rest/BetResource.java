@@ -89,7 +89,6 @@ public class BetResource {
 
 
     @GET("/matchbets")
-
     @RolesAllowed({Roles.GAMBLER})
     public List<MatchAndBet> getBets() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());

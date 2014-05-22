@@ -50,9 +50,6 @@ public class GamblerService {
 
     }
 
-
-
-
     public Bet getBet(Gambler gambler, Match match) {
       return getBetByMatchId(gambler,match.getId());
     }
@@ -134,9 +131,6 @@ public class GamblerService {
         gamblerRepository.saveGambler(gambler);
         return getFromEmail(gambler.getEmail());
     }
-
-
-
 
     public void calculateScores(Match match) {
         List<Gambler> gamblers = gamblerRepository.getAll();

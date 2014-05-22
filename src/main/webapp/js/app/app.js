@@ -30,31 +30,8 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
     })
 
     $urlRouterProvider.otherwise('/index');
-    // zenContactApp.config(function($stateProvider, $urlRouterProvider,
-    // $httpProvider) {
 
-    // $urlRouterProvider.otherwise("/login");
-    //
-    // // $urlRouterProvider.when('*', function(){
-    // // if(!authService.loggedIn()){
-    // // return '/login';
-    // // }
-    // // else{
-    // // return false;
-    // // }
-    // // });
-    //
-    // $stateProvider.state('indexState', {
-    // url : "/index",
-    // templateUrl : "view/index-content.html"
-    // });
-    //
-    // $stateProvider.state('loginState',{
-    // url:'/login',
-    // templateUrl:"view/login.html"
-    // });
-
-    $provide.factory('authInterceptor', function ($q, authService, $rootScope, $location) {
+ /*   $provide.factory('authInterceptor', function ($q, authService, $rootScope, $location) {
         return {
             'responseError': function (rejection) {
                 if (rejection.status == '401' || rejection.status == '403') {
@@ -78,11 +55,36 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
         };
     })
 
-    $httpProvider.interceptors.push('authInterceptor');
+    $httpProvider.interceptors.push('authInterceptor');*/
+
+
+
 
 });
 
-zenContactApp.run(function ($rootScope, authService) {
+zenContactApp.run(function ($rootScope, authService,$location) {
+
+    var adminRoute="/admin"
+    var loginRoute="/login"
+
     $rootScope.loggedIn = authService.loggedIn;
     $rootScope.logOut = authService.logOut;
+
+    $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams){
+
+
+        console.log('ici')
+        console.log($rootScope.isAdmin())
+
+        if(!$rootScope.isConnected()&&toState.url!=loginRoute){
+            toState.url=loginRoute;
+        }
+        else{
+            if($rootScope.isAdmin()){
+                console.log('redirecting admin')
+                $location.path(adminRoute)
+                console.log($location.path())
+            }
+        }
+    })
 });

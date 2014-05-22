@@ -243,15 +243,21 @@ Some CSS properties on the size of inputs
 .zen-search{
     height: 400px;
 }
+
 /*For containers used for search*/
-.zen-search > div, .zen-search > input{
+.zen-search > div, .zen-search > input, .zen-search>button{
     margin-top: 10px;
+}
+
+.zen-search #metrouver{
+    text-align: center;
 }
 
 .zen-tab-classt{
     padding-left: 15px;
     padding-right: 15px;
 }
+
 .gridStyle {
     border: 1px solid rgb(212, 212, 212);
     width: auto;

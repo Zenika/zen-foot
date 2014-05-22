@@ -49,4 +49,8 @@ angular.module('zenFoot.app')
             return _.contains($rootScope.user.roles,'ADMIN');
         }
 
+        $rootScope.isConnected=function(){
+            return $rootScope.user.connected;
+        }
+
     });
