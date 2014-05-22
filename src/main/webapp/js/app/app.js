@@ -62,29 +62,41 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
 
 });
 
-zenContactApp.run(function ($rootScope, authService,$location) {
+zenContactApp.run(function ($rootScope, authService,$location,$state) {
 
-    var adminRoute="/admin"
-    var loginRoute="/login"
+    var adminRoute="adminState"
+    var loginRoute="loginState"
 
     $rootScope.loggedIn = authService.loggedIn;
     $rootScope.logOut = authService.logOut;
 
-   /* $rootScope.$on('$stateChangeStart',function(evt, toState, toParams, fromState, fromParams){
+    $rootScope.$on('$stateChangeSuccess',function(evt, toState, toParams, fromState, fromParams){
 
 
         console.log('ici')
+        console.log($rootScope.user)
         console.log($rootScope.isAdmin())
 
-        if(!$rootScope.isConnected()&&toState.url!=loginRoute){
-            toState.url=loginRoute;
+
+        if($rootScope.isConnected()&&toState.name==loginRoute){
+            console.log('login page is not auth. if connected')
+
+            evt.preventDefault();
+            $state.transitionTo(fromState.name)
+        }
+
+        if(!$rootScope.isConnected()&&toState.name!=loginRoute){
+            console.log('redirecting to login')
+            evt.preventDefault();
+            $state.transitionTo(loginRoute)
         }
         else{
-            if($rootScope.isAdmin()){
+            console.log(toState)
+            if($rootScope.isConnected()&&$rootScope.isAdmin()&&toState.name!=adminRoute){
                 console.log('redirecting admin')
-                $location.path(adminRoute)
-                console.log($location.path())
+                evt.preventDefault();
+                $state.transitionTo(adminRoute)
             }
         }
-    })*/
+    })
 });
