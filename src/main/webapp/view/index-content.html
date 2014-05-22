@@ -1,14 +1,13 @@
 <div class="container theme-showcase" role="main" data-ng-controller="MatchCtrl" xmlns="http://www.w3.org/1999/html">
 
-    <div class="jumbotron">
+    <div class="jumbotron zen-message">
 
-        <p class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</p>
-
+        <h3 class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</h3>
+        <p style="margin-bottom: 0px">Si vous avez le score exact, vous gagnez 3 points.</p>
+       <p> Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point</p>
     </div>
 
-    <div class="page-header">
-        <h1>Liste des matchs</h1>
-    </div>
+
 
     <form name="scoreform">
         <div data-ng-repeat="groupe in groupes">
