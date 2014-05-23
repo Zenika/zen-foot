@@ -109,11 +109,17 @@ public class GamblerService {
 
 
     public Gambler createGambler(User user, List<Match> matchs) {
+        return createGambler(user,matchs,0);
 
+    }
+
+    //TODO : remove once the mocked users are removed
+    public Gambler createGambler(User user, List<Match> matchs, int points){
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setPrenom(user.getPrenom());
         gambler.setNom(user.getNom());
+        gambler.addPoints(points);
 
         Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
         logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
