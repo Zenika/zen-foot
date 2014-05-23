@@ -43,7 +43,7 @@ h2 {
     padding-right: 10px;
 }
 
-.former-match div {
+.former-match div, .former-match, .former-match input {
     color: lightgrey;
 }
 
@@ -269,5 +269,18 @@ Some CSS properties on the size of inputs
     height: 400px;
 }
 
+.zen-score-span{
+    display:block;
+    min-width:100%;
+    text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+    .zen-points{
+        font-size:20px;
+        font-style: italic;
+        font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
+    }
+}
 
 
