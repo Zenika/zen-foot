@@ -240,7 +240,7 @@ Some CSS properties on the size of inputs
     font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
 }
 
-.zen-message>p{
+.zen-message > p{
     font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
     font-style: italic;
 }
