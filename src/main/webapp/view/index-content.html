@@ -45,7 +45,7 @@
                                                  data-ng-class="{'zen-bold':isWinner(match.bet,'score1','score2')}">
                                                 {{match.match.participant1.pays}}
                                             </div>
-                                            <div class="col-sm-4 col-xs-5">
+                                            <div class="col-sm-4 col-xs-6">
                                                 <div class="row">
                                                     <div class="col-sm-5 col-xs-5">
                                                         <ng-form name="score1Form"
@@ -88,7 +88,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3 col-xs-3 text-left"
+                                            <div class="col-sm-3 col-xs-2 text-left"
                                                  data-ng-class="{'zen-bold':isWinner(match.bet,'score2','score1')}">
                                                 {{match.match.participant2.pays}}
                                             </div>
@@ -98,7 +98,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="dispPoints(match)" class="col-sm-2 col-xs-1 zen-points">
+                                    <div ng-if="dispPoints(match)" class="col-sm-2 zen-points">
                                         {{calculatePoints(match)}} pts
 
                                     </div>
@@ -107,32 +107,7 @@
                         </div>
 
 
-                        <!--That's the row to display results-->
 
-                        <!-- <div class="row">
-
-                             <div class="col-sm-2">
-                             </div>
-                             <div class="col-sm-10">
-                                 <div class="row">
-                                     <div class="col-xs-2">
-                                     </div>
-                                     <div class="col-xs-2" style="text-align: center">
-                                         {{match.match.outcome.score1.score}}
-                                     </div>
-                                     <div class="col-xs-1">
-
-                                     </div>
-                                     <div class="col-xs-2" style="text-align: center">
-                                         {{match.match.outcome.score2.score}}
-                                     </div>
-                                     <div class="col-xs-2"></div>
-                                 </div>
-                             </div>
-
-                         </div>-->
-
-                        <!--That's the column for points-->
 
 
                         </br>
