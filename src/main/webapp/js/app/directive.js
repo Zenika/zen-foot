@@ -54,3 +54,17 @@ zenFootDirectives.directive('popoverInfo',function(){
         }
     }
 })
+
+zenFootDirectives.directive('groupeLabel',function(){
+    return {
+        replace:true,
+
+        restrict:'E',
+
+        scope:{
+          groupe:'='
+        },
+        template:"<label class='btn btn-primary' ng-model='checkModel.{{groupe}}' btn-checkbox>{{groupe}}</label>"
+
+    }
+})
