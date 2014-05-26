@@ -2,16 +2,13 @@
 
     <div class="row">
 
-        <!--<div class="col-sm-2">-->
 
-            <!--<div class="affix" data-ng-show="false">fonctionnalité de tri-->
-            <!--</div>-->
-        <!--</div>-->
         <div class="col-xs-12">
             <div>
-                Liste des matchs &nbsp;
+                <h2 style="display: inline">                Liste des matchs &nbsp;
+                </h2>
 
-                <span class="dropdown">
+                <!--<span class="dropdown">
 
                     <span class="glyphicon glyphicon-info-sign" data-toggle="dropdown"></span>
 
@@ -22,18 +19,17 @@
 
                         <p> Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point</p>
                     </span>
+                </span>-->
+
+                <span id="infoBet" popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover" data-placement="bottom" data-content="Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point">
+
                 </span>
 
+
+
+
             </div>
-            <!---->
-            <!--<div class="jumbotron zen-message">-->
 
-                <!--<h3 class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</h3>-->
-
-                <!--<p style="margin-bottom: 0px">Si vous avez le score exact, vous gagnez 3 points.</p>-->
-
-                <!--<p> Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point</p>-->
-            <!--</div>-->
 
 
             <form name="scoreform" class="form-score form-horizontal">
@@ -129,7 +125,7 @@
 
                 <div class="row" data-ng-hide="modified">
                     <div class="col-sm-1 col-lg-offset-8">
-                        <button type="button" class="btn btn-danger" data-ng-disabled="scoreform.$invalid"
+                        <button type="button" class="btn btn-danger pull-right" data-ng-disabled="scoreform.$invalid"
                                 data-ng-click="postez()">Pariez !
                         </button>
                     </div>

@@ -43,3 +43,14 @@ zenFootDirectives.directive('zenToolTip',[function(){
     }
 }])
     */
+
+zenFootDirectives.directive('popoverInfo',function(){
+    return {
+        link:function(scope,element,attrs){
+            element.on('mouseover',function(event){
+                event.preventDefault();
+                element.popover({trigger:'hover'});
+            })
+        }
+    }
+})
