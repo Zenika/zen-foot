@@ -5,9 +5,9 @@
             <div class="jumbotron">
                 <p style="text-align: center">
                     Vous êtes
-                    <span class="zen-bold">{{findClassement(gambler)}}</span><sup class="zen-bold" ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup>
+                    <strong><span>{{findClassement(gambler)}}</span><sup ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup></strong>
                     au classement, avec
-                    <span class="zen-bold">{{gambler.points}}</span>
+                    <strong><span>{{gambler.points}}</span></strong>
                     point<span ng-pluralize count="gambler.points" when="{'0':'','1':'','other':'s'}"></span>
                 </p>
             </div>
