@@ -3,7 +3,7 @@
         <form class="form-horizontal" name="loginForm" role="form">
             <h2>Login</h2>
 
-            <div class="form-group {{!loginForm.user.$error.required || 'error'}}">
+            <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid}">
                 <label for="user" class="sr-only">Email</label>
                 <input 
                     class="form-control" 
@@ -23,7 +23,7 @@
                 </span>
             </div>
 
-            <div class="form-group {{!loginForm.pass.$error.required || 'error'}}">
+            <div class="form-group" ng-class="{'has-error': loginForm.pass.$invalid}">
                 <label for="pass" class="sr-only">Password</label>
                 <div class="controls">
                     <input 
