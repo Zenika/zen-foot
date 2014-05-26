@@ -16,7 +16,7 @@
 
 <!-- Static navbar -->
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="UserCtrl">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="IndexCtrl">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -30,8 +30,8 @@
         </div>
         <div class="navbar-collapse collapse" style="height: 1px;">
             <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
-                <li class="active"><a ui-sref="indexState">Pronostics</a></li>
-                <li><a ui-sref="classState">Classement</a></li>
+                <li ng-class="{'active':isActive('indexState')}"><a ui-sref="indexState">Pronostics</a></li>
+                <li ng-class="{'active':isActive('classState')}"><a ui-sref="classState">Classement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text">{{user.email}}</span></li>
@@ -76,7 +76,7 @@
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
 <script type="text/javascript" src="js/app/filtres.js"></script>
-<script type="text/javascript" src="js/app/controllers/user.js"></script>
+<script type="text/javascript" src="js/app/controllers/index-ctrl.js"></script>
 <script type="text/javascript" src="js/app/admin-service.js"></script>
 <script type="text/javascript" src="js/app/directive.js"></script>
 <!--

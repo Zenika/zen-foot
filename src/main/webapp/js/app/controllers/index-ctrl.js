@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-  .controller('UserCtrl', function ($rootScope, $scope, $state, Session, User, Gambler) {
+  .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, User, Gambler) {
         function onConnected(principal) {
            // debugger;
             Session.user.connected = true;
@@ -51,6 +51,10 @@ angular.module('zenFoot.app')
 
         $rootScope.isConnected=function(){
             return $rootScope.user.connected;
+        }
+
+        $scope.isActive=function(state){
+            return $state.includes(state);
         }
 
     });
