@@ -48,6 +48,12 @@ node server.js
 The static files will be running on localhost:9000, and every call to the api will be redirected to localhost:8080. So you can
 now test the app on localhost:9000
 
+Alternatively, you can use Grunt with the provided `gruntfile.coffee` to run both the server and a watch task that reloads the browser on every client-side code file modification.
+```
+npm install
+grunt
+```
+
 On Google App Engine (GAE) :
 ---
 
