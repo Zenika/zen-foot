@@ -5,21 +5,21 @@
 
             <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid && loginForm.user.$dirty}">
                 <label for="user" class="sr-only">Email</label>
-                <input 
-                    class="form-control" 
-                    type="email" 
+                <input
+                    class="form-control"
+                    type="email"
                     placeholder="Email"
-                    id="user" 
-                    name="user" 
+                    id="user"
+                    name="user"
                     data-ng-model="login.email"
                     required/>
-                <p 
+                <p
                     class="help-block"
                     data-ng-show="loginForm.user.$error.required && loginForm.user.$dirty">
                     L'email est requis
                 </p>
-                <p 
-                    class="help-block" 
+                <p
+                    class="help-block"
                     data-ng-show="loginForm.user.$error.email && !loginForm.user.$error.required">
                     Email non valide
                 </p>
@@ -28,16 +28,16 @@
             <div class="form-group" ng-class="{'has-error': loginForm.pass.$invalid && loginForm.pass.$dirty}">
                 <label for="pass" class="sr-only">Password</label>
                 <div class="controls">
-                    <input 
+                    <input
                         class="form-control"
-                        type="password" 
+                        type="password"
                         placeholder="Mot de passe"
-                        id="pass" 
-                        name="pass" 
-                        data-ng-model="login.password" 
+                        id="pass"
+                        name="pass"
+                        data-ng-model="login.password"
                         required/>
-                    <p 
-                        class="help-block" 
+                    <p
+                        class="help-block"
                         data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
                         Le mot de passe est requis
                     </p>
@@ -46,10 +46,10 @@
 
             <div class="form-group">
                 <div class="controls">
-                    <input 
-                        type="submit" 
-                        value="Connexion" 
-                        class="btn btn-primary" 
+                    <input
+                        type="submit"
+                        value="Connexion"
+                        class="btn btn-primary"
                         data-ng-click="submit()"
                         data-ng-disabled="loginForm.$invalid"/>
                 </div>
