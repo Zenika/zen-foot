@@ -22,7 +22,7 @@
                     </span>
                 </span>-->
 
-                <span id="infoBet" popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover" data-placement="bottom" data-content="Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point">
+                <span id="infoBet" popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover" data-placement="bottom" data-content="Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
                 </span>
 
 
@@ -30,6 +30,9 @@
 
             </div>
 
+            <div class="btn-group" >
+                <label class="btn btn-primary" ng-model="checkModel.groupe" btn-checkbox>groupe</label>
+            </div>
 
 
             <form name="scoreform" class="form-score form-horizontal">
@@ -38,7 +41,6 @@
 
 
                     <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:groupe|orderBy:'match.date')">
-
 
                         <!--That's the column containing inputs, and results-->
 
