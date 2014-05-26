@@ -14,12 +14,12 @@
                     data-ng-model="login.email"
                     required/>
                 <p 
-                    class="text-danger"
+                    class="help-block"
                     data-ng-show="loginForm.user.$error.required && loginForm.user.$dirty">
                     L'email est requis
                 </p>
                 <p 
-                    class="text-danger" 
+                    class="help-block" 
                     data-ng-show="loginForm.user.$error.email && !loginForm.user.$error.required">
                     Email non valide
                 </p>
@@ -37,7 +37,7 @@
                         data-ng-model="login.password" 
                         required/>
                     <p 
-                        class="text-danger" 
+                        class="help-block" 
                         data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
                         Le mot de passe est requis
                     </p>
