@@ -33,8 +33,8 @@ public class UserModule {
 	@Provides
 	@Named("userServiceDev")
 	public UserService getUserService(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService,MatchService matchService) {
-        User raphael = new User().setName("Martignoni").setPrenom("Raphaël").setEmail(
-                "raphael.martignoni@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
+        User raphael = new User().setName("admin").setPrenom("admin").setEmail(
+                "admin@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
 
         //raphael.setLastUpdated(DateTime.now());
         raphael.setPasswordHash("2205");

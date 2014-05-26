@@ -6,8 +6,16 @@ var zenContactFilters = angular.module('zenContact.filters', []);
 
 
 zenContactFilters.filter('groupeFilter', [function () {
-    return function (matchs, groupe) {
-        return triMatch(matchs, groupe, conditionMatchBet)
+
+
+    return function (matchs,showAll, groupe) {
+        if(showAll){
+            console.log(matchs, showAll, groupe);
+            return matchs;
+        }
+        else {
+            return triMatch(matchs, groupe, conditionMatchBet)
+        }
     };
 }])
 
@@ -37,6 +45,17 @@ var triMatch = function (matchs, groupe, condition) {
     return groupeList;
 }
 
+/**
+ *
+ * In case you don't want to apply the filter, which is the case as we conditionally apply them sometimes.
+ * @param matchs
+ * @returns all matchs
+ */
+var returnAll=function(matchs){
+    return matchs;
+}
+
+
 var conditionMatch = function (match, groupe) {
     return match.participant1.groupe == groupe;
 }
@@ -54,6 +73,7 @@ zenContactFilters.filter('passedMFilter', function () {
 var conditionPassedM = function (match, groupe) {
     return new Date(match.date) < new Date();
 }
+
 
 /**
  * This filter, when turned on (apply==true), filters only matches whose score hasn't been

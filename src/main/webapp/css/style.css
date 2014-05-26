@@ -281,6 +281,14 @@ Some CSS properties on the size of inputs
     height: 400px;
 }
 
+.match-title > h2{
+    display: inline;
+
+}
+
+.match-title{
+    margin-bottom: 10px;
+}
 
 
 @media only screen and (max-width: 480px) {
