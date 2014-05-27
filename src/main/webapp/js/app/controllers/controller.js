@@ -172,7 +172,7 @@ $scope.matchsBets=[{"bet":{"score1":{"participant":null,"unknown":true,"score":"
      */
     $scope.postez = function () {
         $scope.modified = false;
-        submit();
+        postBets()
     }
 
 
@@ -196,10 +196,9 @@ $scope.matchsBets=[{"bet":{"score1":{"participant":null,"unknown":true,"score":"
      */
     var postBets = function () {
 
-        postBetService.save($scope.matchsBets, function () {
+        var wellFormated = _.flatten(_.values($scope.matchsBets));
+        postBetService.save(wellFormated, function () {
             console.log('bets were sucessfully sent');
-            // $scope.matchsBets = betMatchService.getAll();
-            updateBets();
         }, function () {
             console.log('sending bets failed');
         })
