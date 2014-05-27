@@ -7,7 +7,7 @@ var zenContactApp = angular.module('zenFoot.app', [
     'ngGrid', 'angular-md5',
 ])
 
-zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $provide) {
+zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider
         .state('loginState', {
             url: '/login',
@@ -27,7 +27,7 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
         })
     $urlRouterProvider.otherwise('/index')
 
-    $provide.factory('authInterceptor', function ($q, authService, $rootScope, $location) {
+    $httpProvider.interceptors.push(function ($q, authService, $rootScope, $location) {
         return {
             responseError: function (rejection) {
                 if (rejection.status === 401 || rejection.status === 403) {
@@ -42,8 +42,6 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
             },
         }
     })
-
-    $httpProvider.interceptors.push('authInterceptor')
 })
 
 zenContactApp.run(function ($rootScope, authService,$location,$state) {
