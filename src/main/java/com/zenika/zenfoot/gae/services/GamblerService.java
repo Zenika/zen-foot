@@ -82,15 +82,23 @@ public class GamblerService {
 
 
         for (Bet bet : newBets) {
+
             Bet existingBet = this.getBetByMatchId(gambler,bet.getMatchId());
             //Check the bet already existed in the database
+            Logger logger = Logger.getLogger(Gambler.class.getName());
+
+            if(bet.getMatchId()==4538783999459328L){
+                
+            }
             if(existingBet==null){
-                Logger logger = Logger.getLogger(Gambler.class.getName());
+                logger.log(Level.SEVERE,""+bet.getMatchId());
                 logger.log(Level.SEVERE,"tried to update a bet which didn't exist");
             }
             else {
                 //If the bet has changed (after a user input), rewrite the object in the database
                 if (!existingBet.exactSame(bet)) {
+
+                    logger.log(Level.ALL,"try to register a new bet");
                     Match match = matchService.getMatch(bet.getMatchId());
 
                     //We have to check that the bet was made before the beginning of the match before registering it
