@@ -99,4 +99,14 @@ zenContactApp.run(function ($rootScope, authService,$location,$state) {
             }
         }
     })
+
+    // Makes the navbar collapse when a link is clicked
+    // See https://github.com/twbs/bootstrap/issues/9013
+    // Comment from danielward on Aug 8, 2013
+    $('.navbar a').click(function() {
+        var navbar_toggle = $('.navbar-toggle');
+        if (navbar_toggle.is(':visible')) {
+            navbar_toggle.trigger('click');
+        }
+    });
 });
