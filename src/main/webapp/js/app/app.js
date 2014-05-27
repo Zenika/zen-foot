@@ -1,4 +1,4 @@
-'use strict'
+(function () { 'use strict';
 
 angular.module('zenFoot.app', [
     'zenFoot.controllers', 'zenFoot.services', 'zenContact.filters', 'zenFoot.directives',
@@ -71,3 +71,5 @@ angular.module('zenFoot.app', [
         }
     })
 })
+
+}())
