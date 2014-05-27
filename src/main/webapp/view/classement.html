@@ -1,52 +1,43 @@
-<div class="container" style="width:100%" data-ng-controller="ClassementCtrl">
-    <div class="row">
+<div data-ng-controller="ClassementCtrl">
 
+    <div class="row">
         <div class="col-lg-12">
             <div class="jumbotron">
-                <p style="text-align: center">Vous êtes <span class="zen-bold">{{findClassement(gambler)}}</span><sup
-                        class="zen-bold"
-                        ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup> au
-                    classement, avec <span
-                            class="zen-bold">{{gambler.points}}</span> point<span ng-pluralize count="gambler.points"
-                                                                                  when="{'0':'','1':'','other':'s'}"></span>
+                <p style="text-align: center">
+                    Vous êtes
+                    <strong><span>{{findClassement(gambler)}}</span><sup ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup></strong>
+                    au classement, avec
+                    <strong><span>{{gambler.points}}</span></strong>
+                    point<span ng-pluralize count="gambler.points" when="{'0':'','1':'','other':'s'}"></span>
                 </p>
             </div>
-
         </div>
     </div>
-    <div class="row" style="padding-left: 15px">
-        <div class="col-lg-2 zen-search panel panel-default" style="overflow:auto">
-            <div>
-                <h4>
-                    Trouver un parieur :
-                </h4>
-            </div>
 
-            <div>
-                <form>
-                    <input class="form-control input-sm" data-ng-model="search">
-                </form>
-            </div>
-
-            <div data-ng-show="gamblersFound.length>1">
-                {{gamblersFound.length}} parieurs ont été trouvés, veuillez en sélectionner un parmi les suivants :
-            </div>
-            <div data-ng-show="gamblersFound.length==1">
-                parieur trouvé (cliquer dessus pour afficher):
-            </div>
-            <div data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')"
-                 data-ng-click="changePage(gambler)" style="cursor:pointer;">
-                - {{gambler.prenom}} {{gambler.nom}}
-            </div>
-            <div>
-                <h4>Se trouver :</h4>
-
-            </div>
-            <div id="metrouver">
-                <button class="btn btn-primary" data-ng-click="changePage(findGambler())">me trouver</button>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                <input class="form-control" placeholder="Trouver un parieur" data-ng-model="search">
+                            </div>
+                        </div>
+                    </form>
+                    <ul>
+                        <li data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')">
+                            <a href="" data-ng-click="changePage(gambler)">
+                                {{gambler.prenom}} {{gambler.nom}}
+                            </a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary" data-ng-click="changePage(findGambler())">Me trouver</button>
+                </div>
             </div>
         </div>
-        <div class="col-sm-10 zen-tab-classt">
+        <div class="col-lg-9">
             <div class="gridStyle" ng-grid="gridOptions"></div>
         </div>
     </div>
