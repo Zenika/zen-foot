@@ -1,9 +1,11 @@
 'use strict';
 
-var zenContactApp = angular.module('zenFoot.app',
-    [ 'zenFoot.services', 'zenFoot.controllers', 'zenContact.filters',
-        'ui.unique', 'zenFoot.directives', 'ngCookies',
-        'ui.router', 'ngResource', 'ngRoute', 'angular-md5', 'ngGrid','ui.bootstrap' ]);
+var zenContactApp = angular.module('zenFoot.app', [
+    'zenFoot.controllers', 'zenFoot.services', 'zenContact.filters', 'zenFoot.directives',
+    'ngCookies', 'ngResource', 'ngRoute',
+    'ui.router', 'ui.bootstrap', 'ui.unique',
+    'ngGrid', 'angular-md5',
+]);
 
 zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $provide) {
 
