@@ -107,7 +107,7 @@ zenfootModule.controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'G
         showFooter: true,
         totalServerItems: 'totalServerItems',
         pagingOptions: $scope.pagingOptions,
-        // rowTemplate: '<div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="{\'zen-bold\':row.entity.focused}" class="ngCell {{col.cellClass}} {{col.colIndex()}}"><div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }">&nbsp;</div><div ng-cell></div></div>'
+        rowTemplate: '<div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="{\'zen-bold\':row.entity.focused}" class="ngCell {{col.cellClass}} {{col.colIndex()}}"><div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }">&nbsp;</div><div ng-cell></div></div>'
     }
 
 
@@ -119,6 +119,9 @@ zenfootModule.controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'G
             $scope.pageData = pageData;
             var bool = scopeApplied = false;
             $scope.$apply()
+            // Styling the grid pager
+            $('.ngPagerControl .ngPagerButton').addClass('btn btn-default');
+            $('.ngPagerCurrent').addClass('form-control');
         }, 100)
 
     }

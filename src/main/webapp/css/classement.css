@@ -1,25 +1,45 @@
+.gridStyle {
+    border: 1px solid rgb(212, 212, 212);
+    border-radius: 4px;
+    width: auto;
+    height: 389px;
+}
+
+.ngGrid {
+    background: white;
+}
+
 .ngHeaderContainer {
-  font-weight: normal;
-  text-transform: uppercase;
-  background: white;
+    font-weight: normal;
+    text-transform: uppercase;
+    background: transparent;
 }
 
 .ngRow.even, .ngRow.odd {
-  background: white;
+    background: transparent;
 }
 
 .rankingHeader, .rankingCell {
-  text-align: center;
-}
-
-.gridStyle {
-  border-radius: 4px;
+    text-align: center;
 }
 
 .ngTopPanel, .ngHeaderContainer {
-  background: transparent;
+    background: transparent;
 }
 
 .ngFooterPanel {
-  background: white;
+    background: transparent;
+    border: none;
+}
+
+.ngTotalSelectContainer {
+    display: none;
+}
+
+.ngRowCountPicker {
+    display: none;
+}
+
+.ngPagerCurrent {
+    display: inline;
 }
