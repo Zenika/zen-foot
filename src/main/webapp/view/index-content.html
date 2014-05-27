@@ -45,7 +45,7 @@
                     <h3 data-ng-show="groupes[groupe].checked">Groupe {{groupes[groupe].letter}}</h3>
                     <h3 data-ng-show="showAll()">Tous les matchs</h3>
 
-                    <div data-ng-repeat="match in matchs | orderBy:'match.match.date'">
+                    <div data-ng-repeat="match in matchs | orderBy:'match.date'">
 
                         <!--That's the column containing inputs, and results-->
 
