@@ -44,16 +44,16 @@ angular.module('zenFoot.app', [
 .run(function ($rootScope, $state) {
     var adminRoute = 'adminState'
     var loginRoute = 'loginState'
-    $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
         if ($rootScope.isConnected() && toState.name === loginRoute) {
             evt.preventDefault()
-            $state.transitionTo(fromState.name)
+            $state.go(fromState.name)
         } else if (!$rootScope.isConnected() && toState.name !== loginRoute) {
             evt.preventDefault()
-            $state.transitionTo(loginRoute)
+            $state.go(loginRoute)
         } else if ($rootScope.isConnected() && $rootScope.isAdmin() && toState.name !== adminRoute) {
             evt.preventDefault()
-            $state.transitionTo(adminRoute)
+            $state.go(adminRoute)
         }
     })
 
