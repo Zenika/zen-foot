@@ -59,7 +59,7 @@ zenFootDirectives.directive('groupeLabel', function () {
         replace: true,
         restrict: 'E',
         link: function (scope, element, attrs) {
-            var template = "<label class='btn btn-primary' ng-model='checkModel."+attrs.groupe+"' btn-checkbox>"+attrs.groupe+"</label>";
+            var template = "<label class='btn btn-primary' ng-model='checkModel' btn-radio='"+attrs.groupe+"' btn-checkbox>"+attrs.groupe+"</label>";
             element.replaceWith(template)
         }
     }

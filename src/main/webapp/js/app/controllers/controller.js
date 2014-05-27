@@ -82,7 +82,8 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
         defer.resolve();
     }
 
-    $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
+    $scope.groupes = [{lettre:"A",checked:false}, {lettre:"B",checked:false}, {lettre:"C",checked:false}, {lettre:"D",checked:false}, {lettre:"E",checked:false}, {lettre:"F",checked:false},
+        {lettre:"G",checked:false},{lettre:"H",checked:false}];
 
 
     $scope.grpA = "A";
@@ -97,6 +98,8 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
     $scope.grpA = "F";
     $scope.grpA = "G";
     $scope.grpA = "H";
+
+    $scope.checkModel={"A":false,"B":false,"C":false,"D":false,"E":false,"F":false,"G":false,"H":false}
 
 
     $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
