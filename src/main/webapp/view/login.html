@@ -6,14 +6,17 @@
 
             <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid && loginForm.user.$dirty}">
                 <label for="user" class="sr-only">Email</label>
-                <input
-                    class="form-control"
-                    type="email"
-                    placeholder="Email"
-                    id="user"
-                    name="user"
-                    data-ng-model="login.email"
-                    required/>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input
+                        class="form-control"
+                        type="email"
+                        placeholder="Email"
+                        id="user"
+                        name="user"
+                        data-ng-model="login.email"
+                        required/>
+                </div>
                 <p
                     class="help-block"
                     data-ng-show="loginForm.user.$error.required && loginForm.user.$dirty">
@@ -28,7 +31,8 @@
 
             <div class="form-group" ng-class="{'has-error': loginForm.pass.$invalid && loginForm.pass.$dirty}">
                 <label for="pass" class="sr-only">Password</label>
-                <div class="controls">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                     <input
                         class="form-control"
                         type="password"
@@ -37,12 +41,12 @@
                         name="pass"
                         data-ng-model="login.password"
                         required/>
-                    <p
-                        class="help-block"
-                        data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
-                        Champ obligatoire
-                    </p>
                 </div>
+                <p
+                    class="help-block"
+                    data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
+                    Champ obligatoire
+                </p>
             </div>
 
             <div class="form-group">
