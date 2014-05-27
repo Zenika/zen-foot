@@ -50,25 +50,16 @@ angular.module('zenFoot.app', [
     $rootScope.logOut = authService.logOut
 
     $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
-
-        console.log('ici')
-        console.log($rootScope.user)
-        console.log($rootScope.isAdmin())
-
         if ($rootScope.isConnected() && toState.name === loginRoute) {
-            console.log('login page is not auth. if connected')
             evt.preventDefault()
             $state.transitionTo(fromState.name)
         }
 
         if (!$rootScope.isConnected() && toState.name !== loginRoute) {
-            console.log('redirecting to login')
             evt.preventDefault()
             $state.transitionTo(loginRoute)
         } else {
-            console.log(toState)
             if ($rootScope.isConnected() && $rootScope.isAdmin() && toState.name !== adminRoute) {
-                console.log('redirecting admin')
                 evt.preventDefault()
                 $state.transitionTo(adminRoute)
             }
