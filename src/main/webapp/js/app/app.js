@@ -41,11 +41,7 @@ angular.module('zenFoot.app', [
     })
 })
 
-.run(function ($rootScope, authService,$location,$state) {
-
-    $rootScope.loggedIn = authService.loggedIn
-    $rootScope.logOut = authService.logOut
-
+.run(function ($rootScope, $state) {
     var adminRoute = 'adminState'
     var loginRoute = 'loginState'
     $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
