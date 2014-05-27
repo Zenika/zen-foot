@@ -1,13 +1,13 @@
 'use strict'
 
-var zenContactApp = angular.module('zenFoot.app', [
+angular.module('zenFoot.app', [
     'zenFoot.controllers', 'zenFoot.services', 'zenContact.filters', 'zenFoot.directives',
     'ngCookies', 'ngResource', 'ngRoute',
     'ui.router', 'ui.bootstrap', 'ui.unique',
     'ngGrid', 'angular-md5',
 ])
 
-zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider
         .state('loginState', {
             url: '/login',
@@ -44,7 +44,7 @@ zenContactApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider
     })
 })
 
-zenContactApp.run(function ($rootScope, authService,$location,$state) {
+.run(function ($rootScope, authService,$location,$state) {
 
     var adminRoute = 'adminState'
     var loginRoute = 'loginState'
