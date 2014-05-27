@@ -31,7 +31,7 @@
 
             <div class="btn-group" style="display: inline">
                 <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
-                <label ng-repeat="groupe in groupes" class='btn btn-primary' ng-model='groupe.checked' btn-checkbox>{{groupe.lettre}}</label>&nbsp
+                <label ng-repeat="groupe in groupes" class='btn btn-primary' ng-model='groupe.checked' btn-checkbox>{{groupe.letter}}</label>&nbsp
 
             </div>
              <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
@@ -41,11 +41,11 @@
 
 
             <form name="scoreform" class="form-score form-horizontal">
-                <div data-ng-repeat="groupe in groupes" data-ng-show="($index==0&&showAll())||groupe.checked">
-                    <h3 data-ng-show="groupe.checked">Groupe {{groupe.lettre}}</h3>
+                <div data-ng-repeat="(groupe, matchs) in matchsBets" data-ng-show="($index==0&&showAll())||groupes[groupe].checked">
+                    <h3 data-ng-show="groupes[groupe].checked">Groupe {{groupes[groupe].letter}}</h3>
                     <h3 data-ng-show="showAll()">Tous les matchs</h3>
 
-                    <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:showAll():groupe.lettre|orderBy:'match.date')">
+                    <div data-ng-repeat="match in matchs | orderBy:'match.match.date'">
 
                         <!--That's the column containing inputs, and results-->
 
