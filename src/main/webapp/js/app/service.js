@@ -109,8 +109,8 @@ zenFootService.factory('Session', function ($resource) {
 
         return {
 
-            getAll: function () {
-                var objTmp = Match.query();
+            getAll: function (callback) {
+                var objTmp = Match.query(callback);
                 //.bet.score1.score
                 return objTmp;
             },

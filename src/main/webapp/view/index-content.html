@@ -4,8 +4,8 @@
     <div class="row">
 
         <div class="col-xs-12">
-            <div>
-                <h2 style="display: inline"> Liste des matchs &nbsp;
+            <div class="match-title">
+                <h2> Liste des matchs &nbsp;
                 </h2>
 
                 <!--<span class="dropdown">
@@ -22,25 +22,30 @@
                     </span>
                 </span>-->
 
-                <span id="infoBet" popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
+                <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
                       data-placement="bottom"
                       data-content="Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
                 </span>
 
             </div>
 
-            <div class="btn-group">
+            <div class="btn-group" style="display: inline">
                 <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
-                    <label ng-repeat="groupe in groupes" class='btn btn-primary' ng-model='groupe.checked' btn-checkbox>{{groupe.lettre}}</label>
+                <label ng-repeat="groupe in groupes" class='btn btn-primary' ng-model='groupe.checked' btn-checkbox>{{groupe.lettre}}</label>&nbsp
+
             </div>
+             <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
+                   data-placement="bottom"
+                   data-content="Sélectionnez un groupe à filtrer">
+             </span>
 
 
             <form name="scoreform" class="form-score form-horizontal">
-                <div data-ng-repeat="groupe in groupes">
-                    <h3>Groupe {{groupe.lettre}}</h3>
+                <div data-ng-repeat="groupe in groupes" data-ng-show="($index==0&&showAll())||groupe.checked">
+                    <h3 data-ng-show="groupe.checked">Groupe {{groupe.lettre}}</h3>
+                    <h3 data-ng-show="showAll()">Tous les matchs</h3>
 
-
-                    <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:groupe.lettre|orderBy:'match.date')">
+                    <div data-ng-repeat="match in groupeX=(matchsBets|groupeFilter:showAll():groupe.lettre|orderBy:'match.date')">
 
                         <!--That's the column containing inputs, and results-->
 
@@ -70,7 +75,7 @@
                                                 <span class="label label-danger"
                                                       data-ng-show="score1Form.score1input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
-                                            <div class="text-right">
+                                            <div class="text-right ng-hide" data-ng-if="knownResult(match.match)">
                                                 <span class="real-score">{{match.match.outcome.score1.score}}</span>
                                             </div>
                                         </div>
