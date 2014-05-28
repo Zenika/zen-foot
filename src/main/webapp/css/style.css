@@ -286,10 +286,18 @@ Some CSS properties on the size of inputs
 
 }
 
+.match-title>span{
+    display: inline;
+}
+
 .match-title{
     margin-bottom: 10px;
 }
 
+.finales-blocks{
+    display: inline-block;
+    margin-left: 5px;
+}
 
 @media only screen and (max-width: 480px) {
     .zen-points{
@@ -297,6 +305,14 @@ Some CSS properties on the size of inputs
         font-style: italic;
         font-family: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
     }
+}
+
+@media only screen and (max-width: 480px) {
+    .finales-blocks{
+        margin-left: 0px;
+        margin-top: 5px;
+    }
+
 }
 
 

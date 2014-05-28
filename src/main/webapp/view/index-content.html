@@ -4,45 +4,62 @@
     <div class="row">
 
         <div class="col-xs-12">
-            <div class="match-title">
-                <h2> Liste des matchs &nbsp;
-                </h2>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="match-title">
+                        <h2> Liste des matchs &nbsp; </h2>
 
-                <!--<span class="dropdown">
+
+                        <!--<span class="dropdown">
 
 
-                    <span class="glyphicon glyphicon-info-sign" data-toggle="dropdown"></span>
+                            <span class="glyphicon glyphicon-info-sign" data-toggle="dropdown"></span>
 
-                    <span class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <h3 class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</h3>
+                            <span class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <h3 class="text-center">Pour parier sur un match, rentrez un score et cliquez sur "parier !"</h3>
 
-                        <p style="margin-bottom: 0px">Si vous avez le score exact, vous gagnez 3 points.</p>
+                                <p style="margin-bottom: 0px">Si vous avez le score exact, vous gagnez 3 points.</p>
 
-                        <p> Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point</p>
-                    </span>
-                </span>-->
+                                <p> Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point</p>
+                            </span>
+                        </span>-->
 
-                <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
-                      data-placement="bottom"
-                      data-content="Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
-                </span>
+                        <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
+                              data-placement="bottom"
+                              data-content="Si vous avez le bon gagnant et un score inexact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
+                        </span>
 
+                    </div>
+
+                </div>
+                <div class="col-sm-6 pull-left">
+
+                    <div class="btn-group">
+                        <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
+                        <label ng-repeat="groupe in groupes" class='btn btn-danger' ng-model='groupe.checked'
+                               btn-checkbox>{{groupe.letter}}</label>
+
+                    </div>
+                    <div class="btn-group finales-blocks">
+
+                        <label data-ng-repeat="phase in phases" class="btn btn-danger disabled" data-ng-model="phase.checked" btn-checkbox>
+                            {{phase.fraction}}<sup ng-show="phase.fraction==8">ème</sup>
+                        </label>
+                        &nbsp
+                    </div>
+                     <!--<span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
+                           data-placement="bottom"
+                           data-content="Sélectionnez un groupe à filtrer">
+                     </span>-->
+                </div>
             </div>
-
-            <div class="btn-group" style="display: inline">
-                <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
-                <label ng-repeat="groupe in groupes" class='btn btn-primary' ng-model='groupe.checked' btn-checkbox>{{groupe.letter}}</label>&nbsp
-
-            </div>
-             <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
-                   data-placement="bottom"
-                   data-content="Sélectionnez un groupe à filtrer">
-             </span>
 
 
             <form name="scoreform" class="form-score form-horizontal">
-                <div data-ng-repeat="(groupe, matchs) in matchsBets" data-ng-show="($index==0&&showAll())||groupes[groupe].checked">
+                <div data-ng-repeat="(groupe, matchs) in matchsBets"
+                     data-ng-show="($index==0&&showAll())||groupes[groupe].checked">
                     <h3 data-ng-show="groupes[groupe].checked">Groupe {{groupes[groupe].letter}}</h3>
+
                     <h3 data-ng-show="showAll()">Tous les matchs</h3>
 
                     <div data-ng-repeat="match in matchs | orderBy:'match.date'">

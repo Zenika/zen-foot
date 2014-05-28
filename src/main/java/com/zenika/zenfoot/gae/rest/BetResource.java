@@ -10,6 +10,7 @@ import com.zenika.zenfoot.gae.services.BetService;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.user.User;
 import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.PUT;
@@ -91,10 +92,13 @@ public class BetResource {
     @GET("/matchbets")
     @RolesAllowed({Roles.GAMBLER})
     public List<MatchAndBet> getBets() {
-        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        User user = sessionInfo.getUser();
+        logger.log(Level.ALL,"retrieving user "+user.getEmail());
+
+        Gambler gambler = gamblerService.get(user);
         List<Match> matchs = matchService.getMatchs();
 
-        Logger logger = Logger.getLogger(BetResource.class.getName());
 
 
 
@@ -148,7 +152,10 @@ public class BetResource {
     //@JsonView(Views.GamblerView.class)
     @RolesAllowed(Roles.GAMBLER)
     public Gambler getGambler() {
-        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        User user = sessionInfo.getUser();
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        logger.log(Level.WARNING,user.getEmail());
+        Gambler gambler = gamblerService.get(user);
 
         return gambler;
     }

@@ -126,6 +126,13 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
         H: {checked: false, letter: 'H'}
     }
 
+    $scope.phases={
+        8:{checked:false,fraction:'8'},
+        4:{checked:false,fraction:'quart'},
+        2:{checked:false,fraction:'1/2'},
+        finale:{checked:false,fraction:'finale'}
+    }
+
 
     var showAll = function () {
         var toRet = true;
