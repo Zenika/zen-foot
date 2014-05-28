@@ -70,7 +70,6 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
 
 
     $scope.$watch('showAll()', function (newValue, oldValue) {
-        console.log('showAll change detected ' + newValue)
         if (newValue != oldValue) {
             if (newValue == true) {
                 $scope.matchsBets = {all: _.flatten(_.values($scope.matchsBets))}

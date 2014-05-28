@@ -40,10 +40,6 @@ zenfootModule.controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'G
             for (var x in rankingSorted) {
 
                 rankingSorted[x].classement = parseInt(x) + 1;
-                if (x == 13) {
-                    console.log('inserted')
-                    console.log(rankingSorted[x].classement)
-                }
             }
             $scope.classement = rankingSorted;
             return rankingSorted;
