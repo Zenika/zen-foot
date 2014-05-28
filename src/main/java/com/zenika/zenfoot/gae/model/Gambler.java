@@ -1,10 +1,8 @@
 package com.zenika.zenfoot.gae.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.zenika.zenfoot.gae.jackson.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,17 @@ public class Gambler implements IGambler {
     protected String nom;
 
     protected String prenom;
+
+    private List<Team> teams = new ArrayList<>();
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public Gambler setTeams(List<Team> teams) {
+        this.teams = teams;
+        return this;
+    }
 
     public Gambler(String email) {
         this.email = email;

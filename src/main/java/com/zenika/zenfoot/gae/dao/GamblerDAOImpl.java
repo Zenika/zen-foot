@@ -1,8 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
 import com.zenika.zenfoot.gae.model.Gambler;
 
 import java.util.List;
@@ -17,6 +15,7 @@ public class GamblerDAOImpl implements GamblerDAO {
 
     @Override
     public Key<Gambler> saveGambler(Gambler gambler) {
+        OfyService.ofy().save().entities(gambler.getTeams());
         Key<Gambler> key = OfyService.ofy().save().entity(gambler).now();
         return key;
     }
