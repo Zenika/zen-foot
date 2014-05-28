@@ -275,12 +275,6 @@ Some CSS properties on the size of inputs
     padding-right: 15px;
 }
 
-.gridStyle {
-    border: 1px solid rgb(212, 212, 212);
-    width: auto;
-    height: 400px;
-}
-
 .match-title > h2{
     display: inline;
 
@@ -298,6 +292,8 @@ Some CSS properties on the size of inputs
     display: inline-block;
     margin-left: 5px;
 }
+
+
 
 @media only screen and (max-width: 480px) {
     .zen-points{
