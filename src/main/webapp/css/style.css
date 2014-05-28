@@ -293,7 +293,10 @@ Some CSS properties on the size of inputs
     margin-left: 5px;
 }
 
-
+.pariez-button{
+    position: fixed;
+    bottom: 10px;
+}
 
 @media only screen and (max-width: 480px) {
     .zen-points{
