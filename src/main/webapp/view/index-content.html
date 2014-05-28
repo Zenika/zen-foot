@@ -38,11 +38,9 @@
                         <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
                         <label ng-repeat="groupe in groupes" class='btn btn-danger' ng-model='groupe.checked'
                                btn-checkbox>{{groupe.letter}}</label>
-
                     </div>
                     <div class="btn-group finales-blocks">
-
-                        <label data-ng-repeat="phase in phases" class="btn btn-danger disabled" data-ng-model="phase.checked" btn-checkbox>
+                        <label data-ng-repeat="(key,phase) in phases | orderBy:'order'" class="btn btn-danger disabled" data-ng-model="phase.checked" btn-checkbox>
                             {{phase.fraction}}<sup ng-show="phase.fraction==8">ème</sup>
                         </label>
                         &nbsp
