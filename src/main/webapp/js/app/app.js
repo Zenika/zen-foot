@@ -44,7 +44,7 @@ angular.module('zenFoot.app', [
 .run(function ($rootScope, $state) {
     var adminRoute = 'adminState'
     var loginRoute = 'loginState'
-    $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
         if ($rootScope.isConnected() && toState.name === loginRoute) {
             evt.preventDefault()
             $state.go(fromState.name)
