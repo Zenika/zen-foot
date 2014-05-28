@@ -12,84 +12,82 @@ import java.util.Date;
 public class GenerateMatches {
 
     //src/main/webapp/
-    private static final String flagDirectory = "img/flags/";
 
     public static ArrayList<Match> generate(){
         //12 juin
-        Participant croatie = new Participant().setPays("Croatie").setGroupe(Groupe.A);
-        croatie = croatie.setFlagPath("img/flags/Croatia_flag.png");
-        Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A);
+        Participant croatie = new Participant().setPays("Croatie").setGroupe(Groupe.A).setFlagPath("Croatia_flag");
+        Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A).setFlagPath("Brazil_flag");
         DateTime dateTime=new DateTime(2014, 6, 12, 22, 0);
         Match match1 = new Match(DateTime.now().plusSeconds(15), croatie, bresil);
 
         //13 juin
-        Participant cameroun = new Participant().setPays("Cameroun").setGroupe(Groupe.A);
-        Participant mexique = new Participant().setPays("Mexique").setGroupe(Groupe.A);
+        Participant cameroun = new Participant().setPays("Cameroun").setGroupe(Groupe.A).setFlagPath("Cameroon_flag");
+        Participant mexique = new Participant().setPays("Mexique").setGroupe(Groupe.A).setFlagPath("Mexico_flag");
         DateTime dateTime1=new DateTime(2014, 6, 13, 18, 0);
         Match match2 = new Match(DateTime.now()
                 , cameroun, mexique);
 
-        Participant espagne = new Participant().setPays("Espagne").setGroupe(Groupe.B);
-        Participant paysBas = new Participant().setPays("Pays-Bas").setGroupe(Groupe.B);
+        Participant espagne = new Participant().setPays("Espagne").setGroupe(Groupe.B).setFlagPath("Spain_flag");
+        Participant paysBas = new Participant().setPays("Pays-Bas").setGroupe(Groupe.B).setFlagPath("Netherlands_flag");
         Match match3 = new Match(new DateTime(2014, 6, 13, 21, 0), espagne, paysBas);
 
-        Participant chili = new Participant().setPays("Chili").setGroupe(Groupe.B);
-        Participant australie = new Participant().setPays("Australie").setGroupe(Groupe.B);
+        Participant chili = new Participant().setPays("Chili").setGroupe(Groupe.B).setFlagPath("Chili_flag");
+        Participant australie = new Participant().setPays("Australie").setGroupe(Groupe.B).setFlagPath("Australia_flag");
         Match match4 = new Match(new DateTime(2014, 6, 13, 0, 0), chili, australie);
 
         //14 juin
-        Participant colombie = new Participant().setPays("Colombie").setGroupe(Groupe.C);
-        Participant grece = new Participant().setPays("Grece").setGroupe(Groupe.C);
+        Participant colombie = new Participant().setPays("Colombie").setGroupe(Groupe.C).setFlagPath("Colombia_flag");
+        Participant grece = new Participant().setPays("Grece").setGroupe(Groupe.C).setFlagPath("Greece_flag");
         Match match5 = new Match(new DateTime(2014, 6, 14, 18, 0), colombie, grece);
 
-        Participant uruguay = new Participant().setPays("Uruguay").setGroupe(Groupe.D);
-        Participant costaRica = new Participant().setPays("Costa Rica").setGroupe(Groupe.D);
+        Participant uruguay = new Participant().setPays("Uruguay").setGroupe(Groupe.D).setFlagPath("Uruguay_flag");
+        Participant costaRica = new Participant().setPays("Costa Rica").setGroupe(Groupe.D).setFlagPath("Costa_Rica_flag");
         Match match6 = new Match(new DateTime(2014, 6, 14, 21, 0), uruguay, costaRica);
 
-        Participant angleterre = new Participant().setPays("Angleterre").setGroupe(Groupe.D);
-        Participant italie = new Participant().setPays("Italie").setGroupe(Groupe.D);
+        Participant angleterre = new Participant().setPays("Angleterre").setGroupe(Groupe.D).setFlagPath("England_flag");
+        Participant italie = new Participant().setPays("Italie").setGroupe(Groupe.D).setFlagPath("Italy_flag");
         Match match7 = new Match(new DateTime(2014, 6, 14, 0, 0), angleterre, italie);
 
-        Participant coteIvoir = new Participant().setPays("Côte d'Ivoire").setGroupe(Groupe.C);
-        Participant japon = new Participant().setPays("Japon").setGroupe(Groupe.C);
+        Participant coteIvoir = new Participant().setPays("Côte d'Ivoire").setGroupe(Groupe.C).setFlagPath("Cote_dIvoire_flag");
+        Participant japon = new Participant().setPays("Japon").setGroupe(Groupe.C).setFlagPath("Japan_flag");
         Match match8 = new Match(new DateTime(2014, 6, 14, 3, 0), coteIvoir, japon);
 
         //15 juin
-        Participant suisse = new Participant().setPays("Suisse").setGroupe(Groupe.E);
-        Participant equateur = new Participant().setPays("Equateur").setGroupe(Groupe.E);
+        Participant suisse = new Participant().setPays("Suisse").setGroupe(Groupe.E).setFlagPath("Switzerland_flag");
+        Participant equateur = new Participant().setPays("Equateur").setGroupe(Groupe.E).setFlagPath("Equator_flag");
         Match match9 = new Match(new DateTime(2014, 6, 15, 18, 0), suisse, equateur);
 
-        Participant honduras = new Participant().setPays("Honduras").setGroupe(Groupe.E);
-        Participant france = new Participant().setPays("France").setGroupe(Groupe.E);
+        Participant honduras = new Participant().setPays("Honduras").setGroupe(Groupe.E).setFlagPath("Honduras_flag");
+        Participant france = new Participant().setPays("France").setGroupe(Groupe.E).setFlagPath("France_flag");
         Match match10 = new Match(new DateTime(2014, 6, 15, 21, 0), france, honduras);
 
-        Participant argentine = new Participant().setPays("Argentine").setGroupe(Groupe.F);
-        Participant bosnie = new Participant().setPays("Bosnie-et-Herzégovine").setGroupe(Groupe.F);
+        Participant argentine = new Participant().setPays("Argentine").setGroupe(Groupe.F).setFlagPath("Argentina_flag");
+        Participant bosnie = new Participant().setPays("Bosnie-et-Herzégovine").setGroupe(Groupe.F).setFlagPath("Bosnia_flag");
         Match match11 = new Match(new DateTime(2014, 6, 15, 0, 0), argentine, bosnie);
 
         //16 juin
-        Participant allemagne = new Participant().setPays("Allemagne").setGroupe(Groupe.G);
-        Participant portugal = new Participant().setPays("Portugal").setGroupe(Groupe.G);
+        Participant allemagne = new Participant().setPays("Allemagne").setGroupe(Groupe.G).setFlagPath("Germany_flag");
+        Participant portugal = new Participant().setPays("Portugal").setGroupe(Groupe.G).setFlagPath("Portugal_flag");
         Match match12 = new Match(new DateTime(2014, 6, 16, 18, 0), allemagne, portugal);
 
-        Participant iran = new Participant().setPays("Iran").setGroupe(Groupe.F);
-        Participant nigeria = new Participant().setPays("Nigéria").setGroupe(Groupe.F);
+        Participant iran = new Participant().setPays("Iran").setGroupe(Groupe.F).setFlagPath("Iran_flag");
+        Participant nigeria = new Participant().setPays("Nigéria").setGroupe(Groupe.F).setFlagPath("Nigeria_flag");
         Match match13 = new Match(new DateTime(2014, 6, 16, 21, 0), iran, nigeria);
 
-        Participant ghana = new Participant().setPays("Ghana").setGroupe(Groupe.G);;
-        Participant usa = new Participant().setPays("USA").setGroupe(Groupe.G);;
+        Participant ghana = new Participant().setPays("Ghana").setGroupe(Groupe.G).setFlagPath("Ghana_flag");
+        Participant usa = new Participant().setPays("USA").setGroupe(Groupe.G).setFlagPath("USA_flag");
         Match match14 = new Match(new DateTime(2014, 6, 16, 0, 0), ghana, usa);
 
 
         //17 juin
-        Participant belgique = new Participant().setPays("Belgique").setGroupe(Groupe.H);
-        Participant algerie = new Participant().setPays("Algérie").setGroupe(Groupe.H);
+        Participant belgique = new Participant().setPays("Belgique").setGroupe(Groupe.H).setFlagPath("Belgium_flag");
+        Participant algerie = new Participant().setPays("Algérie").setGroupe(Groupe.H).setFlagPath("Algeria_flag");
         Match match15 = new Match(new DateTime(2014, 6, 17, 18, 0), belgique, algerie);
 
         Match match16 = new Match(new DateTime(2014, 6, 17, 21, 0), bresil, mexique);
 
-        Participant russie = new Participant().setPays("Russie").setGroupe(Groupe.H);
-        Participant coree = new Participant().setPays("République de Corée").setGroupe(Groupe.H);
+        Participant russie = new Participant().setPays("Russie").setGroupe(Groupe.H).setFlagPath("Russia_flag");
+        Participant coree = new Participant().setPays("République de Corée").setGroupe(Groupe.H).setFlagPath("Korea_flag");
         Match match17 = new Match(new DateTime(2014, 6, 17, 0, 0), russie, coree);
 
         //18 juin
