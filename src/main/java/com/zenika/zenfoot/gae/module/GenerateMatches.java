@@ -11,9 +11,13 @@ import java.util.Date;
  */
 public class GenerateMatches {
 
+    //src/main/webapp/
+    private static final String flagDirectory = "img/flags/";
+
     public static ArrayList<Match> generate(){
         //12 juin
         Participant croatie = new Participant().setPays("Croatie").setGroupe(Groupe.A);
+        croatie = croatie.setFlagPath("img/flags/Croatia_flag.png");
         Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A);
         DateTime dateTime=new DateTime(2014, 6, 12, 22, 0);
         Match match1 = new Match(DateTime.now().plusSeconds(15), croatie, bresil);

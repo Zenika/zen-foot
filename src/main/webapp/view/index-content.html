@@ -62,7 +62,10 @@
                                             <span data-ng-class="{'zen-bold':isWinner(match.bet,'score1','score2')}">
                                                 {{match.match.participant1.pays}}
                                             </span>
-                                            <ng-form name="score1Form"
+
+                                            <!--TODO MKA: c'est ici que je bosse-->
+                                            {{match.match.participant1|json}}
+                                            <span><img data-ng-src="{{match.match.participant1.flagPath}}"></span>                                            <ng-form name="score1Form"
                                                      ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
                                                 <input name="score1input"
                                                        class="form-control input-sm text-center input-score"

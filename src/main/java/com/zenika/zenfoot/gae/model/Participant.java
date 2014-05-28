@@ -14,6 +14,8 @@ public class Participant {
 
     protected Groupe groupe;
 
+    protected String flagPath;
+
     public Participant() {
     }
 
@@ -33,6 +35,15 @@ public class Participant {
 
     public Groupe getGroupe() {
         return groupe;
+    }
+
+    public Participant setFlagPath(String flagPath) {
+        this.flagPath = flagPath;
+        return this;
+    }
+
+    public String getFlagPath() {
+        return flagPath;
     }
 
     @Override
