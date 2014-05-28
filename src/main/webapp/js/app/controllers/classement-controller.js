@@ -71,7 +71,7 @@ zenfootModule.controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'G
     }
 
     var classementTemplate = '<div>{{getClassement(row.rowIndex)}}</div>'
-    var parieurTemplate = '<div>{{row.entity.prenom}} {{row.entity.nom}}</div>'
+    var parieurTemplate = '<div class="ngCellText">{{row.entity.prenom}} {{row.entity.nom}}</div>'
 
 
     $scope.totalServerItems = 0;
@@ -85,10 +85,24 @@ zenfootModule.controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'G
     $scope.gridOptions = {
         data: 'pageData',
         columnDefs: [
-            {field: 'classement', displayName: 'classement'},
-            {displayName: 'parieur', cellTemplate: parieurTemplate},
-            {field: 'points', displayName: 'points'}
+            {
+                field: 'classement',
+                displayName: '#',
+                width: 30,
+                headerClass: 'rankingHeader',
+                cellClass: 'rankingCell'
+            },
+            {
+                displayName: 'Parieur',
+                cellTemplate: parieurTemplate
+            },
+            {
+                field: 'points',
+                displayName: 'Points',
+                width: 100,
+            }
         ],
+        enableRowSelection: false,
         enablePaging: true,
         showFooter: true,
         totalServerItems: 'totalServerItems',
@@ -105,6 +119,9 @@ zenfootModule.controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'G
             $scope.pageData = pageData;
             var bool = scopeApplied = false;
             $scope.$apply()
+            // Styling the grid pager
+            $('.ngPagerControl .ngPagerButton').addClass('btn btn-default');
+            $('.ngPagerCurrent').addClass('form-control');
         }, 100)
 
     }
