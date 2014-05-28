@@ -36,7 +36,7 @@ public class MockUserService implements UserService<User>{
         }
     }
 
-    public void createUser(User user){
+    public void createUser(User user) {
         zenFootUserRepository.createUser(user);
     }
 }
