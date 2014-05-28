@@ -25,7 +25,12 @@ angular.module('zenFoot.app', [
             url: '/classement',
             templateUrl: 'view/classement.html'
         })
-    $urlRouterProvider.otherwise('/index')
+        .state('subscribeState', {
+        	url: '/subscribe',
+            templateUrl : 'view/subscribe.html'
+    	});
+    
+    $urlRouterProvider.otherwise('/index');
 
     $httpProvider.interceptors.push(function ($q, authService, $rootScope, $location) {
         return {
@@ -42,9 +47,15 @@ angular.module('zenFoot.app', [
 })
 
 .run(function ($rootScope, $state) {
-    var adminRoute = 'adminState'
-    var loginRoute = 'loginState'
+    var adminRoute = 'adminState';
+    var loginRoute = 'loginState';
+    var subscribeState = "subscribeState";
+    
     $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+        if(toState.name == subscribeState) {
+            return;
+        }
+        
         if ($rootScope.isConnected() && toState.name === loginRoute) {
             evt.preventDefault()
             $state.go(fromState.name)
