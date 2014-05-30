@@ -88,7 +88,7 @@ public class GenerateMatches {
 
         Participant russie = new Participant().setPays("Russie").setGroupe(Groupe.H).setFlagPath("Russia_flag");
         Participant coree = new Participant().setPays("Corée du Sud").setGroupe(Groupe.H).setFlagPath("South_Korea_flag");
-        Match match17 = new Match(new DateTime(2014, 6, 17, 0, 0), russie, coree);
+        Match match17 = new Match(new DateTime(2014, 6, 17, 0, 0), coree,russie);
 
         //18 juin
         Match match18 = new Match(new DateTime(2014, 6, 18, 18, 0), australie, paysBas);
