@@ -133,9 +133,8 @@
                                             <span class="real-score">{{match.match.outcome.score2.score}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1">
-                                        <img src="img/points/empty-ball-xs.png">
-
+                                    <div class="col-xs-1" ng-if="dispPoints(match)">
+                                        <img data-ng-src="{{calculatePoints(match)}}">
                                     </div>
                                     <!--<div ng-if="dispPoints(match)" class="col-sm-2 zen-points">-->
                                     <!--{{calculatePoints(match)}} pts-->

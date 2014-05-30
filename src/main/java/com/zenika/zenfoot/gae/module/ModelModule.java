@@ -32,10 +32,10 @@ public class ModelModule {
             matchRepository.createUpdate(match);
         }
 
-        Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
-        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
-        Match match = new Match().setDate(DateTime.now()).setParticipant1(participant1).setParticipant2(participant2);
-        matchRepository.createUpdate(match);
+//        Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
+//        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
+//        Match match = new Match().setDate(DateTime.now()).setParticipant1(participant1).setParticipant2(participant2);
+//        matchRepository.createUpdate(match);
         return matchRepository;
     }
 
