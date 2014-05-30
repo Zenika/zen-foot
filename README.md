@@ -68,11 +68,17 @@ remove --no_cookies if you want to type your PW only once.
 
 # How to log in ?
 
-Two accounts are registered in the database :
+You can login with these two users :
 
- user : raphael.martignoni@zenika.com
+Admin account : 
+
+ user : raphael.martignoni@zenika.com (for older commits only)
 
  PW : 2205
+ 
+ For newest commits, the admin is admin@zenika.com (same password)
+ 
+ Basic user (gambler) : 
 
 user : jean.bon@zenika.com
 
