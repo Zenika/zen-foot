@@ -298,6 +298,12 @@ Some CSS properties on the size of inputs
     bottom: 10px;
 }
 
+.country-flag{
+    border: solid;
+    border-color: darkgrey;
+    border-width: 1px;
+}
+
 @media only screen and (max-width: 480px) {
     .zen-points{
         font-size:20px;
