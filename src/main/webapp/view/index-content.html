@@ -78,7 +78,7 @@
                                                 {{match.match.participant1.pays}}
                                             </span>
 
-                                            <img data-ng-src="img/flags/{{match.match.participant1.flagPath}}.png">
+                                            <img class="country-flag" data-ng-src="img/flags/{{match.match.participant1.flagPath}}.png">
 
                                             <ng-form name="score1Form"
                                                      ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
@@ -119,7 +119,7 @@
                                                       data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
 
-                                            <img data-ng-src="img/flags/{{match.match.participant2.flagPath}}.png">
+                                            <img class="country-flag" data-ng-src="img/flags/{{match.match.participant2.flagPath}}.png">
                                             <span
                                                     data-ng-class="{'zen-bold':isWinner(match.bet,'score2','score1')}">
                                                 {{match.match.participant2.pays}}
