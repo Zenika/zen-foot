@@ -66,13 +66,13 @@
 
                         <!--That's the row for inputs-->
                         <div class="row">
-                            <div class="col-sm-3" ng-class="{'former-match':isFormer(match.match.date)}">
+                            <div class="col-sm-2" ng-class="{'former-match':isFormer(match.match.date)}">
                                 {{match.match.date|date:'dd/MM/yyyy à HH:mm'}}
                             </div>
                             <!--That's the column containing informations on inputs, without the date-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-10">
                                 <div class="row" ng-class="{'former-match':isFormer(match.match.date)}">
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-6 match-info">
                                         <div class="text-right">
                                             <span data-ng-class="{'zen-bold':isWinner(match.bet,'score1','score2')}">
                                                 {{match.match.participant1.pays}}
@@ -98,7 +98,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-5 match-info">
                                         <div class="text-left">
 
                                             <ng-form name="score2Form"
@@ -133,12 +133,18 @@
                                             <span class="real-score">{{match.match.outcome.score2.score}}</span>
                                         </div>
                                     </div>
+                                    <div class="col-xs-1">
+                                        <img src="img/points/empty-ball-xs.png">
+
+                                    </div>
                                     <!--<div ng-if="dispPoints(match)" class="col-sm-2 zen-points">-->
                                     <!--{{calculatePoints(match)}} pts-->
 
                                     <!--</div>-->
                                 </div>
                             </div>
+
+
                         </div>
 
 
