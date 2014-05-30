@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="components/ng-grid/ng-grid.min.css" media="screen">
     <link rel="stylesheet" href="components/angular/angular-csp.css" media="screen">
     <link rel="stylesheet" href="css/style.css" media="screen">
+    <link rel="stylesheet" href="css/classement.css" media="screen">
 
 </head>
 
@@ -34,17 +35,15 @@
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text">{{user.email}}</span></li>
+                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text" style="cursor: pointer">{{user.email}}</span></li>
 
                 <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
-                    <a data-ng-click="logout()">Logout</a>
+                    <a data-ng-click="logout()" href="">Logout</a>
                 </li>
-
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
-
 
 <div class="container page">
     <div ui-view></div>

@@ -2,49 +2,50 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.Work;
 import com.zenika.zenfoot.gae.model.Gambler;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by raphael on 30/04/14.
  */
-public class GamblerDAOImpl implements GamblerDAO{
+public class GamblerDAOImpl implements GamblerDAO {
 
-    private static Objectify ofy=OfyService.ofy();
 
     @Override
     public Key<Gambler> saveGambler(Gambler gambler) {
-        Key<Gambler> key= ofy.save().entity(gambler).now();
+        Key<Gambler> key = OfyService.ofy().save().entity(gambler).now();
         return key;
     }
 
 
-
     @Override
     public Gambler getGambler(Long id) {
-        return ofy.load().type(Gambler.class).id(id).now();
+        return OfyService.ofy().load().type(Gambler.class).id(id).now();
     }
 
     @Override
     public Gambler getGambler(Key<Gambler> key) {
-        return ofy.load().key(key).now();
+        return OfyService.ofy().load().key(key).now();
     }
 
     @Override
     public void deleteGambler(Long id) {
-        ofy.delete().type(Gambler.class).id(id).now();
+        OfyService.ofy().delete().type(Gambler.class).id(id).now();
     }
 
     @Override
     public List<Gambler> getAll() {
-        return ofy.load().type(Gambler.class).list();
+        return OfyService.ofy().load().type(Gambler.class).list();
     }
 
     @Override
     public void deleteAll() {
-        List<Gambler> gamblers =getAll();
-        for(Gambler gambler:gamblers){
+        List<Gambler> gamblers = getAll();
+        for (Gambler gambler : gamblers) {
             deleteGambler(gambler.getId());
         }
     }
@@ -52,24 +53,32 @@ public class GamblerDAOImpl implements GamblerDAO{
 
     /**
      * Returns the gambler corresponding to the given email, or null if no Gambler corresponds to this email
+     *
      * @param email a string representation of a user email
      * @return the gambler ccorresponding to the email in param
      */
     @Override
     public Gambler getGamblerFromEmail(String email) {
-        List<Gambler> gamblers = ofy.load().type(Gambler.class).filter("email",email).limit(1).list();
 
-        Gambler toRet=null;
-        if(gamblers.size()>0) {
-            System.out.println("looking for "+email);
-            System.out.println(gamblers.size()+" gamblers found");
-            toRet= gamblers.get(0);
-        }
-        else
-        {
-            System.out.println("------------------------------------");
-            System.out.println("no gambler found with email "+email);
-        }
-        return toRet;
-    }
+
+                List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(1).list();
+                Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
+
+                Gambler toRet = null;
+                if (gamblers == null) logger.log(Level.SEVERE, "No gambler found with email " + email);
+                if (gamblers != null && gamblers.size() > 0) {
+                    System.out.println("looking for " + email);
+                    System.out.println(gamblers.size() + " gamblers found");
+                    toRet = gamblers.get(0);
+                } else {
+                    logger.log(Level.SEVERE, "No gambler found with email " + email);
+                }
+                return toRet;
+            }
+
+
+
+
+
+
 }

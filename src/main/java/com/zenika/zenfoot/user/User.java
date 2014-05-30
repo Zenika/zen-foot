@@ -1,12 +1,12 @@
 package com.zenika.zenfoot.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Collection;
+
+import restx.security.RestxPrincipal;
+
 import com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import restx.security.RestxPrincipal;
-
-import java.util.Collection;
 
 @Entity
 public class User implements RestxPrincipal {
@@ -20,7 +20,6 @@ public class User implements RestxPrincipal {
 
 	private Collection<String> roles;
 
-    @JsonIgnore
     private String passwordHash;
 
     //TODO persist DateTime object

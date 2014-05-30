@@ -10,7 +10,6 @@ zenContactFilters.filter('groupeFilter', [function () {
 
     return function (matchs,showAll, groupe) {
         if(showAll){
-            console.log(matchs, showAll, groupe);
             return matchs;
         }
         else {
