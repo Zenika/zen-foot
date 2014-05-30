@@ -62,7 +62,7 @@ public class GenerateMatches {
         Match match10 = new Match(new DateTime(2014, 6, 15, 21, 0), france, honduras);
 
         Participant argentine = new Participant().setPays("Argentine").setGroupe(Groupe.F).setFlagPath("Argentina_flag");
-        Participant bosnie = new Participant().setPays("Bosnie-et-Herzégovine").setGroupe(Groupe.F).setFlagPath("Bosnia_flag");
+        Participant bosnie = new Participant().setPays("Bosnie-et-H.").setGroupe(Groupe.F).setFlagPath("Bosnia_flag");
         Match match11 = new Match(new DateTime(2014, 6, 15, 0, 0), argentine, bosnie);
 
         //16 juin
@@ -87,7 +87,7 @@ public class GenerateMatches {
         Match match16 = new Match(new DateTime(2014, 6, 17, 21, 0), bresil, mexique);
 
         Participant russie = new Participant().setPays("Russie").setGroupe(Groupe.H).setFlagPath("Russia_flag");
-        Participant coree = new Participant().setPays("République de Corée").setGroupe(Groupe.H).setFlagPath("South_Korea_flag");
+        Participant coree = new Participant().setPays("Corée du Sud").setGroupe(Groupe.H).setFlagPath("South_Korea_flag");
         Match match17 = new Match(new DateTime(2014, 6, 17, 0, 0), russie, coree);
 
         //18 juin
