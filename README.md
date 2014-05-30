@@ -77,6 +77,8 @@ Admin account :
  PW : 2205
  
  For newest commits, the admin is admin@zenika.com (same password)
+ 
+ Basic user (gambler) : 
 
 user : jean.bon@zenika.com
 
