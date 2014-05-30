@@ -1,6 +1,9 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.VoidWork;
+import com.googlecode.objectify.Work;
+import com.zenika.zenfoot.gae.dao.OfyService;
 import com.zenika.zenfoot.gae.model.*;
 
 import com.zenika.zenfoot.user.User;
@@ -20,29 +23,29 @@ public class GamblerService {
     private MatchService matchService;
 
     public GamblerService(GamblerRepository gamblerRepository, MatchService matchService) {
-        this.matchService=matchService;
+        this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
     }
 
-    public List<Gambler> getAll(){
+    public List<Gambler> getAll() {
         return gamblerRepository.getAll();
     }
 
-    public Gambler get(User user){
+    public Gambler get(User user) {
         return this.getFromEmail(user.getEmail());
     }
 
-    public Gambler getFromEmail(String email){
+    public Gambler getFromEmail(String email) {
 
         Gambler gambler = this.gamblerRepository.getGamblerFromEmail(email);
         return gambler;
     }
 
-    public void updateBets(Gambler gambler){
+    public void updateBets(Gambler gambler) {
         List<Match> matchs = matchService.getMatchs();
-        for(Match match:matchs){
+        for (Match match : matchs) {
 
-            if(!this.hasBet(gambler,match.getId())){
+            if (!this.hasBet(gambler, match.getId())) {
                 gambler.addBet(new Bet(match.getId()));
             }
         }
@@ -51,7 +54,7 @@ public class GamblerService {
     }
 
     public Bet getBet(Gambler gambler, Match match) {
-      return getBetByMatchId(gambler,match.getId());
+        return getBetByMatchId(gambler, match.getId());
     }
 
     public Bet getBetByMatchId(Gambler gambler, Long matchId) {
@@ -66,8 +69,8 @@ public class GamblerService {
         return toRet;
     }
 
-    public boolean hasBet(Gambler gambler, Long matchId){
-        for(Bet bet:gambler.getBets()){
+    public boolean hasBet(Gambler gambler, Long matchId) {
+        for (Bet bet : gambler.getBets()) {
             if (bet.getMatchId().equals(matchId)) {
                 return true;
             }
@@ -83,26 +86,25 @@ public class GamblerService {
 
         for (Bet bet : newBets) {
 
-            Bet existingBet = this.getBetByMatchId(gambler,bet.getMatchId());
+            Bet existingBet = this.getBetByMatchId(gambler, bet.getMatchId());
             //Check the bet already existed in the database
             Logger logger = Logger.getLogger(Gambler.class.getName());
 
-            if(bet.getMatchId()==4538783999459328L){
-                
+            if (bet.getMatchId() == 4538783999459328L) {
+
             }
-            if(existingBet==null){
-                logger.log(Level.SEVERE,""+bet.getMatchId());
-                logger.log(Level.SEVERE,"tried to update a bet which didn't exist");
-            }
-            else {
+            if (existingBet == null) {
+                logger.log(Level.SEVERE, "" + bet.getMatchId());
+                logger.log(Level.SEVERE, "tried to update a bet which didn't exist");
+            } else {
                 //If the bet has changed (after a user input), rewrite the object in the database
                 if (!existingBet.exactSame(bet)) {
 
-                    logger.log(Level.ALL,"try to register a new bet");
+                    logger.log(Level.ALL, "try to register a new bet");
                     Match match = matchService.getMatch(bet.getMatchId());
 
                     //We have to check that the bet was made before the beginning of the match before registering it
-                    if(!match.hasOccured(now)){
+                    if (!match.hasOccured(now)) {
                         gambler.remove(existingBet);
                         gambler.addBet(bet);
                     }
@@ -117,12 +119,12 @@ public class GamblerService {
 
 
     public Gambler createGambler(User user, List<Match> matchs) {
-        return createGambler(user,matchs,0);
+        return createGambler(user, matchs, 0);
 
     }
 
     //TODO : remove once the mocked users are removed
-    public Gambler createGambler(User user, List<Match> matchs, int points){
+    public Gambler createGambler(User user, List<Match> matchs, int points) {
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setPrenom(user.getPrenom());
@@ -135,31 +137,41 @@ public class GamblerService {
             Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
         }
-        Key<Gambler> key= this.gamblerRepository.saveGambler(gambler);
+        Key<Gambler> key = this.gamblerRepository.saveGambler(gambler);
         Gambler toRet = gamblerRepository.getGambler(key);
-        logger.log(Level.WARNING,"after retrieving gambler, there are "+toRet.getBets().size()+" bets");
+        logger.log(Level.WARNING, "after retrieving gambler, there are " + toRet.getBets().size() + " bets");
         return toRet;
     }
 
     public Gambler updateGambler(Gambler gambler) {
-        gamblerRepository.saveGambler(gambler);
-        return getFromEmail(gambler.getEmail());
+        Key<Gambler> key = gamblerRepository.saveGambler(gambler);
+        return gamblerRepository.getGambler(key);
     }
 
+
     public void calculateScores(Match match) {
+
+
         List<Gambler> gamblers = gamblerRepository.getAll();
-        for(Gambler gambler:gamblers){
-            Bet bet = this.getBet(gambler,match);
-            if(bet.wasMade()){
-                if(bet.isLike3Points(match.getOutcome())){
+        for (Gambler gambler : gamblers) {
+            Bet bet = this.getBet(gambler, match);
+            if (bet.wasMade()) {
+                if (bet.isLike3Points(match.getOutcome())) {
                     gambler.addPoints(3);
-                }
-                else{
-                    if(bet.isLike1Point(match.getOutcome())){
+                } else {
+                    if (bet.isLike1Point(match.getOutcome())) {
                         gambler.addPoints(1);
                     }
                 }
+                if (gambler.getEmail().equals("jean.bon@zenika.com")) {
+                    Logger logger = Logger.getLogger(GamblerService.class.getName());
+                    logger.log(Level.INFO, "Points calculated for Jean Bon : " + gambler.getPoints());
+                }
+               this.updateGambler(gambler);
+
             }
         }
+
+
     }
 }

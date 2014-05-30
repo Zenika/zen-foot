@@ -58,7 +58,7 @@ zenFootService.factory('Session', function ($resource) {
  * registered (in case the client sent a bet for a match that has already started), and also to calculate points for a given bet
  * if the result's known
  */
-    .factory('betMatchService', ['Match', function (Match,zenConstants) {
+    .factory('betMatchService', ['Match', function (Match) {
 
 
         var equals = function (bet1, bet2) {

@@ -12,27 +12,27 @@ import java.util.logging.Logger;
  */
 public class MatchDAOImpl implements MatchDAO {
 
-    private static Objectify ofy=OfyService.ofy();
+
 
     @Override
     public void createUpdate(Match match) {
-        ofy.save().entity(match).now();
+        OfyService.ofy().save().entity(match).now();
     }
 
 
     @Override
     public Match getMatch(Long id) {
-        return ofy.load().type(Match.class).id(id).now();
+        return OfyService.ofy().load().type(Match.class).id(id).now();
     }
 
     @Override
     public void deleteMatch(Long id) {
-        ofy.delete().type(Match.class).id(id).now();
+        OfyService.ofy().delete().type(Match.class).id(id).now();
     }
 
     @Override
     public List<Match> getAll() {
-        return ofy.load().type(Match.class).list();
+        return OfyService.ofy().load().type(Match.class).list();
     }
 
     @Override

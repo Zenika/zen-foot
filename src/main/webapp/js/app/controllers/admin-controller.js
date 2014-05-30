@@ -2,12 +2,12 @@
  * Created by raphael on 12/05/14.
  */
 angular.module('zenFoot.app')
-.controller('AdminCtrl',['matchService', '$scope', 'zenConstants','$resource','$filter','displayService',function(matchService, $scope,zenConstants,$resource,$filter,displayService){
+.controller('AdminCtrl',['matchService', '$scope', 'SCORE_REGEXP','$resource','$filter','displayService',function(matchService, $scope,scoreRegexp,$resource,$filter,displayService){
         $scope.matchs = matchService.getAll();
 
         $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-        $scope.scoreRegexp=zenConstants.regexp;
+        $scope.scoreRegexp=scoreRegexp;
 
         $scope.hasTwoScores=function(bet){
             var sc1Empty=!bet.score1.score||bet.score1.score.trim() ==""
