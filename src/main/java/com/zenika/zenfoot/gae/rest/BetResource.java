@@ -1,24 +1,11 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.jackson.Views;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.BetService;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.gae.services.*;
 import com.zenika.zenfoot.user.User;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.inject.Named;
-
 import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.PUT;
@@ -28,16 +15,12 @@ import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
 
-import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.BetService;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.MockUserService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.user.User;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @RestxResource
@@ -184,14 +167,7 @@ public class BetResource {
     
     @POST("/performSubscription")
     @PermitAll
-    public Boolean subscribe(User subscriber){
-		Logger logger = Logger.getLogger(BetResource.class.getName());
-        
-		logger.log(Level.INFO, subscriber.getPrenom() );
-		logger.log(Level.INFO, subscriber.getNom() );
-        logger.log(Level.INFO, subscriber.getEmail() );
-        logger.log(Level.INFO, subscriber.getPasswordHash() );
-        
+    public Boolean subscribe(User subscriber) {
         subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
         userService.createUser(subscriber);
         return Boolean.TRUE;
