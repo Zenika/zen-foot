@@ -163,7 +163,7 @@ h2 {
 }
 
 .former-match div, .former-match, .former-match input {
-    color: lightgrey;
+    color: rgb(163, 163, 163);
 }
 
 .zen-bold{
@@ -295,7 +295,14 @@ Some CSS properties on the size of inputs
 
 .pariez-button{
     position: fixed;
-    bottom: 10px;
+    background-color: #EBEBEB;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.pariez-button button {
+    margin: 10px;
 }
 
 .country-flag{
@@ -311,6 +318,7 @@ Some CSS properties on the size of inputs
 
 .match-form{
     margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 480px) {

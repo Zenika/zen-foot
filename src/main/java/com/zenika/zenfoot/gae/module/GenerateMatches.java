@@ -201,12 +201,10 @@ public class GenerateMatches {
 //
 //        //TODO : matchs for test. Remove before deploying
 //
-//        Match match49=new Match(DateTime.now().plusSeconds(30),mexique,croatie);
-//        Match match50 = new Match(DateTime.now().plusSeconds(30),mexique,bresil);
-//        Match match51=new Match(DateTime.now().plusSeconds(30),croatie,bresil);
-//        matchsArray.add(match49);
-//        matchsArray.add(match50);
-//        matchsArray.add(match51);
+        Match match49=new Match(DateTime.now().plusSeconds(30),mexique,croatie);
+        Match match50 = new Match(DateTime.now().plusSeconds(30),mexique,bresil);
+        matchsArray.add(match49);
+        matchsArray.add(match50);
 
         return matchsArray;
     }

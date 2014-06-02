@@ -97,7 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xs-5 match-info">
+                                    <div class="col-xs-6 match-info">
                                         <div class="text-left">
 
                                             <ng-form name="score2Form"
@@ -132,9 +132,9 @@
                                             <span class="real-score">{{match.match.outcome.score2.score}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1" ng-if="dispPoints(match)">
-                                        <img data-ng-src="{{calculatePoints(match)}}">
-                                    </div>
+                                    <!--<div class="col-xs-1" ng-if="dispPoints(match)">-->
+                                        <!--<img data-ng-src="{{calculatePoints(match)}}">-->
+                                    <!--</div>-->
                                     <!--<div ng-if="dispPoints(match)" class="col-sm-2 zen-points">-->
                                     <!--{{calculatePoints(match)}} pts-->
 
@@ -152,13 +152,13 @@
                 </div>
 
 
-                <div class="row" data-ng-hide="modified">
-                    <div class="col-xs-1 col-xs-offset-8">
-                        <button type="button" class="btn btn-danger pull-right pariez-button" data-ng-disabled="scoreform.$invalid"
-                                data-ng-click="postez()">Pariez !
-                        </button>
+                <div class="pariez-button" data-ng-hide="modified">
+                    <div class="container">
+                    <button type="button" class="btn btn-danger pull-right " data-ng-disabled="scoreform.$invalid"
+                            data-ng-click="postez()">Pariez !
+                    </button>
                     </div>
-                </div>
+                 </div>
 
             </form>
         </div>

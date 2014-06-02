@@ -86,7 +86,7 @@ public class BetResource {
             match.getOutcome().setUpdated(true);
             matchService.createUpdate(match);
             logger.log(Level.WARNING,"skipping calculation of scores");
-            //gamblerService.calculateScores(match);
+            gamblerService.calculateScores(match);
 
         }
     }
