@@ -45,7 +45,9 @@ controllers.controller("subscribeCtrl", function($scope, $resource, $http, $root
 	$rootScope.subscriber = {};
 	
 	$scope.subscribe = function() {
-		var Subscription = $resource('/api/performSubscription', {subsriber : $scope.subscriber});
+		var Subscription = $resource('/api/performSubscription');
+        $scope.subscriber.teams = [$scope.subscriber.team];
+        delete $scope.subscriber.team;
 		Subscription.save($scope.subscriber);
 		$rootScope.subscriber = $scope.subscriber;
 		$location.path('/login');
