@@ -18,13 +18,13 @@ public class GenerateMatches {
         Participant croatie = new Participant().setPays("Croatie").setGroupe(Groupe.A).setFlagPath("Croatia_flag");
         Participant bresil = new Participant().setPays("Bresil").setGroupe(Groupe.A).setFlagPath("Brazil_flag");
         DateTime dateTime=new DateTime(2014, 6, 12, 22, 0);
-        Match match1 = new Match(DateTime.now().plusSeconds(15), croatie, bresil);
+        Match match1 = new Match(DateTime.now().plusSeconds(30), croatie, bresil);
 
         //13 juin
         Participant cameroun = new Participant().setPays("Cameroun").setGroupe(Groupe.A).setFlagPath("Cameroon_flag");
         Participant mexique = new Participant().setPays("Mexique").setGroupe(Groupe.A).setFlagPath("Mexico_flag");
         DateTime dateTime1=new DateTime(2014, 6, 13, 18, 0);
-        Match match2 = new Match(DateTime.now()
+        Match match2 = new Match(dateTime1
                 , cameroun, mexique);
 
         Participant espagne = new Participant().setPays("Espagne").setGroupe(Groupe.B).setFlagPath("Spain_flag");
@@ -88,7 +88,7 @@ public class GenerateMatches {
 
         Participant russie = new Participant().setPays("Russie").setGroupe(Groupe.H).setFlagPath("Russia_flag");
         Participant coree = new Participant().setPays("Corée du Sud").setGroupe(Groupe.H).setFlagPath("South_Korea_flag");
-        Match match17 = new Match(new DateTime(2014, 6, 17, 0, 0), russie, coree);
+        Match match17 = new Match(new DateTime(2014, 6, 17, 0, 0), coree,russie);
 
         //18 juin
         Match match18 = new Match(new DateTime(2014, 6, 18, 18, 0), australie, paysBas);
@@ -146,6 +146,7 @@ public class GenerateMatches {
 
 
 
+
         ArrayList<Match> matchsArray = new ArrayList<>();
 
 
@@ -197,6 +198,15 @@ public class GenerateMatches {
         matchsArray.add(match46);
         matchsArray.add(match47);
         matchsArray.add(match48);
+//
+//        //TODO : matchs for test. Remove before deploying
+//
+//        Match match49=new Match(DateTime.now().plusSeconds(30),mexique,croatie);
+//        Match match50 = new Match(DateTime.now().plusSeconds(30),mexique,bresil);
+//        Match match51=new Match(DateTime.now().plusSeconds(30),croatie,bresil);
+//        matchsArray.add(match49);
+//        matchsArray.add(match50);
+//        matchsArray.add(match51);
 
         return matchsArray;
     }

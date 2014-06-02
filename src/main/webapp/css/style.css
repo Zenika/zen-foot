@@ -304,6 +304,13 @@ Some CSS properties on the size of inputs
     border-width: 1px;
 }
 
+.match-info{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+
+
 @media only screen and (max-width: 480px) {
     .zen-points{
         font-size:20px;

@@ -2,7 +2,7 @@
 
 // ZenFoot service
 
-var zenFootService = angular.module("zenFoot.services", [ 'ngResource', 'ngRoute' ]);
+var zenFootService = angular.module("zenFoot.services", [ 'ngResource', 'ngRoute']);
 
 
 // Contact resource
@@ -140,12 +140,12 @@ zenFootService.factory('Session', function ($resource) {
                     var actualSc2=match.outcome.score2.score;
                     var predicSc1=bet.score1.score;
                     var predicSc2=bet.score2.score;
-                    if(actualSc1==predicSc1&&actualSc2==predicSc2)return 3;
+                    if(actualSc1==predicSc1&&actualSc2==predicSc2)return 'img/points/full-ball-xs.png'
                     if((actualSc1>actualSc2)==(predicSc1>predicSc2)){
-                        return 1;
+                        return 'img/points/half-ball-xs.png'
                     }
                     else{
-                        return 0;
+                        return 'img/points/empty-ball-xs.png'
                     }
                 }
             },
