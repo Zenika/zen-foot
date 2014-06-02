@@ -112,6 +112,12 @@ public class UserModule {
         return new MockUserService(userRepository);
     }
 
+    @Provides
+    @Named("userService")
+    public UserService getUserService(@Named("userServiceDev")UserService userService){
+     return userService;
+    }
+
 
 
 

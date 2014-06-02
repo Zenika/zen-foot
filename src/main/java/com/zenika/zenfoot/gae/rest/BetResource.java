@@ -54,7 +54,7 @@ public class BetResource {
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
-                       @Named("userServiceDev") UserService userService,
+                       @Named("userService") UserService userService,
                        GamblerService gamblerService) {
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
@@ -80,11 +80,13 @@ public class BetResource {
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
         boolean isRegistered = matchService.getMatch(Long.parseLong(id)).getOutcome().isUpdated();
-
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        logger.log(Level.WARNING,"entering update");
         if (!isRegistered) {
             match.getOutcome().setUpdated(true);
             matchService.createUpdate(match);
-            gamblerService.calculateScores(match);
+            logger.log(Level.WARNING,"skipping calculation of scores");
+            //gamblerService.calculateScores(match);
 
         }
     }

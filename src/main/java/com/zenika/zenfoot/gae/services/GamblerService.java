@@ -151,7 +151,8 @@ public class GamblerService {
 
     public void calculateScores(Match match) {
 
-
+        Logger logger = Logger.getLogger(GamblerService.class.getName());
+        logger.log(Level.INFO,"entering calculateScores");
         List<Gambler> gamblers = gamblerRepository.getAll();
         for (Gambler gambler : gamblers) {
             Bet bet = this.getBet(gambler, match);
@@ -164,7 +165,6 @@ public class GamblerService {
                     }
                 }
                 if (gambler.getEmail().equals("jean.bon@zenika.com")) {
-                    Logger logger = Logger.getLogger(GamblerService.class.getName());
                     logger.log(Level.INFO, "Points calculated for Jean Bon : " + gambler.getPoints());
                 }
                this.updateGambler(gambler);
