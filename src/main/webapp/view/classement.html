@@ -2,11 +2,14 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="jumbotron">
-                <p style="text-align: center">
+            <div class="jumbotron classement-jumbo">
+                <p>
                     Vous êtes
                     <strong><span>{{findClassement(gambler)}}</span><sup ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup></strong>
-                    au classement, avec
+                    ,
+                    </p>
+                <p>
+                    avec
                     <strong><span>{{gambler.points}}</span></strong>
                     point<span ng-pluralize count="gambler.points" when="{'0':'','1':'','other':'s'}"></span>
                 </p>

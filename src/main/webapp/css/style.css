@@ -236,6 +236,10 @@ css for side bar
 Some CSS properties on the size of inputs
 */
 
+.jumbotron{
+    height: 50%;
+}
+
 #score-input-1{
     width: 50px;
 }
@@ -273,6 +277,15 @@ Some CSS properties on the size of inputs
 .zen-tab-classt{
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.classement-jumbo{
+    text-align: center;
+}
+
+.classement-jumbo > p {
+    display: inline-block;
+    margin:auto;
 }
 
 .match-title > h2{

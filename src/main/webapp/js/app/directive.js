@@ -48,7 +48,7 @@ zenFootDirectives.directive('popoverInfo', function () {
         link: function (scope, element, attrs) {
             element.on('mouseover', function (event) {
                 event.preventDefault();
-                element.popover({trigger: 'hover'});
+                element.popover({trigger: 'click'});
             })
         }
     }

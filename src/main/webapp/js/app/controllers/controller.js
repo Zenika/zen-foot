@@ -151,8 +151,8 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
     }
 
     $scope.phases={
-        I:{checked:false,fraction:'8', order:1},
-        J:{checked:false,fraction:'quart',order:2},
+        I:{checked:false,fraction:'1/8', order:1},
+        J:{checked:false,fraction:'1/4',order:2},
         K:{checked:false,fraction:'1/2',order:3},
         L:{checked:false,fraction:'finale',order:4}
     }
