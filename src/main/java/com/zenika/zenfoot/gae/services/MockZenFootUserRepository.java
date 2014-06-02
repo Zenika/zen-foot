@@ -19,12 +19,6 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     public MockZenFootUserRepository() {
         this.users = new HashMap<>();
         this.userDao = Factory.getInstance().getComponent(UserDao.class);
-
-
-
-
-
-
     }
 /*
     @Override
@@ -78,7 +72,10 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
         }
     }
     */
-
+    
+    public User getUserbyEmail(String email) {
+    	return userDao.getUser(email);
+    }
 
     @Override
     public boolean isAdminDefined() {

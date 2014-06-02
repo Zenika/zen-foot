@@ -15,11 +15,11 @@ controllers.controller('HelloCtrl', ['$scope', '$resource',
  */
 controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $location) {
     $scope.login = { };
-    
+
     if($rootScope.subscriber != null) {
     	$scope.login = $rootScope.subscriber.login;
     }
-    
+
     $scope.submit = function () {
         $http.post('/api/sessions',
             {principal: {name: $scope.login.email, passwordHash: $scope.login.password}},
@@ -34,7 +34,7 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
                 alert("Authentication error, please try again.");
             });
     };
-    
+
     $scope.subscribe = function() {
 		$location.path('/subscribe');
 	};
@@ -43,13 +43,21 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
 controllers.controller("subscribeCtrl", function($scope, $resource, $http, $rootScope, $location) {
 	$scope.subscriber = {};
 	$rootScope.subscriber = {};
-	
+
 	$scope.subscribe = function() {
 		var Subscription = $resource('/api/performSubscription', {subsriber : $scope.subscriber});
-		Subscription.save($scope.subscriber);
-		$rootScope.subscriber = $scope.subscriber;
-		$location.path('/login');
+		Subscription.save($scope.subscriber, function() {
+			$scope.subscriber.subscriptionSuccess = true;
+			$rootScope.subscriber = $scope.subscriber;
+		});
 	};
+});
+
+controllers.controller("confirmSubscriptionCtrl", function($timeout, $location, $stateParams, $resource) {
+	var confirmSubscription = $resource('/api/confirmSubscription', {email : $stateParams.id});
+	confirmSubscription.get($stateParams.id, function(data) {
+		alert( data == "false" );
+	});
 });
 
 controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope', 'Gambler', function ($scope, betMatchService, postBetService, $rootScope, $q, displayService, Match, Gambler) {

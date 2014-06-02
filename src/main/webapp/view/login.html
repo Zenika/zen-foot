@@ -3,7 +3,7 @@
     <div data-ng-controller="LoginCtrl">
         <h2>Connexion</h2>
         <form name="loginForm" role="form">
-
+			
             <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid && loginForm.user.$dirty}">
                 <label for="user" class="sr-only">Email</label>
                 <div class="input-group">
@@ -57,12 +57,11 @@
                         class="btn btn-primary"
                         data-ng-click="submit()"
                         data-ng-disabled="loginForm.$invalid" />
-                        
-                     <input 
-                     	type="submit" 
-                     	value="S'inscrire" 
-                     	style="width:80px;" 
-                     	class="btn btn-primary" 
+
+                     <input
+                     	type="submit"
+                     	value="S'inscrire"
+                     	class="btn btn-link"
                      	data-ng-click="subscribe()" />
                 </div>
             </div>

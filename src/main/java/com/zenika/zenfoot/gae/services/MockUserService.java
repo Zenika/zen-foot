@@ -39,4 +39,12 @@ public class MockUserService implements UserService<User>{
     public void createUser(User user) {
         zenFootUserRepository.createUser(user);
     }
+    
+    public User getUserByEmail(String email) {
+    	return zenFootUserRepository.getUserbyEmail(email);
+    }
+    
+    public User updateUser(User user) {
+    	return zenFootUserRepository.updateUser(user);
+    }
 }

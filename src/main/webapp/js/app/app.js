@@ -28,6 +28,10 @@ angular.module('zenFoot.app', [
         .state('subscribeState', {
         	url: '/subscribe',
             templateUrl : 'view/subscribe.html'
+    	})
+    	.state('confirmSubscription', {
+    		url : '/confirmSubscription/:id',
+    		templateUrl : 'view/confirmSubscription.html'
     	});
     
     $urlRouterProvider.otherwise('/index');
@@ -50,9 +54,10 @@ angular.module('zenFoot.app', [
     var adminRoute = 'adminState';
     var loginRoute = 'loginState';
     var subscribeState = "subscribeState";
+    var confirmSubscription = "confirmSubscription";
     
     $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
-        if(toState.name == subscribeState) {
+        if(toState.name == subscribeState || toState.name == confirmSubscription) {
             return;
         }
         

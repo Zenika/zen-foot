@@ -1,16 +1,5 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.jackson.Views;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.BetService;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.user.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,12 +17,14 @@ import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
 
+import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.BetService;
 import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.MailSenderService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.MockUserService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
@@ -50,6 +41,7 @@ public class BetResource {
     private BetService betService;
     private GamblerService gamblerService;
     private MockUserService userService;
+    private MailSenderService mailSenderService;
     
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
@@ -61,6 +53,7 @@ public class BetResource {
         this.betService = betService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
+        this.mailSenderService = new MailSenderService();
     }
 
     @GET("/hello")
@@ -186,17 +179,29 @@ public class BetResource {
     
     @POST("/performSubscription")
     @PermitAll
-    public Boolean subscribe(User subscriber){
-		Logger logger = Logger.getLogger(BetResource.class.getName());
+    public void subscribe(User subscriber) {
+        final String subject = "Confirmation d'inscription à Zen Foot";
+        final String urlConfirmation = "<a href='http://localhost:9000/#/confirmSubscription/" +subscriber.getEmail()+ "'> Confirmation d'inscription </a>";
+        final String messageContent = "Mr, Mme" +subscriber.getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
         
-		logger.log(Level.INFO, subscriber.getPrenom() );
-		logger.log(Level.INFO, subscriber.getNom() );
-        logger.log(Level.INFO, subscriber.getEmail() );
-        logger.log(Level.INFO, subscriber.getPasswordHash() );
-        
-        subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
+    	subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
+    	subscriber.setIsActive(Boolean.FALSE);
         userService.createUser(subscriber);
-        return Boolean.TRUE;
+        mailSenderService.sendMail(subscriber.getEmail(), subject, messageContent);
+    }
+    
+    @GET("/confirmSubscription")
+    @PermitAll
+    public String confirmSubscription(String email) {
+    	final User user = userService.getUserByEmail(email);
+    	
+    	if(user != null && user.getIsActive() != null && !user.getIsActive()) {
+    		user.setIsActive(Boolean.TRUE);
+    		userService.updateUser(user);
+    		return Boolean.TRUE.toString();
+    	}
+    	
+    	return Boolean.FALSE.toString();
     }
     
 }
