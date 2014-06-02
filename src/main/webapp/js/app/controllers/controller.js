@@ -15,11 +15,11 @@ controllers.controller('HelloCtrl', ['$scope', '$resource',
  */
 controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $location) {
     $scope.login = { };
-    
+
     if($rootScope.subscriber != null) {
     	$scope.login = $rootScope.subscriber.login;
     }
-    
+
     $scope.submit = function () {
         $http.post('/api/sessions',
             {principal: {name: $scope.login.email, passwordHash: $scope.login.password}},
@@ -34,7 +34,7 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
                 alert("Authentication error, please try again.");
             });
     };
-    
+
     $scope.subscribe = function() {
 		$location.path('/subscribe');
 	};
@@ -43,7 +43,7 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
 controllers.controller("subscribeCtrl", function($scope, $resource, $http, $rootScope, $location) {
 	$scope.subscriber = {};
 	$rootScope.subscriber = {};
-	
+
 	$scope.subscribe = function() {
 		var Subscription = $resource('/api/performSubscription', {subsriber : $scope.subscriber});
 		Subscription.save($scope.subscriber);
