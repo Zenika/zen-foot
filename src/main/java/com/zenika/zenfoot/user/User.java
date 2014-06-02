@@ -22,6 +22,8 @@ public class User implements RestxPrincipal {
 
     private String passwordHash;
 
+    private Boolean isActive;
+    
     //TODO persist DateTime object
     //private transient DateTime lastUpdated;
 
@@ -100,4 +102,12 @@ public class User implements RestxPrincipal {
         if(!(obj instanceof User))return false;
         return ((User)obj).getEmail().equals(this.getEmail());
     }
+    
+    public Boolean getIsActive() {
+		return isActive;
+	}
+    
+    public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
 }
