@@ -23,7 +23,8 @@ public class Team {
         return name;
     }
 
-    public void setName(String name) {
+    public Team setName(String name) {
         this.name = name;
+        return this;
     }
 }

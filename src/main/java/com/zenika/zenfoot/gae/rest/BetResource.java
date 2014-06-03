@@ -211,5 +211,12 @@ public class BetResource {
         gamblerService.createGambler(user,matchService.getMatchs(),registeredTeams);
         return Boolean.TRUE;
     }
+
+    @GET("/teams")
+    @PermitAll
+    public List<Team> getTeams(){
+
+        return teamDAO.getAll();
+    }
     
 }
