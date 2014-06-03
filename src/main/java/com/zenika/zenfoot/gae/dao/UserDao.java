@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.user.User;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.List;
  */
 public interface UserDao {
 
-    void addUser(User user);
+    Key<User> addUser(User user);
 
     User getUser(String email);
+
+    User getUser(Key<User> key);
 
     void deleteUser(String email);
 

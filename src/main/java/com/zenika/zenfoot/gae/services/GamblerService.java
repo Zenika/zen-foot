@@ -7,6 +7,7 @@ import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,9 +88,7 @@ public class GamblerService {
             //Check the bet already existed in the database
             Logger logger = Logger.getLogger(Gambler.class.getName());
 
-            if(bet.getMatchId()==4538783999459328L){
-                
-            }
+
             if(existingBet==null){
                 logger.log(Level.SEVERE,""+bet.getMatchId());
                 logger.log(Level.SEVERE,"tried to update a bet which didn't exist");
@@ -117,14 +116,23 @@ public class GamblerService {
 
 
     public Gambler createGambler(User user, List<Match> matchs) {
-        return createGambler(user,matchs,0);
+        return createGambler(user,matchs,new ArrayList<Team>());
 
     }
 
-    //TODO : remove once the mocked users are removed
+    public Gambler createGambler(User user, List<Match> matchs, List<Team> teams){
+        return createGambler(user,matchs,0,teams);
+    }
+
     public Gambler createGambler(User user, List<Match> matchs, int points){
+        return createGambler(user,matchs,points,new ArrayList<Team>());
+    }
+
+    //TODO : remove once the mocked users are removed
+    public Gambler createGambler(User user, List<Match> matchs, int points, List<Team> teams){
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
+        gambler.setTeams(teams);
         gambler.setPrenom(user.getPrenom());
         gambler.setNom(user.getNom());
         gambler.addPoints(points);

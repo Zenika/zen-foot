@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.user.User;
 import restx.security.UserService;
 
@@ -36,7 +37,11 @@ public class MockUserService implements UserService<User>{
         }
     }
 
-    public void createUser(User user) {
-        zenFootUserRepository.createUser(user);
+    public Key<User> createUser(User user) {
+        return zenFootUserRepository.createUser(user);
+    }
+
+    public User get(Key<User> keyUser) {
+        return zenFootUserRepository.get(keyUser);
     }
 }

@@ -1,11 +1,10 @@
 package com.zenika.zenfoot.gae.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.jackson.Views;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.services.BetService;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
@@ -184,16 +183,20 @@ public class BetResource {
     
     @POST("/performSubscription")
     @PermitAll
-    public Boolean subscribe(User subscriber){
+    public Boolean subscribe(UserAndTeams subscriber){
 		Logger logger = Logger.getLogger(BetResource.class.getName());
         
-		logger.log(Level.INFO, subscriber.getPrenom() );
-		logger.log(Level.INFO, subscriber.getNom() );
-        logger.log(Level.INFO, subscriber.getEmail() );
-        logger.log(Level.INFO, subscriber.getPasswordHash() );
+		logger.log(Level.INFO, subscriber.getUser().getPrenom() );
+		logger.log(Level.INFO, subscriber.getUser().getNom() );
+        logger.log(Level.INFO, subscriber.getUser().getEmail() );
+        logger.log(Level.INFO, subscriber.getUser().getPasswordHash() );
+        logger.log(Level.INFO,""+subscriber.getTeams().size());
+
         
-        subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
-        userService.createUser(subscriber);
+        subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
+        Key<User> keyUser=userService.createUser(subscriber.getUser());
+        User user = userService.get(keyUser);
+        gamblerService.createGambler(user,matchService.getMatchs(),subscriber.getTeams());
         return Boolean.TRUE;
     }
     
