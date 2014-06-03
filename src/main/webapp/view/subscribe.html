@@ -6,7 +6,7 @@
 			F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour la confirmation.
 		</div>
 		
-	    <form class="form-horizontal" action="" method="post"  name="subscriptionForm" role="form">
+	    <form class="form-horizontal" action="" method="post"  name="subscriptionForm" role="form" data-ng-submit="subscriptionForm.$valid && subscribe()" >
 	        <h2 style="text-align: center ; margin-bottom: 30px">S'inscrire</h2>
 	
 	        <div class="form-group">
@@ -21,13 +21,27 @@
 	            <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="Email" required /> <br/>
 	        </div>
 	        
-	        <div class="form-group">
-	            <input type="password" name="password" id="password" class="form-control" data-ng-model="subscriber.passwordHash" placeholder="Mot de passe" required ng-minlength="6" /> <br/>
-	        </div>
-	        
+            <div class="form-group">
+                <input type="password" name="password" id="password" class="form-control" data-ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)" data-ng-minlength="6" required/> <br/>
+                <span class="pwdMismatch" data-ng-show="subscriptionForm.password.$error.minlength">
+                    Le mot de passe doit faire 6 caractères minimum.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" data-ng-model="subscriber.confirmPasswordHash"
+                       placeholder="Entrez à nouveau le mot de passe" data-match="password"
+                       pwd-check="password"
+                       required="required"/> <br/>
+
+                <span class="pwdMismatch" data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch">
+                    Les mots de passe ne sont pas identiques !
+                </span>
+            </div>
+
 	        <div class="form-group">
 	            <div class="controls" style="text-align:center;">
-	                <input type="submit" value="Valider" style="width:80px;" class="btn btn-primary" data-ng-click="subscribe()" />
+	                <input type="submit" value="Valider" style="width:80px;" class="btn btn-primary"/>
 	            </div>
 	        </div>
 	        

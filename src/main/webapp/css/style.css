@@ -350,4 +350,9 @@ Some CSS properties on the size of inputs
 
 }
 
+/*For subscription page*/
+.pwdMismatch{
+    color:red;
+}
+
 
