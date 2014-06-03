@@ -46,7 +46,7 @@ controllers.controller("subscribeCtrl", function($scope, $resource, $http, $root
 	
 	$scope.subscribe = function() {
 		var Subscription = $resource('/api/performSubscription');
-        $scope.subscriber.teams = [{nom:$scope.subscriber.team}];
+        $scope.subscriber.teams = [{name:$scope.subscriber.team}];
         delete $scope.subscriber.team;
 		Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams});
 		$rootScope.subscriber = $scope.subscriber;

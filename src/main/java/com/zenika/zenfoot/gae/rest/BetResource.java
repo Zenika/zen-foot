@@ -3,6 +3,7 @@ package com.zenika.zenfoot.gae.rest;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.jackson.Views;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.services.BetService;
@@ -49,17 +50,19 @@ public class BetResource {
     private BetService betService;
     private GamblerService gamblerService;
     private MockUserService userService;
+    private TeamDAO teamDAO;
     
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
                        @Named("userServiceDev") UserService userService,
-                       GamblerService gamblerService) {
+                       GamblerService gamblerService,TeamDAO teamDAO) {
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
         this.betService = betService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
+        this.teamDAO=teamDAO;
     }
 
     @GET("/hello")
@@ -186,17 +189,26 @@ public class BetResource {
     public Boolean subscribe(UserAndTeams subscriber){
 		Logger logger = Logger.getLogger(BetResource.class.getName());
         
-		logger.log(Level.INFO, subscriber.getUser().getPrenom() );
+		/*logger.log(Level.INFO, subscriber.getUser().getPrenom() );
 		logger.log(Level.INFO, subscriber.getUser().getNom() );
         logger.log(Level.INFO, subscriber.getUser().getEmail() );
         logger.log(Level.INFO, subscriber.getUser().getPasswordHash() );
         logger.log(Level.INFO,""+subscriber.getTeams().size());
-
+*/
         
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
         Key<User> keyUser=userService.createUser(subscriber.getUser());
         User user = userService.get(keyUser);
-        gamblerService.createGambler(user,matchService.getMatchs(),subscriber.getTeams());
+
+        List<Team> registeredTeams=new ArrayList<>();
+        for(Team team:subscriber.getTeams()){
+            logger.log(Level.INFO,"----------------------");
+            logger.log(Level.INFO,"Team name :");
+            logger.log(Level.INFO,team.getName());
+            Key<Team> teamKey = teamDAO.createUpdate(team);
+            registeredTeams.add(teamDAO.get(teamKey));
+        }
+        gamblerService.createGambler(user,matchService.getMatchs(),registeredTeams);
         return Boolean.TRUE;
     }
     

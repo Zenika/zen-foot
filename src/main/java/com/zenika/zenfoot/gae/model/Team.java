@@ -1,10 +1,12 @@
 package com.zenika.zenfoot.gae.model;
 
-import com.googlecode.objectify.annotation.Subclass;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
-@Subclass
+@Entity
 public class Team {
 
+    @Id
     public Long id;
 
     public String name;

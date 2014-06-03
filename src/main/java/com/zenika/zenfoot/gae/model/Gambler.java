@@ -63,6 +63,7 @@ public class Gambler implements IGambler {
 
 
 
+
     public String getEmail() {
         return email;
     }
