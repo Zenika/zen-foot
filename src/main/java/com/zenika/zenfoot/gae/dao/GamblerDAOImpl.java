@@ -17,7 +17,7 @@ public class GamblerDAOImpl implements GamblerDAO {
 
     @Override
     public Key<Gambler> saveGambler(Gambler gambler) {
-//        registerTeams(gambler.getTeams2());
+//        registerTeams(gambler.getStatutTeams());
         Key<Gambler> key = OfyService.ofy().save().entity(gambler).now();
         return key;
     }

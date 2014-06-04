@@ -31,8 +31,8 @@
         <div class="team-profil">
             <h4>Teams auxquelles j'appartiens :</h4>
             <ui>
-                <li data-ng-repeat="team in gambler.teams">
-                    {{team.name}}
+                <li data-ng-show="belongTo(statutTeam)" data-ng-repeat="statutTeam in gambler.statutTeams">
+                    {{statutTeam.team.name}}
                 </li>
             </ui>
 

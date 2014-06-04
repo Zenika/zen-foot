@@ -40,7 +40,7 @@ public class Gambler implements IGambler {
 
     protected Set<Demande> demandes = new HashSet<>();
 
-    protected Set<StatutTeam> teams2=new HashSet<>();
+    protected Set<StatutTeam> statutTeams =new HashSet<>();
 
 
     public Gambler(String email) {
@@ -51,12 +51,12 @@ public class Gambler implements IGambler {
     }
 
 
-    public Set<StatutTeam> getTeams2() {
-        return teams2;
+    public Set<StatutTeam> getStatutTeams() {
+        return statutTeams;
     }
 
-    public void setTeams2(Set<StatutTeam> teams2) {
-        this.teams2 = teams2;
+    public void setStatutTeams(Set<StatutTeam> statutTeams) {
+        this.statutTeams = statutTeams;
     }
 
     public Set<Demande> getDemandes() {

@@ -5,10 +5,7 @@ import com.zenika.zenfoot.gae.model.*;
 
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -169,7 +166,7 @@ public class GamblerService {
     }
 
     public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
-        gambler.setTeams2(registeredTeams);
+        gambler.setStatutTeams(registeredTeams);
 
         gamblerRepository.saveGambler(gambler);
     }
