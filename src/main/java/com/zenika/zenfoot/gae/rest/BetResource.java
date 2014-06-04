@@ -13,9 +13,8 @@ import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.user.User;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -197,7 +196,7 @@ public class BetResource {
         Key<Gambler> gamblerKey= gamblerService.createGambler(user,matchService.getMatchs());
         Gambler gambler = gamblerService.getGambler(gamblerKey);
 
-        List<Team> registeredTeams=new ArrayList<>();
+        Set<Team> registeredTeams=new HashSet<>();
         for(Team team:subscriber.getTeams()){
             Optional<Team> optTeam=  teamDAO.get(team.getName());
 
@@ -210,7 +209,6 @@ public class BetResource {
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
-
             }
             registeredTeams.add(toRegister);
         }

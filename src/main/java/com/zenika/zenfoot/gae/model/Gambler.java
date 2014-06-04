@@ -5,7 +5,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by raphael on 28/04/14.
@@ -34,22 +36,35 @@ public class Gambler implements IGambler {
 
     protected String prenom;
 
-    private List<Team> teams = new ArrayList<>();
+    private Set<Team> teams = new HashSet<>();
 
-    public List<Team> getTeams() {
-        return teams;
-    }
+    protected Set<Demande> demandes = new HashSet<>();
 
-    public Gambler setTeams(List<Team> teams) {
-        this.teams = teams;
-        return this;
-    }
+
 
     public Gambler(String email) {
         this.email = email;
     }
 
     public Gambler() {
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public Gambler setTeams(Set<Team> teams) {
+        this.teams = teams;
+        return this;
+    }
+
+
+    public Set<Demande> getDemandes() {
+        return demandes;
+    }
+
+    public void setDemandes(Set<Demande> demandes) {
+        this.demandes = demandes;
     }
 
     public Long getId() {

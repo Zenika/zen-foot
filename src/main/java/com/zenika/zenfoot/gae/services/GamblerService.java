@@ -8,7 +8,9 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -116,20 +118,20 @@ public class GamblerService {
 
 
     public Key<Gambler> createGambler(User user, List<Match> matchs) {
-        return createGambler(user,matchs,new ArrayList<Team>());
+        return createGambler(user,matchs,new HashSet<Team>());
 
     }
 
-    public Key<Gambler> createGambler(User user, List<Match> matchs, List<Team> teams){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, Set<Team> teams){
         return createGambler(user,matchs,0,teams);
     }
 
     public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
-        return createGambler(user,matchs,points,new ArrayList<Team>());
+        return createGambler(user, matchs, points, new HashSet<Team>());
     }
 
     //TODO : remove once the mocked users are removed
-    public Key<Gambler> createGambler(User user, List<Match> matchs, int points, List<Team> teams){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, int points, Set<Team> teams){
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setTeams(teams);
@@ -173,7 +175,7 @@ public class GamblerService {
         }
     }
 
-    public void updateTeams(List<Team> registeredTeams, Gambler gambler) {
+    public void updateTeams(Set<Team> registeredTeams, Gambler gambler) {
         gambler.setTeams(registeredTeams);
         gamblerRepository.saveGambler(gambler);
     }
