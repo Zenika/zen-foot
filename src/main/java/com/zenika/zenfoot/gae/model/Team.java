@@ -3,6 +3,7 @@ package com.zenika.zenfoot.gae.model;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Team {
@@ -10,6 +11,7 @@ public class Team {
     @Id
     public Long id;
 
+    @Index
     public String name;
 
     protected String ownerEmail;

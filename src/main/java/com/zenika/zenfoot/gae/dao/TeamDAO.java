@@ -42,6 +42,9 @@ public class TeamDAO {
             if(team.size()>0){
                 toRet = team.get(0);
             }
+            else{
+
+            }
         }
         return Optional.fromNullable(toRet);
     }

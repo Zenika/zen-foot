@@ -207,7 +207,6 @@ public class BetResource {
                 toRegister = optTeam.get();
             }
             else{ //The team was created by the user and thus, the latter is the owner of it
-
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
