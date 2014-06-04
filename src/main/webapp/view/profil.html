@@ -1,0 +1,50 @@
+<div class="row" data-ng-controller="ProfilCtrl">
+    <div class="col-sm-12">
+        <p>
+
+        <h2>Page de profil</h2>
+        </p>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                Informations du profil
+            </div>
+            <table class="table">
+                <tr>
+                    <td>Nom :</td>
+                    <td>{{user.nom}}</td>
+                </tr>
+                <tr>
+                    <td>Prénom :</td>
+                    <td>{{user.prenom}}</td>
+                </tr>
+                <tr>
+                    <td>Email :</td>
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <p>
+
+        <h3>Gestion des teams</h3>
+        </p>
+        <div class="team-profil">
+            <h4>Teams auxquelles j'appartiens :</h4>
+            <ui>
+                <li data-ng-repeat="team in gambler.teams">
+                    {{team.name}}
+                </li>
+            </ui>
+
+            <h4>Teams dont je suis propriétaire :</h4>
+            <ui>
+                <li data-ng-repeat="team in getOwnerTeams()">
+                    {{team.name}}
+                </li>
+            </ui>
+
+            <h4>Ils veulent vous rejoindre :</h4>
+        </div>
+
+    </div>
+</div>

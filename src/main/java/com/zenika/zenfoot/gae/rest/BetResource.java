@@ -52,18 +52,18 @@ public class BetResource {
     private GamblerService gamblerService;
     private MockUserService userService;
     private TeamDAO teamDAO;
-    
+
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
                        @Named("userServiceDev") UserService userService,
-                       GamblerService gamblerService,TeamDAO teamDAO) {
+                       GamblerService gamblerService, TeamDAO teamDAO) {
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
         this.betService = betService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
-        this.teamDAO=teamDAO;
+        this.teamDAO = teamDAO;
     }
 
     @GET("/hello")
@@ -113,12 +113,10 @@ public class BetResource {
     public List<MatchAndBet> getBets() {
         Logger logger = Logger.getLogger(BetResource.class.getName());
         User user = sessionInfo.getUser();
-        logger.log(Level.ALL,"retrieving user "+user.getEmail());
+        logger.log(Level.ALL, "retrieving user " + user.getEmail());
 
         Gambler gambler = gamblerService.get(user);
         List<Match> matchs = matchService.getMatchs();
-
-
 
 
         gamblerService.updateBets(gambler);
@@ -173,7 +171,7 @@ public class BetResource {
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING,user.getEmail());
+        logger.log(Level.WARNING, user.getEmail());
         Gambler gambler = gamblerService.get(user);
 
         return gambler;
@@ -181,47 +179,49 @@ public class BetResource {
 
     @GET("/gamblers")
     @RolesAllowed(Roles.GAMBLER)
-    public List<Gambler> getGamblers(){
+    public List<Gambler> getGamblers() {
         return gamblerService.getAll();
     }
 
     @POST("/performSubscription")
     @PermitAll
-    public Boolean subscribe(UserAndTeams subscriber){
+    public Boolean subscribe(UserAndTeams subscriber) {
         Logger logger = Logger.getLogger(BetResource.class.getName());
 
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
-        Key<User> keyUser=userService.createUser(subscriber.getUser());
+        Key<User> keyUser = userService.createUser(subscriber.getUser());
         User user = userService.get(keyUser);
-        Key<Gambler> gamblerKey= gamblerService.createGambler(user,matchService.getMatchs());
+        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
         Gambler gambler = gamblerService.getGambler(gamblerKey);
 
-        Set<Team> registeredTeams=new HashSet<>();
-        for(Team team:subscriber.getTeams()){
-            Optional<Team> optTeam=  teamDAO.get(team.getName());
+        Set<StatutTeam> testSet = new HashSet<>();
 
-            Team toRegister=null;
+        for (Team team : subscriber.getTeams()) {
+            Optional<Team> optTeam = teamDAO.get(team.getName());
 
-            if(optTeam.isPresent()){ // Team has already been created
+            Team toRegister = null;
+
+            if (optTeam.isPresent()) { // Team has already been created
                 toRegister = optTeam.get();
-            }
-            else{ //The team was created by the user and thus, the latter is the owner of it
+            } else { //The team was created by the user and thus, the latter is the owner of it
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
             }
-            registeredTeams.add(toRegister);
+
+
         }
 
-        gamblerService.updateTeams(registeredTeams,gambler);
+
+        gamblerService.updateTeams(testSet, gambler);
         return Boolean.TRUE;
     }
 
     @GET("/teams")
     @PermitAll
-    public List<Team> getTeams(){
+    public List<Team> getTeams() {
 
         return teamDAO.getAll();
     }
-    
+
 }

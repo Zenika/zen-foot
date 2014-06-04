@@ -117,24 +117,17 @@ public class GamblerService {
     }
 
 
-    public Key<Gambler> createGambler(User user, List<Match> matchs) {
-        return createGambler(user,matchs,new HashSet<Team>());
 
+
+    public Key<Gambler> createGambler(User user, List<Match> matchs){
+        return createGambler(user,matchs,0);
     }
 
-    public Key<Gambler> createGambler(User user, List<Match> matchs, Set<Team> teams){
-        return createGambler(user,matchs,0,teams);
-    }
-
-    public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
-        return createGambler(user, matchs, points, new HashSet<Team>());
-    }
 
     //TODO : remove once the mocked users are removed
-    public Key<Gambler> createGambler(User user, List<Match> matchs, int points, Set<Team> teams){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
-        gambler.setTeams(teams);
         gambler.setPrenom(user.getPrenom());
         gambler.setNom(user.getNom());
         gambler.addPoints(points);
@@ -175,8 +168,9 @@ public class GamblerService {
         }
     }
 
-    public void updateTeams(Set<Team> registeredTeams, Gambler gambler) {
-        gambler.setTeams(registeredTeams);
+    public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
+        gambler.setTeams2(registeredTeams);
+
         gamblerRepository.saveGambler(gambler);
     }
 }

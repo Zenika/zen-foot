@@ -2,8 +2,10 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.StatutTeam;
 
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,11 +17,21 @@ public class GamblerDAOImpl implements GamblerDAO {
 
     @Override
     public Key<Gambler> saveGambler(Gambler gambler) {
-        OfyService.ofy().save().entities(gambler.getTeams());
+//        registerTeams(gambler.getTeams2());
         Key<Gambler> key = OfyService.ofy().save().entity(gambler).now();
         return key;
     }
 
+    /**
+     * We have to register teams before registering a gambler, in order to have their ID generated.
+     * @param statutTeams
+     */
+    private void registerTeams(Set<StatutTeam> statutTeams){
+        for(StatutTeam statutTeam : statutTeams){
+            OfyService.ofy().save().entity(statutTeam.getTeam());
+
+        }
+    }
 
     @Override
     public Gambler getGambler(Long id) {

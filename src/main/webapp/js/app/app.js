@@ -28,7 +28,11 @@ angular.module('zenFoot.app', [
         .state('subscribeState', {
         	url: '/subscribe',
             templateUrl : 'view/subscribe.html'
-    	});
+    	})
+        .state('profilState',{
+            url:'/profil',
+            templateUrl:'view/profil.html'
+        })
     
     $urlRouterProvider.otherwise('/index');
 

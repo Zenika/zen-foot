@@ -19,7 +19,6 @@ public class OfyService {
         factory().register(Match.class);
         factory().register(Gambler.class);
         factory().register(Team.class);
-
     }
 
     public static Objectify ofy(){

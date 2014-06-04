@@ -24,6 +24,7 @@ public class Gambler implements IGambler {
     //@JsonView(Views.GamblerView.class)
     protected List<Bet> bets = new ArrayList<Bet>();
 
+
     protected int points=0;
 
     /**
@@ -36,10 +37,10 @@ public class Gambler implements IGambler {
 
     protected String prenom;
 
-    private Set<Team> teams = new HashSet<>();
 
     protected Set<Demande> demandes = new HashSet<>();
 
+    protected Set<StatutTeam> teams2=new HashSet<>();
 
 
     public Gambler(String email) {
@@ -49,15 +50,14 @@ public class Gambler implements IGambler {
     public Gambler() {
     }
 
-    public Set<Team> getTeams() {
-        return teams;
+
+    public Set<StatutTeam> getTeams2() {
+        return teams2;
     }
 
-    public Gambler setTeams(Set<Team> teams) {
-        this.teams = teams;
-        return this;
+    public void setTeams2(Set<StatutTeam> teams2) {
+        this.teams2 = teams2;
     }
-
 
     public Set<Demande> getDemandes() {
         return demandes;
@@ -112,12 +112,9 @@ public class Gambler implements IGambler {
         return this.bets;
     }
 
-
     public int getPoints() {
         return points;
     }
-
-
 
     public void addPoints(int points){
         this.points+=points;
