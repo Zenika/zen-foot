@@ -17,7 +17,7 @@ public class MailSenderService {
 	private final Session session;
 	private final Logger logger;
 	private final Message message;
-	private final static String FROM_EMAIL_ADDRESS = "zen-foot@zenika.com"; 
+	private final static String FROM_EMAIL_ADDRESS = "raphael.martignoni@zenika.com";
 	
 	public MailSenderService() {
 		properties = new Properties();
