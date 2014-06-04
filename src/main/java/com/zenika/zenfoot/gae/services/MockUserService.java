@@ -1,10 +1,17 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.google.common.base.Optional;
-import com.zenika.zenfoot.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import restx.security.UserService;
 
+import com.google.common.hash.Hashing;
+import com.google.common.base.Optional;
+import com.zenika.zenfoot.user.User;
+
 public class MockUserService implements UserService<User>{
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MockUserService.class);
 
     private final MockZenFootUserRepository zenFootUserRepository;
 
@@ -20,14 +27,14 @@ public class MockUserService implements UserService<User>{
 
     @Override
     public Optional<User> findAndCheckCredentials(String email, String passwordHash) {
-
         Optional<User> toRet = zenFootUserRepository.findUserByName(email);
+        
         if(!toRet.isPresent()) return toRet;
 
         Optional<String> credentials = zenFootUserRepository.findCredentialByUserName(email);
         if(!credentials.isPresent()) return Optional.absent();
 
-        boolean returns = credentials.get().equals(passwordHash);
+        boolean returns = credentials.get().equals(getPasswordHash(passwordHash));
         if(returns){
             return toRet;
         }
@@ -37,6 +44,8 @@ public class MockUserService implements UserService<User>{
     }
 
     public void createUser(User user) {
+    	String password = user.getPasswordHash();
+    	user.setPasswordHash(getPasswordHash(password));
         zenFootUserRepository.createUser(user);
     }
     
@@ -47,4 +56,15 @@ public class MockUserService implements UserService<User>{
     public User updateUser(User user) {
     	return zenFootUserRepository.updateUser(user);
     }
+    
+    private String getPasswordHash(String password) {
+    	String passwordHash = Hashing.sha256()
+    			.hashUnencodedChars(password)
+    			.toString();
+    	
+    	LOGGER.debug("Password \"{}\" hashed into \"{}\"", password, passwordHash);
+    	
+    	return passwordHash;
+    }
+    
 }
