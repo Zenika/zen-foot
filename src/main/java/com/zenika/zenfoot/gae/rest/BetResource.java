@@ -1,7 +1,9 @@
 package com.zenika.zenfoot.gae.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.jackson.Views;
@@ -183,32 +185,38 @@ public class BetResource {
     public List<Gambler> getGamblers(){
         return gamblerService.getAll();
     }
-    
+
     @POST("/performSubscription")
     @PermitAll
     public Boolean subscribe(UserAndTeams subscriber){
-		Logger logger = Logger.getLogger(BetResource.class.getName());
-        
-		/*logger.log(Level.INFO, subscriber.getUser().getPrenom() );
-		logger.log(Level.INFO, subscriber.getUser().getNom() );
-        logger.log(Level.INFO, subscriber.getUser().getEmail() );
-        logger.log(Level.INFO, subscriber.getUser().getPasswordHash() );
-        logger.log(Level.INFO,""+subscriber.getTeams().size());
-*/
-        
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
         Key<User> keyUser=userService.createUser(subscriber.getUser());
         User user = userService.get(keyUser);
+        Key<Gambler> gamblerKey= gamblerService.createGambler(user,matchService.getMatchs());
+        Gambler gambler = gamblerService.getGambler(gamblerKey);
 
         List<Team> registeredTeams=new ArrayList<>();
         for(Team team:subscriber.getTeams()){
-            logger.log(Level.INFO,"----------------------");
-            logger.log(Level.INFO,"Team name :");
-            logger.log(Level.INFO,team.getName());
-            Key<Team> teamKey = teamDAO.createUpdate(team);
-            registeredTeams.add(teamDAO.get(teamKey));
+            Optional<Team> optTeam=  teamDAO.get(team.getName());
+
+            Team toRegister=null;
+
+            if(optTeam.isPresent()){ // Team has already been created
+                toRegister = optTeam.get();
+            }
+            else{ //The team was created by the user and thus, the latter is the owner of it
+
+                team.setOwnerEmail(gambler.getEmail());
+                Key<Team> teamKey = teamDAO.createUpdate(team);
+                toRegister = teamDAO.get(teamKey);
+
+            }
+            registeredTeams.add(toRegister);
         }
-        gamblerService.createGambler(user,matchService.getMatchs(),registeredTeams);
+
+        gamblerService.updateTeams(registeredTeams,gambler);
         return Boolean.TRUE;
     }
 

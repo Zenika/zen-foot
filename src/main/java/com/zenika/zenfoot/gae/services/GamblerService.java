@@ -115,21 +115,21 @@ public class GamblerService {
     }
 
 
-    public Gambler createGambler(User user, List<Match> matchs) {
+    public Key<Gambler> createGambler(User user, List<Match> matchs) {
         return createGambler(user,matchs,new ArrayList<Team>());
 
     }
 
-    public Gambler createGambler(User user, List<Match> matchs, List<Team> teams){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, List<Team> teams){
         return createGambler(user,matchs,0,teams);
     }
 
-    public Gambler createGambler(User user, List<Match> matchs, int points){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
         return createGambler(user,matchs,points,new ArrayList<Team>());
     }
 
     //TODO : remove once the mocked users are removed
-    public Gambler createGambler(User user, List<Match> matchs, int points, List<Team> teams){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, int points, List<Team> teams){
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setTeams(teams);
@@ -143,15 +143,17 @@ public class GamblerService {
             Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
         }
-        Key<Gambler> key= this.gamblerRepository.saveGambler(gambler);
-        Gambler toRet = gamblerRepository.getGambler(key);
-        logger.log(Level.WARNING,"after retrieving gambler, there are "+toRet.getBets().size()+" bets");
+        Key<Gambler> toRet= this.gamblerRepository.saveGambler(gambler);
         return toRet;
     }
 
     public Gambler updateGambler(Gambler gambler) {
         gamblerRepository.saveGambler(gambler);
         return getFromEmail(gambler.getEmail());
+    }
+
+    public Gambler getGambler(Key<Gambler> gamblerKey){
+        return gamblerRepository.getGambler(gamblerKey);
     }
 
     public void calculateScores(Match match) {
@@ -169,5 +171,10 @@ public class GamblerService {
                 }
             }
         }
+    }
+
+    public void updateTeams(List<Team> registeredTeams, Gambler gambler) {
+        gambler.setTeams(registeredTeams);
+        gamblerRepository.saveGambler(gambler);
     }
 }

@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -10,6 +11,8 @@ public class Team {
     public Long id;
 
     public String name;
+
+    protected String ownerEmail;
 
     public Team() {
 
@@ -26,5 +29,21 @@ public class Team {
     public Team setName(String name) {
         this.name = name;
         return this;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
