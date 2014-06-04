@@ -3,9 +3,11 @@
  */
 var zenfootModule = angular.module('zenFoot.app');
 
-zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', function ($resource, Gambler, $scope) {
+zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope','Joiners', function ($resource, Gambler, $scope,Joiners) {
 
     $scope.gambler = Gambler.get();
+
+    $scope.joiners = Joiners.getAll();
 
 
     var isOwner = function (statutTeam) {

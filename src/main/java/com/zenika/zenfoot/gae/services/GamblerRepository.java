@@ -40,4 +40,8 @@ public class GamblerRepository {
     public List<Gambler> getAll(){
         return gamblerDAO.getAll();
     }
+
+    public List<Gambler> wantToJoin(String teamName) {
+        return gamblerDAO.gamblersWannaJoin(teamName);
+    }
 }

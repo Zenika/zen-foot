@@ -219,11 +219,20 @@ public class BetResource {
         return Boolean.TRUE;
     }
 
+    @GET("/wannajoin")
+    @RolesAllowed(Roles.GAMBLER)
+    public Set<Gambler> wantToJoin(){
+        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        return gamblerService.wantToJoin(gambler);
+    }
+
     @GET("/teams")
     @PermitAll
     public List<Team> getTeams() {
 
         return teamDAO.getAll();
     }
+
+
 
 }

@@ -25,4 +25,7 @@ public interface GamblerDAO {
 
     Gambler getGamblerFromEmail(String email);
 
+
+    List<Gambler> gamblersWannaJoin(String name);
+
 }

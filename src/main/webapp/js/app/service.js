@@ -189,5 +189,13 @@ zenFootService.factory('Session', function ($resource) {
         }
     }])
 
+.factory('Joiners',['$resource',function($resource){
+        return {
+            getAll:function(){
+                return $resource('/api/wannajoin').query();
+            }
+        }
+    }])
+
 
 

@@ -72,24 +72,26 @@ public class GamblerDAOImpl implements GamblerDAO {
     public Gambler getGamblerFromEmail(String email) {
 
 
-                List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(1).list();
-                Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
+        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(1).list();
+        Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
 
-                Gambler toRet = null;
-                if (gamblers == null) logger.log(Level.SEVERE, "No gambler found with email " + email);
-                if (gamblers != null && gamblers.size() > 0) {
-                    System.out.println("looking for " + email);
-                    System.out.println(gamblers.size() + " gamblers found");
-                    toRet = gamblers.get(0);
-                } else {
-                    logger.log(Level.SEVERE, "No gambler found with email " + email);
-                }
-                return toRet;
-            }
+        Gambler toRet = null;
+        if (gamblers == null) logger.log(Level.SEVERE, "No gambler found with email " + email);
+        if (gamblers != null && gamblers.size() > 0) {
+            System.out.println("looking for " + email);
+            System.out.println(gamblers.size() + " gamblers found");
+            toRet = gamblers.get(0);
+        } else {
+            logger.log(Level.SEVERE, "No gambler found with email " + email);
+        }
+        return toRet;
+    }
 
-
-
-
+    @Override
+    public List<Gambler> gamblersWannaJoin(String name) {
+        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name",name).list();
+        return gamblers;
+    }
 
 
 }

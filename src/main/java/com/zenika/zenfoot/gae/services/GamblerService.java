@@ -6,6 +6,7 @@ import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -170,4 +171,29 @@ public class GamblerService {
 
         gamblerRepository.saveGambler(gambler);
     }
+
+    private Set<Team> isOwnerOf(Gambler gambler){
+        Set<Team> set = new HashSet<>();
+        for(StatutTeam statutTeam:gambler.getStatutTeams()){
+            Team team = statutTeam.getTeam();
+            if(team.getOwnerEmail().equals(gambler.getEmail())){
+                set.add(team);
+            }
+        }
+        return set;
+    }
+
+    public Set<Gambler> wantToJoin(Gambler gambler) {
+        Set<Team> ownedTeams = isOwnerOf(gambler);
+        Set<Gambler> joining = new HashSet<>();
+
+        for(Team team : ownedTeams){
+            joining.addAll(gamblerRepository.wantToJoin(team.getName()));
+        }
+
+        return joining;
+    }
+
+
+
 }

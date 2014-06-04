@@ -40,6 +40,7 @@ public class Gambler implements IGambler {
 
     protected Set<Demande> demandes = new HashSet<>();
 
+    @Index
     protected Set<StatutTeam> statutTeams =new HashSet<>();
 
 
