@@ -72,7 +72,7 @@ public class GamblerDAOImpl implements GamblerDAO {
     public Gambler getGamblerFromEmail(String email) {
 
 
-        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(1).list();
+        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(0).list();
         Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
 
         Gambler toRet = null;

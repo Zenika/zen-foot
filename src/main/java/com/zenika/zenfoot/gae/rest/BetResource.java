@@ -171,16 +171,33 @@ public class BetResource {
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING, user.getEmail());
+        logger.log(Level.INFO, "current gambler is "+user.getEmail());
+
         Gambler gambler = gamblerService.get(user);
+        logger.log(Level.INFO,"id of gambler : "+gambler.getId()+" ("+gambler.getNom()+")");
 
         return gambler;
+    }
+
+    @GET("/gambler/{email}")
+    @PermitAll
+    public Gambler getGambler(String email){
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        logger.log(Level.INFO,email);
+        return gamblerService.getFromEmail(email);
     }
 
     @GET("/gamblers")
     @RolesAllowed(Roles.GAMBLER)
     public List<Gambler> getGamblers() {
         return gamblerService.getAll();
+    }
+
+    @POST("/joiner")
+    @RolesAllowed(Roles.GAMBLER)
+    public Gambler postJoiner(Gambler gambler){
+
+        return gamblerService.updateGambler(gambler);
     }
 
     @POST("/performSubscription")
@@ -200,6 +217,7 @@ public class BetResource {
             Optional<Team> optTeam = teamDAO.get(team.getName());
 
             Team toRegister = null;
+            boolean owner = false;
 
             if (optTeam.isPresent()) { // Team has already been created
                 toRegister = optTeam.get();
@@ -209,8 +227,9 @@ public class BetResource {
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
+                owner = true;
             }
-            testSet.add(new StatutTeam().setTeam(toRegister));
+            testSet.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
 
         }
 
