@@ -40,17 +40,11 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
 	};
 });
 
-controllers.controller("subscribeCtrl", function($scope, $resource, $http, $rootScope, $location) {
-	$scope.subscriber = {teams:[{name:""}]};
+controllers.controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$location','$modal',function($scope, $resource, $http, $rootScope, $location,$modal) {
+	$scope.subscriber = {teams:[{name:"",isNew:false}]};
 	$rootScope.subscriber = {};
 	
-	$scope.subscribe = function() {
-        checkTeams();
-		var Subscription = $resource('/api/performSubscription');
-		Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams});
-		$rootScope.subscriber = $scope.subscriber;
-		$location.path('/login');
-	};
+
 
     var checkTeams= function (){
         for(var x in $scope.subscriber.teams){
@@ -60,6 +54,33 @@ controllers.controller("subscribeCtrl", function($scope, $resource, $http, $root
         }
     }
 
+    var subscribe = function() {
+        checkTeams();
+        var Subscription = $resource('/api/performSubscription');
+        Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams});
+        $rootScope.subscriber = $scope.subscriber;
+        $location.path('/login');
+    };
+
+    var subscribeGroups= function(){
+        var modalInstance = $modal.open({backdrop:'static',scope:$scope,templateUrl:'view/modal-sub.html'})
+        $scope.modalInstance= modalInstance
+
+        modalInstance.result.then(function(response){
+            if(response==true){
+                subscribe()
+            }
+        })
+    }
+
+    var hasNewGroup=function(){
+        for(var x in $scope.subscriber.teams){
+            if($scope.subscriber.teams[x].isNew){
+                return true;
+            }
+            return false;
+        }
+    }
 
    function loadTeams(){
        console.log("called")
@@ -67,7 +88,29 @@ controllers.controller("subscribeCtrl", function($scope, $resource, $http, $root
         $scope.existingTeams=teams;
     };
     loadTeams();
-});
+
+
+    $scope.valider=function(){
+        if(hasNewGroup()){
+            subscribeGroups()
+        }
+        else{
+            subscribe()
+        }
+
+    }
+
+    $scope.ok=function(){
+        $scope.modalInstance.close(true);
+    }
+
+    $scope.cancel=function(){
+        $scope.modalInstance.dismiss();
+    }
+
+
+
+}]);
 
 controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope', 'Gambler', function ($scope, betMatchService, postBetService, $rootScope, $q, displayService, Match, Gambler) {
 

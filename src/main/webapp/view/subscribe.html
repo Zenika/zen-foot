@@ -6,43 +6,55 @@
             <h2 style="text-align: center ; margin-bottom: 30px">S'inscrire</h2>
 
             <div class="form-group">
-                <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name"
-                       placeholder="Nom" required/> <br/>
+                <div class="col-sm-11">
+                    <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name"
+                           placeholder="Nom" required/>
+                </div>
             </div>
 
             <div class="form-group">
-                <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom"
-                       placeholder="Prenom" required/> <br/>
+                <div class="col-sm-11">
+                    <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom"
+                           placeholder="Prenom" required/>
+                </div>
             </div>
 
 
             <div class="form-group">
-                <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email"
-                       placeholder="Email" required/> <br/>
+                <div class="col-sm-11">
+                    <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email"
+                           placeholder="Email" required/>
+                </div>
             </div>
 
             <div class="form-group">
-                <input type="password" name="password" id="password" class="form-control"
-                       data-ng-model="subscriber.passwordHash" placeholder="Mot de passe" required ng-minlength="6"/>
-                <br/>
+                <div class="col-sm-11">
+                    <input type="password" name="password" id="password" class="form-control"
+                           data-ng-model="subscriber.passwordHash" placeholder="Mot de passe" required
+                           ng-minlength="6"/>
+                </div>
             </div>
 
-            <ng-form name="teamForm" generate-input data-ng-repeat="team in subscriber.teams">
-
+            <ng-form new-team name="teamForm" generate-input data-ng-repeat="team in subscriber.teams">
                 <div class="form-group">
-                    <input type="text" class="form-control" data-ng-model="team.name"
-                           placeholder="Team"
-                           typeahead-loading="loadingTeams"
-                           typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"/>
-                    <br/>
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" data-ng-model="team.name"
+                               placeholder="Team"
+                               typeahead-loading="loadingTeams"
+                               typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <span class="label label-danger" data-ng-show="team.isNew">nouveau</span>
+                    </div>
+
                 </div>
 
             </ng-form>
-
+{{confirmation}}
             <div class="form-group">
                 <div class="controls" style="text-align:center;">
                     <input type="submit" value="Valider" style="width:80px;" class="btn btn-primary"
-                           data-ng-click="subscribe()"/>
+                           data-ng-click="valider()"/>
                 </div>
             </div>
 

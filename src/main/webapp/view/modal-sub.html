@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h3 class="modal-title">Création de ligue</h3>
+</div>
+<div class="modal-body">
+    <div>
+        Vous vous apprêtez à créer les ligues suivantes :
+    </div>
+    <div>
+        <ul>
+            <li data-ng-show="team.isNew" data-ng-repeat="team in subscriber.teams">
+                {{team.name}}
+
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">annuler</button>
+    </div>
+</div>

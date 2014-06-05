@@ -77,3 +77,24 @@ zenFootDirectives.directive('generateInput', function () {
         }}
 
 })
+
+zenFootDirectives.directive('newTeam',function(){
+
+    var isNew=function(team, regTeams){
+        var result=_.find(regTeams,function(regTeam){
+            console.log("regTeam: "+regTeam.name)
+            console.log("team : "+team.name)
+            return regTeam.name==team.name
+        })
+        team.isNew=(result==undefined)&&team.name.trim()!=""
+    }
+    return {
+        link:function(scope,element,attrs){
+            scope.$watch("team.name",function(newValue,oldValue){
+                if(newValue!=oldValue){
+                    isNew(scope.team,scope.existingTeams);
+                }
+            })
+        }
+    }
+})
