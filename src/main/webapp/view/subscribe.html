@@ -6,24 +6,43 @@
 			F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour la confirmation.
 		</div>
 		
-	    <form class="form-horizontal" action="" method="post"  name="subscriptionForm" role="form" data-ng-submit="subscriptionForm.$valid && subscribe()" >
+	    <form class="form-horizontal" action="" method="post"  name="subscriptionForm" role="form" novalidate>
 	        <h2 style="text-align: center ; margin-bottom: 30px">S'inscrire</h2>
 	
 	        <div class="form-group">
 	            <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name" placeholder="Nom" required /> <br/>
+	            
+	            <span class="error" data-ng-show="subscriptionForm.name.$error.required">
+                    Le nom doit être renseigné.
+                </span>
 	        </div>
 	        
 	        <div class="form-group">
 	            <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom" placeholder="Prenom" required /> <br/>
+	            
+	            <span class="error" data-ng-show="subscriptionForm.prenom.$error.required">
+                    Le prénom doit être renseigné.
+                </span>
 	        </div>
 	        
 	        <div class="form-group">
 	            <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="Email" required /> <br/>
+	            
+	            <span class="error" data-ng-show="subscriptionForm.email.$error.required">
+                    L'email doit être renseigné.
+                </span>
+                <span class="error" data-ng-show="subscriptionForm.email.$error.email">
+                    L'email doit être valide.
+                </span>
 	        </div>
 	        
             <div class="form-group">
                 <input type="password" name="password" id="password" class="form-control" data-ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)" data-ng-minlength="6" required/> <br/>
-                <span class="pwdMismatch" data-ng-show="subscriptionForm.password.$error.minlength">
+                
+                <span class="error" data-ng-show="subscriptionForm.password.$error.required">
+                    Le mot de passe doit être renseigné.
+                </span>
+                <span class="error" data-ng-show="subscriptionForm.password.$error.minlength">
                     Le mot de passe doit faire 6 caractères minimum.
                 </span>
             </div>
@@ -34,14 +53,16 @@
                        pwd-check="password"
                        required="required"/> <br/>
 
-                <span class="pwdMismatch" data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch">
+                <span class="error" data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch">
                     Les mots de passe ne sont pas identiques !
                 </span>
             </div>
 
 	        <div class="form-group">
 	            <div class="controls" style="text-align:center;">
-	                <input type="submit" value="Valider" style="width:80px;" class="btn btn-primary"/>
+	                <button style="width:80px;" class="btn btn-primary" data-ng-click="subscribe()" data-ng-disabled="subscriptionForm.$invalid">
+	                	Valider
+	                </button>
 	            </div>
 	        </div>
 	        

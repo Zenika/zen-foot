@@ -17,7 +17,6 @@ import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
 
-import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
@@ -181,8 +180,8 @@ public class BetResource {
     @PermitAll
     public void subscribe(User subscriber) {
         final String subject = "Confirmation d'inscription à Zen Foot";
-        final String urlConfirmation = "<a href='http://localhost:9000/#/confirmSubscription/" +subscriber.getEmail()+ "'> Confirmation d'inscription </a>";
-        final String messageContent = "Mr, Mme" +subscriber.getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+        final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getEmail() + "'> Confirmation d'inscription </a>";
+        final String messageContent = "Mr, Mme " +subscriber.getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
         
     	subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
     	subscriber.setIsActive(Boolean.FALSE);
@@ -202,6 +201,28 @@ public class BetResource {
     	}
     	
     	return Boolean.FALSE.toString();
+    }
+    
+    private static String getUrlConfirmation() {
+    	String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
+    	
+    	return urlConfirmation;
+    }
+    
+    private static String getHostUrl() {
+    	String hostUrl = null;
+    	String environment = System.getProperty("com.google.appengine.runtime.environment");
+    	
+    	if ("Production".equals(environment)) {
+    	    String applicationId = System.getProperty("com.google.appengine.application.id");
+    	    String version = System.getProperty("com.google.appengine.application.version");
+    	    // TODO Utiliser http://zenfoo.fr comme hostUrl.
+    	    hostUrl = "http://" + version + "." + applicationId + ".appspot.com";
+    	} else {
+    	    hostUrl = "http://localhost:8080";
+    	}
+    	
+    	return hostUrl;
     }
     
 }
