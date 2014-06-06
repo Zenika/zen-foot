@@ -55,6 +55,13 @@ grunt
 ```
 
 On Google App Engine (GAE) :
+
+BEFORE DEPLOYING ANYTHING :
+We are using RestX dependency injection system to inject matches in dev mode. When you deploy on GAE, you have to disable the injection for that data. In order to do this, you'll have to modify the following classes :
+
+- In ModelModule : change the @Named annotation which is before the parameter of the method from @Named("matchRepoDev") to @Named("matchRepoGAE")
+- In UserModule : change the @Named annotation which is before the parameter of the method from @Named("userServiceDev") to @Named("userServiceGAE")
+
 ---
 
 If you are contributing to zenfoot, you won't have to deploy the application to app engine, as we are functioning
