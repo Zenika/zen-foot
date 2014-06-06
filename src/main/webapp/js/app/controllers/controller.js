@@ -87,6 +87,9 @@ controllers.controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootS
 
 
     $scope.valider=function(){
+        if ($scope.subscriptionForm.$invalid){
+            return;
+        }
         if(Team.hasNewGroup($scope.subscriber.teams)){
             subscribeGroups()
         }
@@ -115,7 +118,10 @@ controllers.controller("confirmSubscriptionCtrl", function($timeout, $location, 
 	});
 });
 
-controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope', 'Gambler', function ($scope, betMatchService, postBetService, $rootScope, $q, displayService, Match, Gambler) {
+controllers.controller('MatchCtrl', ['$scope', '$timeout', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope', 'Gambler', function ($scope, $timeout, betMatchService, postBetService, $rootScope, $q, displayService, Match, Gambler) {
+
+    $scope.betSavedSuccess = false;
+    $scope.betSavedError = false;
 
     betMatchService.getAll().$promise.then(function (matchs) {
         $scope.matchsBets = _.groupBy(matchs, function (matchBet) {
@@ -253,12 +259,20 @@ controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetServic
      * Posts the result to the restx backend. Called within checkscores, only if no score was assigned 0 value automatically
      */
     var postBets = function () {
+        $scope.betSavedSuccess = false;
+        $scope.betSavedError = false;
 
         var wellFormated = _.flatten(_.values($scope.matchsBets));
         postBetService.save(wellFormated, function () {
-            console.log('bets were sucessfully sent');
+            $scope.betSavedSuccess = true;
+            $timeout(function(){
+                $scope.betSavedSuccess = false;    
+            }, 2000);
         }, function () {
-            console.log('sending bets failed');
+            $scope.betSavedError = true;
+            $timeout(function(){
+                $scope.betSavedError = false;    
+            }, 2000);
         })
     }
 
