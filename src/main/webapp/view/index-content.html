@@ -55,8 +55,8 @@
 
             <form name="scoreform" class="form-score form-horizontal match-form">
                 <div data-ng-repeat="(groupe, matchs) in matchsBets"
-                     data-ng-show="($index==0&&showAll())||groupes[groupe].checked">
-                    <h3 data-ng-show="groupes[groupe].checked">Groupe {{groupes[groupe].letter}}</h3>
+                     data-ng-show="showAll() || groupes[groupe].checked">
+                    <h3 data-ng-show="showAll() || groupes[groupe].checked">Groupe {{groupe}}</h3>
 
 
                     <div data-ng-repeat="match in matchs | orderBy:'match.date'">
