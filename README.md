@@ -22,7 +22,7 @@ Required :
 Locally :
 ---
 
-Download app engine SDK and add it to your PATH.
+Download [app engine SDK for Java](https://developers.google.com/appengine/downloads?hl=fr) and add it to your PATH.
 
 Then run 
 
@@ -72,17 +72,11 @@ You can login with these two users :
 
 Admin account : 
 
- user : raphael.martignoni@zenika.com (for older commits only)
+ user : admin@zenika.com / 2205
+  
+Basic user (gambler) : 
 
- PW : 2205
- 
- For newest commits, the admin is admin@zenika.com (same password)
- 
- Basic user (gambler) : 
-
-user : jean.bon@zenika.com
-
-PW : 999
+ user : jean.bon@zenika.com / 999
 
 # Bug, Backlog, Trello
 
