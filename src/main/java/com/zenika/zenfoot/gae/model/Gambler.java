@@ -1,13 +1,13 @@
 package com.zenika.zenfoot.gae.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.zenika.zenfoot.gae.jackson.Views;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by raphael on 28/04/14.
@@ -24,6 +24,7 @@ public class Gambler implements IGambler {
     //@JsonView(Views.GamblerView.class)
     protected List<Bet> bets = new ArrayList<Bet>();
 
+
     protected int points=0;
 
     /**
@@ -36,11 +37,35 @@ public class Gambler implements IGambler {
 
     protected String prenom;
 
+
+    protected Set<Demande> demandes = new HashSet<>();
+
+    @Index
+    protected Set<StatutTeam> statutTeams =new HashSet<>();
+
+
     public Gambler(String email) {
         this.email = email;
     }
 
     public Gambler() {
+    }
+
+
+    public Set<StatutTeam> getStatutTeams() {
+        return statutTeams;
+    }
+
+    public void setStatutTeams(Set<StatutTeam> statutTeams) {
+        this.statutTeams = statutTeams;
+    }
+
+    public Set<Demande> getDemandes() {
+        return demandes;
+    }
+
+    public void setDemandes(Set<Demande> demandes) {
+        this.demandes = demandes;
     }
 
     public Long getId() {
@@ -51,6 +76,7 @@ public class Gambler implements IGambler {
         this.id = id;
         return this;
     }
+
 
 
 
@@ -87,12 +113,9 @@ public class Gambler implements IGambler {
         return this.bets;
     }
 
-
     public int getPoints() {
         return points;
     }
-
-
 
     public void addPoints(int points){
         this.points+=points;

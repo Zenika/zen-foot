@@ -334,6 +334,10 @@ Some CSS properties on the size of inputs
     margin-bottom: 20px;
 }
 
+.team-profil>h4{
+    margin-top: 15px;
+}
+
 @media only screen and (max-width: 480px) {
     .zen-points{
         font-size:20px;

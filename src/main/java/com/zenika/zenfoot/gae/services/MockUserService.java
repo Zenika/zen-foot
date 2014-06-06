@@ -7,7 +7,10 @@ import restx.security.UserService;
 
 import com.google.common.hash.Hashing;
 import com.google.common.base.Optional;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.user.User;
+
+import java.util.logging.Level;
 
 public class MockUserService implements UserService<User>{
 	
@@ -43,10 +46,15 @@ public class MockUserService implements UserService<User>{
         }
     }
 
-    public void createUser(User user) {
-    	String password = user.getPasswordHash();
-    	user.setPasswordHash(getPasswordHash(password));
-        zenFootUserRepository.createUser(user);
+    public Key<User> createUser(User user) {
+
+            String password = user.getPasswordHash();
+            user.setPasswordHash(getPasswordHash(password));
+        return zenFootUserRepository.createUser(user);
+    }
+
+    public User get(Key<User> keyUser) {
+        return zenFootUserRepository.get(keyUser);
     }
     
     public User getUserByEmail(String email) {

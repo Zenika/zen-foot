@@ -8,9 +8,10 @@ import com.zenika.zenfoot.gae.model.*;
 
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,9 +91,8 @@ public class GamblerService {
             //Check the bet already existed in the database
             Logger logger = Logger.getLogger(Gambler.class.getName());
 
-            if (bet.getMatchId() == 4538783999459328L) {
 
-            }
+
             if (existingBet == null) {
                 logger.log(Level.SEVERE, "" + bet.getMatchId());
                 logger.log(Level.SEVERE, "tried to update a bet which didn't exist");
@@ -118,12 +118,16 @@ public class GamblerService {
     }
 
 
-    public Gambler createGambler(User user, List<Match> matchs) {
-        return createGambler(user, matchs, 0);
+
+
+    public Key<Gambler> createGambler(User user, List<Match> matchs){
+        return createGambler(user,matchs,0);
     }
 
+
     //TODO : remove once the mocked users are removed
-    public Gambler createGambler(User user, List<Match> matchs, int points) {
+
+    public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
         System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setPrenom(user.getPrenom());
@@ -136,9 +140,8 @@ public class GamblerService {
             Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
         }
-        Key<Gambler> key = this.gamblerRepository.saveGambler(gambler);
-        Gambler toRet = gamblerRepository.getGambler(key);
-        logger.log(Level.WARNING, "after retrieving gambler, there are " + toRet.getBets().size() + " bets");
+
+        Key<Gambler> toRet= this.gamblerRepository.saveGambler(gambler);
         return toRet;
     }
 
@@ -147,6 +150,9 @@ public class GamblerService {
         return gamblerRepository.getGambler(key);
     }
 
+    public Gambler getGambler(Key<Gambler> gamblerKey){
+        return gamblerRepository.getGambler(gamblerKey);
+    }
 
     public void calculateScores(Match match) {
 
@@ -173,4 +179,35 @@ public class GamblerService {
 
 
     }
+
+    public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
+        gambler.setStatutTeams(registeredTeams);
+
+        gamblerRepository.saveGambler(gambler);
+    }
+
+    private Set<Team> isOwnerOf(Gambler gambler){
+        Set<Team> set = new HashSet<>();
+        for(StatutTeam statutTeam:gambler.getStatutTeams()){
+            Team team = statutTeam.getTeam();
+            if(team.getOwnerEmail().equals(gambler.getEmail())){
+                set.add(team);
+            }
+        }
+        return set;
+    }
+
+    public Set<Gambler> wantToJoin(Gambler gambler) {
+        Set<Team> ownedTeams = isOwnerOf(gambler);
+        Set<Gambler> joining = new HashSet<>();
+
+        for(Team team : ownedTeams){
+            joining.addAll(gamblerRepository.wantToJoin(team.getName()));
+        }
+
+        return joining;
+    }
+
+
+
 }

@@ -59,7 +59,7 @@ zenFootDirectives.directive('groupeLabel', function () {
         replace: true,
         restrict: 'E',
         link: function (scope, element, attrs) {
-            var template = "<label class='btn btn-primary' ng-model='checkModel' btn-radio='"+attrs.groupe+"' btn-checkbox>"+attrs.groupe+"</label>";
+            var template = "<label class='btn btn-primary' ng-model='checkModel' btn-radio='" + attrs.groupe + "' btn-checkbox>" + attrs.groupe + "</label>";
             element.replaceWith(template)
         }
     }
@@ -78,4 +78,38 @@ zenFootDirectives.directive('pwdCheck', [function () {
        			});
        		}
        	}
-       }]);
+       }])
+
+zenFootDirectives.directive('generateInput', function () {
+    return{
+        link: function (scope, element, attrs) {
+            scope.$watch("teamForm.$pristine", function (newValue, oldValue) {
+                if (newValue != oldValue) {
+                    scope.subscriber.teams.push({name: ''})
+
+                }
+            })
+        }}
+
+})
+
+zenFootDirectives.directive('newTeam',function(){
+
+    var isNew=function(team, regTeams){
+        var result=_.find(regTeams,function(regTeam){
+            console.log("regTeam: "+regTeam.name)
+            console.log("team : "+team.name)
+            return regTeam.name==team.name
+        })
+        team.isNew=(result==undefined)&&team.name.trim()!=""
+    }
+    return {
+        link:function(scope,element,attrs){
+            scope.$watch("team.name",function(newValue,oldValue){
+                if(newValue!=oldValue){
+                    isNew(scope.team,scope.existingTeams);
+                }
+            })
+        }
+    }
+})

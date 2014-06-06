@@ -17,12 +17,17 @@
         </div>
     </div>
 
-
-
     <div class="row">
         <div class="col-lg-3">
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <select class="form-control" ng-model="selectedTeam" ng-options="team for team in teams">
+                                <option value="">Filtrer par team</option>
+                            </select>
+                        </div>
+                    </form>
                     <form>
                         <div class="form-group">
                             <div class="input-group">

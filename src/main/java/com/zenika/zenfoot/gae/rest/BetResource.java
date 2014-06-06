@@ -3,6 +3,21 @@ package com.zenika.zenfoot.gae.rest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.base.Optional;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.TeamDAO;
+import com.zenika.zenfoot.gae.jackson.Views;
+import com.zenika.zenfoot.gae.model.*;
+import com.zenika.zenfoot.gae.services.BetService;
+import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.user.User;
+
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,19 +55,25 @@ public class BetResource {
     private BetService betService;
     private GamblerService gamblerService;
     private MockUserService userService;
+
+    private TeamDAO teamDAO;
+
     private MailSenderService mailSenderService;
     
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
                        @Named("userService") UserService userService,
-                       GamblerService gamblerService) {
+                       GamblerService gamblerService,
+                       TeamDAO teamDAO) {
+
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
         this.betService = betService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
         this.mailSenderService = new MailSenderService();
+        this.teamDAO = teamDAO;
     }
 
     @GET("/hello")
@@ -104,12 +125,10 @@ public class BetResource {
     public List<MatchAndBet> getBets() {
         Logger logger = Logger.getLogger(BetResource.class.getName());
         User user = sessionInfo.getUser();
-        logger.log(Level.ALL,"retrieving user "+user.getEmail());
+        logger.log(Level.ALL, "retrieving user " + user.getEmail());
 
         Gambler gambler = gamblerService.get(user);
         List<Match> matchs = matchService.getMatchs();
-
-
 
 
         gamblerService.updateBets(gambler);
@@ -164,29 +183,79 @@ public class BetResource {
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING,user.getEmail());
+        logger.log(Level.INFO, "current gambler is "+user.getEmail());
+
         Gambler gambler = gamblerService.get(user);
+        logger.log(Level.INFO,"id of gambler : "+gambler.getId()+" ("+gambler.getNom()+")");
 
         return gambler;
     }
 
+    @GET("/gambler/{email}")
+    @PermitAll
+    public Gambler getGambler(String email){
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        logger.log(Level.INFO,email);
+        return gamblerService.getFromEmail(email);
+    }
+
     @GET("/gamblers")
     @RolesAllowed(Roles.GAMBLER)
-    public List<Gambler> getGamblers(){
+    public List<Gambler> getGamblers() {
         return gamblerService.getAll();
     }
-    
+
+    @POST("/joiner")
+    @RolesAllowed(Roles.GAMBLER)
+    public Gambler postJoiner(Gambler gambler){
+
+        return gamblerService.updateGambler(gambler);
+    }
+
+
+
     @POST("/performSubscription")
     @PermitAll
-    public void subscribe(User subscriber) {
+    public void subscribe(UserAndTeams subscriber) {
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+
         final String subject = "Confirmation d'inscription à Zen Foot";
-        final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getEmail() + "'> Confirmation d'inscription </a>";
-        final String messageContent = "Mr, Mme " +subscriber.getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-        
-    	subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
-    	subscriber.setIsActive(Boolean.FALSE);
-        userService.createUser(subscriber);
-        mailSenderService.sendMail(subscriber.getEmail(), subject, messageContent);
+        final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
+        final String messageContent = "Mr, Mme " +subscriber.getUser().getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+        logger.log(Level.INFO,"---------------subscribe-------------");
+        logger.log(Level.INFO,subscriber.getUser().getPasswordHash());
+        subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
+        subscriber.getUser().setIsActive(Boolean.FALSE);
+
+        Key<User> keyUser = userService.createUser(subscriber.getUser());
+        User user = userService.get(keyUser);
+        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
+        Gambler gambler = gamblerService.getGambler(gamblerKey);
+
+        Set<StatutTeam> testSet = new HashSet<>();
+
+        for (Team team : subscriber.getTeams()) {
+            Optional<Team> optTeam = teamDAO.get(team.getName());
+
+            Team toRegister = null;
+            boolean owner = false;
+
+            if (optTeam.isPresent()) { // Team has already been created
+                toRegister = optTeam.get();
+                logger.log(Level.INFO,"Id for team : "+toRegister.getId());
+            } else { //The team was created by the user and thus, the latter is the owner of it
+                logger.log(Level.INFO,"No team found");
+                team.setOwnerEmail(gambler.getEmail());
+                Key<Team> teamKey = teamDAO.createUpdate(team);
+                toRegister = teamDAO.get(teamKey);
+                owner = true;
+            }
+            testSet.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
+
+        }
+
+
+        gamblerService.updateTeams(testSet, gambler);
     }
     
     @GET("/confirmSubscription")
@@ -210,19 +279,35 @@ public class BetResource {
     }
     
     private static String getHostUrl() {
-    	String hostUrl = null;
-    	String environment = System.getProperty("com.google.appengine.runtime.environment");
-    	
-    	if ("Production".equals(environment)) {
-    	    String applicationId = System.getProperty("com.google.appengine.application.id");
-    	    String version = System.getProperty("com.google.appengine.application.version");
-    	    // TODO Utiliser http://zenfoo.fr comme hostUrl.
-    	    hostUrl = "http://" + version + "." + applicationId + ".appspot.com";
-    	} else {
-    	    hostUrl = "http://localhost:8080";
-    	}
-    	
-    	return hostUrl;
+        String hostUrl = null;
+        String environment = System.getProperty("com.google.appengine.runtime.environment");
+
+        if ("Production".equals(environment)) {
+            String applicationId = System.getProperty("com.google.appengine.application.id");
+            String version = System.getProperty("com.google.appengine.application.version");
+            // TODO Utiliser http://zenfoo.fr comme hostUrl.
+            hostUrl = "http://" + version + "." + applicationId + ".appspot.com";
+        } else {
+            hostUrl = "http://localhost:8080";
+        }
+
+        return hostUrl;
     }
-    
+
+    @GET("/wannajoin")
+    @RolesAllowed(Roles.GAMBLER)
+    public Set<Gambler> wantToJoin(){
+        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        return gamblerService.wantToJoin(gambler);
+    }
+
+    @GET("/teams")
+    @PermitAll
+    public List<Team> getTeams() {
+
+        return teamDAO.getAll();
+    }
+
+
+
 }

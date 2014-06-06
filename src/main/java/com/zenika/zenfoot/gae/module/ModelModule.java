@@ -1,9 +1,6 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
-import com.zenika.zenfoot.gae.dao.MatchDAO;
-import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
+import com.zenika.zenfoot.gae.dao.*;
 import com.zenika.zenfoot.gae.model.Groupe;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Participant;
@@ -99,5 +96,10 @@ public class ModelModule {
     @Provides
     public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService) {
         return new GamblerService(gamblerRepository, matchService);
+    }
+
+    @Provides
+    public TeamDAO teamDAO(){
+        return new TeamDAO();
     }
 }

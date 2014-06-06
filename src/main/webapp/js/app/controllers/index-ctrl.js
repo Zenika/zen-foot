@@ -6,7 +6,8 @@ angular.module('zenFoot.app')
            // debugger;
             Session.user.connected = true;
             Session.user.email = principal.email;
-            Session.user.fullName = principal.fullName;
+            Session.user.nom = principal.nom;
+            Session.user.prenom=principal.prenom;
             Session.user.roles=principal.roles;
         }
 

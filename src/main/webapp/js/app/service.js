@@ -189,5 +189,65 @@ zenFootService.factory('Session', function ($resource) {
         }
     }])
 
+.factory('Joiners',['$resource',function($resource){
+        return {
+            getAll:function(){
+                return $resource('/api/wannajoin').query();
+            }
+
+            ,
+            postJoiner:function(joiner){
+                $resource('/api/joiner').save(joiner)
+            }
+        }
+    }])
+
+.factory('ProfilService',['$resource',function($resource){
+        var isOwner=function (statutTeam,gambler) {
+            return statutTeam.team.ownerEmail == gambler.email
+        }
+
+        var getOwnerTeams= function (statutTeams, gambler) {
+            var toRet = [];
+            for (var x in statutTeams) {
+                if (isOwner(statutTeams[x],gambler)) {
+                    toRet.push(statutTeams[x].team);
+                }
+            }
+            return toRet;
+        }
+
+        /**
+         * Create objects linking a gambler with a team he wishes to join
+         * @param statutTeams
+         * @param gambler
+         * @param gamblers
+         */
+        var gamblerTeam=function(statutTeams,gambler,gamblers){
+            var coupleArray=[];
+            var ownerTeams = getOwnerTeams(statutTeams,gambler)
+            for(var x in gamblers){
+                var applicant = gamblers[x];
+               for(var y in applicant.statutTeams){
+                   var statutTeam=applicant.statutTeams[y];
+                    if(isOwner(statutTeam,gambler)){
+                        coupleArray.push({gambler:applicant,statutTeam:statutTeam})
+                    }
+               }
+            }
+            return coupleArray
+        }
+
+        return {
+            isOwner : isOwner,
+
+            getOwnerTeams :getOwnerTeams,
+
+            gamblerTeam:gamblerTeam,
+
+
+        }
+    }])
+
 
 

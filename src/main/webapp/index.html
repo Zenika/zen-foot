@@ -33,6 +33,7 @@
             <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
                 <li class="ng-hide" ng-class="{'active':isActive('indexState')}" data-ng-show="!isAdmin()"><a ui-sref="indexState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('profilState')}" data-ng-show="!isAdmin()"><a ui-sref="profilState">Profil</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text" style="cursor: pointer">{{user.email}}</span></li>
@@ -63,7 +64,7 @@
 <script type="text/javascript" src="components/angular/angular-md5.js"></script>
 <script type="text/javascript" src="components/angular-ui/unique.js"></script>
 <script type="text/javascript" src="components/ng-grid/ng-grid.min.js"></script>
-<script type="text/javascript" src="components/ui-bootstrap/ui-bootstrap-0.11.0.js"></script>
+<script type="text/javascript" src="components/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 
 <script type="text/javascript" src="components/bootstrap-3.1.1-dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="components/underscore/underscore-min.js"></script>
@@ -75,6 +76,7 @@
 <script type="text/javascript" src="js/app/controllers/controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
 <script type="text/javascript" src="js/app/filtres.js"></script>
 <script type="text/javascript" src="js/app/controllers/index-ctrl.js"></script>
 <script type="text/javascript" src="js/app/admin-service.js"></script>

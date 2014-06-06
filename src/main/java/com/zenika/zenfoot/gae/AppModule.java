@@ -12,7 +12,6 @@ import javax.inject.Named;
 
 @Module
 public class AppModule {
-	
 
     @Provides
     public SignatureKey signatureKey() {

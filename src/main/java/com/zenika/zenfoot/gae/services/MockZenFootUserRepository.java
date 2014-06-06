@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.UserDao;
 import com.zenika.zenfoot.user.User;
@@ -90,10 +91,9 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     // ///////////////////////////////////////////////////////
     // repo update methods
     // ///////////////////////////////////////////////////////
-    public User createUser(User user) {
+    public Key<User> createUser(User user) {
 
-        this.userDao.addUser(user);
-        return user;
+        return this.userDao.addUser(user);
     }
 
     public User updateUser(User user) {
@@ -110,4 +110,8 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     }
 
 
+    @Override
+    public User get(Key<User> keyUser) {
+        return userDao.getUser(keyUser);
+    }
 }

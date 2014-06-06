@@ -1,11 +1,11 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.StatutTeam;
 
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,10 +17,21 @@ public class GamblerDAOImpl implements GamblerDAO {
 
     @Override
     public Key<Gambler> saveGambler(Gambler gambler) {
+//        registerTeams(gambler.getStatutTeams());
         Key<Gambler> key = OfyService.ofy().save().entity(gambler).now();
         return key;
     }
 
+    /**
+     * We have to register teams before registering a gambler, in order to have their ID generated.
+     * @param statutTeams
+     */
+    private void registerTeams(Set<StatutTeam> statutTeams){
+        for(StatutTeam statutTeam : statutTeams){
+            OfyService.ofy().save().entity(statutTeam.getTeam());
+
+        }
+    }
 
     @Override
     public Gambler getGambler(Long id) {
@@ -61,7 +72,8 @@ public class GamblerDAOImpl implements GamblerDAO {
     public Gambler getGamblerFromEmail(String email) {
 
 
-        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(1).list();
+
+        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(0).list();
         Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
 
         Gambler toRet = null;
@@ -74,6 +86,14 @@ public class GamblerDAOImpl implements GamblerDAO {
             logger.log(Level.SEVERE, "No gambler found with email " + email);
         }
         return toRet;
+    }
+
+
+
+    @Override
+    public List<Gambler> gamblersWannaJoin(String name) {
+        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name",name).list();
+        return gamblers;
     }
 
 

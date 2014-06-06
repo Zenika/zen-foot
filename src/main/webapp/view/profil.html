@@ -1,0 +1,73 @@
+<div class="row" data-ng-controller="ProfilCtrl">
+    <div class="col-sm-12">
+        <p>
+
+        <h2>Page de profil</h2>
+        </p>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                Informations du profil
+            </div>
+            <table class="table">
+                <th>nom</th>
+                <th>prénom</th>
+                <th>email</th>
+                <tr>
+                    <td>{{user.nom}}</td>
+                    <td>{{user.prenom}}</td>
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <p>
+
+        <h3>Gestion des teams</h3>
+        </p>
+        <div class="team-profil">
+            <h4>Teams auxquelles j'appartiens :</h4>
+            <ul>
+                <li data-ng-show="belongTo(statutTeam)" data-ng-repeat="statutTeam in gambler.statutTeams">
+                    {{statutTeam.team.name}}
+                </li>
+            </ul>
+            <h4>Teams en attente de confirmation :</h4>
+            <ul>
+                <li data-ng-repeat="statutTeam in waiting=(gambler.statutTeams | waitTeamFilter:gambler)">
+                    {{statutTeam.team.name}}
+                </li>
+            </ul>
+            <h4>Teams dont je suis propriétaire :</h4>
+            <ul>
+                <li data-ng-repeat="team in getOwnerTeams()">
+                    {{team.name}}
+                </li>
+            </ul>
+
+            <div class="panel panel-danger" data-ng-hide="noApplicant()">
+                <div class="panel-heading">
+                    Ils veulent vous rejoindre
+                </div>
+                <table class="table">
+                    <th>nom</th>
+                    <th>prénom</th>
+                    <th>team</th>
+                    <th>accepter/refuser</th>
+
+                    <tbody data-ng-repeat="joiner in joiners">
+                        <tr data-ng-hide="statutTeam.accepted" data-ng-repeat="statutTeam in joiner.statutTeams">
+                            <td>{{joiner.nom}}</td>
+                            <td>{{joiner.prenom}}</td>
+                            <td>{{statutTeam.team.name}}</td>
+                            <td>
+                                <button class="btn btn-success" data-ng-click="makeJoin(statutTeam)">accepter</button>
+                                <button class="btn btn-danger" data-ng-click="refuseJoin(joiner,statutTeam)">refuser</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

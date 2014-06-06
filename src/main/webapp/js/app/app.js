@@ -32,8 +32,12 @@ angular.module('zenFoot.app', [
     	.state('confirmSubscription', {
     		url : '/confirmSubscription/:id',
     		templateUrl : 'view/confirmSubscription.html'
-    	});
-    
+    	})
+        .state('profilState',{
+            url:'/profil',
+            templateUrl:'view/profil.html'
+        })
+
     $urlRouterProvider.otherwise('/index');
 
     $httpProvider.interceptors.push(function ($q, authService, $rootScope, $location) {
