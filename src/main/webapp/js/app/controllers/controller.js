@@ -48,8 +48,14 @@ controllers.controller("subscribeCtrl", function($scope, $resource, $http, $root
 		var Subscription = $resource('/api/performSubscription', {subsriber : $scope.subscriber});
 		Subscription.save($scope.subscriber, function() {
 			$scope.subscriber.subscriptionSuccess = true;
+			$scope.subscriber.subscriptionErrorAlreadyUsedEmail = false;
 			$rootScope.subscriber = $scope.subscriber;
+		}, function() {
+			$scope.subscriber.subscriptionSuccess = false;
+			$scope.subscriber.subscriptionErrorAlreadyUsedEmail = true;
 		});
+		
+		
 	};
 });
 
