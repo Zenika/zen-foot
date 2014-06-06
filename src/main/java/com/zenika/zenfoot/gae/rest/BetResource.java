@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.rest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,11 +24,15 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import restx.RestxRequest;
+import restx.RestxResponse;
+import restx.WebException;
 import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.PUT;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
+import restx.http.HttpStatus;
 import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
@@ -77,6 +82,17 @@ public class BetResource {
     }
 
 
+    @POST("/redirectAfterLogin")
+    public void redirectAfterLogin(){
+     throw new WebException(HttpStatus.FOUND) {
+            @Override
+            public void writeTo(RestxRequest restxRequest, RestxResponse restxResponse) throws IOException {
+                restxResponse
+                        .setStatus(getStatus())
+                        .setHeader("Location", "/#/index");
+            }
+        };    
+    }
 
     @PUT("/matchs/{id}")
     @RolesAllowed(Roles.ADMIN)
