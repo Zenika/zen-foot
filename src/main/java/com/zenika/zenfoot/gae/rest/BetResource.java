@@ -166,10 +166,12 @@ public class BetResource {
         System.out.println("There are " + gambler.getBets().size());
     }
 
-    @PUT("/gambler")
+    @POST("/gambler")
     @RolesAllowed(Roles.GAMBLER)
-    public Gambler updateGambler(Gambler gambler){
-        return gamblerService.updateGambler(gambler);
+    public Gambler updateGambler(GamblerAndTeams gamblerAndTeams){
+        Key<Gambler> gamblerKey=gamblerService.addTeams(gamblerAndTeams.getTeams(),gamblerAndTeams.getGambler());
+        Gambler gambler = gamblerService.getGambler(gamblerKey);
+        return gambler;
     }
 
     @GET("/gambler")

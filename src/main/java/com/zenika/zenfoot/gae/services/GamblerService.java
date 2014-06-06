@@ -184,7 +184,7 @@ public class GamblerService {
 
     }
 
-    public void addTeams(List<Team> teams, Gambler gambler){
+    public Key<Gambler> addTeams(List<Team> teams, Gambler gambler){
         Logger logger = Logger.getLogger(GamblerService.class.getName());
 
 
@@ -208,8 +208,8 @@ public class GamblerService {
             toReg.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
 
         }
-        gambler.setStatutTeams(toReg);
-        gamblerRepository.saveGambler(gambler);
+        gambler.addTeams(toReg);
+        return gamblerRepository.saveGambler(gambler);
 
     }
 

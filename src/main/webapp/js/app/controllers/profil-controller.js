@@ -3,7 +3,7 @@
  */
 var zenfootModule = angular.module('zenFoot.app');
 
-zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'ProfilService','Team', function ($resource, Gambler, $scope, Joiners, ProfilService,Team) {
+zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'ProfilService','Team','$modal', function ($resource, Gambler, $scope, Joiners, ProfilService,Team,$modal) {
 
     $scope.gambler = Gambler.get();
 
@@ -92,19 +92,19 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
 
     var join = function() {
         checkTeams();
-        var joinTeam = $resource('/api/gambler');
-        Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams});
-        $rootScope.subscriber = $scope.subscriber;
-        $location.path('/login');
+        var joinTeam = $resource('/api/gambler').save({gambler:$scope.gambler,teams:$scope.joinedTeams},function(response){
+            $scope.existingTeams=Team.getAll()
+            $scope.gambler = response
+        });
     };
 
     var joinGroups= function(){
-        var modalInstance = $modal.open({backdrop:'static',scope:$scope,templateUrl:'view/modal-sub.html'})
+        var modalInstance = $modal.open({backdrop:'static',scope:$scope,templateUrl:'view/modal-sub-profil.html'})
         $scope.modalInstance= modalInstance
 
         modalInstance.result.then(function(response){
             if(response==true){
-                subscribe()
+                join()
             }
         })
     }
@@ -113,13 +113,12 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
 
 
 
-
     $scope.valider=function(){
-        if(Team.hasNewGroup($scope.subscriber.teams)){
-            subscribeGroups()
+        if(Team.hasNewGroup($scope.joinedTeams)){
+            joinGroups()
         }
         else{
-            subscribe()
+            join()
         }
 
     }

@@ -51,6 +51,9 @@ public class Gambler implements IGambler {
     public Gambler() {
     }
 
+    public void addTeams(Set<StatutTeam> teams){
+        this.statutTeams.addAll(teams);
+    }
 
     public Set<StatutTeam> getStatutTeams() {
         return statutTeams;

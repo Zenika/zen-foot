@@ -77,9 +77,12 @@
                 <div class="form-group">
                     <div class="col-sm-11">
                         <input type="text" class="form-control" data-ng-model="team.name"
-                               placeholder="Team"
+                               placeholder="Ligue"
                                typeahead-loading="loadingTeams"
-                               typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"/>
+                               typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"
+                               tooltip="Une ligue est un groupe de parieurs, vous pouvez ensuite comparer vos résultats aux autres parieurs de votre ligue"
+                               tooltip-trigger="mouseover"
+                               tooltip-placement="left"/>
                     </div>
                     <div class="col-sm-1">
                         <span class="label label-danger" data-ng-show="team.isNew">nouveau</span>
