@@ -117,34 +117,11 @@ controllers.controller("confirmSubscriptionCtrl", function($timeout, $location, 
 
 controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope', 'Gambler', function ($scope, betMatchService, postBetService, $rootScope, $q, displayService, Match, Gambler) {
 
-
-    var groupeFilter = function () {
-        var matchs = betMatchService.getAll();
-        /* $scope.matchsBets = _.groupBy(matchs, function (matchBet) {
-         return matchBet.match.participant1.groupe;
-         })*/
-        $scope.matchsBets = {all: matchs};
-    }
-
-    groupeFilter();
-
-
-    $scope.$watch('showAll()', function (newValue, oldValue) {
-        if (newValue != oldValue) {
-            if (newValue == true) {
-                $scope.matchsBets = {all: _.flatten(_.values($scope.matchsBets))}
-
-            }
-            else {
-                if (newValue == false) {
-                    var matchsBets = _.flatten(_.values($scope.matchsBets));
-                    $scope.matchsBets = _.groupBy(matchsBets, function (matchBet) {
-                        return matchBet.match.participant1.groupe;
-                    })
-                }
-            }
-        }
-    }, true)
+    betMatchService.getAll().$promise.then(function (matchs) {
+        $scope.matchsBets = _.groupBy(matchs, function (matchBet) {
+            return matchBet.match.participant1.groupe;
+        })
+    });
 
     Gambler.get().$promise
         .then(function (response) {
