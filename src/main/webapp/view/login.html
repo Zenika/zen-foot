@@ -2,7 +2,14 @@
 <div class="col-md-4 col-md-offset-4">
     <div data-ng-controller="LoginCtrl">
         <h2>Connexion</h2>
-        <form name="loginForm" role="form">
+        
+        <form name="doLoginForm" id="postLoginForm" method="post" action="/api/redirectAfterLogin" class="hidden">
+            <input name="username" id="login-user" type="hidden">
+            <input name="password" id="login-password" type="hidden">
+        </form>
+
+
+        <form name="loginForm" id="loginForm" role="form" autofill-submit="submit()">
 			
             <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid && loginForm.user.$dirty}">
                 <label for="user" class="sr-only">Email</label>
@@ -15,6 +22,7 @@
                         id="user"
                         name="user"
                         data-ng-model="login.email"
+                        autofill
                         required/>
                 </div>
                 <p
@@ -40,6 +48,7 @@
                         id="pass"
                         name="pass"
                         data-ng-model="login.password"
+                        autofill
                         required/>
                 </div>
                 <p
@@ -55,11 +64,10 @@
                         type="submit"
                         value="Connexion"
                         class="btn btn-primary"
-                        data-ng-click="submit()"
-                        data-ng-disabled="loginForm.$invalid" />
+                        />
 
                      <input
-                     	type="submit"
+                     	type="button"
                      	value="S'inscrire"
                      	class="btn btn-link"
                      	data-ng-click="subscribe()" />
