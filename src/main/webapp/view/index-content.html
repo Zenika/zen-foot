@@ -32,23 +32,30 @@
                     </div>
 
                 </div>
-                <div class="col-sm-6 pull-left">
+                <div class="col-sm-8">
 
-                    <div class="btn-group">
-                        <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
-                        <label ng-repeat="groupe in groupes" class='btn btn-danger' ng-model='groupe.checked'
-                               btn-checkbox>{{groupe.letter}}</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <!--<groupe-label data-ng-repeat="groupe in groupes" groupe="{{groupe}}"></groupe-label>-->
+                                <label ng-repeat="groupe in groupes" class='btn btn-danger' ng-model='groupe.checked'
+                                       btn-checkbox>{{groupe.letter}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group finales-blocks">
+                                <label data-ng-repeat="(key,phase) in phases | orderBy:'order'" class="btn btn-danger disabled" data-ng-model="phase.checked" btn-checkbox>
+                                    {{phase.fraction}}
+                                </label>
+                                &nbsp
+                            </div>
+                        </div>
+                         <!--<span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
+                               data-placement="bottom"
+                               data-content="Sélectionnez un groupe à filtrer">
+                         </span>-->
                     </div>
-                    <div class="btn-group finales-blocks">
-                        <label data-ng-repeat="(key,phase) in phases | orderBy:'order'" class="btn btn-danger disabled" data-ng-model="phase.checked" btn-checkbox>
-                            {{phase.fraction}}
-                        </label>
-                        &nbsp
-                    </div>
-                     <!--<span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
-                           data-placement="bottom"
-                           data-content="Sélectionnez un groupe à filtrer">
-                     </span>-->
+
                 </div>
             </div>
 
