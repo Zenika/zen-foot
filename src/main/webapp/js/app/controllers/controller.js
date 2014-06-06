@@ -21,16 +21,22 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
     }
 
     $scope.submit = function () {
+        //This method is called by autofill directive, and form validation could not be tested before 
+        //(web browser does not update model values when it auto fill a form)
+        if ($scope.loginForm.$invalid){
+            return;
+        }
         $http.post('/api/sessions',
             {principal: {name: $scope.login.email, passwordHash: $scope.login.password}},
             {withCredentials: true}
         )
             .success(function (data, status, headers, config) {
-                console.log('authenticated', data, status);
+                //console.log('authenticated', data, status);
                 $rootScope.$broadcast('AUTHENTICATED', data.principal);
-                $location.path('/index');
+                //Submit hidden form with classic HTTP POST to enabled password recording in browser
+                angular.element("#postLoginForm").submit();
             }).error(function (data, status, headers, config) {
-                console.log('error', data, status);
+                //console.log('error', data, status);
                 alert("Authentication error, please try again.");
             });
     };
@@ -111,34 +117,11 @@ controllers.controller("confirmSubscriptionCtrl", function($timeout, $location, 
 
 controllers.controller('MatchCtrl', ['$scope', 'betMatchService', 'postBetService', '$rootScope', '$q', 'displayService', '$rootScope', 'Gambler', function ($scope, betMatchService, postBetService, $rootScope, $q, displayService, Match, Gambler) {
 
-
-    var groupeFilter = function () {
-        var matchs = betMatchService.getAll();
-        /* $scope.matchsBets = _.groupBy(matchs, function (matchBet) {
-         return matchBet.match.participant1.groupe;
-         })*/
-        $scope.matchsBets = {all: matchs};
-    }
-
-    groupeFilter();
-
-
-    $scope.$watch('showAll()', function (newValue, oldValue) {
-        if (newValue != oldValue) {
-            if (newValue == true) {
-                $scope.matchsBets = {all: _.flatten(_.values($scope.matchsBets))}
-
-            }
-            else {
-                if (newValue == false) {
-                    var matchsBets = _.flatten(_.values($scope.matchsBets));
-                    $scope.matchsBets = _.groupBy(matchsBets, function (matchBet) {
-                        return matchBet.match.participant1.groupe;
-                    })
-                }
-            }
-        }
-    }, true)
+    betMatchService.getAll().$promise.then(function (matchs) {
+        $scope.matchsBets = _.groupBy(matchs, function (matchBet) {
+            return matchBet.match.participant1.groupe;
+        })
+    });
 
     Gambler.get().$promise
         .then(function (response) {

@@ -4,7 +4,7 @@ angular.module('zenFoot.app', [
     'zenFoot.controllers', 'zenFoot.services', 'zenContact.filters', 'zenFoot.directives',
     'ngCookies', 'ngResource', 'ngRoute',
     'ui.router', 'ui.bootstrap', 'ui.unique',
-    'ngGrid', 'angular-md5',
+    'autofill-directive', 'ngGrid', 'angular-md5',
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {

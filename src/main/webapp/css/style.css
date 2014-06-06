@@ -303,7 +303,6 @@ Some CSS properties on the size of inputs
 
 .finales-blocks{
     display: inline-block;
-    margin-left: 5px;
 }
 
 .pariez-button{
@@ -346,12 +345,10 @@ Some CSS properties on the size of inputs
     }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 991px) {
     .finales-blocks{
-        margin-left: 0px;
         margin-top: 5px;
     }
-
 }
 
 .error {
