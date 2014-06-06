@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import restx.WebException;
 import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.PUT;
@@ -179,14 +180,21 @@ public class BetResource {
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(User subscriber) {
-        final String subject = "Confirmation d'inscription à Zen Foot";
-        final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getEmail() + "'> Confirmation d'inscription </a>";
-        final String messageContent = "Mr, Mme " +subscriber.getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-        
-    	subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
-    	subscriber.setIsActive(Boolean.FALSE);
-        userService.createUser(subscriber);
-        mailSenderService.sendMail(subscriber.getEmail(), subject, messageContent);
+    	final String email = subscriber.getEmail();
+    	final User alreadyExistingUser = userService.getUserByEmail(email);
+    	
+    	if (alreadyExistingUser == null) {
+            final String subject = "Confirmation d'inscription à Zen Foot";
+            final String urlConfirmation = "<a href='" + getUrlConfirmation() + email + "'> Confirmation d'inscription </a>";
+            final String messageContent = "Mr, Mme " +subscriber.getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+            
+        	subscriber.setRoles(Arrays.asList(Roles.GAMBLER));
+        	subscriber.setIsActive(Boolean.FALSE);
+            userService.createUser(subscriber);
+            mailSenderService.sendMail(subscriber.getEmail(), subject, messageContent);
+    	} else {
+    		throw new WebException(String.format("L'email %s est déjà pris par un autre utilisateur !", email));
+    	}
     }
     
     @GET("/confirmSubscription")
