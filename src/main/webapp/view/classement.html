@@ -23,7 +23,7 @@
                 <div class="panel-body">
                     <form>
                         <div class="form-group">
-                            <select class="form-control" ng-model="selectedTeam" ng-options="team for team in teams">
+                            <select select-team class="form-control" ng-model="selectedTeam" ng-options="team.name for team in teams">
                                 <option value="">Filtrer par team</option>
                             </select>
                         </div>

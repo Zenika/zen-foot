@@ -3,11 +3,12 @@
  */
 var zenfootModule = angular.module('zenFoot.app');
 
-zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'ProfilService', function ($resource, Gambler, $scope, Joiners, ProfilService) {
+zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'ProfilService','Team', function ($resource, Gambler, $scope, Joiners, ProfilService,Team) {
 
     $scope.gambler = Gambler.get();
 
     $scope.joiners = Joiners.getAll();
+
 
 
     /*   var isOwner = function (statutTeam) {
@@ -28,7 +29,6 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
         return ProfilService.getOwnerTeams($scope.gambler.statutTeams, $scope.gambler)
     }
 
-
     /**
      * Is the gambler part of this team ?
      * @param statutTeam
@@ -39,7 +39,9 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
         return statutTeam.accepted || ProfilService.isOwner(statutTeam, $scope.gambler)
     }
 
+    $scope.isOwner = ProfilService.isOwner
 
+    /**
     /**
      * CHecks whether there are applicants or not. This method doesn't work.
      * @returns {boolean}
@@ -52,17 +54,15 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
             var joiner = $scope.joiners[x]
 
             if (joiner.email != $scope.gambler.email) {
-                console.log('not working')
                 return false;
             }
-
         }
-        console.log("icci")
         return true;
     }
 
-    $scope.makeJoin = function (statutTeam) {
+    $scope.makeJoin = function (joiner,statutTeam) {
         statutTeam.accepted = true;
+        Joiners.postJoiner(joiner)
     }
 
     $scope.refuseJoin = function (joiner, statutTeam) {
@@ -71,4 +71,64 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
     }
 
 
+
+
+    //Logic to create/join a group
+
+    $scope.joinedTeams = [{name:"",isNew:false}];
+
+    $scope.existingTeams=Team.getAll()
+
+    $scope.pushTeam=function(){
+        $scope.joinedTeams.push({name:"",isNew:false})
+    }
+    var checkTeams= function (){
+        for(var x in $scope.joinedTeams){
+            if($scope.joinedTeams[x].name.trim()==""){
+                $scope.joinedTeams.splice(x)
+            }
+        }
+    }
+
+    var join = function() {
+        checkTeams();
+        var joinTeam = $resource('/api/gambler');
+        Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams});
+        $rootScope.subscriber = $scope.subscriber;
+        $location.path('/login');
+    };
+
+    var joinGroups= function(){
+        var modalInstance = $modal.open({backdrop:'static',scope:$scope,templateUrl:'view/modal-sub.html'})
+        $scope.modalInstance= modalInstance
+
+        modalInstance.result.then(function(response){
+            if(response==true){
+                subscribe()
+            }
+        })
+    }
+
+
+
+
+
+
+    $scope.valider=function(){
+        if(Team.hasNewGroup($scope.subscriber.teams)){
+            subscribeGroups()
+        }
+        else{
+            subscribe()
+        }
+
+    }
+
+    $scope.ok=function(){
+        $scope.modalInstance.close(true);
+    }
+
+    $scope.cancel=function(){
+        $scope.modalInstance.dismiss();
+    }
 }])

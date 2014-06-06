@@ -40,17 +40,15 @@ controllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $locati
 	};
 });
 
-controllers.controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$location','$modal',function($scope, $resource, $http, $rootScope, $location,$modal) {
+controllers.controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$location','$modal','Team',function($scope, $resource, $http, $rootScope, $location,$modal,Team) {
 	$scope.subscriber = {teams:[{name:"",isNew:false}]};
 	$rootScope.subscriber = {};
-
-	
-
+    $scope.existingTeams=Team.getAll()
 
     var checkTeams= function (){
         for(var x in $scope.subscriber.teams){
             if($scope.subscriber.teams[x].name.trim()==""){
-                $scope.subscriber.teams.splice(x);
+                $scope.subscriber.teams.splice(x)
             }
         }
     }
@@ -58,9 +56,10 @@ controllers.controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootS
     var subscribe = function() {
         checkTeams();
         var Subscription = $resource('/api/performSubscription');
-        Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams});
+        Subscription.save({user:$scope.subscriber,teams:$scope.subscriber.teams},function(){
+            $scope.subscriber.subscriptionSuccess=true
+        });
         $rootScope.subscriber = $scope.subscriber;
-        $location.path('/login');
     };
 
     var subscribeGroups= function(){
@@ -74,25 +73,15 @@ controllers.controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootS
         })
     }
 
-    var hasNewGroup=function(){
-        for(var x in $scope.subscriber.teams){
-            if($scope.subscriber.teams[x].isNew){
-                return true;
-            }
-            return false;
-        }
+
+    $scope.pushTeam=function(){
+        $scope.subscriber.teams.push({name: ''})
     }
 
-   function loadTeams(){
-       console.log("called")
-        var teams = $resource('/api/teams').query();
-        $scope.existingTeams=teams;
-    };
-    loadTeams();
 
 
     $scope.valider=function(){
-        if(hasNewGroup()){
+        if(Team.hasNewGroup($scope.subscriber.teams)){
             subscribeGroups()
         }
         else{

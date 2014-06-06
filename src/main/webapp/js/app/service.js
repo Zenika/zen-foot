@@ -94,16 +94,16 @@ zenFootService.factory('Session', function ($resource) {
          * @param prediction
          * @returns {boolean} true if the prediction is not empty (i.e. the scores are not ==""
          */
-        var scoreGiven=function(prediction){
-            return prediction.score1.score.trim()!=""&&prediction.score2.score.trim()!="";
+        var scoreGiven = function (prediction) {
+            return prediction.score1.score.trim() != "" && prediction.score2.score.trim() != "";
         }
 
 
-        var betMade=function(bet){
+        var betMade = function (bet) {
             return scoreGiven(bet);
         }
 
-        var knownOutcome=function(match){
+        var knownOutcome = function (match) {
             return scoreGiven(match.outcome);
         }
 
@@ -124,27 +124,26 @@ zenFootService.factory('Session', function ($resource) {
             },
 
 
-
             /**
              * Calculates the score for one bet once the result is known. This is only used to display to
              * the user, as the score server side is not kept for every bet.
              * @param matchBet
              */
-            calculatePoints: function(matchBet){
+            calculatePoints: function (matchBet) {
                 var match = matchBet.match;
                 var bet = matchBet.bet;
 
                 //Conditions pour pouvoir calculer les points : l'outcome du match est connu et le parieur a fait un pronostic
-                if(knownOutcome(match)&&betMade(bet)){
-                    var actualSc1=match.outcome.score1.score;
-                    var actualSc2=match.outcome.score2.score;
-                    var predicSc1=bet.score1.score;
-                    var predicSc2=bet.score2.score;
-                    if(actualSc1==predicSc1&&actualSc2==predicSc2)return 'img/points/full-ball-xs.png'
-                    if((actualSc1>actualSc2)==(predicSc1>predicSc2)){
+                if (knownOutcome(match) && betMade(bet)) {
+                    var actualSc1 = match.outcome.score1.score;
+                    var actualSc2 = match.outcome.score2.score;
+                    var predicSc1 = bet.score1.score;
+                    var predicSc2 = bet.score2.score;
+                    if (actualSc1 == predicSc1 && actualSc2 == predicSc2)return 'img/points/full-ball-xs.png'
+                    if ((actualSc1 > actualSc2) == (predicSc1 > predicSc2)) {
                         return 'img/points/half-ball-xs.png'
                     }
-                    else{
+                    else {
                         return 'img/points/empty-ball-xs.png'
                     }
                 }
@@ -152,7 +151,7 @@ zenFootService.factory('Session', function ($resource) {
 
             knownOutcome: knownOutcome,
 
-            betMade:betMade
+            betMade: betMade
         }
     }])
 
@@ -163,54 +162,55 @@ zenFootService.factory('Session', function ($resource) {
 /**
  * This service is used for any information that's required for display functionalities
  */
-    .factory('displayService', ['betMatchService',function (betMatchService) {
+    .factory('displayService', ['betMatchService', function (betMatchService) {
         return {
-            isWinner:function(score,scoreConcerne,autreScore){
-                var scoreConcerne=score[scoreConcerne]
-                var autreScore=score[autreScore]
-                if((!autreScore.score)||autreScore.score.trim()=='') return false;
-                return (scoreConcerne.score>autreScore.score);
+            isWinner: function (score, scoreConcerne, autreScore) {
+                var scoreConcerne = score[scoreConcerne]
+                var autreScore = score[autreScore]
+                if ((!autreScore.score) || autreScore.score.trim() == '') return false;
+                return (scoreConcerne.score > autreScore.score);
             },
-            dispPoints:function(matchBet){
-                return betMatchService.knownOutcome(matchBet.match)&&betMatchService.betMade(matchBet.bet);
+            dispPoints: function (matchBet) {
+                return betMatchService.knownOutcome(matchBet.match) && betMatchService.betMade(matchBet.bet);
             }
         }
     }])
 
-    .factory('Gambler',['$resource',function($resource){
+    .factory('Gambler', ['$resource', function ($resource) {
         return $resource('/api/gambler');
     }])
 
-    .factory('GamblerService',['Gambler','$resource',function(Gambler,$resource){
+    .factory('GamblerService', ['Gambler', '$resource', function (Gambler, $resource) {
         return {
-        getAll:function(){
-            return $resource('/api/gamblers').query();
-        }
+            getAll: function () {
+                return $resource('/api/gamblers').query();
+            },
+            get: function (team) {
+                return $resource('/api/gamblersTeam/' + team.name).query()
+            }
         }
     }])
 
-.factory('Joiners',['$resource',function($resource){
+    .factory('Joiners', ['$resource', function ($resource) {
         return {
-            getAll:function(){
+            getAll: function () {
                 return $resource('/api/wannajoin').query();
-            }
-
-            ,
-            postJoiner:function(joiner){
+            },
+            postJoiner: function (joiner) {
                 $resource('/api/joiner').save(joiner)
             }
         }
     }])
 
-.factory('ProfilService',['$resource',function($resource){
-        var isOwner=function (statutTeam,gambler) {
+    .factory('ProfilService', ['$resource', function ($resource) {
+        var isOwner = function (statutTeam, gambler) {
             return statutTeam.team.ownerEmail == gambler.email
         }
 
-        var getOwnerTeams= function (statutTeams, gambler) {
+        var getOwnerTeams = function (statutTeams, gambler) {
             var toRet = [];
             for (var x in statutTeams) {
-                if (isOwner(statutTeams[x],gambler)) {
+                if (isOwner(statutTeams[x], gambler)) {
                     toRet.push(statutTeams[x].team);
                 }
             }
@@ -223,29 +223,49 @@ zenFootService.factory('Session', function ($resource) {
          * @param gambler
          * @param gamblers
          */
-        var gamblerTeam=function(statutTeams,gambler,gamblers){
-            var coupleArray=[];
-            var ownerTeams = getOwnerTeams(statutTeams,gambler)
-            for(var x in gamblers){
+        var gamblerTeam = function (statutTeams, gambler, gamblers) {
+            var coupleArray = [];
+            var ownerTeams = getOwnerTeams(statutTeams, gambler)
+            for (var x in gamblers) {
                 var applicant = gamblers[x];
-               for(var y in applicant.statutTeams){
-                   var statutTeam=applicant.statutTeams[y];
-                    if(isOwner(statutTeam,gambler)){
-                        coupleArray.push({gambler:applicant,statutTeam:statutTeam})
+                for (var y in applicant.statutTeams) {
+                    var statutTeam = applicant.statutTeams[y];
+                    if (isOwner(statutTeam, gambler)) {
+                        coupleArray.push({gambler: applicant, statutTeam: statutTeam})
                     }
-               }
+                }
             }
             return coupleArray
         }
 
         return {
-            isOwner : isOwner,
+            isOwner: isOwner,
 
-            getOwnerTeams :getOwnerTeams,
+            getOwnerTeams: getOwnerTeams,
 
-            gamblerTeam:gamblerTeam,
+            gamblerTeam: gamblerTeam,
 
 
+        }
+    }])
+
+    .factory('Team', ['$resource', function ($resource) {
+        return {
+            getAll: function () {
+                return $resource('/api/teams').query()
+            },
+
+            hasNewGroup: function (subscribedTeams) {
+
+                for (var x in subscribedTeams) {
+
+                    if (subscribedTeams[x].isNew) {
+                        return true;
+                    }
+                }
+                return false;
+
+            }
         }
     }])
 

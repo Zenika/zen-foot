@@ -1,9 +1,11 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.Work;
 import com.zenika.zenfoot.gae.dao.OfyService;
+import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
 
 import com.zenika.zenfoot.user.User;
@@ -22,10 +24,12 @@ public class GamblerService {
 
     private GamblerRepository gamblerRepository;
     private MatchService matchService;
+    private TeamDAO teamDAO;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
+        this.teamDAO=teamDAO;
     }
 
     public List<Gambler> getAll() {
@@ -180,12 +184,45 @@ public class GamblerService {
 
     }
 
+    public void addTeams(List<Team> teams, Gambler gambler){
+        Logger logger = Logger.getLogger(GamblerService.class.getName());
+
+
+        Set<StatutTeam> toReg = new HashSet<>();
+        for (Team team :teams) {
+            Optional<Team> optTeam = teamDAO.get(team.getName());
+
+            Team toRegister = null;
+            boolean owner = false;
+
+            if (optTeam.isPresent()) { // Team has already been created
+                toRegister = optTeam.get();
+                logger.log(Level.INFO,"Id for team : "+toRegister.getId());
+            } else { //The team was created by the user and thus, the latter is the owner of it
+                logger.log(Level.INFO,"No team found");
+                team.setOwnerEmail(gambler.getEmail());
+                Key<Team> teamKey = teamDAO.createUpdate(team);
+                toRegister = teamDAO.get(teamKey);
+                owner = true;
+            }
+            toReg.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
+
+        }
+        gambler.setStatutTeams(toReg);
+        gamblerRepository.saveGambler(gambler);
+
+    }
+
     public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
-        gambler.setStatutTeams(registeredTeams);
 
         gamblerRepository.saveGambler(gambler);
     }
 
+    /**
+     * Get all the teams whose owner is gambler
+     * @param gambler
+     * @return
+     */
     private Set<Team> isOwnerOf(Gambler gambler){
         Set<Team> set = new HashSet<>();
         for(StatutTeam statutTeam:gambler.getStatutTeams()){
@@ -197,6 +234,11 @@ public class GamblerService {
         return set;
     }
 
+    /**
+     * Get all the
+     * @param gambler
+     * @return
+     */
     public Set<Gambler> wantToJoin(Gambler gambler) {
         Set<Team> ownedTeams = isOwnerOf(gambler);
         Set<Gambler> joining = new HashSet<>();

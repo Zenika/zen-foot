@@ -33,7 +33,7 @@ angular.module('zenFoot.app', [
     		url : '/confirmSubscription/:id',
     		templateUrl : 'view/confirmSubscription.html'
     	})
-        .state('profilState',{
+        .state('ligueState',{
             url:'/profil',
             templateUrl:'view/profil.html'
         })

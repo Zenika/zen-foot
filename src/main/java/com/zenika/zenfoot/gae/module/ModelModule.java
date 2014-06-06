@@ -94,8 +94,8 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService) {
-        return new GamblerService(gamblerRepository, matchService);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService,TeamDAO teamDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO);
     }
 
     @Provides

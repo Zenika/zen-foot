@@ -76,17 +76,6 @@ public class BetResource {
         this.teamDAO = teamDAO;
     }
 
-    @GET("/hello")
-    @RolesAllowed(Roles.ADMIN)
-    public String getMessage1() {
-        return "Hello !";
-    }
-
-    @GET("/coucou")
-    @RolesAllowed(Roles.GAMBLER)
-    public String getCoucou() {
-        return "coucou";
-    }
 
 
     @PUT("/matchs/{id}")
@@ -177,6 +166,12 @@ public class BetResource {
         System.out.println("There are " + gambler.getBets().size());
     }
 
+    @PUT("/gambler")
+    @RolesAllowed(Roles.GAMBLER)
+    public Gambler updateGambler(Gambler gambler){
+        return gamblerService.updateGambler(gambler);
+    }
+
     @GET("/gambler")
     //@JsonView(Views.GamblerView.class)
     @RolesAllowed(Roles.GAMBLER)
@@ -203,6 +198,22 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public List<Gambler> getGamblers() {
         return gamblerService.getAll();
+    }
+
+    @GET("/gamblersTeam/{team}")
+    @RolesAllowed(Roles.GAMBLER)
+    public Set<Gambler> getGamblersTeam(String team){
+        Set<Gambler> toRet = new HashSet<>();
+        List<Gambler> gamblers = gamblerService.getAll();
+        for(Gambler gambler:gamblers){
+            for(StatutTeam statutTeam:gambler.getStatutTeams()){
+                if(statutTeam.getTeam().getName().equals(team)&&statutTeam.isAccepted()){
+                    toRet.add(gambler);
+                    break;
+                }
+            }
+        }
+        return toRet;
     }
 
     @POST("/joiner")
@@ -234,28 +245,9 @@ public class BetResource {
 
         Set<StatutTeam> testSet = new HashSet<>();
 
-        for (Team team : subscriber.getTeams()) {
-            Optional<Team> optTeam = teamDAO.get(team.getName());
-
-            Team toRegister = null;
-            boolean owner = false;
-
-            if (optTeam.isPresent()) { // Team has already been created
-                toRegister = optTeam.get();
-                logger.log(Level.INFO,"Id for team : "+toRegister.getId());
-            } else { //The team was created by the user and thus, the latter is the owner of it
-                logger.log(Level.INFO,"No team found");
-                team.setOwnerEmail(gambler.getEmail());
-                Key<Team> teamKey = teamDAO.createUpdate(team);
-                toRegister = teamDAO.get(teamKey);
-                owner = true;
-            }
-            testSet.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
-
-        }
+        gamblerService.addTeams(subscriber.getTeams(),gambler);
 
 
-        gamblerService.updateTeams(testSet, gambler);
     }
     
     @GET("/confirmSubscription")
