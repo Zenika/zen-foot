@@ -9,51 +9,51 @@
 	    <form class="form-horizontal" action="" method="post"  name="subscriptionForm" role="form" novalidate>
 	        <h2 style="text-align: center ; margin-bottom: 30px">S'inscrire</h2>
 	
-	        <div class="form-group">
+	        <div class="form-group" ng-class="{'has-error': subscriptionForm.name.$invalid && subscriptionForm.name.$dirty}">
 	            <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name" placeholder="Nom" required /> <br/>
 	            
-	            <span class="error" data-ng-show="subscriptionForm.name.$error.required">
+	            <span class="help-block" data-ng-show="subscriptionForm.name.$error.required && subscriptionForm.name.$dirty">
                     Le nom doit être renseigné.
                 </span>
 	        </div>
 	        
-	        <div class="form-group">
+	        <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.prenom.$dirty}">
 	            <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom" placeholder="Prenom" required /> <br/>
 	            
-	            <span class="error" data-ng-show="subscriptionForm.prenom.$error.required">
+	            <span class="help-block" data-ng-show="subscriptionForm.prenom.$error.required && subscriptionForm.prenom.$dirty">
                     Le prénom doit être renseigné.
                 </span>
 	        </div>
 	        
-	        <div class="form-group">
+	        <div class="form-group" ng-class="{'has-error': subscriptionForm.email.$invalid && subscriptionForm.email.$dirty}">
 	            <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="Email" required /> <br/>
 	            
-	            <span class="error" data-ng-show="subscriptionForm.email.$error.required">
+	            <span class="help-block" data-ng-show="subscriptionForm.email.$error.required && subscriptionForm.email.$dirty">
                     L'email doit être renseigné.
                 </span>
-                <span class="error" data-ng-show="subscriptionForm.email.$error.email">
-                    L'email doit être valide.
+                <span class="help-block" data-ng-show="subscriptionForm.email.$error.email && !subscriptionForm.email.$error.required">
+                    L'email doit avoir un format valide.
                 </span>
 	        </div>
 	        
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.password.$invalid && subscriptionForm.password.$dirty}">
                 <input type="password" name="password" id="password" class="form-control" data-ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)" data-ng-minlength="6" required/> <br/>
                 
-                <span class="error" data-ng-show="subscriptionForm.password.$error.required">
+                <span class="help-block" data-ng-show="subscriptionForm.password.$error.required && subscriptionForm.password.$dirty">
                     Le mot de passe doit être renseigné.
                 </span>
-                <span class="error" data-ng-show="subscriptionForm.password.$error.minlength">
+                <span class="help-block" data-ng-show="subscriptionForm.password.$error.minlength && !subscriptionForm.password.$error.required">
                     Le mot de passe doit faire 6 caractères minimum.
                 </span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.confirmPassword.$invalid  && subscriptionForm.confirmPassword.$dirty}">
                 <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" data-ng-model="subscriber.confirmPasswordHash"
                        placeholder="Entrez à nouveau le mot de passe" data-match="password"
                        pwd-check="password"
                        required="required"/> <br/>
 
-                <span class="error" data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch">
+                <span class="help-block" data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch && subscriptionForm.confirmPassword.$dirty">
                     Les mots de passe ne sont pas identiques !
                 </span>
             </div>
