@@ -19,7 +19,7 @@ angular.module('zenFoot.app')
                 })
                 .then(onGamblerRetrieved)
                 .catch(function () {
-                })
+                });
 
 
             function onGamblerRetrieved(gambler) {

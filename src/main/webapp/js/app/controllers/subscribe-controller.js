@@ -7,7 +7,7 @@ angular.module('zenFoot.app')
                 {name: "", isNew: false}
             ]};
             $rootScope.subscriber = {};
-            $scope.existingTeams = Team.getAll()
+            $scope.existingTeams = Team.getAll();
 
             var checkTeams = function () {
                 for (var x in $scope.subscriber.teams) {
@@ -15,7 +15,7 @@ angular.module('zenFoot.app')
                         $scope.subscriber.teams.splice(x)
                     }
                 }
-            }
+            };
 
             var subscribe = function () {
                 checkTeams();
@@ -35,12 +35,12 @@ angular.module('zenFoot.app')
                         subscribe()
                     }
                 })
-            }
+            };
 
 
             $scope.pushTeam = function () {
                 $scope.subscriber.teams.push({name: ''})
-            }
+            };
 
 
             $scope.valider = function () {
@@ -54,15 +54,15 @@ angular.module('zenFoot.app')
                     subscribe()
                 }
 
-            }
+            };
 
             $scope.ok = function () {
                 $scope.modalInstance.close(true);
-            }
+            };
 
             $scope.cancel = function () {
                 $scope.modalInstance.dismiss();
-            }
+            };
 
 
         }])
