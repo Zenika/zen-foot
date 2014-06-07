@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$location', '$modal', 'Team',
-        function ($scope, $resource, $http, $rootScope, $location, $modal, Team) {
+    .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$state', '$modal', 'Team',
+        function ($scope, $resource, $http, $rootScope, $state, $modal, Team) {
             $scope.subscriber = {teams: [
                 {name: "", isNew: false}
             ]};
@@ -21,9 +21,9 @@ angular.module('zenFoot.app')
                 checkTeams();
                 var Subscription = $resource('/api/performSubscription');
                 Subscription.save({user: $scope.subscriber, teams: $scope.subscriber.teams}, function () {
-                    $scope.subscriber.subscriptionSuccess = true
+                    $state.go('loginState', {subscriptionSuccess: true});
+                    $rootScope.subscriber = $scope.subscriber;
                 });
-                $rootScope.subscriber = $scope.subscriber;
             };
 
             var subscribeGroups = function () {
@@ -67,8 +67,8 @@ angular.module('zenFoot.app')
 
         }])
 
-    .controller("confirmSubscriptionCtrl", ['$timeout', '$location', '$stateParams', '$resource',
-        function ($timeout, $location, $stateParams, $resource) {
+    .controller("confirmSubscriptionCtrl", ['$timeout', '$stateParams', '$resource',
+        function ($timeout, $stateParams, $resource) {
             var confirmSubscription = $resource('/api/confirmSubscription', {email: $stateParams.id});
             confirmSubscription.get($stateParams.id, function (data) {
                 alert(data == "false");

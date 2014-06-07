@@ -11,7 +11,7 @@
         .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             $stateProvider
                 .state('loginState', {
-                    url: '/login',
+                    url: '/login?subscriptionSuccess',
                     templateUrl: 'view/login.html'
                 })
                 .state('betsState', {

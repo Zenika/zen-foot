@@ -1,5 +1,12 @@
 <div class="row" data-ng-controller="LoginCtrl">
+    <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+        <div class="alert alert-success text-center" data-ng-show="subscriptionSuccess">
+            F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour valider votre inscription.
+        </div>
+    </div>
+
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+
         <h2 class="form-title">Connexion</h2>
         
         <form name="doLoginForm" id="postLoginForm" method="post" action="/api/redirectAfterLogin" class="hidden">

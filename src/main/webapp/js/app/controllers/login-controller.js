@@ -4,9 +4,13 @@
  * This controller sends the login request to restx and spreads an AUTHENTICATED event to scopes.
  */
 angular.module('zenFoot.app')
-    .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location',
-        function ($scope, $rootScope, $http, $location) {
+    .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams',
+        function ($scope, $rootScope, $http, $state, $stateParams) {
             $scope.login = { };
+
+            if ($stateParams.subscriptionSuccess) {
+                $scope.subscriptionSuccess = true;
+            }
 
             if ($rootScope.subscriber != null) {
                 $scope.login = $rootScope.subscriber.login;
@@ -34,6 +38,6 @@ angular.module('zenFoot.app')
             };
 
             $scope.subscribe = function () {
-                $location.path('/subscribe');
+                $state.go('subscribeState');
             };
         }]);
