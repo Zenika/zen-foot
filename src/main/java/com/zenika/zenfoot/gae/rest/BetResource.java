@@ -89,7 +89,7 @@ public class BetResource {
             public void writeTo(RestxRequest restxRequest, RestxResponse restxResponse) throws IOException {
                 restxResponse
                         .setStatus(getStatus())
-                        .setHeader("Location", "/#/index");
+                        .setHeader("Location", "/#/bets");
             }
         };    
     }

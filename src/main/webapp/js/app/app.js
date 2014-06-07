@@ -14,9 +14,9 @@
                     url: '/login',
                     templateUrl: 'view/login.html'
                 })
-                .state('indexState', {
-                    url: '/index',
-                    templateUrl: 'view/index-content.html'
+                .state('betsState', {
+                    url: '/bets',
+                    templateUrl: 'view/bets.html'
                 })
                 .state('adminState', {
                     url: '/admin',
@@ -37,9 +37,9 @@
                 .state('ligueState', {
                     url: '/profil',
                     templateUrl: 'view/profil.html'
-                })
+                });
 
-            $urlRouterProvider.otherwise('/index');
+            $urlRouterProvider.otherwise('/bets');
 
             $httpProvider.interceptors.push(function ($q, authService, $rootScope, $location) {
                 return {

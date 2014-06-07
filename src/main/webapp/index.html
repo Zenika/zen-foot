@@ -26,12 +26,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="indexState">zen-foot</a>
+            <a class="navbar-brand" ui-sref="betsState">zen-foot</a>
             <span class="navbar-text pull-right visible-xs" ng-bind="user.email"></span>
         </div>
         <div class="navbar-collapse collapse" style="height: 1px;">
             <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
-                <li class="ng-hide" ng-class="{'active':isActive('indexState')}" data-ng-show="!isAdmin()"><a ui-sref="indexState">Pronostics</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a ui-sref="ligueState">Mes ligues</a></li>
             </ul>
