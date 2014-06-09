@@ -9,6 +9,7 @@ import restx.admin.AdminModule;
 import restx.factory.Component;
 import restx.factory.Factory;
 
+import javax.mail.MethodNotSupportedException;
 import java.util.*;
 
 @Component
@@ -48,13 +49,8 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     }
 
     @Override
-    public Optional<String> findCredentialByUserName(String email) {
-        Optional<User> user = findUserByName(email);
-        if (!user.isPresent()) {
-            return Optional.absent();
-        } else {
-            return Optional.fromNullable(user.get().getPasswordHash());
-        }
+    public Optional<String> findCredentialByUserName(String name) {
+        throw new UnsupportedOperationException();
     }
 
     /*

@@ -1,6 +1,5 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.googlecode.objectify.Objectify;
 import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.List;

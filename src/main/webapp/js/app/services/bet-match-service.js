@@ -57,9 +57,7 @@ angular.module('zenFoot.app')
             return {
 
                 getAll: function (callback) {
-                    var objTmp = Match.query(callback);
-                    //.bet.score1.score
-                    return objTmp;
+                    return Match.query(callback);
                 },
 
                 markUnreg: function (matchBetsCl, matchBetsServ) {

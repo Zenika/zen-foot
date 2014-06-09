@@ -2,6 +2,7 @@ package com.zenika.zenfoot.user;
 
 import java.util.Collection;
 
+import com.zenika.zenfoot.gae.utils.PasswordUtils;
 import restx.security.RestxPrincipal;
 
 import com.google.common.collect.ImmutableSet;
@@ -24,9 +25,6 @@ public class User implements RestxPrincipal {
 
     private Boolean isActive;
     
-    //TODO persist DateTime object
-    //private transient DateTime lastUpdated;
-
 	public User() {
 
 	}
@@ -74,6 +72,10 @@ public class User implements RestxPrincipal {
 
     public String getPasswordHash() {
         return passwordHash;
+    }
+
+    public void setPassword(String password) {
+        setPasswordHash(PasswordUtils.getPasswordHash(password));
     }
 
     public void setPasswordHash(String passwordHash) {

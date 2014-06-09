@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.base.Optional;
+
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Ref;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
-import com.zenika.zenfoot.gae.jackson.Views;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.services.BetService;
 import com.zenika.zenfoot.gae.services.GamblerService;
@@ -37,17 +34,11 @@ import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
 
-import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.BetService;
-import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MailSenderService;
-import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.MockUserService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.user.User;
 
 
 @RestxResource
@@ -97,16 +88,16 @@ public class BetResource {
     @PUT("/matchs/{id}")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
-        boolean isRegistered = matchService.getMatch(Long.parseLong(id)).getOutcome().isUpdated();
-        Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING,"entering update");
-        if (!isRegistered) {
-            match.getOutcome().setUpdated(true);
-            matchService.createUpdate(match);
-            logger.log(Level.WARNING,"skipping calculation of scores");
-            gamblerService.calculateScores(match);
-
-        }
+//        boolean isRegistered = matchService.getMatch(Long.parseLong(id)).getOutcome().isUpdated();
+//        Logger logger = Logger.getLogger(BetResource.class.getName());
+//        logger.log(Level.WARNING,"entering update");
+//        if (!isRegistered) {
+//            match.getOutcome().setUpdated(true);
+//            matchService.createUpdate(match);
+//            logger.log(Level.WARNING,"skipping calculation of scores");
+//            gamblerService.calculateScores(match);
+//
+//        }
     }
 
     @GET("/matchs")
@@ -125,61 +116,21 @@ public class BetResource {
     }*/
 
 
-    @GET("/matchbets")
+    @GET("/bets")
     @RolesAllowed({Roles.GAMBLER})
-    public List<MatchAndBet> getBets() {
-        Logger logger = Logger.getLogger(BetResource.class.getName());
+    public List<Bet> getBets() {
         User user = sessionInfo.getUser();
-        logger.log(Level.ALL, "retrieving user " + user.getEmail());
-
         Gambler gambler = gamblerService.get(user);
-        List<Match> matchs = matchService.getMatchs();
-
-
-        gamblerService.updateBets(gambler);
-
-        List<Bet> bets = gambler.getBets();
-        List<MatchAndBet> matchAndBets = new ArrayList<>();
-
-        logger.log(Level.WARNING, "after creating the gambler, there are " + bets.size() + " bets");
-        for (Match match : matchs) {
-            Bet bet = gamblerService.getBet(gambler, match);
-            if (bet == null) {
-                logger.log(Level.WARNING, "bet is null!");
-                logger.log(Level.WARNING, "bet corresponds to match ");
-                System.out.println("--------------------------------");
-                System.out.println("WHILE RETRIEVING ALL BETS");
-                System.out.println("NULL BET FOR MATCH " + match);
-            }
-
-            matchAndBets.add(new MatchAndBet().setMatch(match).setBet(bet));
-        }
-
-        return matchAndBets;
+        return gambler.getBets();
     }
 
     @POST("/bets")
     @RolesAllowed(Roles.GAMBLER)
-    public void postBets(List<MatchAndBet> matchAndBets) {
+    public void postBets(List<Bet> bets) {
+        User user = sessionInfo.getUser();
+        Gambler gambler = gamblerService.get(user);
 
-
-        Gambler gambler = gamblerService.get(sessionInfo.getUser());
-        List<Bet> newList = new ArrayList<>();
-
-        System.out.println("--------------------------------");
-        System.out.println("/bets " + matchAndBets.size() + " matchAndBet json objects received");
-
-        for (MatchAndBet matchAndBet : matchAndBets) {
-            if (matchAndBet == null) {
-                System.out.println("------------------------------------------");
-                System.out.println("WHILE POSTING BETS");
-                System.out.println("NULL BET FOR MATCH " + matchAndBet.getMatch());
-            }
-            newList.add(matchAndBet.getBet());
-        }
-        Gambler gambler1 = gamblerService.updateBets(newList, gambler);
-        System.out.println("/ bets After posting bets ");
-        System.out.println("There are " + gambler.getBets().size());
+        gamblerService.updateBets(bets, gambler);
     }
 
     @POST("/gambler")
@@ -222,15 +173,15 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public Set<Gambler> getGamblersTeam(String team){
         Set<Gambler> toRet = new HashSet<>();
-        List<Gambler> gamblers = gamblerService.getAll();
-        for(Gambler gambler:gamblers){
-            for(StatutTeam statutTeam:gambler.getStatutTeams()){
-                if(statutTeam.getTeam().getName().equals(team)&&statutTeam.isAccepted()){
-                    toRet.add(gambler);
-                    break;
-                }
-            }
-        }
+//        List<Gambler> gamblers = gamblerService.getAll();
+//        for(Gambler gambler:gamblers){
+//            for(StatutTeam statutTeam:gambler.getStatutTeams()){
+//                if(statutTeam.getTeam().getName().equals(team)&&statutTeam.isAccepted()){
+//                    toRet.add(gambler);
+//                    break;
+//                }
+//            }
+//        }
         return toRet;
     }
 

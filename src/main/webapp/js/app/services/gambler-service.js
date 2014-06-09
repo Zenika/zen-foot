@@ -5,6 +5,10 @@ angular.module('zenFoot.app')
         function ($resource) {
             return $resource('/api/gambler');
         }])
+    .factory('GamblerRanking', ['$resource',
+        function ($resource) {
+            return $resource('/api/ranking');
+        }])
     .factory('GamblerService', ['Gambler', '$resource', function (Gambler, $resource) {
         return {
             getAll: function () {
