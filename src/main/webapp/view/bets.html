@@ -77,8 +77,8 @@
                                                 <span class="label label-danger"
                                                       data-ng-show="score1Form.score1input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
-                                            <div class="text-right match-score">
-                                                <span class="real-score">{{match.score1}}</span>
+                                            <div class="text-right" data-ng-class="{'match-score':!knownResult(match)}">
+                                                <span class="real-score">{{match.score1}} </span>
                                             </div>
                                         </div>
                                     </div>
@@ -107,11 +107,8 @@
                                                 {{getTeamDisplayName(match.team2)}}
                                             </span>
 
-                                            <!--<div class="col-sm-2 col-xs-2" data-ng-if="match.unreg"><span-->
-                                            <!--class="label label-danger">non enregistr&eacute</span>-->
-                                            <!--</div>-->
                                         </div>
-                                        <div class="text-left match-score">
+                                        <div class="text-left" data-ng-class="{'match-score':!knownResult(match)}">
                                             <span class="real-score">{{match.score2}}</span>
                                         </div>
                                     </div>

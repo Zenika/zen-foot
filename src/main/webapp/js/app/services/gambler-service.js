@@ -3,19 +3,19 @@
 angular.module('zenFoot.app')
     .factory('Gambler', ['$resource',
         function ($resource) {
-            return $resource('/api/gambler');
+            return $resource('/api/gambler',{},{get:{cache:false,method:'GET'}});
         }])
     .factory('GamblerRanking', ['$resource',
         function ($resource) {
-            return $resource('/api/ranking');
+            return $resource('/api/ranking',{},{get:{cache:false,method:'GET'}});
         }])
     .factory('GamblerService', ['Gambler', '$resource', function (Gambler, $resource) {
         return {
             getAll: function () {
-                return $resource('/api/gamblers').query();
+                return $resource('/api/gamblers',{},{get:{cache:false,method:'GET'}}).query();
             },
             get: function (team) {
-                return $resource('/api/gamblersTeam/' + team.name).query()
+                return $resource('/api/gamblersTeam/' + team.name,{},{get:{cache:false,method:'GET'}}).query()
             }
         }
     }]);

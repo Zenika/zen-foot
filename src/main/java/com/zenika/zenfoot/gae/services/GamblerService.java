@@ -88,25 +88,20 @@ public class GamblerService {
 
         DateTime now = DateTime.now();
 
-
         for (Bet bet : newBets) {
 
             Bet existingBet = this.getBetByMatchId(gambler, bet.getMatchId());
             //Check the bet already existed in the database
             Logger logger = Logger.getLogger(Gambler.class.getName());
 
-
-
             if (existingBet == null) {
                 gambler.addBet(bet);
-                this.updateGambler(gambler);
             } else {
-
-               gambler.getBets().remove(existingBet);
-                gambler.addBet(bet);
-                this.updateGambler(gambler);
+              existingBet.setScore1(bet.getScore1());
+                existingBet.setScore2(bet.getScore2());
             }
         }
+        this.updateGambler(gambler);
     }
 
 

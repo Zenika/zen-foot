@@ -88,16 +88,16 @@ public class BetResource {
     @PUT("/matchs/{id}")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
-//        boolean isRegistered = matchService.getMatch(Long.parseLong(id)).getOutcome().isUpdated();
-//        Logger logger = Logger.getLogger(BetResource.class.getName());
-//        logger.log(Level.WARNING,"entering update");
-//        if (!isRegistered) {
-//            match.getOutcome().setUpdated(true);
-//            matchService.createUpdate(match);
-//            logger.log(Level.WARNING,"skipping calculation of scores");
+        boolean isRegistered = matchService.getMatch(Long.parseLong(id)).isScoreUpdated();
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        logger.log(Level.WARNING,"entering update");
+        if (!isRegistered) {
+            match.setScoreUpdated(true);
+            matchService.createUpdate(match);
+            logger.log(Level.WARNING,"skipping calculation of scores");
 //            gamblerService.calculateScores(match);
-//
-//        }
+
+        }
     }
 
     @GET("/matchs")
@@ -147,10 +147,16 @@ public class BetResource {
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.INFO, "current gambler is "+user.getEmail());
+        logger.log(Level.WARNING,"---------------------");
 
+        logger.log(Level.WARNING,"looking for "+user.getEmail());
         Gambler gambler = gamblerService.get(user);
-        logger.log(Level.INFO,"id of gambler : "+gambler.getId()+" ("+gambler.getNom()+")");
+        logger.log(Level.WARNING,"found "+gambler.getEmail());
+        logger.log(Level.WARNING,"with id "+gambler.getId() );
+
+
+        logger.log(Level.WARNING,gambler.getBets().size()+" bets found");
+        logger.log(Level.WARNING,""+gamblerService);
 
         return gambler;
     }

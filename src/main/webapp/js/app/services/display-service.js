@@ -10,11 +10,11 @@ angular.module('zenFoot.app')
                 isTeam2Winner: function (bet) {
                     return (bet.score1 !== undefined && bet.score2 !== undefined && bet.score1 < bet.score2);
                 },
-                isWinner: function (score, scoreConcerne, autreScore) {
-                    var scoreConcerne = score[scoreConcerne];
-                    var autreScore = score[autreScore];
-                    if ((!autreScore.score) || autreScore.score.trim() == '') return false;
-                    return (scoreConcerne.score > autreScore.score);
+                isWinner: function (match, scoreConcerne, autreScore) {
+                    var scoreConcerne = match[scoreConcerne];
+                    var autreScore = match[autreScore];
+                    if ((!autreScore) || autreScore.trim() == '') return false;
+                    return (scoreConcerne > autreScore);
                 },
                 dispPoints: function (matchBet) {
                     return betMatchService.knownOutcome(matchBet.match) && betMatchService.betMade(matchBet.bet);

@@ -95,7 +95,7 @@ zenContactFilters.filter('updatedMFilter', function () {
 
 var conditionUpdatedM = function (match) {
 
-    return !match.outcome.updated;
+    return !match.scoreUpdated;
 }
 
 zenContactFilters.filter('classementFilter',function(){
