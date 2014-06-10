@@ -92,6 +92,8 @@ angular.module('zenFoot.app')
 //            }
 
 
+            var pariezNotificationTimeout = null;
+
             /**
              * Function called when "postez" is clicked.
              * We filter the bets whose score is unknown, and whose beginning date is not passed yet.
@@ -100,6 +102,9 @@ angular.module('zenFoot.app')
                 $scope.betSavedSuccess = false;
                 $scope.betSavedError = false;
 
+                if (pariezNotificationTimeout !== null) {
+                    $timeout.cancel(pariezNotificationTimeout);
+                }
                 var now = new Date();
                 var bets = _.chain($scope.matches)
                     .filter(function(match) { return !match.scoreUpdated && new Date(match.date) > new Date(now); })
@@ -107,13 +112,15 @@ angular.module('zenFoot.app')
                     .value();
                 Bets.save(bets, function () {
                     $scope.betSavedSuccess = true;
-                    $timeout(function () {
+                    pariezNotificationTimeout = $timeout(function () {
                         $scope.betSavedSuccess = false;
+                        pariezNotificationTimeout = null;
                     }, 2000);
                 }, function () {
                     $scope.betSavedError = true;
-                    $timeout(function () {
+                    pariezNotificationTimeout = $timeout(function () {
                         $scope.betSavedError = false;
+                        pariezNotificationTimeout = null;
                     }, 2000);
                 })
             };
