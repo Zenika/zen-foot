@@ -146,8 +146,7 @@ angular.module('zenFoot.app')
                 return $scope.isFormer(match.date) && match.scoreUpdated;
             };
 
-            $scope.isTeam1Winner = displayService.isTeam1Winner;
-            $scope.isTeam2Winner = displayService.isTeam2Winner;
+            $scope.isTeamWinner = displayService.isTeamWinner;
             $scope.calculatePoints = betMatchService.calculatePoints;
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;

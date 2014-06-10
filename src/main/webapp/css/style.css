@@ -331,6 +331,9 @@ Some CSS properties on the size of inputs
     line-height: 30px;
     vertical-align: middle;
 }
+.match-winner {
+    text-decoration: underline;
+}
 .groupes-blocks label {
     width: 35px;
 }

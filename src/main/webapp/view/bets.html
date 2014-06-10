@@ -59,7 +59,7 @@
                                 <div class="row" ng-class="{'former-match':isFormer(match.date)}">
                                     <div class="col-xs-6 match-info">
                                         <div class="text-right">
-                                            <span data-ng-class="{'zen-bold':isTeam1Winner(match.bet)}">
+                                            <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2), 'match-winner': isTeamWinner(match.score1, match.score2)}">
                                                 {{getTeamDisplayName(match.team1)}}
                                             </span>
 
@@ -74,7 +74,7 @@
                                                        data-ng-model="match.bet.score1"
                                                        data-ng-pattern=scoreRegexp
                                                        data-ng-required="hasTwoScores(match.bet)"
-                                                       data-ng-class="{'zen-bold':isTeam1Winner(match.bet)}">
+                                                       data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2)}">
                                                 <span class="label label-danger"
                                                       data-ng-show="score1Form.score1input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
@@ -96,7 +96,7 @@
                                                        data-ng-model="match.bet.score2"
                                                        data-ng-pattern=scoreRegexp
                                                        data-ng-required="hasTwoScores(match.bet)"
-                                                       data-ng-class="{'zen-bold':isTeam2Winner(match.bet)}">
+                                                       data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1)}">
 
                                                 <span class="label label-danger"
                                                       data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
@@ -104,7 +104,7 @@
 
                                             <span class="country-flag" ng-class="match.team2"></span>
 
-                                            <span data-ng-class="{'zen-bold':isTeam2Winner(match.bet)}">
+                                            <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1), 'match-winner': isTeamWinner(match.score2, match.score1)}">
                                                 {{getTeamDisplayName(match.team2)}}
                                             </span>
 
