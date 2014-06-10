@@ -33,29 +33,11 @@ public class GamblerService {
     }
 
     public Gambler get(User user) {
-        return this.getFromEmail(user.getEmail());
+        return getFromEmail(user.getEmail());
     }
 
     public Gambler getFromEmail(String email) {
-
-        Gambler gambler = this.gamblerRepository.getGamblerFromEmail(email);
-        return gambler;
-    }
-
-    public void updateBets(Gambler gambler) {
-//        List<Match> matchs = matchService.getMatchs();
-//        for (Match match : matchs) {
-//
-//            if (!this.hasBet(gambler, match.getId())) {
-//                gambler.addBet(new Bet(match.getId()));
-//            }
-//        }
-//        gamblerRepository.saveGambler(gambler);
-
-    }
-
-    public Bet getBet(Gambler gambler, Match match) {
-        return getBetByMatchId(gambler, match.getId());
+        return gamblerRepository.getGamblerFromEmail(email);
     }
 
     public Bet getBetByMatchId(Gambler gambler, Long matchId) {
@@ -67,13 +49,9 @@ public class GamblerService {
         return null;
     }
 
-    public boolean hasBet(Gambler gambler, Long matchId) {
-        return getBetByMatchId(gambler, matchId) != null;
-    }
-
     public void updateBets(List<Bet> newBets, Gambler gambler) {
         for (Bet bet : newBets) {
-            Bet existingBet = this.getBetByMatchId(gambler, bet.getMatchId());
+            Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
             //Check the bet already existed in the database
             if (existingBet == null) {
                 gambler.addBet(bet);
@@ -82,7 +60,7 @@ public class GamblerService {
                 existingBet.setScore2(bet.getScore2());
             }
         }
-        this.updateGambler(gambler);
+        updateGambler(gambler);
     }
 
 
@@ -90,25 +68,19 @@ public class GamblerService {
         return createGambler(user, matchs, 0);
     }
 
-
     //TODO : remove once the mocked users are removed
-
     public Key<Gambler> createGambler(User user, List<Match> matchs, int points) {
-//        System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
-//        gambler.setPrenom(user.getPrenom());
-//        gambler.setNom(user.getNom());
-////        gambler.addPoints(points);
+        gambler.setPrenom(user.getPrenom());
+        gambler.setNom(user.getNom());
+//        gambler.addPoints(points);
 //
-//        Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
-//        logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
-//        for (Match match : matchs) {
-//            Bet bet = new Bet(match.getId());
-//            gambler.addBet(bet);
-//        }
+        for (Match match : matchs) {
+            Bet bet = new Bet(match.getId());
+            gambler.addBet(bet);
+        }
 //
-        Key<Gambler> toRet = this.gamblerRepository.saveGambler(gambler);
-        return toRet;
+        return gamblerRepository.saveGambler(gambler);
     }
 
     public Gambler updateGambler(Gambler gambler) {
@@ -121,12 +93,9 @@ public class GamblerService {
     }
 
     public void calculateScores(Match match) {
-
-//        Logger logger = Logger.getLogger(GamblerService.class.getName());
-//        logger.log(Level.INFO, "entering calculateScores");
 //        List<Gambler> gamblers = gamblerRepository.getAll();
 //        for (Gambler gambler : gamblers) {
-//            Bet bet = this.getBet(gambler, match);
+//            Bet bet = getBetByMatchId(gambler, match.getId());
 //            if (bet.wasMade()) {
 //                if (bet.isLike3Points(match.getOutcome())) {
 //                    gambler.addPoints(3);
@@ -138,12 +107,9 @@ public class GamblerService {
 //                if (gambler.getEmail().equals("jean.bon@zenika.com")) {
 //                    logger.log(Level.INFO, "Points calculated for Jean Bon : " + gambler.getPoints());
 //                }
-//                this.updateGambler(gambler);
-//
+//                updateGambler(gambler);
 //            }
 //        }
-
-
     }
 
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
@@ -154,7 +120,7 @@ public class GamblerService {
         for (Team team : teams) {
             Optional<Team> optTeam = teamDAO.get(team.getName());
 
-            Team toRegister = null;
+            Team toRegister;
             boolean owner = false;
 
             if (optTeam.isPresent()) { // Team has already been created
@@ -176,7 +142,6 @@ public class GamblerService {
     }
 
     public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
-
         gamblerRepository.saveGambler(gambler);
     }
 
