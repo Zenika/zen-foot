@@ -99,10 +99,12 @@ public class GamblerService {
 
             if (existingBet == null) {
                 gambler.addBet(bet);
+                this.updateGambler(gambler);
             } else {
 
                gambler.getBets().remove(existingBet);
                 gambler.addBet(bet);
+                this.updateGambler(gambler);
             }
         }
     }
