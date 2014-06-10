@@ -109,10 +109,6 @@ zenfootModule.controller('ProfilCtrl', ['$resource', 'Gambler', '$scope', 'Joine
         })
     }
 
-
-
-
-
     $scope.valider=function(){
         if(Team.hasNewGroup($scope.joinedTeams)){
             joinGroups()
