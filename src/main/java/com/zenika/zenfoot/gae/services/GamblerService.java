@@ -59,37 +59,22 @@ public class GamblerService {
     }
 
     public Bet getBetByMatchId(Gambler gambler, Long matchId) {
-        Bet toRet = null;
-
         for (Bet bet : gambler.getBets()) {
             if (bet.getMatchId().equals(matchId)) {
-                toRet = bet;
-                break;
+                return bet;
             }
         }
-        return toRet;
+        return null;
     }
 
     public boolean hasBet(Gambler gambler, Long matchId) {
-        for (Bet bet : gambler.getBets()) {
-            if (bet.getMatchId().equals(matchId)) {
-                return true;
-            }
-
-        }
-        return false;
+        return getBetByMatchId(gambler, matchId) != null;
     }
 
     public void updateBets(List<Bet> newBets, Gambler gambler) {
-
-        DateTime now = DateTime.now();
-
         for (Bet bet : newBets) {
-
             Bet existingBet = this.getBetByMatchId(gambler, bet.getMatchId());
             //Check the bet already existed in the database
-            Logger logger = Logger.getLogger(Gambler.class.getName());
-
             if (existingBet == null) {
                 gambler.addBet(bet);
             } else {
