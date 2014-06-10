@@ -16,7 +16,7 @@ public class DaoModule {
 
     @Provides
     @Named("userdao")
-    public UserDao getUserDao(){
-       return new UserDAOImpl();
+    public UserDao getUserDao() {
+        return new UserDAOImpl();
     }
 }

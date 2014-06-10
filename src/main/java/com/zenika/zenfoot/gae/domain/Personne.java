@@ -1,49 +1,47 @@
 package com.zenika.zenfoot.gae.domain;
 
-import java.io.Serializable;
-
 import com.googlecode.objectify.annotation.Entity;
-
 import com.googlecode.objectify.annotation.Id;
+
+import java.io.Serializable;
 
 @Entity
 public class Personne implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2145825218255889542L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2145825218255889542L;
 
-	@Id
-	private Long id;
+    @Id
+    private Long id;
 
-	private String personne = "";
+    private String personne = "";
 
-	public Personne() {
+    public Personne() {
 
-	}
-	
-	
-
-	public Long getId() {
-		return id;
-	}
+    }
 
 
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+    public Long getId() {
+        return id;
+    }
 
 
-	public String getPersonne() {
-		return personne;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Personne setPersonne(String personne) {
-		this.personne = personne;
-		return this;
-	};
+
+    public String getPersonne() {
+        return personne;
+    }
+
+    public Personne setPersonne(String personne) {
+        this.personne = personne;
+        return this;
+    }
+
+    ;
 
 }

@@ -19,7 +19,8 @@ public class Match {
     private Integer score2;
     private boolean scoreUpdated = false;
 
-    public Match() {}
+    public Match() {
+    }
 
     public Match(DateTime date, String groupe, String team1, String team2) {
         this.date = date;
@@ -95,6 +96,6 @@ public class Match {
 
     @Override
     public String toString() {
-        return team1+" / "+team2+" ("+date+")";
+        return team1 + " / " + team2 + " (" + date + ")";
     }
 }

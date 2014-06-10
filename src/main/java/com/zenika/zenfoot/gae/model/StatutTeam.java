@@ -7,7 +7,7 @@ import com.googlecode.objectify.annotation.Index;
  */
 public class StatutTeam {
 
-    protected boolean accepted=false;
+    protected boolean accepted = false;
 
     @Index
     protected Team team;

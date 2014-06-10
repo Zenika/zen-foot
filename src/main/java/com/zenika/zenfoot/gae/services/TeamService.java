@@ -16,7 +16,7 @@ public class TeamService {
         this.teamDAO = teamDAO;
     }
 
-    public List<Team> getAll(){
+    public List<Team> getAll() {
         return teamDAO.getAll();
     }
 }

@@ -13,6 +13,7 @@ public interface GamblerDAO {
     com.googlecode.objectify.Key<Gambler> saveGambler(Gambler gambler);
 
     Gambler getGambler(Long id);
+
     Gambler getGambler(Key<Gambler> key);
 
 

@@ -14,17 +14,18 @@ import com.zenika.zenfoot.user.User;
  */
 public class OfyService {
 
-    static{
+    static {
         factory().register(User.class);
         factory().register(Match.class);
         factory().register(Gambler.class);
         factory().register(Team.class);
     }
 
-    public static Objectify ofy(){
+    public static Objectify ofy() {
         return ObjectifyService.ofy();
     }
-    public static ObjectifyFactory factory(){
+
+    public static ObjectifyFactory factory() {
         ObjectifyFactory objectifyFactory = ObjectifyService.factory();
         JodaTimeTranslators.add(objectifyFactory);
         return objectifyFactory;

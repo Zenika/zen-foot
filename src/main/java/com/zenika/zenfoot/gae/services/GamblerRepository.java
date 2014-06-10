@@ -19,16 +19,16 @@ public class GamblerRepository {
     }
 
 
-
     public Gambler getGambler(Long id) {
         return gamblerDAO.getGambler(id);
 
     }
 
-    public Gambler getGambler(Key<Gambler> key){
+    public Gambler getGambler(Key<Gambler> key) {
         return gamblerDAO.getGambler(key);
     }
-    public Gambler getGamblerFromEmail(String email){
+
+    public Gambler getGamblerFromEmail(String email) {
         return gamblerDAO.getGamblerFromEmail(email);
     }
 
@@ -37,7 +37,7 @@ public class GamblerRepository {
     }
 
 
-    public List<Gambler> getAll(){
+    public List<Gambler> getAll() {
         return gamblerDAO.getAll();
     }
 

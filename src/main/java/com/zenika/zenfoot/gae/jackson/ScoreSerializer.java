@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.IOException;
 
@@ -16,10 +15,9 @@ public class ScoreSerializer extends JsonSerializer<Integer> {
 
     @Override
     public void serialize(Integer integer, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
-        if(integer.equals(new Integer(-1))){
+        if (integer.equals(new Integer(-1))) {
             jsonGenerator.writeObject("");
-        }
-        else{
+        } else {
             jsonGenerator.writeObject(integer.toString());
         }
     }

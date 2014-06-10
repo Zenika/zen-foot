@@ -4,10 +4,6 @@ import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
-
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 
@@ -29,7 +25,7 @@ public class GamblerService {
     public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
-        this.teamDAO=teamDAO;
+        this.teamDAO = teamDAO;
     }
 
     public List<Gambler> getAll() {
@@ -97,7 +93,7 @@ public class GamblerService {
             if (existingBet == null) {
                 gambler.addBet(bet);
             } else {
-              existingBet.setScore1(bet.getScore1());
+                existingBet.setScore1(bet.getScore1());
                 existingBet.setScore2(bet.getScore2());
             }
         }
@@ -105,16 +101,14 @@ public class GamblerService {
     }
 
 
-
-
-    public Key<Gambler> createGambler(User user, List<Match> matchs){
-        return createGambler(user,matchs,0);
+    public Key<Gambler> createGambler(User user, List<Match> matchs) {
+        return createGambler(user, matchs, 0);
     }
 
 
     //TODO : remove once the mocked users are removed
 
-    public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
+    public Key<Gambler> createGambler(User user, List<Match> matchs, int points) {
 //        System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
 //        gambler.setPrenom(user.getPrenom());
@@ -128,7 +122,7 @@ public class GamblerService {
 //            gambler.addBet(bet);
 //        }
 //
-        Key<Gambler> toRet= this.gamblerRepository.saveGambler(gambler);
+        Key<Gambler> toRet = this.gamblerRepository.saveGambler(gambler);
         return toRet;
     }
 
@@ -137,7 +131,7 @@ public class GamblerService {
         return gamblerRepository.getGambler(key);
     }
 
-    public Gambler getGambler(Key<Gambler> gamblerKey){
+    public Gambler getGambler(Key<Gambler> gamblerKey) {
         return gamblerRepository.getGambler(gamblerKey);
     }
 
@@ -167,12 +161,12 @@ public class GamblerService {
 
     }
 
-    public Key<Gambler> addTeams(List<Team> teams, Gambler gambler){
+    public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
         Logger logger = Logger.getLogger(GamblerService.class.getName());
 
 
         Set<StatutTeam> toReg = new HashSet<>();
-        for (Team team :teams) {
+        for (Team team : teams) {
             Optional<Team> optTeam = teamDAO.get(team.getName());
 
             Team toRegister = null;
@@ -180,9 +174,9 @@ public class GamblerService {
 
             if (optTeam.isPresent()) { // Team has already been created
                 toRegister = optTeam.get();
-                logger.log(Level.INFO,"Id for team : "+toRegister.getId());
+                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
             } else { //The team was created by the user and thus, the latter is the owner of it
-                logger.log(Level.INFO,"No team found");
+                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
@@ -203,10 +197,11 @@ public class GamblerService {
 
     /**
      * Get all the teams whose owner is gambler
+     *
      * @param gambler
      * @return
      */
-    private Set<Team> isOwnerOf(Gambler gambler){
+    private Set<Team> isOwnerOf(Gambler gambler) {
         Set<Team> set = new HashSet<>();
 //        for(StatutTeam statutTeam:gambler.getStatutTeams()){
 //            Team team = statutTeam.getTeam();
@@ -219,6 +214,7 @@ public class GamblerService {
 
     /**
      * Get all the
+     *
      * @param gambler
      * @return
      */
@@ -226,13 +222,12 @@ public class GamblerService {
         Set<Team> ownedTeams = isOwnerOf(gambler);
         Set<Gambler> joining = new HashSet<>();
 
-        for(Team team : ownedTeams){
+        for (Team team : ownedTeams) {
             joining.addAll(gamblerRepository.wantToJoin(team.getName()));
         }
 
         return joining;
     }
-
 
 
 }

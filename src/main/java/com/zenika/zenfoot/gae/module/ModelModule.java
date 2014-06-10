@@ -39,7 +39,6 @@ public class ModelModule {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
 
 
-
         return matchRepository;
     }
 
@@ -91,12 +90,12 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService,TeamDAO teamDAO) {
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO) {
         return new GamblerService(gamblerRepository, matchService, teamDAO);
     }
 
     @Provides
-    public TeamDAO teamDAO(){
+    public TeamDAO teamDAO() {
         return new TeamDAO();
     }
 }

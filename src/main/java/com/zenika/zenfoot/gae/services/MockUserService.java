@@ -8,33 +8,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restx.security.UserService;
 
-public class MockUserService implements UserService<User>{
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(MockUserService.class);
+public class MockUserService implements UserService<User> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MockUserService.class);
 
     private final MockZenFootUserRepository zenFootUserRepository;
 
-    public MockUserService(MockZenFootUserRepository zenFootUserRepository){
+    public MockUserService(MockZenFootUserRepository zenFootUserRepository) {
         this.zenFootUserRepository = zenFootUserRepository;
     }
 
     @Override
     public Optional<User> findUserByName(String name) {
-        if(name==null)System.out.println("----------NAME IS NULL----------");
+        if (name == null) System.out.println("----------NAME IS NULL----------");
         return zenFootUserRepository.findUserByName(name);
     }
 
     @Override
     public Optional<User> findAndCheckCredentials(String email, String passwordHash) {
         Optional<User> optionalUser = zenFootUserRepository.findUserByName(email);
-        
+
         if (!optionalUser.isPresent()) {
             return optionalUser;
         }
 
         String credentials = optionalUser.get().getPasswordHash();
 
-        if (credentials.equals(PasswordUtils.getPasswordHash(passwordHash))){
+        if (credentials.equals(PasswordUtils.getPasswordHash(passwordHash))) {
             return optionalUser;
         } else {
             return Optional.absent();
@@ -48,12 +48,12 @@ public class MockUserService implements UserService<User>{
     public User get(Key<User> keyUser) {
         return zenFootUserRepository.get(keyUser);
     }
-    
+
     public User getUserByEmail(String email) {
-    	return zenFootUserRepository.getUserbyEmail(email);
+        return zenFootUserRepository.getUserbyEmail(email);
     }
-    
+
     public User updateUser(User user) {
-    	return zenFootUserRepository.updateUser(user);
+        return zenFootUserRepository.updateUser(user);
     }
 }

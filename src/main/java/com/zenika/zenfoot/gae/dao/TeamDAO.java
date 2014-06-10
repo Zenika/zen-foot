@@ -30,19 +30,17 @@ public class TeamDAO {
         return OfyService.ofy().load().type(Team.class).list();
     }
 
-    public Optional<Team> get(String name){
-        List<Team> team =  OfyService.ofy().load().type(Team.class).filter("name",name).limit(1).list();
+    public Optional<Team> get(String name) {
+        List<Team> team = OfyService.ofy().load().type(Team.class).filter("name", name).limit(1).list();
         Logger logger = Logger.getLogger(TeamDAO.class.getName());
 
         Team toRet = null;
-        if(team.size()>1) {
+        if (team.size() > 1) {
             logger.log(Level.INFO, "Objectify fetch for a team by name found more than one Team");
-        }
-        else{
-            if(team.size()>0){
+        } else {
+            if (team.size() > 0) {
                 toRet = team.get(0);
-            }
-            else{
+            } else {
 
             }
         }

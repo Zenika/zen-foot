@@ -2,15 +2,13 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.UserDao;
 import com.zenika.zenfoot.user.User;
-import restx.admin.AdminModule;
 import restx.factory.Component;
 import restx.factory.Factory;
 
-import javax.mail.MethodNotSupportedException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class MockZenFootUserRepository implements ZenFootUserRepository {
@@ -69,9 +67,9 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
         }
     }
     */
-    
+
     public User getUserbyEmail(String email) {
-    	return userDao.getUser(email);
+        return userDao.getUser(email);
     }
 
     @Override
@@ -98,7 +96,7 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     }
 
     public Iterable<User> findAllUsers() {
-       return this.userDao.getAll();
+        return this.userDao.getAll();
     }
 
     public void deleteUser(String userRef) {

@@ -15,7 +15,7 @@ public class AppModule {
 
     @Provides
     public SignatureKey signatureKey() {
-         return new SignatureKey("-7155845384686390950 gae_restx e21eb686-6e0d-4a30-8ad0-ca74107f423a gae_restx".getBytes(Charsets.UTF_8));
+        return new SignatureKey("-7155845384686390950 gae_restx e21eb686-6e0d-4a30-8ad0-ca74107f423a gae_restx".getBytes(Charsets.UTF_8));
     }
 
     @Provides
@@ -46,9 +46,9 @@ public class AppModule {
 
     @Provides
     @Named("sessioninfo")
-    public SessionInfo getSessionInfo(){
+    public SessionInfo getSessionInfo() {
         return new SessionInfo();
     }
-    
-   
+
+
 }
