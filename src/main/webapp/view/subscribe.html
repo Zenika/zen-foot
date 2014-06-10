@@ -34,7 +34,7 @@
                 <label for="email" class="sr-only">Email</label>
                 <div class="input-group">
                     <span class="input-group-addon">@</span>
-                    <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="Adresse mail" required/>
+                    <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="prenom.nom@zenika.com" zen-mail required/>
                 </div>
                 <p
                     class="help-block"
@@ -46,7 +46,11 @@
                     data-ng-show="subscriptionForm.email.$error.email && !subscriptionForm.email.$error.required">
                     Format non valide
                 </p>
-
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.email.$error.zenikaEmail && !subscriptionForm.email.$error.email">
+                    Doit être une adresse @zenika.com
+                </p>
             </div>
 
 

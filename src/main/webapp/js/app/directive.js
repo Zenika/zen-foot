@@ -114,3 +114,24 @@ zenFootDirectives.directive('selectTeam', ['GamblerService', function (GamblerSe
         }
     }
 }]);
+
+var ZENIKA_EMAIL_REGEXP = /^.*@zenika\.com$/;
+
+zenFootDirectives.directive('zenMail', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function(viewValue) {
+                if (ZENIKA_EMAIL_REGEXP.test(viewValue)) {
+                    // it is valid
+                    ctrl.$setValidity('zenikaEmail', true);
+                    return viewValue;
+                } else {
+                    // it is invalid, return undefined (no model update)
+                    ctrl.$setValidity('zenikaEmail', false);
+                    return undefined;
+                }
+            });
+        }
+    };
+});
