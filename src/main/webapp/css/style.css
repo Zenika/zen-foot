@@ -118,10 +118,15 @@ body {
     text-align: center;
 }
 
-
+.glyphicon-empty {
+  width: 14px;
+}
 
 /* A REVOIR */
-
+.form-title {
+    text-align: center; 
+    margin-bottom: 30px;
+}
 
 .zen-space {
     height: 20;
@@ -281,6 +286,7 @@ Some CSS properties on the size of inputs
 
 .classement-jumbo{
     text-align: center;
+    padding: 15px;
 }
 
 .classement-jumbo > p {
@@ -297,30 +303,64 @@ Some CSS properties on the size of inputs
     display: inline;
 }
 
-.match-title{
-    margin-bottom: 10px;
+.match-title {
+    margin-bottom: 20px;
 }
 
-.finales-blocks{
+.match-line {
+    margin-bottom: 20px;
+}
+
+.match-line .match-score {
+    display: none;
+}
+
+.match-line.match-ended {
+    margin-bottom: 5px;
+}
+
+.match-line.match-ended .match-score {
+    display: block;
+}
+
+.match-date {
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+}
+.groupes-blocks label {
+    width: 35px;
+}
+.finales-blocks {
     display: inline-block;
+}
+.finales-blocks label {
+    width: 55px;
 }
 
 .pariez-button{
     position: fixed;
-    background-color: #EBEBEB;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 4px rgba(190, 190, 190, 0.6);
     left: 0;
     right: 0;
     bottom: 0;
 }
 
-.pariez-button button {
-    margin: 10px;
+.pariez-button span {
+    line-height: 54px;
+    font-weight: bold;
+}
+.pariez-button span.saved-sucess {
+    color: #3c763d;    
 }
 
-.country-flag{
-    border: solid;
-    border-color: darkgrey;
-    border-width: 1px;
+.pariez-button span.saved-error {
+    color: #a94442;    
+}
+
+.pariez-button button {
+    margin: 10px;
 }
 
 .match-info{
@@ -355,4 +395,44 @@ Some CSS properties on the size of inputs
     color:red;
 }
 
+.country-flag {
+    display: inline-block;
+    background: url('../img/flags.png') no-repeat;
+    width: 24px;
+    height: 14px;
+    vertical-align: middle;
+    background-size: 392px 240px;
+}
+
+.algerie { background-position: -132px -0px;  }
+.allemagne { background-position: -158px -0px;  }
+.angleterre { background-position: -210px -0px;  }
+.argentine { background-position: -262px -0px;  }
+.australie { background-position: -340px -0px;  }
+.belgique { background-position: -132px -16px;  }
+.bosnie { background-position: -262px -16px;  }
+.bresil { background-position: -314px -16px;  }
+.cameroun { background-position: -132px -32px;  }
+.coree { background-position: -210px -32px;  }
+.chili { background-position: -262px -32px;  }
+.coteIvoir { background-position: -340px -32px;  }
+.colombie { background-position: -2px -48px;  }
+.costaRica { background-position: -80px -48px;  }
+.croatie { background-position: -106px -48px;  }
+.equateur { background-position: -314px -48px;  }
+.espagne { background-position: -2px -64px;  }
+.france { background-position: -132px -64px;  }
+.ghana { background-position: -314px -64px;  }
+.grece { background-position: -2px -80px;  }
+.honduras { background-position: -210px -80px;  }
+.iran { background-position: -340px -80px;  }
+.italie { background-position: -80px -96px;  }
+.japon { background-position: -132px -96px;  }
+.mexique { background-position: -28px -128px;  }
+.nigeria { background-position: -106px -144px;  }
+.paysBas { background-position: -184px -80px;  }
+.portugal { background-position: -106px -160px;  }
+.russie { background-position: -288px -160px;  }
+.suisse { background-position: -106px -192px;  }
+.uruguay { background-position: -262px -208px;  }
 

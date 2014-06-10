@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.StatutTeam;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -70,22 +71,15 @@ public class GamblerDAOImpl implements GamblerDAO {
      */
     @Override
     public Gambler getGamblerFromEmail(String email) {
-
-
-
         List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(0).list();
-        Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
-
-        Gambler toRet = null;
-        if (gamblers == null) logger.log(Level.SEVERE, "No gambler found with email " + email);
-        if (gamblers != null && gamblers.size() > 0) {
-            System.out.println("looking for " + email);
-            System.out.println(gamblers.size() + " gamblers found");
-            toRet = gamblers.get(0);
-        } else {
-            logger.log(Level.SEVERE, "No gambler found with email " + email);
+        if (gamblers == null || gamblers.isEmpty()) {
+            return null;
         }
-        return toRet;
+        if (gamblers.size() > 1){
+            throw new RuntimeException("Several users with email " + email);
+        }
+
+        return gamblers.get(0);
     }
 
 

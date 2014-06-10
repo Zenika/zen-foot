@@ -5,100 +5,96 @@ import com.googlecode.objectify.annotation.Id;
 import org.joda.time.DateTime;
 
 @Entity
-public class Match implements Event {
+public class Match {
 
     @Id
     private Long id;
-
     private DateTime date;
+    private String groupe;
 
-    private Participant participant1;
+    private String team1;
+    private String team2;
 
-    protected Participant participant2;
+    private Integer score1;
+    private Integer score2;
+    private boolean scoreUpdated = false;
 
-    protected MatchOutcome outcome;
+    public Match() {}
 
-
-
-    public Match(DateTime date, Participant participant1, Participant participant2) {
-        super();
+    public Match(DateTime date, String groupe, String team1, String team2) {
         this.date = date;
-        this.participant1 = participant1;
-        this.participant2 = participant2;
-        this.outcome=new MatchOutcome();
+        this.groupe = groupe;
+        this.team1 = team1;
+        this.team2 = team2;
     }
 
-    public Match() {
-        this(null,null,null);
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DateTime getDate() {
         return date;
     }
 
-    public Match setDate(DateTime date) {
+    public void setDate(DateTime date) {
         this.date = date;
-        return this;
     }
 
-    public Participant getParticipant1() {
-        return participant1;
+    public String getGroupe() {
+        return groupe;
     }
 
-    public Match setParticipant1(Participant participant1) {
-        this.participant1 = participant1;
-        return this;
+    public void setGroupe(String groupe) {
+        this.groupe = groupe;
     }
 
-    public Participant getParticipant2() {
-        return participant2;
+    public String getTeam1() {
+        return team1;
     }
 
-    public Match setParticipant2(Participant participant2) {
-        this.participant2 = participant2;
-        return this;
+    public void setTeam1(String team1) {
+        this.team1 = team1;
     }
 
-
-    public MatchOutcome getOutcome() {
-        return outcome;
+    public String getTeam2() {
+        return team2;
     }
 
-    public Match setOutcome(MatchOutcome outcome) {
-        this.outcome = outcome;
-        return this;
+    public void setTeam2(String team2) {
+        this.team2 = team2;
     }
 
-    public Match setId(Long id) {
-        this.id = id;
-        return this;
+    public Integer getScore1() {
+        return score1;
     }
 
-    public boolean hasOccured(DateTime now){
-        return this.getDate().isBefore(now);
+    public void setScore1(Integer score1) {
+        this.score1 = score1;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getScore2() {
+        return score2;
     }
 
-    @Override
-    public boolean equals(Object match) {
-        if (!(match instanceof Match)) return false;
-
-        return ((Match) match).date.equals(this.getDate());
+    public void setScore2(Integer score2) {
+        this.score2 = score2;
     }
 
+    public boolean isScoreUpdated() {
+        return scoreUpdated;
+    }
 
-    @Override
-    public boolean endedLike(Prediction prediction) {
-        //TODO implement method
-        return false;
+    public void setScoreUpdated(boolean scoreUpdated) {
+        this.scoreUpdated = scoreUpdated;
     }
 
     @Override
     public String toString() {
-        return participant1+" / "+participant2+" ("+this.getDate()+")";
+        return team1+" / "+team2+" ("+date+")";
     }
 }

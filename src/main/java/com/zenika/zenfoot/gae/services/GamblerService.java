@@ -2,12 +2,12 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.VoidWork;
-import com.googlecode.objectify.Work;
-import com.zenika.zenfoot.gae.dao.OfyService;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
 
+import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 
@@ -47,14 +47,14 @@ public class GamblerService {
     }
 
     public void updateBets(Gambler gambler) {
-        List<Match> matchs = matchService.getMatchs();
-        for (Match match : matchs) {
-
-            if (!this.hasBet(gambler, match.getId())) {
-                gambler.addBet(new Bet(match.getId()));
-            }
-        }
-        gamblerRepository.saveGambler(gambler);
+//        List<Match> matchs = matchService.getMatchs();
+//        for (Match match : matchs) {
+//
+//            if (!this.hasBet(gambler, match.getId())) {
+//                gambler.addBet(new Bet(match.getId()));
+//            }
+//        }
+//        gamblerRepository.saveGambler(gambler);
 
     }
 
@@ -84,7 +84,7 @@ public class GamblerService {
         return false;
     }
 
-    public Gambler updateBets(List<Bet> newBets, Gambler gambler) {
+    public void updateBets(List<Bet> newBets, Gambler gambler) {
 
         DateTime now = DateTime.now();
 
@@ -98,27 +98,13 @@ public class GamblerService {
 
 
             if (existingBet == null) {
-                logger.log(Level.SEVERE, "" + bet.getMatchId());
-                logger.log(Level.SEVERE, "tried to update a bet which didn't exist");
+                gambler.addBet(bet);
             } else {
-                //If the bet has changed (after a user input), rewrite the object in the database
-                if (!existingBet.exactSame(bet)) {
 
-                    logger.log(Level.ALL, "try to register a new bet");
-                    Match match = matchService.getMatch(bet.getMatchId());
-
-                    //We have to check that the bet was made before the beginning of the match before registering it
-                    if (!match.hasOccured(now)) {
-                        gambler.remove(existingBet);
-                        gambler.addBet(bet);
-                    }
-
-
-                }
+               gambler.getBets().remove(existingBet);
+                gambler.addBet(bet);
             }
         }
-
-        return gambler;
     }
 
 
@@ -132,19 +118,19 @@ public class GamblerService {
     //TODO : remove once the mocked users are removed
 
     public Key<Gambler> createGambler(User user, List<Match> matchs, int points){
-        System.out.println("creating gambler with email " + user.getEmail());
+//        System.out.println("creating gambler with email " + user.getEmail());
         Gambler gambler = new Gambler(user.getEmail());
-        gambler.setPrenom(user.getPrenom());
-        gambler.setNom(user.getNom());
-        gambler.addPoints(points);
-
-        Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
-        logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
-        for (Match match : matchs) {
-            Bet bet = new Bet(match.getId());
-            gambler.addBet(bet);
-        }
-
+//        gambler.setPrenom(user.getPrenom());
+//        gambler.setNom(user.getNom());
+////        gambler.addPoints(points);
+//
+//        Logger logger = Logger.getLogger(GamblerService.class.getName() + 1);
+//        logger.log(Level.WARNING, "while creating gambler, there are " + matchs.size());
+//        for (Match match : matchs) {
+//            Bet bet = new Bet(match.getId());
+//            gambler.addBet(bet);
+//        }
+//
         Key<Gambler> toRet= this.gamblerRepository.saveGambler(gambler);
         return toRet;
     }
@@ -160,26 +146,26 @@ public class GamblerService {
 
     public void calculateScores(Match match) {
 
-        Logger logger = Logger.getLogger(GamblerService.class.getName());
-        logger.log(Level.INFO, "entering calculateScores");
-        List<Gambler> gamblers = gamblerRepository.getAll();
-        for (Gambler gambler : gamblers) {
-            Bet bet = this.getBet(gambler, match);
-            if (bet.wasMade()) {
-                if (bet.isLike3Points(match.getOutcome())) {
-                    gambler.addPoints(3);
-                } else {
-                    if (bet.isLike1Point(match.getOutcome())) {
-                        gambler.addPoints(1);
-                    }
-                }
-                if (gambler.getEmail().equals("jean.bon@zenika.com")) {
-                    logger.log(Level.INFO, "Points calculated for Jean Bon : " + gambler.getPoints());
-                }
-                this.updateGambler(gambler);
-
-            }
-        }
+//        Logger logger = Logger.getLogger(GamblerService.class.getName());
+//        logger.log(Level.INFO, "entering calculateScores");
+//        List<Gambler> gamblers = gamblerRepository.getAll();
+//        for (Gambler gambler : gamblers) {
+//            Bet bet = this.getBet(gambler, match);
+//            if (bet.wasMade()) {
+//                if (bet.isLike3Points(match.getOutcome())) {
+//                    gambler.addPoints(3);
+//                } else {
+//                    if (bet.isLike1Point(match.getOutcome())) {
+//                        gambler.addPoints(1);
+//                    }
+//                }
+//                if (gambler.getEmail().equals("jean.bon@zenika.com")) {
+//                    logger.log(Level.INFO, "Points calculated for Jean Bon : " + gambler.getPoints());
+//                }
+//                this.updateGambler(gambler);
+//
+//            }
+//        }
 
 
     }
@@ -208,7 +194,7 @@ public class GamblerService {
             toReg.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
 
         }
-        gambler.addTeams(toReg);
+//        gambler.addTeams(toReg);
         return gamblerRepository.saveGambler(gambler);
 
     }
@@ -225,12 +211,12 @@ public class GamblerService {
      */
     private Set<Team> isOwnerOf(Gambler gambler){
         Set<Team> set = new HashSet<>();
-        for(StatutTeam statutTeam:gambler.getStatutTeams()){
-            Team team = statutTeam.getTeam();
-            if(team.getOwnerEmail().equals(gambler.getEmail())){
-                set.add(team);
-            }
-        }
+//        for(StatutTeam statutTeam:gambler.getStatutTeams()){
+//            Team team = statutTeam.getTeam();
+//            if(team.getOwnerEmail().equals(gambler.getEmail())){
+//                set.add(team);
+//            }
+//        }
         return set;
     }
 
