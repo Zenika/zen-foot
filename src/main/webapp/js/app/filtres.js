@@ -95,7 +95,7 @@ zenContactFilters.filter('updatedMFilter', function () {
 
 var conditionUpdatedM = function (match) {
 
-    return !match.outcome.updated;
+    return !match.scoreUpdated;
 }
 
 zenContactFilters.filter('classementFilter',function(){
@@ -108,3 +108,20 @@ zenContactFilters.filter('classementFilter',function(){
         return fuseFilter.search(search)
     }
 })
+
+
+// Filter logic to filter teams you are waiting for a confirmation
+
+
+zenContactFilters.filter('waitTeamFilter',['ProfilService',function(ProfilService){
+    return function(statutTeams, gambler){
+        var toRet = [];
+        for(x in statutTeams){
+            var statutTeam = statutTeams[x];
+            if(!ProfilService.isOwner(statutTeam,gambler)&&!statutTeam.accepted){
+                toRet.push(statutTeam);
+            }
+        }
+        return toRet;
+    }
+}])

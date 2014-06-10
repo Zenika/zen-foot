@@ -59,23 +59,74 @@ zenFootDirectives.directive('groupeLabel', function () {
         replace: true,
         restrict: 'E',
         link: function (scope, element, attrs) {
-            var template = "<label class='btn btn-primary' ng-model='checkModel' btn-radio='"+attrs.groupe+"' btn-checkbox>"+attrs.groupe+"</label>";
+            var template = "<label class='btn btn-primary' ng-model='checkModel' btn-radio='" + attrs.groupe + "' btn-checkbox>" + attrs.groupe + "</label>";
             element.replaceWith(template)
         }
     }
 })
 
 zenFootDirectives.directive('pwdCheck', [function () {
-       	return {
-       		require: 'ngModel',
-       		link: function (scope, elem, attrs, ctrl) {
-       			var firstPassword = '#' + attrs.pwdCheck;
-       			elem.add(firstPassword).on('keyup', function () {
-       				scope.$apply(function () {
-       					var v = elem.val()===$(firstPassword).val();
-       					ctrl.$setValidity('pwdmatch', v);
-       				});
-       			});
-       		}
-       	}
-       }]);
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ctrl) {
+            var firstPassword = '#' + attrs.pwdCheck;
+            elem.add(firstPassword).on('keyup', function () {
+                scope.$apply(function () {
+                    var v = elem.val() === $(firstPassword).val();
+                    ctrl.$setValidity('pwdmatch', v);
+                });
+            });
+        }
+    }
+}])
+
+zenFootDirectives.directive('generateInput', function () {
+    return{
+        link: function (scope, element, attrs) {
+            scope.$watch("teamForm.$pristine", function (newValue, oldValue) {
+                if (newValue != oldValue) {
+//                    scope.subscriber.teams.push({name: ''})
+                    scope.pushTeam()
+                }
+            })
+        }}
+
+})
+
+zenFootDirectives.directive('newTeam', function () {
+
+    var isNew = function (team, regTeams) {
+        var result = _.find(regTeams, function (regTeam) {
+            console.log("regTeam: " + regTeam.name)
+            console.log("team : " + team.name)
+            return regTeam.name == team.name
+        })
+        team.isNew = (result == undefined) && team.name.trim() != ""
+    }
+    return {
+        link: function (scope, element, attrs) {
+            scope.$watch("team.name", function (newValue, oldValue) {
+                if (newValue != oldValue) {
+                    isNew(scope.team, scope.existingTeams);
+                }
+            })
+        }
+    }
+})
+
+zenFootDirectives.directive('selectTeam', ['GamblerService', function (GamblerService) {
+    return {
+        link: function (scope, element, attrs) {
+            scope.$watch('selectedTeam', function (newValue, oldValue) {
+                if (newValue != oldValue) {
+                    if (scope.selectedTeam) {
+                        scope.classementFunc(GamblerService.get(scope.selectedTeam))
+                    }
+                    else {
+                        scope.classementFunc(GamblerService.getAll())
+                    }
+                }
+            })
+        }
+    }
+}])

@@ -1,76 +1,122 @@
-<div class="panel col-md-5 col-md-offset-3" ng-controller="subscribeCtrl">
+<div class="row" data-ng-controller="subscribeCtrl">
+    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
 
-	<div class="panel-body">
-				
-		<div class="alert alert-danger" data-ng-show="subscriber.subscriptionErrorAlreadyUsedEmail">
-			Cette adresse email est déjà utilisée.
-		</div>
-		
-		<div class="alert alert-success" data-ng-show="subscriber.subscriptionSuccess">
-			F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour la confirmation.
-		</div>
-		
-	    <form class="form-horizontal" action="" method="post"  name="subscriptionForm" role="form" novalidate>
-	        <h2 style="text-align: center ; margin-bottom: 30px">S'inscrire</h2>
-	
-	        <div class="form-group" ng-class="{'has-error': subscriptionForm.name.$invalid && subscriptionForm.name.$dirty}">
-	            <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name" placeholder="Nom" required /> <br/>
-	            
-	            <span class="help-block" data-ng-show="subscriptionForm.name.$error.required && subscriptionForm.name.$dirty">
-                    Le nom doit être renseigné.
-                </span>
-	        </div>
-	        
-	        <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.prenom.$dirty}">
-	            <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom" placeholder="Prenom" required /> <br/>
-	            
-	            <span class="help-block" data-ng-show="subscriptionForm.prenom.$error.required && subscriptionForm.prenom.$dirty">
-                    Le prénom doit être renseigné.
-                </span>
-	        </div>
-	        
-	        <div class="form-group" ng-class="{'has-error': subscriptionForm.email.$invalid && subscriptionForm.email.$dirty}">
-	            <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="Email" required /> <br/>
-	            
-	            <span class="help-block" data-ng-show="subscriptionForm.email.$error.required && subscriptionForm.email.$dirty">
-                    L'email doit être renseigné.
-                </span>
-                <span class="help-block" data-ng-show="subscriptionForm.email.$error.email && !subscriptionForm.email.$error.required">
-                    L'email doit avoir un format valide.
-                </span>
-	        </div>
-	        
+        <form action="" method="post" name="subscriptionForm" role="form">
+            <h2 class="form-title">S'inscrire</h2>
+
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.name.$dirty}">
+                <label for="prenom" class="sr-only">Prénom</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom" placeholder="Prénom" required autofocus/>
+                </div>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.prenom.$error.required && subscriptionForm.prenom.$dirty">
+                    Champ obligatoire
+                </p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.name.$invalid && subscriptionForm.name.$dirty}">
+                <label for="name" class="sr-only">Nom</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name" placeholder="Nom" required/>
+                </div>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.name.$error.required && subscriptionForm.name.$dirty">
+                    Champ obligatoire
+                </p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.email.$invalid && subscriptionForm.email.$dirty}">
+                <label for="email" class="sr-only">Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email" placeholder="Adresse mail" required/>
+                </div>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.email.$error.required && subscriptionForm.email.$dirty">
+                    Champ obligatoire
+                </p>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.email.$error.email && !subscriptionForm.email.$error.required">
+                    Format non valide
+                </p>
+
+            </div>
+
+
             <div class="form-group" ng-class="{'has-error': subscriptionForm.password.$invalid && subscriptionForm.password.$dirty}">
-                <input type="password" name="password" id="password" class="form-control" data-ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)" data-ng-minlength="6" required/> <br/>
-                
-                <span class="help-block" data-ng-show="subscriptionForm.password.$error.required && subscriptionForm.password.$dirty">
-                    Le mot de passe doit être renseigné.
-                </span>
-                <span class="help-block" data-ng-show="subscriptionForm.password.$error.minlength && !subscriptionForm.password.$error.required">
+                <label for="password" class="sr-only">Mot de passe</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input type="password" name="password" id="password" class="form-control" data-ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)" data-ng-minlength="6" required/>
+                </div>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.password.$error.required && subscriptionForm.password.$dirty">
+                    Champ obligatoire
+                </p>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.password.$error.minlength">
                     Le mot de passe doit faire 6 caractères minimum.
-                </span>
+                </p>
+
             </div>
 
-            <div class="form-group" ng-class="{'has-error': subscriptionForm.confirmPassword.$invalid  && subscriptionForm.confirmPassword.$dirty}">
-                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" data-ng-model="subscriber.confirmPasswordHash"
-                       placeholder="Entrez à nouveau le mot de passe" data-match="password"
-                       pwd-check="password"
-                       required="required"/> <br/>
-
-                <span class="help-block" data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch && subscriptionForm.confirmPassword.$dirty">
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.confirmPassword.$invalid && subscriptionForm.confirmPassword.$dirty}">
+                <label for="confirmPassword" class="sr-only">Confirmation du mot de passe</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" data-ng-model="subscriber.confirmPasswordHash"
+                           placeholder="Entrez à nouveau le mot de passe" data-match="password"
+                           pwd-check="password"
+                           required="required"/> <br/>
+                </div>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch && subscriptionForm.confirmPassword.$dirty">
                     Les mots de passe ne sont pas identiques !
-                </span>
+                </p>
             </div>
 
-	        <div class="form-group">
-	            <div class="controls" style="text-align:center;">
-	                <button style="width:80px;" class="btn btn-primary" data-ng-click="subscribe()" data-ng-disabled="subscriptionForm.$invalid">
-	                	Valider
-	                </button>
-	            </div>
-	        </div>
-	        
-	    </form>
-	</div>
+            <p>Rejoindre une ligue ?</p>
 
+            <ng-form new-team name="teamForm" generate-input data-ng-repeat="team in subscriber.teams">
+                <div class="row">
+                <div class="col-xs-8">
+                <div class="form-group">
+                    <input type="text" class="form-control" data-ng-model="team.name"
+                           placeholder="Ligue"
+                           typeahead-loading="loadingTeams"
+                           typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"
+                           tooltip="Une ligue est un groupe de parieurs, vous pouvez ensuite comparer vos résultats aux autres parieurs de votre ligue"
+                           tooltip-trigger="focus"
+                           tooltip-placement="top"/>
+                </div>
+                </div>
+                <div class="col-xs-4">
+                           <p class="form-control-static">
+                        <span class="label label-warning" data-ng-show="team.isNew">nouveau</span>
+                        <span class="label label-info" data-ng-show="team.name && !team.isNew">rejoindre</span></p>
+                </div>
+                </div>
+
+            </ng-form>
+            <div class="form-group">
+                <div class="controls text-center">
+                    <button type="submit" class="btn btn-primary" data-ng-click="valider()" data-ng-disabled="subscriptionForm.$invalid">Créer mon compte</button>
+                </div>
+            </div>
+
+
+
+        </form>
+
+    </div>
 </div>

@@ -22,7 +22,7 @@ Required :
 Locally :
 ---
 
-Download app engine SDK and add it to your PATH.
+Download [app engine SDK for Java](https://developers.google.com/appengine/downloads?hl=fr) and add it to your PATH.
 
 Then run 
 
@@ -55,6 +55,13 @@ grunt
 ```
 
 On Google App Engine (GAE) :
+
+BEFORE DEPLOYING ANYTHING :
+We are using RestX dependency injection system to inject matches in dev mode. When you deploy on GAE, you have to disable the injection for that data. In order to do this, you'll have to modify the following classes :
+
+- In ModelModule : change the @Named annotation which is before the parameter of the method matchService from @Named("matchRepoDev") to @Named("matchRepoGAE")
+- In UserModule : change the @Named annotation which is before the parameter of the method getUserService from @Named("userServiceDev") to @Named("userServiceGAE")
+
 ---
 
 If you are contributing to zenfoot, you won't have to deploy the application to app engine, as we are functioning
@@ -72,17 +79,11 @@ You can login with these two users :
 
 Admin account : 
 
- user : raphael.martignoni@zenika.com (for older commits only)
+ user : admin@zenika.com / 2205
+  
+Basic user (gambler) : 
 
- PW : 2205
- 
- For newest commits, the admin is admin@zenika.com (same password)
- 
- Basic user (gambler) : 
-
-user : jean.bon@zenika.com
-
-PW : 999
+ user : jean.bon@zenika.com / 999
 
 # Bug, Backlog, Trello
 

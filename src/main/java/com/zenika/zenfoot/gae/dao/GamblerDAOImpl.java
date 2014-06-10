@@ -1,11 +1,15 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
+import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.StatutTeam;
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,29 +21,40 @@ public class GamblerDAOImpl implements GamblerDAO {
 
     @Override
     public Key<Gambler> saveGambler(Gambler gambler) {
-        Key<Gambler> key = OfyService.ofy().save().entity(gambler).now();
+//        registerTeams(gambler.getStatutTeams());
+        Key<Gambler> key = ObjectifyService.ofy().save().entity(gambler).now();
         return key;
     }
 
+    /**
+     * We have to register teams before registering a gambler, in order to have their ID generated.
+     * @param statutTeams
+     */
+    private void registerTeams(Set<StatutTeam> statutTeams){
+        for(StatutTeam statutTeam : statutTeams){
+            ObjectifyService.ofy().save().entity(statutTeam.getTeam());
+
+        }
+    }
 
     @Override
     public Gambler getGambler(Long id) {
-        return OfyService.ofy().load().type(Gambler.class).id(id).now();
+        return ObjectifyService.ofy().load().type(Gambler.class).id(id).now();
     }
 
     @Override
     public Gambler getGambler(Key<Gambler> key) {
-        return OfyService.ofy().load().key(key).now();
+        return ObjectifyService.ofy().load().key(key).now();
     }
 
     @Override
     public void deleteGambler(Long id) {
-        OfyService.ofy().delete().type(Gambler.class).id(id).now();
+        ObjectifyService.ofy().delete().type(Gambler.class).id(id).now();
     }
 
     @Override
     public List<Gambler> getAll() {
-        return OfyService.ofy().load().type(Gambler.class).list();
+        return ObjectifyService.ofy().load().type(Gambler.class).list();
     }
 
     @Override
@@ -59,21 +74,25 @@ public class GamblerDAOImpl implements GamblerDAO {
      */
     @Override
     public Gambler getGamblerFromEmail(String email) {
-
-
-        List<Gambler> gamblers = OfyService.ofy().load().type(Gambler.class).filter("email", email).limit(1).list();
-        Logger logger = Logger.getLogger(GamblerDAOImpl.class.getName());
-
-        Gambler toRet = null;
-        if (gamblers == null) logger.log(Level.SEVERE, "No gambler found with email " + email);
-        if (gamblers != null && gamblers.size() > 0) {
-            System.out.println("looking for " + email);
-            System.out.println(gamblers.size() + " gamblers found");
-            toRet = gamblers.get(0);
-        } else {
-            logger.log(Level.SEVERE, "No gambler found with email " + email);
+        List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("email", email).list();
+        if (gamblers == null || gamblers.isEmpty()) {
+            return null;
         }
-        return toRet;
+        if (gamblers.size() > 1){
+            throw new RuntimeException("Several users with email " + email);
+        }
+
+//        return ObjectifyService.ofy().load().type(Gambler.class).id(gamblers.get(0).getId()).now();
+
+        return gamblers.get(0);
+    }
+
+
+
+    @Override
+    public List<Gambler> gamblersWannaJoin(String name) {
+        List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name",name).list();
+        return gamblers;
     }
 
 

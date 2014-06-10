@@ -1,19 +1,13 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
-import com.zenika.zenfoot.gae.dao.MatchDAO;
-import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
-import com.zenika.zenfoot.gae.model.Groupe;
+import com.zenika.zenfoot.gae.dao.*;
 import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Participant;
 import com.zenika.zenfoot.gae.services.*;
 import org.joda.time.DateTime;
 import restx.factory.Module;
 import restx.factory.Provides;
 
 import javax.inject.Named;
-import java.util.ArrayList;
 
 /**
  * Created by raphael on 24/04/14.
@@ -27,15 +21,15 @@ public class ModelModule {
     public MatchRepository matchRepository(@Named("matchDAO") MatchDAO matchDAO) {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
 
-        ArrayList<Match> matchs = GenerateMatches.generate();
-        for (Match match : matchs) {
+        Match[] matches = GenerateMatches.generate();
+
+        for (int i = 0; i < matches.length; i++) {
+            //TODO ONLY FOR TESTS
+            Match match = matches[i];
+            match.setDate(DateTime.now().plusSeconds(30 * i));
             matchRepository.createUpdate(match);
         }
 
-//        Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
-//        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
-//        Match match = new Match().setDate(DateTime.now()).setParticipant1(participant1).setParticipant2(participant2);
-//        matchRepository.createUpdate(match);
         return matchRepository;
     }
 
@@ -97,7 +91,12 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService) {
-        return new GamblerService(gamblerRepository, matchService);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService,TeamDAO teamDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO);
+    }
+
+    @Provides
+    public TeamDAO teamDAO(){
+        return new TeamDAO();
     }
 }

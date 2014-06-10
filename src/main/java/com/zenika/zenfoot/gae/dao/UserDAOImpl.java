@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.zenika.zenfoot.user.User;
 
@@ -16,14 +17,20 @@ public class UserDAOImpl implements UserDao {
     };
 
     @Override
-    public void addUser(User user) {
-        OfyService.ofy().save().entity(user).now();
+
+    public Key<User> addUser(User user) {
+        return OfyService.ofy().save().entity(user).now();
     }
 
     @Override
     public User getUser(String email) {
         User toRet = OfyService.ofy().load().type(User.class).id(email).now();
         return toRet;
+    }
+
+    @Override
+    public User getUser(Key<User> key) {
+        return OfyService.ofy().load().key(key).now();
     }
 
     @Override

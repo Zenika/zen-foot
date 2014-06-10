@@ -3,7 +3,7 @@
 <head>
     <title>zenFoot</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" href="components/bootstrap-3.1.1-dist/css/bootstrap.css" media="screen">
     <link rel="stylesheet" href="components/ng-grid/ng-grid.min.css" media="screen">
     <link rel="stylesheet" href="components/angular/angular-csp.css" media="screen">
@@ -20,22 +20,23 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="IndexCtrl">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="user.connected">
                 <span class="sr-only">Menu</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="indexState">zen-foot</a>
-            <span class="navbar-text pull-right visible-xs">{{user.email}}</span>
+            <a class="navbar-brand" ui-sref="betsState">zen-foot</a>
+            <span class="navbar-text pull-right visible-xs" ng-bind="user.email"></span>
         </div>
         <div class="navbar-collapse collapse" style="height: 1px;">
             <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
-                <li class="ng-hide" ng-class="{'active':isActive('indexState')}" data-ng-show="!isAdmin()"><a ui-sref="indexState">Pronostics</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a ui-sref="ligueState">Mes ligues</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text" style="cursor: pointer">{{user.email}}</span></li>
+                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text" style="cursor: pointer" ng-bind="user.email"></span></li>
 
                 <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
                     <a data-ng-click="logout()" href="">Se déconnecter</a>
@@ -63,23 +64,34 @@
 <script type="text/javascript" src="components/angular/angular-md5.js"></script>
 <script type="text/javascript" src="components/angular-ui/unique.js"></script>
 <script type="text/javascript" src="components/ng-grid/ng-grid.min.js"></script>
-<script type="text/javascript" src="components/ui-bootstrap/ui-bootstrap-0.11.0.js"></script>
+<script type="text/javascript" src="components/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 
 <script type="text/javascript" src="components/bootstrap-3.1.1-dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="components/underscore/underscore-min.js"></script>
 <script type="text/javascript" src="components/fuse/fuse.js"></script>
+<script type="text/javascript" src="components/autofill-directive/autofill-directive.js"></script>
 
-<script type="text/javascript" src="js/app/service.js"></script>
 <script type="text/javascript" src="js/app/app.js"></script>
-<script type="text/javascript" src="js/app/constants.js"></script>
-<script type="text/javascript" src="js/app/controllers/controller.js"></script>
+<script type="text/javascript" src="js/app/directive.js"></script>
+<script type="text/javascript" src="js/app/filtres.js"></script>
+<script type="text/javascript" src="js/app/resources.js"></script>
+<script type="text/javascript" src="js/app/controllers/navbar-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/login-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/subscribe-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/match-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
-<script type="text/javascript" src="js/app/filtres.js"></script>
-<script type="text/javascript" src="js/app/controllers/index-ctrl.js"></script>
-<script type="text/javascript" src="js/app/admin-service.js"></script>
-<script type="text/javascript" src="js/app/directive.js"></script>
-<!--
-<script type="text/javascript" src="js/app/controllers/login.js"></script>
-!-->
+<script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/index-controller.js"></script>
+<script type="text/javascript" src="js/app/services/admin-service.js"></script>
+<script type="text/javascript" src="js/app/services/auth-service.js"></script>
+<script type="text/javascript" src="js/app/services/bet-match-service.js"></script>
+<script type="text/javascript" src="js/app/services/display-service.js"></script>
+<script type="text/javascript" src="js/app/services/gambler-service.js"></script>
+<script type="text/javascript" src="js/app/services/joiner-service.js"></script>
+<script type="text/javascript" src="js/app/services/profil-service.js"></script>
+<script type="text/javascript" src="js/app/services/session-service.js"></script>
+<script type="text/javascript" src="js/app/services/team-service.js"></script>
+<script type="text/javascript" src="js/app/services/user-service.js"></script>
+
 </html>

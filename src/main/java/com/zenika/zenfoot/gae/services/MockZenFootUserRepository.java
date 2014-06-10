@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.UserDao;
 import com.zenika.zenfoot.user.User;
@@ -8,6 +9,7 @@ import restx.admin.AdminModule;
 import restx.factory.Component;
 import restx.factory.Factory;
 
+import javax.mail.MethodNotSupportedException;
 import java.util.*;
 
 @Component
@@ -47,13 +49,8 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     }
 
     @Override
-    public Optional<String> findCredentialByUserName(String email) {
-        Optional<User> user = findUserByName(email);
-        if (!user.isPresent()) {
-            return Optional.absent();
-        } else {
-            return Optional.fromNullable(user.get().getPasswordHash());
-        }
+    public Optional<String> findCredentialByUserName(String name) {
+        throw new UnsupportedOperationException();
     }
 
     /*
@@ -90,10 +87,9 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     // ///////////////////////////////////////////////////////
     // repo update methods
     // ///////////////////////////////////////////////////////
-    public User createUser(User user) {
+    public Key<User> createUser(User user) {
 
-        this.userDao.addUser(user);
-        return user;
+        return this.userDao.addUser(user);
     }
 
     public User updateUser(User user) {
@@ -110,4 +106,8 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
     }
 
 
+    @Override
+    public User get(Key<User> keyUser) {
+        return userDao.getUser(keyUser);
+    }
 }
