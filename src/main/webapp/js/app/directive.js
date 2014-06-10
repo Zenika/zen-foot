@@ -14,7 +14,7 @@ zenFootDirectives.directive('groupeDirective', function () {
             groupe: '=groupe'
         }
     };
-})
+});
 
 zenFootDirectives.directive('zenDisable', function () {
     return{
@@ -23,25 +23,12 @@ zenFootDirectives.directive('zenDisable', function () {
         link: function (scope, element, attrs) {
             scope.$watch(attrs.oldmatch, function (oldmatch) {
                 if (oldmatch) {
-                    element.prop('disabled', true)
+                    element.prop('disabled', true);
                 }
             });
         }
     }
-})
-
-
-/*
- zenFootDirectives.directive('zenToolTip',[function(){
- function link(scope,element,attrs){
-
- }
-
- return {
-
- }
- }])
- */
+});
 
 zenFootDirectives.directive('popoverInfo', function () {
     return {
@@ -52,7 +39,7 @@ zenFootDirectives.directive('popoverInfo', function () {
             })
         }
     }
-})
+});
 
 zenFootDirectives.directive('groupeLabel', function () {
     return {
@@ -60,10 +47,10 @@ zenFootDirectives.directive('groupeLabel', function () {
         restrict: 'E',
         link: function (scope, element, attrs) {
             var template = "<label class='btn btn-primary' ng-model='checkModel' btn-radio='" + attrs.groupe + "' btn-checkbox>" + attrs.groupe + "</label>";
-            element.replaceWith(template)
+            element.replaceWith(template);
         }
     }
-})
+});
 
 zenFootDirectives.directive('pwdCheck', [function () {
     return {
@@ -78,7 +65,7 @@ zenFootDirectives.directive('pwdCheck', [function () {
             });
         }
     }
-}])
+}]);
 
 zenFootDirectives.directive('generateInput', function () {
     return{
@@ -86,23 +73,20 @@ zenFootDirectives.directive('generateInput', function () {
             scope.$watch("teamForm.$pristine", function (newValue, oldValue) {
                 if (newValue != oldValue) {
 //                    scope.subscriber.teams.push({name: ''})
-                    scope.pushTeam()
+                    scope.pushTeam();
                 }
             })
         }}
-
-})
+});
 
 zenFootDirectives.directive('newTeam', function () {
 
     var isNew = function (team, regTeams) {
         var result = _.find(regTeams, function (regTeam) {
-            console.log("regTeam: " + regTeam.name)
-            console.log("team : " + team.name)
-            return regTeam.name == team.name
-        })
-        team.isNew = (result == undefined) && team.name.trim() != ""
-    }
+            return regTeam.name == team.name;
+        });
+        team.isNew = (result == undefined) && team.name.trim() != "";
+    };
     return {
         link: function (scope, element, attrs) {
             scope.$watch("team.name", function (newValue, oldValue) {
@@ -112,7 +96,7 @@ zenFootDirectives.directive('newTeam', function () {
             })
         }
     }
-})
+});
 
 zenFootDirectives.directive('selectTeam', ['GamblerService', function (GamblerService) {
     return {
@@ -129,4 +113,4 @@ zenFootDirectives.directive('selectTeam', ['GamblerService', function (GamblerSe
             })
         }
     }
-}])
+}]);
