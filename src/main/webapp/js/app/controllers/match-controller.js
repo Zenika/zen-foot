@@ -37,9 +37,7 @@ angular.module('zenFoot.app')
                 return !match.scoreUpdated && match.date < new Date();
             }
 
-            $q.all([Match.query().$promise, Gambler.get(function(response){
-                console.log('get on gambler')
-            }).$promise]).then(function(results){
+            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function(results){
                 var matches = results[0];
                 var gambler = results[1];
 
