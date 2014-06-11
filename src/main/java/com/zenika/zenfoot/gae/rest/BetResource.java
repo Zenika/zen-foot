@@ -202,7 +202,9 @@ public class BetResource {
         logger.log(Level.INFO, "---------------subscribe-------------");
         logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
-        subscriber.getUser().setIsActive(Boolean.FALSE);
+        subscriber.getUser().setIsActive(Boolean.TRUE);
+        subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
+//        subscriber.getUser().setIsActive(Boolean.FALSE);
 
         Key<User> keyUser = userService.createUser(subscriber.getUser());
         User user = userService.get(keyUser);
