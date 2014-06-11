@@ -190,26 +190,30 @@ public class BetResource {
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
-        Logger logger = Logger.getLogger(BetResource.class.getName());
+    	Logger logger = Logger.getLogger(BetResource.class.getName());
+    	final String email = subscriber.getUser().getEmail();
+    	final User alreadyExistingUser = userService.getUserByEmail(email);
 
-        final String subject = "Confirmation d'inscription à Zen Foot";
-        final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
-        final String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-        logger.log(Level.INFO, "---------------subscribe-------------");
-        logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
-        subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
-        subscriber.getUser().setIsActive(Boolean.FALSE);
+    	if (alreadyExistingUser == null) {
+    		final String subject = "Confirmation d'inscription à Zen Foot";
+            final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
+            final String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+            logger.log(Level.INFO, "---------------subscribe-------------");
+            logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
+            subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
+            subscriber.getUser().setIsActive(Boolean.FALSE);
 
-        Key<User> keyUser = userService.createUser(subscriber.getUser());
-        User user = userService.get(keyUser);
-        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
-        Gambler gambler = gamblerService.getGambler(gamblerKey);
+            Key<User> keyUser = userService.createUser(subscriber.getUser());
+            User user = userService.get(keyUser);
+            Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
+            Gambler gambler = gamblerService.getGambler(gamblerKey);
 
-        Set<StatutTeam> testSet = new HashSet<>();
+            Set<StatutTeam> testSet = new HashSet<>();
 
-        gamblerService.addTeams(subscriber.getTeams(), gambler);
-
-
+            gamblerService.addTeams(subscriber.getTeams(), gambler);
+    	} else {
+    		throw new WebException(String.format("L'email %s est déjà pris par un autre utilisateur !", email));
+    	}
     }
 
     @GET("/confirmSubscription")

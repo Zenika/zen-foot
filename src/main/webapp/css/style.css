@@ -397,10 +397,6 @@ Some CSS properties on the size of inputs
     }
 }
 
-.error {
-    color:red;
-}
-
 .country-flag {
     display: inline-block;
     background: url('../img/flags.png') no-repeat;
@@ -441,4 +437,3 @@ Some CSS properties on the size of inputs
 .russie { background-position: -288px -160px;  }
 .suisse { background-position: -106px -192px;  }
 .uruguay { background-position: -262px -208px;  }
-
