@@ -1,11 +1,15 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.TeamDAO;
-import com.zenika.zenfoot.gae.model.*;
-import com.zenika.zenfoot.gae.services.*;
-import com.zenika.zenfoot.user.User;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.inject.Named;
+
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -19,14 +23,19 @@ import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
 
-import javax.inject.Named;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.TeamDAO;
+import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.Team;
+import com.zenika.zenfoot.gae.services.BetService;
+import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.MockUserService;
+import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.user.User;
 
 
 @RestxResource
@@ -36,13 +45,9 @@ public class BetResource {
 
     private MatchService matchService;
     private SessionInfo sessionInfo;
-    private BetService betService;
     private GamblerService gamblerService;
     private MockUserService userService;
-
     private TeamDAO teamDAO;
-
-    private MailSenderService mailSenderService;
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
@@ -53,10 +58,8 @@ public class BetResource {
 
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
-        this.betService = betService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
-        this.mailSenderService = new MailSenderService();
         this.teamDAO = teamDAO;
     }
 
@@ -186,31 +189,25 @@ public class BetResource {
         return gamblerService.updateGambler(gambler);
     }
 
-
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
     	Logger logger = Logger.getLogger(BetResource.class.getName());
-    	final String email = subscriber.getUser().getEmail();
-    	final User alreadyExistingUser = userService.getUserByEmail(email);
+    	String email = subscriber.getUser().getEmail();
+    	User alreadyExistingUser = userService.getUserByEmail(email);
 
     	if (alreadyExistingUser == null) {
-    		final String subject = "Confirmation d'inscription à Zen Foot";
-            final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
-            final String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-            logger.log(Level.INFO, "---------------subscribe-------------");
-            logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
-            subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
-            subscriber.getUser().setIsActive(Boolean.FALSE);
+    		logger.log(Level.INFO, "---------------subscribe-------------");
+    		logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
+    		subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
+    		subscriber.getUser().setIsActive(Boolean.FALSE);
 
-            Key<User> keyUser = userService.createUser(subscriber.getUser());
-            User user = userService.get(keyUser);
-            Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
-            Gambler gambler = gamblerService.getGambler(gamblerKey);
+    		Key<User> keyUser = userService.createUser(subscriber.getUser());
+    		User user = userService.get(keyUser);
+    		Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
 
-            Set<StatutTeam> testSet = new HashSet<>();
-
-            gamblerService.addTeams(subscriber.getTeams(), gambler);
+    		Gambler gambler = gamblerService.getGambler(gamblerKey);
+    		gamblerService.addTeams(subscriber.getTeams(), gambler);
     	} else {
     		throw new WebException(String.format("L'email %s est déjà pris par un autre utilisateur !", email));
     	}
@@ -230,32 +227,33 @@ public class BetResource {
         return Boolean.FALSE.toString();
     }
 
-    private static String getUrlConfirmation() {
-        String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
-
-        return urlConfirmation;
-    }
-
-    private static String getHostUrl() {
-        String hostUrl = null;
-        String environment = System.getProperty("com.google.appengine.runtime.environment");
-
-        if ("Production".equals(environment)) {
-            String applicationId = System.getProperty("com.google.appengine.application.id");
-            String version = System.getProperty("com.google.appengine.application.version");
-            // TODO Utiliser http://zenfoo.fr comme hostUrl.
-            hostUrl = "http://" + version + "." + applicationId + ".appspot.com";
-        } else {
-            hostUrl = "http://localhost:8080";
-        }
-
-        return hostUrl;
-    }
+//    private static String getUrlConfirmation() {
+//        String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
+//
+//        return urlConfirmation;
+//    }
+//
+//    private static String getHostUrl() {
+//        String hostUrl = null;
+//        String environment = System.getProperty("com.google.appengine.runtime.environment");
+//
+//        if ("Production".equals(environment)) {
+//            String applicationId = System.getProperty("com.google.appengine.application.id");
+//            String version = System.getProperty("com.google.appengine.application.version");
+//            // TODO Utiliser http://zenfoo.fr comme hostUrl.
+//            hostUrl = "http://" + version + "." + applicationId + ".appspot.com";
+//        } else {
+//            hostUrl = "http://localhost:8080";
+//        }
+//
+//        return hostUrl;
+//    }
 
     @GET("/wannajoin")
     @RolesAllowed(Roles.GAMBLER)
     public Set<Gambler> wantToJoin() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        
         return gamblerService.wantToJoin(gambler);
     }
 
