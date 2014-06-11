@@ -1,26 +1,11 @@
 package com.zenika.zenfoot.gae.rest;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
-import com.zenika.zenfoot.gae.services.BetService;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.gae.services.*;
 import com.zenika.zenfoot.user.User;
-
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.inject.Named;
-
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -34,11 +19,14 @@ import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 import restx.security.UserService;
 
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.MailSenderService;
-import com.zenika.zenfoot.gae.services.MockUserService;
+import javax.inject.Named;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @RestxResource
@@ -55,7 +43,7 @@ public class BetResource {
     private TeamDAO teamDAO;
 
     private MailSenderService mailSenderService;
-    
+
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
@@ -74,15 +62,15 @@ public class BetResource {
 
 
     @POST("/redirectAfterLogin")
-    public void redirectAfterLogin(){
-     throw new WebException(HttpStatus.FOUND) {
+    public void redirectAfterLogin() {
+        throw new WebException(HttpStatus.FOUND) {
             @Override
             public void writeTo(RestxRequest restxRequest, RestxResponse restxResponse) throws IOException {
                 restxResponse
                         .setStatus(getStatus())
                         .setHeader("Location", "/#/bets");
             }
-        };    
+        };
     }
 
     @PUT("/matchs/{id}")
@@ -90,11 +78,11 @@ public class BetResource {
     public void updateMatch(String id, Match match) {
         boolean isRegistered = matchService.getMatch(Long.parseLong(id)).isScoreUpdated();
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING,"entering update");
+        logger.log(Level.WARNING, "entering update");
         if (!isRegistered) {
             match.setScoreUpdated(true);
             matchService.createUpdate(match);
-            logger.log(Level.WARNING,"skipping calculation of scores");
+            logger.log(Level.WARNING, "skipping calculation of scores");
 //            gamblerService.calculateScores(match);
 
         }
@@ -135,8 +123,8 @@ public class BetResource {
 
     @POST("/gambler")
     @RolesAllowed(Roles.GAMBLER)
-    public Gambler updateGambler(GamblerAndTeams gamblerAndTeams){
-        Key<Gambler> gamblerKey=gamblerService.addTeams(gamblerAndTeams.getTeams(),gamblerAndTeams.getGambler());
+    public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
+        Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
         Gambler gambler = gamblerService.getGambler(gamblerKey);
         return gambler;
     }
@@ -147,25 +135,25 @@ public class BetResource {
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING,"---------------------");
+        logger.log(Level.WARNING, "---------------------");
 
-        logger.log(Level.WARNING,"looking for "+user.getEmail());
+        logger.log(Level.WARNING, "looking for " + user.getEmail());
         Gambler gambler = gamblerService.get(user);
-        logger.log(Level.WARNING,"found "+gambler.getEmail());
-        logger.log(Level.WARNING,"with id "+gambler.getId() );
+        logger.log(Level.WARNING, "found " + gambler.getEmail());
+        logger.log(Level.WARNING, "with id " + gambler.getId());
 
 
-        logger.log(Level.WARNING,gambler.getBets().size()+" bets found");
-        logger.log(Level.WARNING,""+gamblerService);
+        logger.log(Level.WARNING, gambler.getBets().size() + " bets found");
+        logger.log(Level.WARNING, "" + gamblerService);
 
         return gambler;
     }
 
     @GET("/gambler/{email}")
     @PermitAll
-    public Gambler getGambler(String email){
+    public Gambler getGambler(String email) {
         Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.INFO,email);
+        logger.log(Level.INFO, email);
         return gamblerService.getFromEmail(email);
     }
 
@@ -177,7 +165,7 @@ public class BetResource {
 
     @GET("/gamblersTeam/{team}")
     @RolesAllowed(Roles.GAMBLER)
-    public Set<Gambler> getGamblersTeam(String team){
+    public Set<Gambler> getGamblersTeam(String team) {
         Set<Gambler> toRet = new HashSet<>();
 //        List<Gambler> gamblers = gamblerService.getAll();
 //        for(Gambler gambler:gamblers){
@@ -193,11 +181,10 @@ public class BetResource {
 
     @POST("/joiner")
     @RolesAllowed(Roles.GAMBLER)
-    public Gambler postJoiner(Gambler gambler){
+    public Gambler postJoiner(Gambler gambler) {
 
         return gamblerService.updateGambler(gambler);
     }
-
 
 
     @POST("/performSubscription")
@@ -209,46 +196,46 @@ public class BetResource {
 
     	if (alreadyExistingUser == null) {
     		final String subject = "Confirmation d'inscription à Zen Foot";
-    		final String urlConfirmation = "<a href='" + getUrlConfirmation() + email + "'> Confirmation d'inscription </a>";
-    		final String messageContent = "Mr, Mme " +subscriber.getUser().getNom()+ " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-    		logger.log(Level.INFO,"---------------subscribe-------------");
-    		logger.log(Level.INFO,subscriber.getUser().getPasswordHash());
-    		subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
-    		subscriber.getUser().setIsActive(Boolean.FALSE);
+            final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
+            final String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+            logger.log(Level.INFO, "---------------subscribe-------------");
+            logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
+            subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
+            subscriber.getUser().setIsActive(Boolean.FALSE);
 
-    		Key<User> keyUser = userService.createUser(subscriber.getUser());
-    		User user = userService.get(keyUser);
-    		Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
-    		Gambler gambler = gamblerService.getGambler(gamblerKey);
+            Key<User> keyUser = userService.createUser(subscriber.getUser());
+            User user = userService.get(keyUser);
+            Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
+            Gambler gambler = gamblerService.getGambler(gamblerKey);
 
-    		Set<StatutTeam> testSet = new HashSet<>();
+            Set<StatutTeam> testSet = new HashSet<>();
 
-    		gamblerService.addTeams(subscriber.getTeams(),gambler);
+            gamblerService.addTeams(subscriber.getTeams(), gambler);
     	} else {
     		throw new WebException(String.format("L'email %s est déjà pris par un autre utilisateur !", email));
     	}
     }
-    
+
     @GET("/confirmSubscription")
     @PermitAll
     public String confirmSubscription(String email) {
-    	final User user = userService.getUserByEmail(email);
-    	
-    	if(user != null && user.getIsActive() != null && !user.getIsActive()) {
-    		user.setIsActive(Boolean.TRUE);
-    		userService.updateUser(user);
-    		return Boolean.TRUE.toString();
-    	}
-    	
-    	return Boolean.FALSE.toString();
+        final User user = userService.getUserByEmail(email);
+
+        if (user != null && user.getIsActive() != null && !user.getIsActive()) {
+            user.setIsActive(Boolean.TRUE);
+            userService.updateUser(user);
+            return Boolean.TRUE.toString();
+        }
+
+        return Boolean.FALSE.toString();
     }
-    
+
     private static String getUrlConfirmation() {
-    	String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
-    	
-    	return urlConfirmation;
+        String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
+
+        return urlConfirmation;
     }
-    
+
     private static String getHostUrl() {
         String hostUrl = null;
         String environment = System.getProperty("com.google.appengine.runtime.environment");
@@ -267,7 +254,7 @@ public class BetResource {
 
     @GET("/wannajoin")
     @RolesAllowed(Roles.GAMBLER)
-    public Set<Gambler> wantToJoin(){
+    public Set<Gambler> wantToJoin() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
         return gamblerService.wantToJoin(gambler);
     }
@@ -278,7 +265,6 @@ public class BetResource {
 
         return teamDAO.getAll();
     }
-
 
 
 }

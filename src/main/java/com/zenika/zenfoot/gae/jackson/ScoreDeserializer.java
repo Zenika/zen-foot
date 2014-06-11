@@ -14,15 +14,13 @@ public class ScoreDeserializer extends JsonDeserializer<Integer> {
     @Override
     public Integer deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         String string = jsonParser.getValueAsString();
-        if(string.replace(" ","").equals("")){
+        if (string.replace(" ", "").equals("")) {
             return -1;
-        }
-        else{
+        } else {
             try {
                 Integer integerValue = Integer.parseInt(string);
                 return integerValue;
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 return -1;
             }
 

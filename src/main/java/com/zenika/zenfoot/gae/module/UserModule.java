@@ -1,7 +1,5 @@
 package com.zenika.zenfoot.gae.module;
 
-import javax.inject.Named;
-
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
@@ -11,6 +9,7 @@ import restx.factory.Module;
 import restx.factory.Provides;
 import restx.security.UserService;
 
+import javax.inject.Named;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,19 +17,18 @@ import java.util.List;
 public class UserModule {
 
 
+    @Provides
+    @Named("userRepository")
+    public MockZenFootUserRepository getUserRepository(GamblerRepository gamblerRepository) {
+        MockZenFootUserRepository mockZenFootUserRepository = new MockZenFootUserRepository();
 
-	@Provides
-	@Named("userRepository")
-	public MockZenFootUserRepository getUserRepository(GamblerRepository gamblerRepository) {
-        MockZenFootUserRepository mockZenFootUserRepository=new MockZenFootUserRepository();
-
-		return new MockZenFootUserRepository();
-	}
+        return new MockZenFootUserRepository();
+    }
 
 
-	@Provides
-	@Named("userServiceDev")
-	public UserService getUserService(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService,MatchService matchService) {
+    @Provides
+    @Named("userServiceDev")
+    public UserService getUserService(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, MatchService matchService) {
         User admin = new User().setName("admin").setPrenom("admin").setEmail(
                 "admin@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
 
@@ -43,10 +41,10 @@ public class UserModule {
         User mira = new User().setName("Sorvino").setPrenom("Mira").setEmail("j1@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         mira.setPassword("999");
 
-        User bill =  new User().setName("Murray").setPrenom("Bill").setEmail("j2@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+        User bill = new User().setName("Murray").setPrenom("Bill").setEmail("j2@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         bill.setPassword("999");
 
-        User andy=new User().setPrenom("Andy").setName("Mc-Dowell").setEmail("j3@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+        User andy = new User().setPrenom("Andy").setName("Mc-Dowell").setEmail("j3@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         andy.setPassword("999");
 
         User sophie = new User().setPrenom("Sophie").setName("Marceau").setEmail("j4@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
@@ -58,7 +56,7 @@ public class UserModule {
         User olivier = new User().setPrenom("Olivier").setName("Martinez").setEmail("j6@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         olivier.setPassword("999");
 
-        User russell  = new User().setPrenom("Russell").setName("Crowe").setEmail("j7@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+        User russell = new User().setPrenom("Russell").setName("Crowe").setEmail("j7@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         russell.setPassword("999");
 
         User harold = new User().setPrenom("Harold").setName("Ramis").setEmail("j8@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
@@ -73,7 +71,7 @@ public class UserModule {
         User leonardo = new User().setPrenom("Leonardo").setName("Di-Caprio").setEmail("j11@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         leonardo.setPassword("999");
 
-        User j=new User().setEmail("j@j.fr").setName("j").setPrenom("j").setEmail("j@j.fr").setRoles(Arrays.asList(Roles.GAMBLER));
+        User j = new User().setEmail("j@j.fr").setName("j").setPrenom("j").setEmail("j@j.fr").setRoles(Arrays.asList(Roles.GAMBLER));
         j.setPassword("999");
 
 
@@ -94,35 +92,33 @@ public class UserModule {
         userService.createUser(j);
 
         List<Match> matchs = matchService.getMatchs();
-        gamblerService.createGambler(jean,matchs);
-        gamblerService.createGambler(mira,matchs,12);
-        gamblerService.createGambler(bill,matchs,15);
-        gamblerService.createGambler(andy,matchs,58);
-        gamblerService.createGambler(sophie,matchs,47);
-        gamblerService.createGambler(kate,matchs,18);
-        gamblerService.createGambler(olivier,matchs,95);
-        gamblerService.createGambler(russell,matchs,35);
-        gamblerService.createGambler(harold,matchs,29);
-        gamblerService.createGambler(richard,matchs,65);
-        gamblerService.createGambler(jc,matchs,28);
-        gamblerService.createGambler(leonardo,matchs,18);
-        gamblerService.createGambler(j,matchs);
-		return userService;
-	}
+        gamblerService.createGambler(jean, matchs);
+        gamblerService.createGambler(mira, matchs, 12);
+        gamblerService.createGambler(bill, matchs, 15);
+        gamblerService.createGambler(andy, matchs, 58);
+        gamblerService.createGambler(sophie, matchs, 47);
+        gamblerService.createGambler(kate, matchs, 18);
+        gamblerService.createGambler(olivier, matchs, 95);
+        gamblerService.createGambler(russell, matchs, 35);
+        gamblerService.createGambler(harold, matchs, 29);
+        gamblerService.createGambler(richard, matchs, 65);
+        gamblerService.createGambler(jc, matchs, 28);
+        gamblerService.createGambler(leonardo, matchs, 18);
+        gamblerService.createGambler(j, matchs);
+        return userService;
+    }
 
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService,MatchService matchService) {
+    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, MatchService matchService) {
         return new MockUserService(userRepository);
     }
 
     @Provides
     @Named("userService")
-    public UserService getUserService(@Named("userServiceDev")UserService userService){
-     return userService;
+    public UserService getUserService(@Named("userServiceDev") UserService userService) {
+        return userService;
     }
 
 
-
-
-    }
+}

@@ -4,11 +4,8 @@ angular.module('zenFoot.app')
     .factory('displayService', ['betMatchService',
         function (betMatchService) {
             return {
-                isTeam1Winner: function (bet) {
-                    return (bet.score1 !== undefined && bet.score2 !== undefined && bet.score1 > bet.score2);
-                },
-                isTeam2Winner: function (bet) {
-                    return (bet.score1 !== undefined && bet.score2 !== undefined && bet.score1 < bet.score2);
+                isTeamWinner: function (score1, score2) {
+                    return (score1 !== undefined && score2 !== undefined && score1 > score2);
                 },
                 isWinner: function (match, scoreConcerne, autreScore) {
                     var scoreConcerne = match[scoreConcerne];

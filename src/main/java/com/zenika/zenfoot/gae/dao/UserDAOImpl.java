@@ -1,7 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
 import com.zenika.zenfoot.user.User;
 
 import java.util.List;
@@ -14,7 +13,9 @@ public class UserDAOImpl implements UserDao {
 
     public UserDAOImpl() {
 
-    };
+    }
+
+    ;
 
     @Override
 

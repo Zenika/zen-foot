@@ -1,7 +1,5 @@
 package com.zenika.zenfoot.gae.rest;
 
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
  * User: raphael

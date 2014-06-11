@@ -78,7 +78,7 @@ public class Gambler {
         this.bets = bets;
     }
 
-    public void addBet(Bet bet){
+    public void addBet(Bet bet) {
         this.bets.add(bet);
     }
 

@@ -37,9 +37,7 @@ angular.module('zenFoot.app')
                 return !match.scoreUpdated && match.date < new Date();
             }
 
-            $q.all([Match.query().$promise, Gambler.get(function(response){
-                console.log('get on gambler')
-            }).$promise]).then(function(results){
+            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function(results){
                 var matches = results[0];
                 var gambler = results[1];
 
@@ -92,6 +90,8 @@ angular.module('zenFoot.app')
 //            }
 
 
+            var pariezNotificationTimeout = null;
+
             /**
              * Function called when "postez" is clicked.
              * We filter the bets whose score is unknown, and whose beginning date is not passed yet.
@@ -100,6 +100,9 @@ angular.module('zenFoot.app')
                 $scope.betSavedSuccess = false;
                 $scope.betSavedError = false;
 
+                if (pariezNotificationTimeout !== null) {
+                    $timeout.cancel(pariezNotificationTimeout);
+                }
                 var now = new Date();
                 var bets = _.chain($scope.matches)
                     .filter(function(match) { return !match.scoreUpdated && new Date(match.date) > new Date(now); })
@@ -107,13 +110,15 @@ angular.module('zenFoot.app')
                     .value();
                 Bets.save(bets, function () {
                     $scope.betSavedSuccess = true;
-                    $timeout(function () {
+                    pariezNotificationTimeout = $timeout(function () {
                         $scope.betSavedSuccess = false;
+                        pariezNotificationTimeout = null;
                     }, 2000);
                 }, function () {
                     $scope.betSavedError = true;
-                    $timeout(function () {
+                    pariezNotificationTimeout = $timeout(function () {
                         $scope.betSavedError = false;
+                        pariezNotificationTimeout = null;
                     }, 2000);
                 })
             };
@@ -139,8 +144,7 @@ angular.module('zenFoot.app')
                 return $scope.isFormer(match.date) && match.scoreUpdated;
             };
 
-            $scope.isTeam1Winner = displayService.isTeam1Winner;
-            $scope.isTeam2Winner = displayService.isTeam2Winner;
+            $scope.isTeamWinner = displayService.isTeamWinner;
             $scope.calculatePoints = betMatchService.calculatePoints;
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;

@@ -11,7 +11,8 @@ public class Bet {
     private Integer score1;
     private Integer score2;
 
-    public Bet(){}
+    public Bet() {
+    }
 
     public Bet(Long matchId) {
         this.matchId = matchId;
@@ -45,7 +46,6 @@ public class Bet {
     public String toString() {
         return " match " + matchId + ": " + score1 + " - " + score2;
     }
-
 
 
 }

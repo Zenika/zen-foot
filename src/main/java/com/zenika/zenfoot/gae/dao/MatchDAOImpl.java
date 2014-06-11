@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 public class MatchDAOImpl implements MatchDAO {
 
 
-
     @Override
     public void createUpdate(Match match) {
         OfyService.ofy().save().entity(match).now();
@@ -38,13 +37,11 @@ public class MatchDAOImpl implements MatchDAO {
     public void deleteAll() {
         Logger logger = Logger.getLogger(MatchDAOImpl.class.getName());
         List<Match> matchs = getAll();
-        for(Match match : matchs){
+        for (Match match : matchs) {
             this.deleteMatch(match.getId());
         }
-        logger.log(Level.WARNING,"deleted "+matchs.size()+ " matchs");
+        logger.log(Level.WARNING, "deleted " + matchs.size() + " matchs");
     }
-
-
 
 
 }

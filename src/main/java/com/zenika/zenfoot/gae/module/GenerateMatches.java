@@ -3,8 +3,6 @@ package com.zenika.zenfoot.gae.module;
 import com.zenika.zenfoot.gae.model.Match;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-
 /**
  * Created by raphael on 06/05/14.
  */

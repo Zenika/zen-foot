@@ -13,13 +13,13 @@ import java.security.Principal;
 public class SessionInfo {
 
 
-    public SessionInfo(){
+    public SessionInfo() {
     }
 
-    public User getUser(){
+    public User getUser() {
 
         RestxSession session = RestxSession.current();
-        if(session==null || session.getPrincipal()==null) return null;
+        if (session == null || session.getPrincipal() == null) return null;
 
         Principal principal = session.getPrincipal().get();
         User user = null;
@@ -29,8 +29,6 @@ public class SessionInfo {
         return user;
 
     }
-
-
 
 
 }

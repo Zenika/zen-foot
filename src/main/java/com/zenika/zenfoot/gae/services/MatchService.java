@@ -12,11 +12,11 @@ public class MatchService {
         this.matchRepository = matchRepository;
     }
 
-    public List<Match> getMatchs(){
+    public List<Match> getMatchs() {
         return matchRepository.getAll();
     }
 
-    public Match getMatch(Long id){
+    public Match getMatch(Long id) {
         return matchRepository.getMatch(id);
     }
 

@@ -4,14 +4,9 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.StatutTeam;
-import static com.googlecode.objectify.ObjectifyService.ofy;
 
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by raphael on 30/04/14.
@@ -28,10 +23,11 @@ public class GamblerDAOImpl implements GamblerDAO {
 
     /**
      * We have to register teams before registering a gambler, in order to have their ID generated.
+     *
      * @param statutTeams
      */
-    private void registerTeams(Set<StatutTeam> statutTeams){
-        for(StatutTeam statutTeam : statutTeams){
+    private void registerTeams(Set<StatutTeam> statutTeams) {
+        for (StatutTeam statutTeam : statutTeams) {
             ObjectifyService.ofy().save().entity(statutTeam.getTeam());
 
         }
@@ -78,7 +74,7 @@ public class GamblerDAOImpl implements GamblerDAO {
         if (gamblers == null || gamblers.isEmpty()) {
             return null;
         }
-        if (gamblers.size() > 1){
+        if (gamblers.size() > 1) {
             throw new RuntimeException("Several users with email " + email);
         }
 
@@ -88,10 +84,9 @@ public class GamblerDAOImpl implements GamblerDAO {
     }
 
 
-
     @Override
     public List<Gambler> gamblersWannaJoin(String name) {
-        List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name",name).list();
+        List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name", name).list();
         return gamblers;
     }
 
