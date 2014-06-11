@@ -90,12 +90,17 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO) {
-        return new GamblerService(gamblerRepository, matchService, teamDAO);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO,RankingDAO rankingDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO,rankingDAO);
     }
 
     @Provides
     public TeamDAO teamDAO() {
         return new TeamDAO();
+    }
+
+    @Provides
+    public RankingDAO rankingDAO(){
+        return new RankingDAO();
     }
 }

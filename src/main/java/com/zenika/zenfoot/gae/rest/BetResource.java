@@ -25,9 +25,11 @@ import restx.security.UserService;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Team;
 import com.zenika.zenfoot.gae.services.BetService;
@@ -48,19 +50,22 @@ public class BetResource {
     private GamblerService gamblerService;
     private MockUserService userService;
     private TeamDAO teamDAO;
+    private RankingDAO rankingDAO;
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("betservice") BetService betService,
                        @Named("userService") UserService userService,
                        GamblerService gamblerService,
-                       TeamDAO teamDAO) {
+                       TeamDAO teamDAO,
+                       RankingDAO rankingDAO) {
 
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
         this.teamDAO = teamDAO;
+        this.rankingDAO=rankingDAO;
     }
 
 
@@ -86,7 +91,7 @@ public class BetResource {
             match.setScoreUpdated(true);
             matchService.createUpdate(match);
             logger.log(Level.WARNING, "skipping calculation of scores");
-//            gamblerService.calculateScores(match);
+            gamblerService.calculateScores(match);
 
         }
     }
@@ -262,6 +267,23 @@ public class BetResource {
     public List<Team> getTeams() {
 
         return teamDAO.getAll();
+    }
+
+    @GET("/rankings")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<GamblerRanking> rankings(){
+        return rankingDAO.getAll();
+    }
+
+    @GET("/ranking")
+    @RolesAllowed(Roles.GAMBLER)
+    public GamblerRanking ranking(){
+        Gambler gambler =gamblerService.get(sessionInfo.getUser());
+        Logger logger = Logger.getLogger(BetResource.class.getName());
+        logger.log(Level.INFO,""+gambler.getId());
+        GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
+        logger.log(Level.INFO,""+gamblerRanking);
+        return gamblerRanking;
     }
 
 

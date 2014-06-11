@@ -4,7 +4,7 @@
         <form action="" method="post" name="subscriptionForm" role="form" autocomplete="off">
             <h2 class="form-title">S'inscrire</h2>
 
-            <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.prenom.$dirty}">
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.name.$dirty}">
                 <label for="prenom" class="sr-only">Prénom</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -120,7 +120,7 @@
             </ng-form>
             <div class="form-group">
                 <div class="controls text-center">
-                    <button type="submit" class="btn btn-primary" data-ng-click="valider()" data-ng-disabled="subscriptionForm.$invalid">Créer mon compte</button>
+                    <button type="submit" class="btn btn-primary" data-ng-click="valider()">Créer mon compte</button>
                 </div>
             </div>
 

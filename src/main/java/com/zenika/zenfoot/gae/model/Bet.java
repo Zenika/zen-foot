@@ -48,4 +48,7 @@ public class Bet {
     }
 
 
+    public boolean wasMade() {
+        return this.score1!=null && this.score2!=null;
+    }
 }
