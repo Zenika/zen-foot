@@ -26,7 +26,7 @@ public class ModelModule {
         for (int i = 0; i < matches.length; i++) {
             //TODO ONLY FOR TESTS
             Match match = matches[i];
-            match.setDate(DateTime.now().plusSeconds(30 * i));
+//            match.setDate(DateTime.now().plusSeconds(30 * i));
             matchRepository.createUpdate(match);
         }
 
