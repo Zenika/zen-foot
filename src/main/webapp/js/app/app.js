@@ -34,10 +34,10 @@
                     url: '/confirmSubscription/:id',
                     templateUrl: 'view/confirmSubscription.html'
                 })
-                .state('ligueState', {
+              /*  .state('ligueState', {
                     url: '/profil',
                     templateUrl: 'view/profil.html'
-                });
+                });*/
 
             $urlRouterProvider.otherwise('/bets');
 
