@@ -4,8 +4,8 @@
  * This controller sends the login request to restx and spreads an AUTHENTICATED event to scopes.
  */
 angular.module('zenFoot.app')
-    .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams',
-        function ($scope, $rootScope, $http, $state, $stateParams) {
+    .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams','$timeout',
+        function ($scope, $rootScope, $http, $state, $stateParams,$timeout) {
             $scope.login = { };
 
             if ($stateParams.subscriptionSuccess) {
@@ -32,8 +32,11 @@ angular.module('zenFoot.app')
                         //Submit hidden form with classic HTTP POST to enabled password recording in browser
                         angular.element("#postLoginForm").submit();
                     }).error(function (data, status, headers, config) {
-                        //console.log('error', data, status);
-                        alert("Authentication error, please try again.");
+                        console.log('error', data, status);
+                        $scope.wrongLogin=true;
+                        $timeout(function(){
+                            delete $scope.wrongLogin
+                        },3000)
                     });
             };
 

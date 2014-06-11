@@ -1,14 +1,18 @@
 <div class="row" data-ng-controller="LoginCtrl">
     <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
         <div class="alert alert-success text-center" data-ng-show="subscriptionSuccess">
-            F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour valider votre inscription.
+            F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. <!--Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour valider votre inscription.
+            -->
+        </div>
+        <div class="alert alert-danger text-center"  data-ng-show="wrongLogin">
+            Utilisateur ou mot de passe incorrect
         </div>
     </div>
 
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
 
         <h2 class="form-title">Connexion</h2>
-        
+
         <form name="doLoginForm" id="postLoginForm" method="post" action="/api/redirectAfterLogin" class="hidden">
             <input name="username" id="login-user" type="hidden">
             <input name="password" id="login-password" type="hidden">
@@ -16,51 +20,54 @@
 
 
         <form name="loginForm" id="loginForm" role="form" autofill-submit="submit()">
-			
+
             <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid && loginForm.user.$dirty}">
                 <label for="user" class="sr-only">Email</label>
+
                 <div class="input-group">
                     <span class="input-group-addon">@</span>
                     <input
-                        class="form-control"
-                        type="email"
-                        placeholder="Adresse mail"
-                        id="user"
-                        name="user"
-                        data-ng-model="login.email"
-                        autofocus
-                        autofill
-                        required/>
+                            class="form-control"
+                            type="email"
+                            placeholder="Adresse mail"
+                            id="user"
+                            name="user"
+                            data-ng-model="login.email"
+                            autofocus
+                            autofill
+                            required/>
                 </div>
                 <p
-                    class="help-block"
-                    data-ng-show="loginForm.user.$error.required && loginForm.user.$dirty">
+                        class="help-block"
+                        data-ng-show="loginForm.user.$error.required && loginForm.user.$dirty">
                     Champ obligatoire
                 </p>
+
                 <p
-                    class="help-block"
-                    data-ng-show="loginForm.user.$error.email && !loginForm.user.$error.required">
+                        class="help-block"
+                        data-ng-show="loginForm.user.$error.email && !loginForm.user.$error.required">
                     Format non valide
                 </p>
             </div>
 
             <div class="form-group" ng-class="{'has-error': loginForm.pass.$invalid && loginForm.pass.$dirty}">
                 <label for="pass" class="sr-only">Mot de passe</label>
+
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                     <input
-                        class="form-control"
-                        type="password"
-                        placeholder="Mot de passe"
-                        id="pass"
-                        name="pass"
-                        data-ng-model="login.password"
-                        autofill
-                        required/>
+                            class="form-control"
+                            type="password"
+                            placeholder="Mot de passe"
+                            id="pass"
+                            name="pass"
+                            data-ng-model="login.password"
+                            autofill
+                            required/>
                 </div>
                 <p
-                    class="help-block"
-                    data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
+                        class="help-block"
+                        data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
                     Champ obligatoire
                 </p>
             </div>
@@ -68,16 +75,16 @@
             <div class="form-group">
                 <div class="controls text-center">
                     <input
-                        type="submit"
-                        value="Connexion"
-                        class="btn btn-primary"
-                        />
+                            type="submit"
+                            value="Connexion"
+                            class="btn btn-primary"
+                            />
 
-                     <input
-                     	type="button"
-                     	value="S'inscrire"
-                     	class="btn btn-link"
-                     	data-ng-click="subscribe()" />
+                    <input
+                            type="button"
+                            value="S'inscrire"
+                            class="btn btn-link"
+                            data-ng-click="subscribe()"/>
                 </div>
             </div>
 

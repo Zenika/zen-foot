@@ -33,6 +33,7 @@ public class ModelModule {
 //            match.setDate(DateTime.now().plusSeconds(30 * i));
                 matchRepository.createUpdate(match);
             }
+
         }
 
         return matchRepository;

@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.module;
 
+import com.google.appengine.repackaged.org.joda.time.LocalDateTime;
 import com.zenika.zenfoot.gae.model.Match;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -96,6 +97,7 @@ public class GenerateMatches {
                 new Match(new DateTime(2014, 6, 26, 18, 0, timezone), "G", usa, allemagne),
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), "H", coree, belgique),
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), "H", algerie, russie)
+
         };
 
         return matches;

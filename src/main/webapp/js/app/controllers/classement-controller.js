@@ -22,8 +22,6 @@ angular.module('zenFoot.app')
                         return -peopleRanking.points;
                     });*/
 
-                    console.log("ranking:")
-                    console.log(ranking)
                     for (var x in ranking) {
 
                         ranking[x].classement = parseInt(x) + 1;
