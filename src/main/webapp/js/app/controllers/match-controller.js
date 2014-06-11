@@ -55,14 +55,14 @@ angular.module('zenFoot.app')
                 });
 
                 $scope.matchesByGroup = _.groupBy(matches, function (match) {
-                    return match.groupe;
+                    return match.groupe
                 })
                 $scope.matches = matches;
             });
 
 
             GamblerRanking.get().$promise.then( function(gamblerRanking) {
-                $rootScope.user.points = gamblerRanking.points;
+                $rootScope.user.points = gamblerRanking.points
             });
 
             $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;

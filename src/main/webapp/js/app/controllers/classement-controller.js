@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('ClassementCtrl', ['$scope', 'GamblerService', '$q', 'Gambler', 'Team',
-        function ($scope, GamblerService, $q, Gambler, Team) {
+    .controller('ClassementCtrl', ['$scope', 'GamblerService','RankingService', '$q', 'Gambler', 'Team',
+        function ($scope, GamblerService,RankingService, $q, Gambler, Team) {
 
             $scope.gambler = Gambler.get();
 
@@ -18,26 +18,28 @@ angular.module('zenFoot.app')
                  */
 
                 $scope.classement = promise.then(function (ranking) {
-                    var rankingSorted = _.sortBy(ranking, function (peopleRanking) {
+                    /*var rankingSorted = _.sortBy(ranking, function (peopleRanking) {
                         return -peopleRanking.points;
-                    });
+                    });*/
 
-                    for (var x in rankingSorted) {
+                    console.log("ranking:")
+                    console.log(ranking)
+                    for (var x in ranking) {
 
-                        rankingSorted[x].classement = parseInt(x) + 1;
+                        ranking[x].classement = parseInt(x) + 1;
                     }
-                    $scope.classement = rankingSorted;
-                    return rankingSorted;
+                    $scope.classement = ranking;
+                    return ranking;
 
                 })
-                    .then(function (rankingSorted) {
-                        $scope.setPagingData(rankingSorted, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
-                        return rankingSorted;
+                    .then(function (ranking) {
+                        $scope.setPagingData(ranking, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+                        return ranking;
 
                     })
             };
 
-            $scope.classementFunc(GamblerService.getAll());
+            $scope.classementFunc(RankingService.getAll());
 
 
             /**

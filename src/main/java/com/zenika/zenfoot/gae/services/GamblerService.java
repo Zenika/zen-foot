@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.user.User;
@@ -21,11 +22,13 @@ public class GamblerService {
     private GamblerRepository gamblerRepository;
     private MatchService matchService;
     private TeamDAO teamDAO;
+    protected RankingDAO rankingDao;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
         this.teamDAO = teamDAO;
+        this.rankingDao=rankingDAO;
     }
 
     public List<Gambler> getAll() {
@@ -64,6 +67,12 @@ public class GamblerService {
     }
 
 
+    /**
+     * Used to create gambler, and also to create the GamblerRanking object
+     * @param user
+     * @param matchs
+     * @return
+     */
     public Key<Gambler> createGambler(User user, List<Match> matchs) {
         return createGambler(user, matchs, 0);
     }
@@ -73,14 +82,17 @@ public class GamblerService {
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setPrenom(user.getPrenom());
         gambler.setNom(user.getNom());
-//        gambler.addPoints(points);
-//
+
         for (Match match : matchs) {
             Bet bet = new Bet(match.getId());
             gambler.addBet(bet);
         }
-//
-        return gamblerRepository.saveGambler(gambler);
+
+        Key<Gambler> toRet = gamblerRepository.saveGambler(gambler);
+        GamblerRanking gamblerRanking = new GamblerRanking(toRet.getId(),user.getNom(),user.getPrenom());
+        rankingDao.createUpdate(gamblerRanking);
+
+        return toRet;
     }
 
     public Gambler updateGambler(Gambler gambler) {
@@ -93,23 +105,22 @@ public class GamblerService {
     }
 
     public void calculateScores(Match match) {
-//        List<Gambler> gamblers = gamblerRepository.getAll();
-//        for (Gambler gambler : gamblers) {
-//            Bet bet = getBetByMatchId(gambler, match.getId());
-//            if (bet.wasMade()) {
-//                if (bet.isLike3Points(match.getOutcome())) {
-//                    gambler.addPoints(3);
-//                } else {
-//                    if (bet.isLike1Point(match.getOutcome())) {
-//                        gambler.addPoints(1);
-//                    }
-//                }
-//                if (gambler.getEmail().equals("jean.bon@zenika.com")) {
-//                    logger.log(Level.INFO, "Points calculated for Jean Bon : " + gambler.getPoints());
-//                }
-//                updateGambler(gambler);
-//            }
-//        }
+        List<Gambler> gamblers = gamblerRepository.getAll();
+        for (Gambler gambler : gamblers) {
+            Bet bet = getBetByMatchId(gambler, match.getId());
+            if (bet !=null && bet.wasMade()) {
+                GamblerRanking gamblerRanking = rankingDao.findByGambler(gambler.getId());
+                //if gamblerRanking doesn't exist yet, we create it
+                if(gamblerRanking==null){
+                    gamblerRanking = new GamblerRanking(gambler.getId(),gambler.getNom(),gambler.getPrenom());
+                }
+                int points = CalculateScores.calculateScores(bet,match);
+                if(points>0){
+                    gamblerRanking.addPoints(points);
+                }
+                rankingDao.createUpdate(gamblerRanking);
+            }
+        }
     }
 
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {

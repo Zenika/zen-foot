@@ -71,13 +71,19 @@ public class UserModule {
         User leonardo = new User().setPrenom("Leonardo").setName("Di-Caprio").setEmail("j11@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
         leonardo.setPassword("999");
 
-        User j = new User().setEmail("j@j.fr").setName("j").setPrenom("j").setEmail("j@j.fr").setRoles(Arrays.asList(Roles.GAMBLER));
+        User j = new User().setEmail("j@j.fr").setName("j").setPrenom("j").setRoles(Arrays.asList(Roles.GAMBLER));
         j.setPassword("999");
+
+        User l = new User().setEmail("l@l.fr").setName("l").setPrenom("l").setRoles(Arrays.asList(Roles.GAMBLER));
+        l.setPassword("999");
+
+        User k = new User().setEmail("k@k.fr").setName("k").setPrenom("k").setRoles(Arrays.asList(Roles.GAMBLER));
+        k.setPassword("999");
 
 
         MockUserService userService = new MockUserService(userRepository);
         userService.createUser(admin);
-        userService.createUser(jean);
+       /* userService.createUser(jean);
         userService.createUser(mira);
         userService.createUser(bill);
         userService.createUser(andy);
@@ -88,11 +94,14 @@ public class UserModule {
         userService.createUser(harold);
         userService.createUser(richard);
         userService.createUser(jc);
-        userService.createUser(leonardo);
+        userService.createUser(leonardo);*/
         userService.createUser(j);
+        userService.createUser(k);
+        userService.createUser(l);
+
 
         List<Match> matchs = matchService.getMatchs();
-        gamblerService.createGambler(jean, matchs);
+  /*      gamblerService.createGambler(jean, matchs);
         gamblerService.createGambler(mira, matchs, 12);
         gamblerService.createGambler(bill, matchs, 15);
         gamblerService.createGambler(andy, matchs, 58);
@@ -103,8 +112,10 @@ public class UserModule {
         gamblerService.createGambler(harold, matchs, 29);
         gamblerService.createGambler(richard, matchs, 65);
         gamblerService.createGambler(jc, matchs, 28);
-        gamblerService.createGambler(leonardo, matchs, 18);
+        gamblerService.createGambler(leonardo, matchs, 18);*/
         gamblerService.createGambler(j, matchs);
+        gamblerService.createGambler(k,matchs);
+        gamblerService.createGambler(l,matchs);
         return userService;
     }
 
