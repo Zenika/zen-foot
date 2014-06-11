@@ -206,14 +206,20 @@ public class BetResource {
         subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
 //        subscriber.getUser().setIsActive(Boolean.FALSE);
 
-        Key<User> keyUser = userService.createUser(subscriber.getUser());
-        User user = userService.get(keyUser);
-        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
-        Gambler gambler = gamblerService.getGambler(gamblerKey);
+        User existingUser = userService.getUserByEmail(subscriber.getUser().getEmail());
 
-        Set<StatutTeam> testSet = new HashSet<>();
+        if(existingUser==null){
 
-        gamblerService.addTeams(subscriber.getTeams(), gambler);
+            Key<User> keyUser = userService.createUser(subscriber.getUser());
+            User user = userService.get(keyUser);
+            Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
+            Gambler gambler = gamblerService.getGambler(gamblerKey);
+
+            Set<StatutTeam> testSet = new HashSet<>();
+
+            gamblerService.addTeams(subscriber.getTeams(), gambler);
+        }
+
 
 
     }
