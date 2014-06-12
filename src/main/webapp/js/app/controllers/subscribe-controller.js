@@ -23,6 +23,12 @@ angular.module('zenFoot.app')
                 Subscription.save({user: $scope.subscriber, teams: $scope.subscriber.teams}, function () {
                     $state.go('loginState', {subscriptionSuccess: true});
                     $rootScope.subscriber = $scope.subscriber;
+                }, function (putResponseHeaders) {
+                	if (putResponseHeaders.status == 400) {
+                		$scope.subscriptionForm.$setPristine();
+                		$scope.subscriber.subscriptionErrorAlreadyUsedEmail = true;
+                        $rootScope.subscriber = $scope.subscriber;
+                	}
                 });
             };
 
