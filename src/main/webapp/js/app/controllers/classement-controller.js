@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('ClassementCtrl', ['$scope', 'GamblerService','RankingService', '$q', 'Gambler', 'Team','$timeout',
-        function ($scope, GamblerService,RankingService, $q, Gambler, Team,$timeout) {
+    .controller('ClassementCtrl', ['$scope', 'GamblerService', 'RankingService', '$q', 'Gambler', 'Team', '$timeout',
+        function ($scope, GamblerService, RankingService, $q, Gambler, Team, $timeout) {
 
             $scope.gambler = Gambler.get();
 
@@ -20,8 +20,8 @@ angular.module('zenFoot.app')
 
                 $scope.classement = promise.then(function (ranking) {
                     /*var rankingSorted = _.sortBy(ranking, function (peopleRanking) {
-                        return -peopleRanking.points;
-                    });*/
+                     return -peopleRanking.points;
+                     });*/
 
                     for (var x in ranking) {
 
@@ -36,11 +36,11 @@ angular.module('zenFoot.app')
                         return ranking;
 
                     })
-                    .then(function(ranking){
-                        $timeout(function(){
-                            $scope.personnalRanking=$scope.findPersonnalRanking($scope.gambler)
+                    .then(function (ranking) {
+                        $timeout(function () {
+                            $scope.personnalRanking = $scope.findPersonnalRanking($scope.gambler)
 
-                        },100)
+                        }, 100)
                     })
             };
 
@@ -106,7 +106,7 @@ angular.module('zenFoot.app')
                     $scope.pageData = pageData;
                     var bool = false;
                     var scopeApplied = false;
-                    $scope.$apply()
+                    $scope.$apply();
                     // Styling the grid pager
                     $('.ngPagerControl .ngPagerButton').addClass('btn btn-default');
                     $('.ngPagerCurrent').addClass('form-control');
@@ -154,20 +154,18 @@ angular.module('zenFoot.app')
 
 
             $scope.findClassement = function (gambler) {
-                var ranking= $scope.findPersonnalRanking(gambler)
-                console.log(ranking.classement)
-                return ranking.classement
+                var ranking = $scope.findPersonnalRanking(gambler);
+                return ranking.classement;
 
             };
 
-            $scope.findPersonnalRanking=function(gambler){
+            $scope.findPersonnalRanking = function (gambler) {
                 var classement = $scope.classement;
 
                 var result = _.find(classement, function (item) {
                     return item.gamblerId == gambler.id;
                 });
-                console.log(result)
-                if (result)return result
+                if (result)return result;
             }
 
             /**
