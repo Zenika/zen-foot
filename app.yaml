@@ -1,5 +1,5 @@
-application: zen-foot
-version: 1
+application: zenfoot-prod
+version: 1-1
 runtime: java
 api_version: 1
 threadsafe: true
