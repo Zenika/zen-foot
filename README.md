@@ -81,7 +81,7 @@ Once you've done this, run the following command :
 
 ```
 mvn package
-appcfg.sh --no_cookies --email=<EMAIL> update target/gae-restx-poc-0-1
+appcfg.sh --no_cookies --email=<EMAIL> update target/zen-foot-1
 
 ```
 remove --no_cookies if you want to type your PW only once.
