@@ -36,8 +36,8 @@
                 </p>
             </div>
 
-            <div class="form-group"
-                 ng-class="{'has-error': subscriptionForm.email.$invalid && subscriptionForm.email.$dirty}">
+            <div class="form-group" ng-class="{'has-error': (subscriptionForm.email.$invalid && subscriptionForm.email.$dirty) || 
+            	(subscriber.subscriptionErrorAlreadyUsedEmail && !subscriptionForm.email.$dirty)}">
                 <label for="email" class="sr-only">Email</label>
 
                 <div class="input-group">
@@ -61,6 +61,11 @@
                         class="help-block"
                         data-ng-show="subscriptionForm.email.$error.zenikaEmail && !subscriptionForm.email.$error.email">
                     Doit être une adresse @zenika.com
+                </p>
+                <p
+                    class="help-block"
+                    data-ng-show="subscriber.subscriptionErrorAlreadyUsedEmail && !subscriptionForm.email.$dirty">
+                    Cette adresse email est déjà utilisée.
                 </p>
             </div>
 

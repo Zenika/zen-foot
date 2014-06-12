@@ -38,17 +38,14 @@ public class BetResource {
 
     private MatchService matchService;
     private SessionInfo sessionInfo;
-    private BetService betService;
     private GamblerService gamblerService;
     private MockUserService userService;
 
     private TeamDAO teamDAO;
     private RankingDAO rankingDAO;
-    private MailSenderService mailSenderService;
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
-                       @Named("betservice") BetService betService,
                        @Named("userService") UserService userService,
                        GamblerService gamblerService,
                        TeamDAO teamDAO,
@@ -56,10 +53,8 @@ public class BetResource {
 
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
-        this.betService = betService;
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
-        this.mailSenderService = new MailSenderService();
         this.teamDAO = teamDAO;
         this.rankingDAO=rankingDAO;
     }
@@ -183,32 +178,28 @@ public class BetResource {
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
-        Logger logger = Logger.getLogger(BetResource.class.getName());
+    	String email = subscriber.getUser().getEmail();
+    	User alreadyExistingUser = userService.getUserByEmail(email);
 
-        final String subject = "Confirmation d'inscription à Zen Foot";
-        final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
-        final String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+        if (alreadyExistingUser != null) {
+            throw new WebException(String.format("L'email %s est déjà pris par un autre utilisateur !", email));
+        }
+        subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
         subscriber.getUser().setIsActive(Boolean.TRUE);
-        subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
+
+//        TODO Send mail
+//        String subject = "Confirmation d'inscription à Zen Foot";
+//        String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
+//        String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
 //        subscriber.getUser().setIsActive(Boolean.FALSE);
 
-        User existingUser = userService.getUserByEmail(subscriber.getUser().getEmail());
+        Key<User> keyUser = userService.createUser(subscriber.getUser());
+        User user = userService.get(keyUser);
+        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
 
-        if(existingUser==null){
-
-            Key<User> keyUser = userService.createUser(subscriber.getUser());
-            User user = userService.get(keyUser);
-            Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getMatchs());
-            Gambler gambler = gamblerService.getGambler(gamblerKey);
-
-            Set<StatutTeam> testSet = new HashSet<>();
-
-            gamblerService.addTeams(subscriber.getTeams(), gambler);
-        }
-
-
-
+        Gambler gambler = gamblerService.getGambler(gamblerKey);
+        gamblerService.addTeams(subscriber.getTeams(), gambler);
     }
 
     @GET("/confirmSubscription")
@@ -225,27 +216,26 @@ public class BetResource {
         return Boolean.FALSE.toString();
     }
 
-    private static String getUrlConfirmation() {
-        String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
-
-        return urlConfirmation;
-    }
-
-    private static String getHostUrl() {
-        String hostUrl = null;
-        String environment = System.getProperty("com.google.appengine.runtime.environment");
-
-        if ("Production".equals(environment)) {
-            String applicationId = System.getProperty("com.google.appengine.application.id");
-            String version = System.getProperty("com.google.appengine.application.version");
-            // TODO Utiliser http://zenfoo.fr comme hostUrl.
-            hostUrl = "http://" + version + "." + applicationId + ".appspot.com";
-        } else {
-            hostUrl = "http://localhost:8080";
-        }
-
-        return hostUrl;
-    }
+//    private static String getUrlConfirmation() {
+//        String urlConfirmation = getHostUrl() + "/#/confirmSubscription/";
+//
+//        return urlConfirmation;
+//    }
+//
+//    private static String getHostUrl() {
+//        String hostUrl = null;
+//        String environment = System.getProperty("com.google.appengine.runtime.environment");
+//
+//        if ("Production".equals(environment)) {
+//            String applicationId = System.getProperty("com.google.appengine.application.id");
+//            String version = System.getProperty("com.google.appengine.application.version");
+//            hostUrl = "http://zenfoot.fr";
+//        } else {
+//            hostUrl = "http://localhost:8080";
+//        }
+//
+//        return hostUrl;
+//    }
 
     @GET("/wannajoin")
     @RolesAllowed(Roles.GAMBLER)
