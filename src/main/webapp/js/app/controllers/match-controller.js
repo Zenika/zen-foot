@@ -43,6 +43,8 @@ angular.module('zenFoot.app')
 
                 var matchesById = {};
 
+                matches = _.sortBy(matches, function(m) { return m.date; });
+
                 _.each(matches, function(match) {
                     //initialize bets info with empty object
                     match.bet = { matchId: match.id, score1: null, score2: null };

@@ -8,6 +8,7 @@ import restx.factory.Module;
 import restx.factory.Provides;
 
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * Created by raphael on 24/04/14.
@@ -22,12 +23,17 @@ public class ModelModule {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
 
         Match[] matches = GenerateMatches.generate();
+        List<Match> registered = matchRepository.getAll();
 
-        for (int i = 0; i < matches.length; i++) {
-            //TODO ONLY FOR TESTS
-            Match match = matches[i];
-            match.setDate(DateTime.now().plusSeconds(30 * i));
-            matchRepository.createUpdate(match);
+        //check whether there were registered matchs
+        if(registered.size()==0) {
+            for (int i = 0; i < matches.length; i++) {
+                //TODO ONLY FOR TESTS
+                Match match = matches[i];
+//            match.setDate(DateTime.now().plusSeconds(30 * i));
+                matchRepository.createUpdate(match);
+            }
+
         }
 
         return matchRepository;
