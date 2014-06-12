@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 @Component
 public class BetResource {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     private MatchService matchService;
     private SessionInfo sessionInfo;
@@ -76,22 +77,18 @@ public class BetResource {
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
         boolean isRegistered = matchService.getMatch(Long.parseLong(id)).isScoreUpdated();
-        Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING, "entering update");
         if (!isRegistered) {
             match.setScoreUpdated(true);
             matchService.createUpdate(match);
-            logger.log(Level.WARNING, "skipping calculation of scores");
             gamblerService.calculateScores(match);
-
         }
+        //TODO ELSE ?
     }
 
     @GET("/matchs")
     @PermitAll
     public List<Match> getMatchs() {
-        List<Match> matchs = matchService.getMatchs();
-        return matchs;
+        return  matchService.getMatchs();
     }
 
     /*@POST("/matchs")
@@ -116,7 +113,6 @@ public class BetResource {
     public void postBets(List<Bet> bets) {
         User user = sessionInfo.getUser();
         Gambler gambler = gamblerService.get(user);
-
         gamblerService.updateBets(bets, gambler);
     }
 
@@ -124,8 +120,7 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
         Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
-        Gambler gambler = gamblerService.getGambler(gamblerKey);
-        return gambler;
+        return gamblerService.getGambler(gamblerKey);
     }
 
     @GET("/gambler")
@@ -133,15 +128,12 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
-        Gambler gambler = gamblerService.get(user);
-        return gambler;
+        return gamblerService.get(user);
     }
 
     @GET("/gambler/{email}")
     @PermitAll
     public Gambler getGambler(String email) {
-        Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.INFO, email);
         return gamblerService.getFromEmail(email);
     }
 
@@ -154,7 +146,8 @@ public class BetResource {
     @GET("/gamblersTeam/{team}")
     @RolesAllowed(Roles.GAMBLER)
     public Set<Gambler> getGamblersTeam(String team) {
-        Set<Gambler> toRet = new HashSet<>();
+        throw new UnsupportedOperationException();
+//        Set<Gambler> toRet = new HashSet<>();
 //        List<Gambler> gamblers = gamblerService.getAll();
 //        for(Gambler gambler:gamblers){
 //            for(StatutTeam statutTeam:gambler.getStatutTeams()){
@@ -164,13 +157,12 @@ public class BetResource {
 //                }
 //            }
 //        }
-        return toRet;
+//        return toRet;
     }
 
     @POST("/joiner")
     @RolesAllowed(Roles.GAMBLER)
     public Gambler postJoiner(Gambler gambler) {
-
         return gamblerService.updateGambler(gambler);
     }
 
@@ -247,7 +239,6 @@ public class BetResource {
     @GET("/teams")
     @PermitAll
     public List<Team> getTeams() {
-
         return teamDAO.getAll();
     }
 
@@ -261,9 +252,6 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public GamblerRanking ranking(){
         Gambler gambler =gamblerService.get(sessionInfo.getUser());
-        GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
-        return gamblerRanking;
+        return rankingDAO.findByGambler(gambler.getId());
     }
-
-
 }
