@@ -204,6 +204,7 @@ public class BetResource {
     	if (alreadyExistingUser == null) {
     		logger.log(Level.INFO, "---------------subscribe-------------");
     		logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
+    		subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
     		subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
     		subscriber.getUser().setIsActive(Boolean.FALSE);
 
