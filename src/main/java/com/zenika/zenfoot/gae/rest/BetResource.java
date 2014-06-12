@@ -138,18 +138,7 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
-        Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.WARNING, "---------------------");
-
-        logger.log(Level.WARNING, "looking for " + user.getEmail());
         Gambler gambler = gamblerService.get(user);
-        logger.log(Level.WARNING, "found " + gambler.getEmail());
-        logger.log(Level.WARNING, "with id " + gambler.getId());
-
-
-        logger.log(Level.WARNING, gambler.getBets().size() + " bets found");
-        logger.log(Level.WARNING, "" + gamblerService);
-
         return gambler;
     }
 
@@ -199,8 +188,6 @@ public class BetResource {
         final String subject = "Confirmation d'inscription à Zen Foot";
         final String urlConfirmation = "<a href='" + getUrlConfirmation() + subscriber.getUser().getEmail() + "'> Confirmation d'inscription </a>";
         final String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-        logger.log(Level.INFO, "---------------subscribe-------------");
-        logger.log(Level.INFO, subscriber.getUser().getPasswordHash());
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
         subscriber.getUser().setIsActive(Boolean.TRUE);
         subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
@@ -284,10 +271,7 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public GamblerRanking ranking(){
         Gambler gambler =gamblerService.get(sessionInfo.getUser());
-        Logger logger = Logger.getLogger(BetResource.class.getName());
-        logger.log(Level.INFO,""+gambler.getId());
         GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
-        logger.log(Level.INFO,""+gamblerRanking);
         return gamblerRanking;
     }
 

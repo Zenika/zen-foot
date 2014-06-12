@@ -26,11 +26,11 @@ public class ModelModule {
         List<Match> registered = matchRepository.getAll();
 
         //check whether there were registered matchs
-        if(registered.size()==0) {
+        if (registered.size() == 0) {
             for (int i = 0; i < matches.length; i++) {
                 //TODO ONLY FOR TESTS
                 Match match = matches[i];
-//            match.setDate(DateTime.now().plusSeconds(30 * i));
+                match.setDate(DateTime.now().plusSeconds(30 * i));
                 matchRepository.createUpdate(match);
             }
 
@@ -96,8 +96,8 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO,RankingDAO rankingDAO) {
-        return new GamblerService(gamblerRepository, matchService, teamDAO,rankingDAO);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO);
     }
 
     @Provides
@@ -106,7 +106,7 @@ public class ModelModule {
     }
 
     @Provides
-    public RankingDAO rankingDAO(){
+    public RankingDAO rankingDAO() {
         return new RankingDAO();
     }
 }

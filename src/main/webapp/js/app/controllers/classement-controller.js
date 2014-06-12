@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('ClassementCtrl', ['$scope', 'GamblerService','RankingService', '$q', 'Gambler', 'Team',
-        function ($scope, GamblerService,RankingService, $q, Gambler, Team) {
+    .controller('ClassementCtrl', ['$scope', 'GamblerService','RankingService', '$q', 'Gambler', 'Team','$timeout',
+        function ($scope, GamblerService,RankingService, $q, Gambler, Team,$timeout) {
 
             $scope.gambler = Gambler.get();
 
             $scope.teams = Team.getAll();
+
 
             /**
              * Retrieves the ranking from the server, sorts it, affects the ranking to each player, and affects the resulting list to the scope
@@ -34,6 +35,12 @@ angular.module('zenFoot.app')
                         $scope.setPagingData(ranking, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
                         return ranking;
 
+                    })
+                    .then(function(ranking){
+                        $timeout(function(){
+                            $scope.personnalRanking=$scope.findPersonnalRanking($scope.gambler)
+
+                        },100)
                     })
             };
 
@@ -131,13 +138,15 @@ angular.module('zenFoot.app')
 
             $scope.changePage = function (gambler) {
                 if (gambler) {
+
                     if ($scope.focusedGambler) {
                         delete $scope.focusedGambler.focused;
                     }
                     $scope.focusedGambler = gambler;
                     gambler.focused = true;
-                    var roundedPage = gambler.classement / $scope.pagingOptions.pageSize;
+                    var roundedPage = $scope.personnalRanking.classement / $scope.pagingOptions.pageSize;
                     var page = Math.ceil(roundedPage);
+
                     $scope.pagingOptions.currentPage = page;
                 }
 
@@ -145,17 +154,24 @@ angular.module('zenFoot.app')
 
 
             $scope.findClassement = function (gambler) {
-                var classement = $scope.classement;
-
-                var result = _.find($scope.classement, function (item) {
-                    return item.id == gambler.id;
-                });
-                if (result)return result.classement;
+                var ranking= $scope.findPersonnalRanking(gambler)
+                console.log(ranking.classement)
+                return ranking.classement
 
             };
 
+            $scope.findPersonnalRanking=function(gambler){
+                var classement = $scope.classement;
+
+                var result = _.find(classement, function (item) {
+                    return item.gamblerId == gambler.id;
+                });
+                console.log(result)
+                if (result)return result
+            }
+
             /**
-             * Finds the current gambler in the ranking list. Necessary because ranking is calculated client side based on the resulting sorted list
+             * Finds the ranking object of the current gambler in the ranking list. Necessary because ranking is given client side, depending on the position of the player in the array
              */
             $scope.findGambler = function () {
                 if ($scope.gambler) {
