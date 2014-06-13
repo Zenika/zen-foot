@@ -5,8 +5,10 @@ import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
+import com.zenika.zenfoot.gae.module.GenerateMatches;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.HashSet;
 import java.util.List;
@@ -53,15 +55,21 @@ public class GamblerService {
     }
 
     public void updateBets(List<Bet> newBets, Gambler gambler) {
+        DateTime registerTime = DateTime.now();
         for (Bet bet : newBets) {
             Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
+            Match correspondingMatch = matchService.getMatch(bet.getMatchId());
+
             //Check the bet already existed in the database
-            if (existingBet == null) {
-                gambler.addBet(bet);
-            } else {
-                existingBet.setScore1(bet.getScore1());
-                existingBet.setScore2(bet.getScore2());
+            if(correspondingMatch.getDate().isAfter(registerTime)){
+                if (existingBet == null) {
+                    gambler.addBet(bet);
+                } else {
+                    existingBet.setScore1(bet.getScore1());
+                    existingBet.setScore2(bet.getScore2());
+                }
             }
+
         }
         updateGambler(gambler);
     }
@@ -124,8 +132,6 @@ public class GamblerService {
     }
 
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
-        Logger logger = Logger.getLogger(GamblerService.class.getName());
-
 
         Set<StatutTeam> toReg = new HashSet<>();
         for (Team team : teams) {

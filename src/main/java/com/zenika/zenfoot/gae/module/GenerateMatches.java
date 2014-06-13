@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.repackaged.org.joda.time.LocalDateTime;
+import com.zenika.zenfoot.gae.model.Constants;
 import com.zenika.zenfoot.gae.model.Match;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -46,7 +47,7 @@ public class GenerateMatches {
         String russie = "russie";
         String coree = "coree";
 
-        DateTimeZone timezone = DateTimeZone.forID("Europe/Paris");
+        DateTimeZone timezone = Constants.timeZone;
 
         Match[] matches = {
                 new Match(new DateTime(2014, 6, 12, 22, 0, timezone), "A", croatie, bresil),
