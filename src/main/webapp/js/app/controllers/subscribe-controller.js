@@ -10,9 +10,9 @@ angular.module('zenFoot.app')
             $scope.existingTeams = Team.getAll();
 
             var checkTeams = function () {
-                for (var x in $scope.subscriber.teams) {
-                    if ($scope.subscriber.teams[x].name.trim() == "") {
-                        $scope.subscriber.teams.splice(x)
+                for (var i=0;i<$scope.subscriber.teams.length;i++) {
+                    if ($scope.subscriber.teams[i].name.trim() == "") {
+                        $scope.subscriber.teams.splice(i)
                     }
                 }
             };
