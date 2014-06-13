@@ -1,6 +1,6 @@
-(function(){
+(function () {
 
-    var isCookieEnabled = function() {
+    var isCookieEnabled = function () {
         // Quick test if browser has cookieEnabled host property
         if (navigator.cookieEnabled) return true;
         // Create cookie
@@ -11,11 +11,7 @@
         return ret;
     };
 
-    if (!isCookieEnabled()){
-        document.getElementById('view').innerHTML =  '<p class="alert alert-warning text-center">Il semble que les cookies soient désactivés dans votre navigateur. Vous devez modifier votre paramétrage et pour avoir accès à zenfoot.</p>';
+    if (!isCookieEnabled()) {
+        document.getElementById('view').innerHTML = '<p class="alert alert-warning text-center">Il semble que les cookies soient désactivés dans votre navigateur. Vous devez modifier votre paramétrage et pour avoir accès à zenfoot.</p>';
     }
-
-    console.log("do");
 })();
-
-console.log("loaded");
