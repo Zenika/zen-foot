@@ -10,6 +10,8 @@ import org.joda.time.DateTimeZone;
  */
 public class GenerateMatches {
 
+    public final static String timeZoneString = "Europe/Paris";
+
     //src/main/webapp/
 
     public static Match[] generate() {
@@ -46,7 +48,7 @@ public class GenerateMatches {
         String russie = "russie";
         String coree = "coree";
 
-        DateTimeZone timezone = DateTimeZone.forID("Europe/Paris");
+        DateTimeZone timezone = DateTimeZone.forID(timeZoneString);
 
         Match[] matches = {
                 new Match(new DateTime(2014, 6, 12, 22, 0, timezone), "A", croatie, bresil),
