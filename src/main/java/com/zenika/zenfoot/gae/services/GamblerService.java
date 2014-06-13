@@ -55,13 +55,10 @@ public class GamblerService {
     }
 
     public void updateBets(List<Bet> newBets, Gambler gambler) {
-        DateTime registerTime = DateTime.now().withZone(DateTimeZone.forID(Constants.timeZoneString));
-        Logger logger = Logger.getLogger(GamblerService.class.getName());
+        DateTime registerTime = DateTime.now().withZone(Constants.timeZone);
         for (Bet bet : newBets) {
             Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
             Match correspondingMatch = matchService.getMatch(bet.getMatchId());
-            logger.log(Level.INFO,"Registering time : "+registerTime.toString());
-            logger.log(Level.INFO,"Match beginning time : "+correspondingMatch.getDate().toString());
 
             //Check the bet already existed in the database
             if(correspondingMatch.getDate().isAfter(registerTime)){
@@ -135,8 +132,6 @@ public class GamblerService {
     }
 
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
-        Logger logger = Logger.getLogger(GamblerService.class.getName());
-
 
         Set<StatutTeam> toReg = new HashSet<>();
         for (Team team : teams) {
