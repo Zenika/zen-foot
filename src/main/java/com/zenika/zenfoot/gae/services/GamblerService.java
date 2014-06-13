@@ -55,7 +55,7 @@ public class GamblerService {
     }
 
     public void updateBets(List<Bet> newBets, Gambler gambler) {
-        DateTime registerTime = DateTime.now().withZone(Constants.timeZone);
+        DateTime registerTime = DateTime.now();
         for (Bet bet : newBets) {
             Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
             Match correspondingMatch = matchService.getMatch(bet.getMatchId());
