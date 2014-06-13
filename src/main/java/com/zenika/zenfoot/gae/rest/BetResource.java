@@ -175,7 +175,7 @@ public class BetResource {
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
-    	final String email = subscriber.getUser().getEmail();
+    	String email = subscriber.getUser().getEmail();
     	User alreadyExistingUser = userService.getUserByEmail(email);
 
     	if (alreadyExistingUser != null) {
