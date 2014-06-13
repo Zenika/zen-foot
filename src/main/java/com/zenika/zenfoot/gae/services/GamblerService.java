@@ -5,8 +5,10 @@ import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
+import com.zenika.zenfoot.gae.module.GenerateMatches;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.HashSet;
 import java.util.List;
@@ -53,15 +55,24 @@ public class GamblerService {
     }
 
     public void updateBets(List<Bet> newBets, Gambler gambler) {
+        DateTime registerTime = DateTime.now().withZone(DateTimeZone.forID(GenerateMatches.timeZoneString));
+        Logger logger = Logger.getLogger(GamblerService.class.getName());
         for (Bet bet : newBets) {
             Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
+            Match correspondingMatch = matchService.getMatch(bet.getMatchId());
+            logger.log(Level.INFO,"Registering time : "+registerTime.toString());
+            logger.log(Level.INFO,"Match beginning time : "+correspondingMatch.getDate().toString());
+
             //Check the bet already existed in the database
-            if (existingBet == null) {
-                gambler.addBet(bet);
-            } else {
-                existingBet.setScore1(bet.getScore1());
-                existingBet.setScore2(bet.getScore2());
+            if(correspondingMatch.getDate().isAfter(registerTime)){
+                if (existingBet == null) {
+                    gambler.addBet(bet);
+                } else {
+                    existingBet.setScore1(bet.getScore1());
+                    existingBet.setScore2(bet.getScore2());
+                }
             }
+
         }
         updateGambler(gambler);
     }
@@ -136,9 +147,9 @@ public class GamblerService {
 
             if (optTeam.isPresent()) { // Team has already been created
                 toRegister = optTeam.get();
-                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
+//                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
             } else { //The team was created by the user and thus, the latter is the owner of it
-                logger.log(Level.INFO, "No team found");
+//                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);

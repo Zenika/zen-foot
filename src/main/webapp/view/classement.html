@@ -37,7 +37,7 @@
                     </form>
                     <ul>
                         <li data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')">
-                            <a href="" data-ng-click="changePage(gambler)">
+                            <a href="" data-ng-click="changeToGambler(gambler)">
                                 {{gambler.prenom}} {{gambler.nom}}
                             </a>
                         </li>

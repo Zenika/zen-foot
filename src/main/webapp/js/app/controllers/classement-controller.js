@@ -136,21 +136,25 @@ angular.module('zenFoot.app')
              is changed to that where the gambler is listed.
              */
 
-            $scope.changePage = function (gambler) {
-                if (gambler) {
+            $scope.changePage = function (gamblerRanking) {
+                if (gamblerRanking) {
 
                     if ($scope.focusedGambler) {
                         delete $scope.focusedGambler.focused;
                     }
-                    $scope.focusedGambler = gambler;
-                    gambler.focused = true;
-                    var roundedPage = $scope.personnalRanking.classement / $scope.pagingOptions.pageSize;
+                    $scope.focusedGambler = gamblerRanking;
+                    gamblerRanking.focused = true;
+                    var roundedPage = gamblerRanking.classement / $scope.pagingOptions.pageSize;
                     var page = Math.ceil(roundedPage);
 
                     $scope.pagingOptions.currentPage = page;
                 }
 
             };
+
+            $scope.changeToGambler=function(ranking){
+                $scope.changePage(ranking)
+            }
 
 
             $scope.findClassement = function (gambler) {

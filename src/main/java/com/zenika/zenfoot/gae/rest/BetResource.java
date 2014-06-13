@@ -8,6 +8,8 @@ import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.services.*;
 import com.zenika.zenfoot.user.User;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -254,4 +256,5 @@ public class BetResource {
         Gambler gambler =gamblerService.get(sessionInfo.getUser());
         return rankingDAO.findByGambler(gambler.getId());
     }
+
 }
