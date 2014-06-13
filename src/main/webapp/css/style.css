@@ -128,7 +128,7 @@ body {
 /* A REVOIR */
 .form-title {
     text-align: center; 
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .zen-space {
@@ -397,9 +397,11 @@ Some CSS properties on the size of inputs
 .zen-logo-color{
     display: block;
     width:80%;
+    max-width: 290px;
+    margin-top: -20px;
+    margin-bottom: 40px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 40px;
 }
 
 @media only screen and (max-width: 480px) {
