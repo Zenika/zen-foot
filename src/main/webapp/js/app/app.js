@@ -35,7 +35,7 @@
                     templateUrl: 'view/confirmSubscription.html'
                 })
               /*  .state('ligueState', {
-                    url: '/profil',
+                    url: '/ligue',
                     templateUrl: 'view/profil.html'
                 });*/
 
