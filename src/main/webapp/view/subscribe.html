@@ -1,5 +1,9 @@
 <div class="row" data-ng-controller="subscribeCtrl">
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+    
+    	<div class="alert alert-danger text-center"  data-ng-show="subscriber.subscriptionError">
+            Une erreur est survenue lors de la subscription de votre compte.
+        </div>
 
         <form action="" method="post" name="subscriptionForm" role="form" autocomplete="off">
             <h2 class="form-title">S'inscrire</h2>
