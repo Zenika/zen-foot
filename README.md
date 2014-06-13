@@ -56,19 +56,32 @@ grunt
 
 On Google App Engine (GAE) :
 
-BEFORE DEPLOYING ANYTHING :
-We are using RestX dependency injection system to inject matches in dev mode. When you deploy on GAE, you have to disable the injection for that data. In order to do this, you'll have to modify the following classes :
+First step :
 
-- In ModelModule : change the @Named annotation which is before the parameter of the method matchService from @Named("matchRepoDev") to @Named("matchRepoGAE")
-- In UserModule : change the @Named annotation which is before the parameter of the method getUserService from @Named("userServiceDev") to @Named("userServiceGAE")
+You no longer need to change RestX dependency injection to inject right classes. What you have to check when you deploy to GAE is :
+
+- In app.yaml : 
+
+"application" must be set to the right name of application (zen-foot for the test version, and zenfoot-prod for production)
+
+"version" must be set to your version of the application
+
+- In appengine-web.xml :
+
+The "application" tag must be set to the name of the application, it must be the same as that in app.yaml
+
+The "version" tag must be set to the same version name as that in app.yaml
 
 ---
 
 If you are contributing to zenfoot, you won't have to deploy the application to app engine, as we are functioning
 with pull requests. You can see the deployed app [here](http://1-dot-zen-foot.appspot.com/)
+
+Once you've done this, run the following command : 
+
 ```
 mvn package
-appcfg.sh --no_cookies --email=<EMAIL> update target/gae-restx-poc-0-1
+appcfg.sh --no_cookies --email=<EMAIL> update target/zen-foot-1
 
 ```
 remove --no_cookies if you want to type your PW only once.

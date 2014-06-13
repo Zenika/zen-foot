@@ -136,9 +136,9 @@ public class GamblerService {
 
             if (optTeam.isPresent()) { // Team has already been created
                 toRegister = optTeam.get();
-                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
+//                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
             } else { //The team was created by the user and thus, the latter is the owner of it
-                logger.log(Level.INFO, "No team found");
+//                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
