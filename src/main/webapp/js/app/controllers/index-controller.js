@@ -60,4 +60,9 @@ angular.module('zenFoot.app')
             return $state.includes(state);
         };
 
+        $scope.hideNavBar=function(){
+
+            return $state.current.name=='loginState' || $state.current.name.trim()==''
+        }
+
     });

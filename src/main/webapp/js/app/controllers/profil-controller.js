@@ -48,8 +48,8 @@ angular.module('zenFoot.app')
                 if ($scope.joiners.length > 1)return false;
 
                 var bool = false;
-                for (var x in $scope.joiners) {
-                    var joiner = $scope.joiners[x];
+                for (var i=0 ; i<$scope.joiners.length;i++) {
+                    var joiner = $scope.joiners[i];
 
                     if (joiner.email != $scope.gambler.email) {
                         return false;
@@ -81,9 +81,9 @@ angular.module('zenFoot.app')
                 $scope.joinedTeams.push({name: "", isNew: false})
             };
             var checkTeams = function () {
-                for (var x in $scope.joinedTeams) {
-                    if ($scope.joinedTeams[x].name.trim() == "") {
-                        $scope.joinedTeams.splice(x)
+                for (var i=0 ; i<$scope.joinedTeams.length;i++) {
+                    if ($scope.joinedTeams[i].name.trim() == "") {
+                        $scope.joinedTeams.splice(i)
                     }
                 }
             };
