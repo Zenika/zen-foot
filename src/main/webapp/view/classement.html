@@ -5,12 +5,12 @@
             <div class="jumbotron classement-jumbo">
                 <p>
                     Vous êtes
-                    <strong><span>{{findClassement(gambler)}}</span><sup ng-pluralize count="findClassement(gambler)" when="{'1':'er','other':'ème'}"></sup></strong>
+                    <strong><span>{{personnalRanking.classement}}</span><sup ng-pluralize count="personnalRanking.classement" when="{'1':'er','other':'ème'}"></sup></strong>
                     </p>&nbsp;
                 <p>
                     avec
-                    <strong><span>{{gambler.points}}</span></strong>
-                    point<span ng-pluralize count="gambler.points" when="{'0':'','1':'','other':'s'}"></span>
+                    <strong><span>{{personnalRanking.points}}</span></strong>
+                    point<span ng-pluralize count="personnalRanking.points" when="{'0':'','1':'','other':'s'}"></span>
                 </p>
             </div>
         </div>
@@ -42,7 +42,7 @@
                             </a>
                         </li>
                     </ul>
-                    <button class="btn btn-primary" data-ng-click="changePage(findGambler())">Me trouver</button>
+                    <button class="btn btn-primary" data-ng-click="changePage(personnalRanking)">Me trouver</button>
                 </div>
             </div>
         </div>

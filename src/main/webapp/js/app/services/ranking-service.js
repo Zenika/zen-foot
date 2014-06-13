@@ -6,6 +6,9 @@ angular.module('zenFoot.app')
         return {
             getAll:function(){
                 return $resource('/api/rankings').query()
+            },
+            myRanking:function(){
+                return $resource('/api/ranking').get()
             }
         }
     }])

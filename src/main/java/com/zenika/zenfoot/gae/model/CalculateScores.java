@@ -12,13 +12,18 @@ public class CalculateScores {
         //team1 wins
         boolean possBet1 = bet.getScore1()>bet.getScore2();
         boolean possMat1 = result.getScore1()>result.getScore2();
-        boolean rightOn1 = possBet1==possMat1;
+        boolean rightOn1 = possBet1&&possMat1;
+
+        //team 2 wins
+        boolean possBet3 = bet.getScore2()>bet.getScore1();
+        boolean possMat3 = result.getScore2()>result.getScore1();
+        boolean rightOn3 = possBet3&&possMat3;
 
         //equality
         boolean possBet2=bet.getScore2().equals(bet.getScore1());
         boolean possMat2 = result.getScore2().equals(result.getScore1());
-        boolean rightOn2 = possBet2==possMat2;
-        return rightOn1||rightOn2;
+        boolean rightOn2 = possBet2&&possMat2;
+        return rightOn1||rightOn2||rightOn3;
     }
 
     public static boolean exactlyRight(Bet bet,Match result){

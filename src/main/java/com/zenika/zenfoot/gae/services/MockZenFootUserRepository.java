@@ -79,7 +79,7 @@ public class MockZenFootUserRepository implements ZenFootUserRepository {
 
     @Override
     public User defaultAdmin() {
-        return this.users.get("raphael.martignoni@zenika.com").get();
+        return this.users.get("admin@zenika.com").get();
     }
 
     // ///////////////////////////////////////////////////////

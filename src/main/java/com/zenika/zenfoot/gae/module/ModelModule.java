@@ -1,5 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
+import com.google.appengine.api.utils.SystemProperty;
+import com.google.appengine.repackaged.org.joda.time.DateTimeZone;
 import com.zenika.zenfoot.gae.dao.*;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
@@ -18,31 +20,25 @@ public class ModelModule {
 
 
     @Provides
-    @Named("matchRepoDev")
-    public MatchRepository matchRepository(@Named("matchDAO") MatchDAO matchDAO) {
-        MatchRepository matchRepository = new MatchRepository(matchDAO);
-
-        Match[] matches = GenerateMatches.generate();
-        List<Match> registered = matchRepository.getAll();
-
-        //check whether there were registered matchs
-        if(registered.size()==0) {
-            for (int i = 0; i < matches.length; i++) {
-                //TODO ONLY FOR TESTS
-                Match match = matches[i];
-//            match.setDate(DateTime.now().plusSeconds(30 * i));
-                matchRepository.createUpdate(match);
-            }
-
-        }
-
-        return matchRepository;
-    }
-
-    @Provides
     @Named("matchRepoGAE")
     public MatchRepository matchRepositoryGAE(@Named("matchDAO") MatchDAO matchDAO) {
         MatchRepository matchRepository = new MatchRepository(matchDAO);
+
+        if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
+            Match[] matches = GenerateMatches.generate();
+            List<Match> registered = matchRepository.getAll();
+
+            //check whether there were registered matchs
+            if (registered.size() == 0) {
+                for (int i = 0; i < matches.length; i++) {
+                    //TODO ONLY FOR TESTS
+                    Match match = matches[i];
+                    match.setDate(DateTime.now().plusSeconds(30 * i));
+                    matchRepository.createUpdate(match);
+                }
+
+            }
+        }
 
 
         return matchRepository;
@@ -72,7 +68,7 @@ public class ModelModule {
 
     @Provides
     @Named("matchService")
-    public MatchService matchService(@Named("matchRepoDev") MatchRepository matchRepository) {
+    public MatchService matchService(@Named("matchRepoGAE") MatchRepository matchRepository) {
 
         MatchService matchService = new MatchService(matchRepository);
 /*
@@ -96,8 +92,8 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO,RankingDAO rankingDAO) {
-        return new GamblerService(gamblerRepository, matchService, teamDAO,rankingDAO);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO);
     }
 
     @Provides
@@ -106,7 +102,7 @@ public class ModelModule {
     }
 
     @Provides
-    public RankingDAO rankingDAO(){
+    public RankingDAO rankingDAO() {
         return new RankingDAO();
     }
 }
