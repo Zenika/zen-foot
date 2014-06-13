@@ -23,10 +23,10 @@ angular.module('zenFoot.app')
                      return -peopleRanking.points;
                      });*/
 
-                    for (var x in ranking) {
-
-                        ranking[x].classement = parseInt(x) + 1;
+                    for (var i = 0; i < ranking.length; i++) {
+                        ranking[i].classement = i + 1;
                     }
+
                     $scope.classement = ranking;
                     return ranking;
 
