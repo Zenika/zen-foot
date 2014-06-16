@@ -1,4 +1,7 @@
-package com.zenika.zenfoot.gae.model;
+package com.zenika.zenfoot.gae.utils;
+
+import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

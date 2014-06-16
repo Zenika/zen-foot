@@ -5,16 +5,13 @@ import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.*;
-import com.zenika.zenfoot.gae.module.GenerateMatches;
+import com.zenika.zenfoot.gae.utils.CalculateScores;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by raphael on 30/04/14.

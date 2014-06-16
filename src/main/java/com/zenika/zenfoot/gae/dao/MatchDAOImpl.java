@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.dao;
 
 
+import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.ArrayList;
@@ -18,30 +19,26 @@ import net.sf.jsr107cache.CacheManager;
  */
 public class MatchDAOImpl implements MatchDAO {
 
-    public static final String matchCacheKey = "matchList";
-    protected Logger logger = Logger.getLogger(MatchDAOImpl.class.getName());
+    public static final String MatchCacheKey = "matchList";
+    private Logger logger = Logger.getLogger(getClass().getName());
+    private Cache cache=null;
+
+    public MatchDAOImpl(){
+        try {
+            this.cache = CacheManager.getInstance().getCacheFactory().createCache(Collections.emptyMap());
+        } catch (CacheException e) {
+
+        }
+    }
 
     @Override
     public void createUpdate(Match match) {
         OfyService.ofy().save().entity(match).now();
         List<Match> matches = OfyService.ofy().load().type(Match.class).list();
 
-        //Registering in cache
-        Cache cache=null;
-        try{
-            CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
-            cache = cacheFactory.createCache(Collections.emptyMap());
-        }
-        catch(CacheException e){
-           e.printStackTrace();
-        }
-
         if(cache!=null){
-            //The object added to the cache must be serializable
-            ArrayList<Match> serializable = new ArrayList<>();
-            serializable.addAll(matches);
-
-            cache.put(matchCacheKey,serializable);
+            //Removing cached value
+            cache.put(MatchCacheKey,null);
         }
     }
 
@@ -60,19 +57,9 @@ public class MatchDAOImpl implements MatchDAO {
     public List<Match> getAll() {
         List<Match> cachedValue=null;
 
-        //Creating cache
-        Cache cache = null;
-        try{
-            CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
-            cache = cacheFactory.createCache(Collections.emptyMap());
-        }
-        catch(CacheException e){
-            e.printStackTrace();
-        }
-
         //Retrieving value
         if(cache!=null){
-           cachedValue = (List<Match>)cache.get(matchCacheKey);
+           cachedValue = (List<Match>)cache.get(MatchCacheKey);
         }
 
         //checking if the value exists in the cache
@@ -80,7 +67,14 @@ public class MatchDAOImpl implements MatchDAO {
             logger.log(Level.INFO,"returning cached value "+cachedValue);
             return cachedValue;
         }
-        return OfyService.ofy().load().type(Match.class).list();
+        else{
+            //if not, matchs are fetched in the database and added to the cache
+            List<Match> matchs = OfyService.ofy().load().type(Match.class).list();
+            if(cache!=null){
+                cache.put(MatchCacheKey, Lists.newArrayList(matchs));
+            }
+            return matchs;
+        }
     }
 
     @Override
