@@ -4,8 +4,10 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
+
 @Entity
-public class Match {
+public class Match implements Serializable{
 
     @Id
     private Long id;
