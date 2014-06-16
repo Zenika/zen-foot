@@ -31,11 +31,6 @@ public class CalculateScores {
 
     public static boolean exactlyRight(Bet bet,Match result){
         Logger log = Logger.getLogger(CalculateScores.class.getName());
-        log.log(Level.INFO,"---------calculating score--------");
-        log.log(Level.INFO,"result team 1 : "+result.getScore1());
-        log.log(Level.INFO,"result team 2 : "+result.getScore2());
-        log.log(Level.INFO,"team  bet 1 : "+bet.getScore1());
-        log.log(Level.INFO,"team bet 2 : "+bet.getScore2());
 
         return bet.getScore1().equals(result.getScore1())&&bet.getScore2().equals(result.getScore2());
     }
