@@ -6,7 +6,8 @@ angular.module('zenFoot.app')
 
             $scope.groups1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
             $scope.groups2 = ['1/8', '1/4', '1/2', 'finale'];
-            $scope.groups = $scope.groups1.concat($scope.groups2);
+            $scope.all=['all']
+            $scope.groups = $scope.groups1.concat($scope.groups2).concat($scope.all)
             $scope.groupsFilters = {
                 A: false,
                 B: false,
@@ -25,19 +26,28 @@ angular.module('zenFoot.app')
             $scope.betSavedSuccess = false;
             $scope.betSavedError = false;
 
-            var isGroupsFiltered = function(){
-                return _.chain($scope.groupsFilters).values().any(function (v) { return v; }).value();
+            $scope.isGroupsFiltered = function () {
+                return _.chain($scope.groupsFilters).values().any(function (v) {
+                    return v;
+                }).value();
             };
 
-            $scope.shouldShowGroup = function(group) {
-                return $scope.matchesByGroup[group] !== undefined && (!isGroupsFiltered() || $scope.groupsFilters[group]);
+            $scope.shouldShowGroup = function (group) {
+                var isGroupSelected= $scope.matchesByGroup[group] !== undefined && $scope.groupsFilters[group];
+                var isAll = group==='all'&&!$scope.isGroupsFiltered()
+                var toRet = isGroupSelected || isAll
+                return toRet;
             };
 
             $scope.canBet = function (match) {
                 return !match.scoreUpdated && match.date < new Date();
             }
 
-            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function(results){
+            $scope.isAll=function(group){
+                return group==='all'
+            }
+
+            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function (results) {
                 var matches = results[0];
                 var gambler = results[1];
 
@@ -67,29 +77,17 @@ angular.module('zenFoot.app')
                 $rootScope.user.points = gamblerRanking.points
             });
 
-            $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
+            $scope.matchSelected = function (group) {
+              if(group==='all'){
+                  return $scope.matches
+              }
+                else{
+                  return $scope.matchesByGroup[group]
+              }
 
-            /**
-             * This function get bets from the server and compare them to the bets client side,
-             * in order to identify bets which were not registered (usefull to identify bets which were
-             * voted but were posted after the beginning of the match
-             */
-//            var updateBets = function () {
-//                var matchAndBets = betMatchService.getAll().$promise;
-//                matchAndBets.then(function (result) {
-//                    var matchBetsCl = angular.copy($scope.matchsBets);
-//                    return {result: result, matchBetsCl: matchBetsCl};
-//
-//                })
-//                    .then(function (couple) {
-//                        $scope.matchsBets = couple.result;
-//                        return couple;
-//                    })
-//                    .then(function (couple) {
-//                        betMatchService.markUnreg(couple.matchBetsCl, $scope.matchsBets);
-//                    })
-//
-//            }
+            }
+
+            $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
 
             var pariezNotificationTimeout = null;
@@ -107,7 +105,8 @@ angular.module('zenFoot.app')
                 }
                 var now = new Date();
                 var bets = _.chain($scope.matches)
-                    .filter(function(match) { return !match.scoreUpdated && new Date(match.date) > new Date(now); })
+                    .filter(function (match) { return !match.scoreUpdated && new Date(match.date) > new Date(now);
+                    })
                     .pluck('bet')
                     .value();
                 Bets.save(bets, function () {

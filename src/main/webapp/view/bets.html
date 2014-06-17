@@ -43,9 +43,9 @@
                 <div data-ng-repeat="group in groups"
                      data-ng-show="shouldShowGroup(group)">
 
-                    <h3>Groupe {{group}}</h3>
+                    <h3 data-ng-hide="isAll(group)">Groupe {{group}}</h3>
 
-                    <div data-ng-repeat="match in matchesByGroup[group] | orderBy:'date'">
+                    <div data-ng-repeat="match in matchSelected(group) | orderBy:'date'">
 
                         <!--That's the column containing inputs, and results-->
 
