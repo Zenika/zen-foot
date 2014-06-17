@@ -6,7 +6,7 @@ angular.module('zenFoot.app')
             return {
 
                 getAll: function () {
-                    return $resource('/api/matchs').query();
+                    return $resource('/api/matchsadmin').query();
                 }
             }
         }]);

@@ -97,6 +97,13 @@ public class BetResource {
         return  matchService.getMatchs();
     }
 
+    @GET("/matchsadmin")
+    @RolesAllowed(Roles.ADMIN)
+    public List<Match> getMatchsAdmin(){
+        return matchService.getMatchs();
+    }
+
+
     /*@POST("/matchs")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatchs(List<Match> matchs){

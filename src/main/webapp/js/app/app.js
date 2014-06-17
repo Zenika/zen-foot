@@ -60,6 +60,7 @@
             var loginRoute = 'loginState';
             var subscribeState = "subscribeState";
             var confirmSubscription = "confirmSubscription";
+            var betsState="betsState"
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
@@ -69,7 +70,13 @@
                 if ($rootScope.isConnected() && toState.name === loginRoute) {
                     evt.preventDefault()
                     $state.go(fromState.name)
-                } else if (!$rootScope.isConnected() && toState.name !== loginRoute) {
+                }
+
+                else if($rootScope.isConnected() && !$rootScope.isAdmin() && toState.name==adminRoute){
+                    evt.preventDefault()
+                    $state.go(betsState)
+                }
+                else if (!$rootScope.isConnected() && toState.name !== loginRoute) {
                     evt.preventDefault()
                     $state.go(loginRoute)
                 } else if ($rootScope.isConnected() && $rootScope.isAdmin() && toState.name !== adminRoute) {
