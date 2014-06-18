@@ -135,3 +135,34 @@ zenFootDirectives.directive('zenMail', function() {
         }
     };
 });
+
+zenFootDirectives.directive('todayFocus',['$location','$anchorScroll',function($location,$anchorScroll){
+    return{
+        link:function(scope,element,attrs){
+            var dateMatch = new Date(parseInt(scope.group))
+            var today = new Date()
+
+            if(today.getFullYear()!==dateMatch.getFullYear()){
+                return;
+            }
+            else{
+                if(today.getMonth()!==dateMatch.getMonth()){
+                    return;
+                }
+                else{
+                    if(today.getDate()!==dateMatch.getDate()){
+                        return;
+                    }else{
+                        element.attr('id','todayFocused')
+//                        var old = $location.hash()
+//                        $location.hash('todayFocused');
+//                        $anchorScroll();
+                        $('html, body').animate({
+                            scrollTop: $("#todayFocused").offset().top-12
+                        }, 1000);
+                    }
+                }
+            }
+        }
+    }
+}])

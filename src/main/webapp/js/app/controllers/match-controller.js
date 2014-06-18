@@ -24,6 +24,7 @@ angular.module('zenFoot.app')
             $scope.matchesByGroup = {};
             $scope.betSavedSuccess = false;
             $scope.betSavedError = false;
+            $scope.typeFiltre=false;
 
             var isGroupsFiltered = function(){
                 return _.chain($scope.groupsFilters).values().any(function (v) { return v; }).value();
@@ -58,6 +59,15 @@ angular.module('zenFoot.app')
 
                 $scope.matchesByGroup = _.groupBy(matches, function (match) {
                     return match.groupe
+                })
+
+                $scope.matchesByDate= _.groupBy(matches,function(match){
+                    var matchDate = new Date(match.date)
+                    var toRet = new Date(matchDate.getFullYear(),matchDate.getMonth(),matchDate.getDate())
+                    if(matchDate.getHours()<8){
+                        toRet.setDate(toRet.getDate()-1)
+                    }
+                    return toRet.getTime()
                 })
                 $scope.matches = matches;
             });
@@ -150,6 +160,42 @@ angular.module('zenFoot.app')
             $scope.calculatePoints = betMatchService.calculatePoints;
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;
+
+            $scope.typeFiltreF=function(){
+                if($scope.typeFiltre){
+                    return "afficher par groupe"
+                }
+                else{
+                    return "afficher par date"
+                }
+            }
+
+            $scope.getGroupingKeys=function(){
+                if($scope.typeFiltre){
+                    return _.keys($scope.matchesByDate)
+                }
+                else{
+                    return $scope.groups
+                }
+            }
+
+            $scope.matchesForGroup=function(group){
+                if($scope.typeFiltre){
+                    return $scope.matchesByDate[group]
+                }
+                else{
+                    return $scope.matchesByGroup[group]
+                }
+            }
+
+            $scope.shouldShow=function(group){
+                if($scope.typeFiltre){
+                    return true;
+                }
+                else{
+                    return $scope.shouldShowGroup(group)
+                }
+            }
 
 
         }]);

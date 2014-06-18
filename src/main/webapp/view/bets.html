@@ -19,14 +19,19 @@
                 <div class="col-sm-8">
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3 affichage-button">
+                            <button type="button" class="btn btn-danger" ng-model="typeFiltre" btn-checkbox>
+                                {{typeFiltreF()}}
+                            </button>
+                        </div>
+                        <div class="col-md-5" ng-show="!typeFiltre">
                             <div class="btn-group groupes-blocks">
                                 <label data-ng-repeat="group in groups1" class='btn btn-danger' data-ng-model='groupsFilters[group]' btn-checkbox>
                                     {{group}}
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4" ng-show="!typeFiltre">
                             <div class="btn-group finales-blocks">
                                 <label data-ng-repeat="group in groups2" class="btn btn-danger disabled" data-ng-model="groupsFilters[group]" btn-checkbox>
                                     {{group}}
@@ -34,18 +39,20 @@
                                 &nbsp
                             </div>
                         </div>
+
                     </div>
 
                 </div>
             </div>
 
             <form name="scoreform" class="form-score form-horizontal match-form">
-                <div data-ng-repeat="group in groups"
-                     data-ng-show="shouldShowGroup(group)">
+                <div data-ng-repeat="group in getGroupingKeys()"
+                     data-ng-show="shouldShow(group)">
 
-                    <h3>Groupe {{group}}</h3>
+                    <h3 ng-hide="typeFiltre">Groupe {{group}}</h3>
+                    <h3 today-focus ng-show="typeFiltre">{{group|date:'dd/MM/yyyy'}}</h3>
 
-                    <div data-ng-repeat="match in matchesByGroup[group] | orderBy:'date'">
+                    <div data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
 
                         <!--That's the column containing inputs, and results-->
 

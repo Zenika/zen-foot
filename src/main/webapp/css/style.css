@@ -420,6 +420,10 @@ Some CSS properties on the size of inputs
     .finales-blocks{
         margin-top: 5px;
     }
+
+    .affichage-button{
+        margin-bottom: 5px;
+    }
 }
 
 .error {
