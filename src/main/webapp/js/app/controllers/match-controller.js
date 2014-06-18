@@ -26,6 +26,19 @@ angular.module('zenFoot.app')
             $scope.betSavedError = false;
             $scope.typeFiltre=false;
 
+            /**
+             * Should we display the matchs corresponding to this date ? Used in date displaying mode.
+             * This is based on whether or not matches are corresponding to the selected groups
+             * Return true if the matches corresponding to one date should be displayed, false otherwise
+             */
+            $scope.shouldShowDate=function(date){
+                var toRet1=!isGroupsFiltered()
+               return toRet1||_.some($scope.matchesByDate[date],function(match){
+                   return $scope.groupsFilters[match.groupe]
+               })
+
+            }
+
             var isGroupsFiltered = function(){
                 return _.chain($scope.groupsFilters).values().any(function (v) { return v; }).value();
             };
@@ -195,6 +208,21 @@ angular.module('zenFoot.app')
                 else{
                     return $scope.shouldShowGroup(group)
                 }
+            }
+
+            $scope.showMatch=function(group){
+                if($scope.typeFiltre){
+                    return !isGroupsFiltered()||$scope.groupsFilters[group]
+                }
+                else{
+                    return true
+                }
+            }
+
+            $scope.focusToday=function(){
+                $('html, body').animate({
+                    scrollTop: $("#todayFocused").offset().top-55
+                }, 1000);
             }
 
 

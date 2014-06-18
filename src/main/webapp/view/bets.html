@@ -12,6 +12,7 @@
                               data-placement="bottom"
                               data-content="Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
                         </span>
+                        <a class="display-link" ng-click="typeFiltre=!typeFiltre">{{typeFiltreF()}}</a>
 
                     </div>
 
@@ -19,19 +20,14 @@
                 <div class="col-sm-8">
 
                     <div class="row">
-                        <div class="col-md-3 affichage-button">
-                            <button type="button" class="btn btn-danger" ng-model="typeFiltre" btn-checkbox>
-                                {{typeFiltreF()}}
-                            </button>
-                        </div>
-                        <div class="col-md-5" ng-show="!typeFiltre">
+                        <div class="col-md-5">
                             <div class="btn-group groupes-blocks">
                                 <label data-ng-repeat="group in groups1" class='btn btn-danger' data-ng-model='groupsFilters[group]' btn-checkbox>
                                     {{group}}
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-4" ng-show="!typeFiltre">
+                        <div class="col-md-4">
                             <div class="btn-group finales-blocks">
                                 <label data-ng-repeat="group in groups2" class="btn btn-danger disabled" data-ng-model="groupsFilters[group]" btn-checkbox>
                                     {{group}}
@@ -39,7 +35,9 @@
                                 &nbsp
                             </div>
                         </div>
-
+                        <div class="col-md-3">
+                            <button class="btn btn-danger today-button" ng-show="typeFiltre" data-ng-click="focusToday()">Aujourd'hui</button>
+                        </div>
                     </div>
 
                 </div>
@@ -50,19 +48,19 @@
                      data-ng-show="shouldShow(group)">
 
                     <h3 ng-hide="typeFiltre">Groupe {{group}}</h3>
-                    <h3 today-focus ng-show="typeFiltre">{{group|date:'dd/MM/yyyy'}}</h3>
+                    <h3 today-focus ng-show="typeFiltre&&shouldShowDate(group)">{{group|date:'dd/MM/yyyy'}}</h3>
 
-                    <div data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
+                    <div data-ng-show="showMatch(match.groupe)" data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
 
                         <!--That's the column containing inputs, and results-->
 
                         <!--That's the row for inputs-->
                         <div class="row match-line" ng-class="{'match-ended': canBet(match)}">
-                            <div class="col-xs-12 col-sm-4 col-md-2 match-date" ng-class="{'former-match':isFormer(match.date)}">
-                                {{match.date | date:'dd/MM/yyyy à HH:mm'}}
+                            <div class="col-xs-12 col-sm-4 col-md-3 match-date" ng-class="{'former-match':isFormer(match.date)}">
+                                {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="typeFiltre" style="display:inline-block">- groupe {{match.groupe}}</span>
                             </div>
                             <!--That's the column containing informations on inputs, without the date-->
-                            <div class="col-xs-12 col-sm-8 col-md-10">
+                            <div class="col-xs-12 col-sm-8 col-md-8">
                                 <div class="row" ng-class="{'former-match':isFormer(match.date)}">
                                     <div class="col-xs-6 match-info">
                                         <div class="text-right">

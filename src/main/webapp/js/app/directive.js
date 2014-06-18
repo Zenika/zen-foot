@@ -154,12 +154,6 @@ zenFootDirectives.directive('todayFocus',['$location','$anchorScroll',function($
                         return;
                     }else{
                         element.attr('id','todayFocused')
-//                        var old = $location.hash()
-//                        $location.hash('todayFocused');
-//                        $anchorScroll();
-                        $('html, body').animate({
-                            scrollTop: $("#todayFocused").offset().top-12
-                        }, 1000);
                     }
                 }
             }
