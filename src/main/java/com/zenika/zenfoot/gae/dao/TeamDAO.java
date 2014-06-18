@@ -30,6 +30,11 @@ public class TeamDAO {
         return OfyService.ofy().load().type(Team.class).list();
     }
 
+    /**
+     * Returns the optional of a team given its name
+     * @param name the name of the team to find
+     * @return the optional of the team corresponding to the name, an absent optional if no team is found 
+     */
     public Optional<Team> get(String name) {
         List<Team> team = OfyService.ofy().load().type(Team.class).filter("name", name).limit(1).list();
         Logger logger = Logger.getLogger(TeamDAO.class.getName());
