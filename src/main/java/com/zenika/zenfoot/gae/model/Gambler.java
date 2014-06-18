@@ -5,7 +5,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Gambler {
@@ -28,10 +30,10 @@ public class Gambler {
 
     private String prenom;
 
-//    protected Set<Demande> demandes = new HashSet<>();
+    protected Set<Demande> demandes = new HashSet<>();
 
-//    @Index
-//    protected Set<StatutTeam> statutTeams =new HashSet<>();
+    @Index
+    protected Set<StatutTeam> statutTeams =new HashSet<>();
 
 
     public Gambler(String email) {
@@ -40,26 +42,26 @@ public class Gambler {
 
     public Gambler() {
     }
-//
-//    public void addTeams(Set<StatutTeam> teams){
-//        this.statutTeams.addAll(teams);
-//    }
-//
-//    public Set<StatutTeam> getStatutTeams() {
-//        return statutTeams;
-//    }
-//
-//    public void setStatutTeams(Set<StatutTeam> statutTeams) {
-//        this.statutTeams = statutTeams;
-//    }
-//
-//    public Set<Demande> getDemandes() {
-//        return demandes;
-//    }
-//
-//    public void setDemandes(Set<Demande> demandes) {
-//        this.demandes = demandes;
-//    }
+
+    public void addTeams(Set<StatutTeam> teams){
+        this.statutTeams.addAll(teams);
+    }
+
+    public Set<StatutTeam> getStatutTeams() {
+        return statutTeams;
+    }
+
+    public void setStatutTeams(Set<StatutTeam> statutTeams) {
+        this.statutTeams = statutTeams;
+    }
+
+    public Set<Demande> getDemandes() {
+        return demandes;
+    }
+
+    public void setDemandes(Set<Demande> demandes) {
+        this.demandes = demandes;
+    }
 
     public Long getId() {
         return id;
