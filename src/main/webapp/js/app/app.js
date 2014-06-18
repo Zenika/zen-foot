@@ -47,6 +47,9 @@
                         if (rejection.status === 403 && $rootScope.isAdmin()) {
                             $location.path('/admin')
                         } else if (rejection.status === 401 || rejection.status === 403) {
+                            if(rejection.status===401){
+                                $rootScope.user.connected=false
+                            }
                             authService.redirectToLogin()
                         }
                         return $q.reject(rejection)
