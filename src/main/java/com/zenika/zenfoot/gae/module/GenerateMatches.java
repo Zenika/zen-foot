@@ -1,7 +1,6 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.google.appengine.repackaged.org.joda.time.LocalDateTime;
-import com.zenika.zenfoot.gae.model.Constants;
+import com.zenika.zenfoot.gae.utils.Constants;
 import com.zenika.zenfoot.gae.model.Match;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

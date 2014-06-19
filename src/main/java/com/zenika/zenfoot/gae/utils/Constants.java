@@ -1,4 +1,4 @@
-package com.zenika.zenfoot.gae.model;
+package com.zenika.zenfoot.gae.utils;
 
 import org.joda.time.DateTimeZone;
 
