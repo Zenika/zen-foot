@@ -188,12 +188,12 @@ angular.module('zenFoot.app')
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;
 
-            $scope.typeFiltreF = function () {
+            $scope.getDisplayLinkLabel = function () {
                 if ($scope.showByDate) {
-                    return "afficher par groupe"
+                    return "Afficher par groupe"
                 }
                 else {
-                    return "afficher par date"
+                    return "Afficher par date"
                 }
             };
 

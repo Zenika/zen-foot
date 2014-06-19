@@ -325,6 +325,11 @@ Some CSS properties on the size of inputs
     margin-top: 10px;
 }
 
+.today-button{
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 .match-line {
     margin-bottom: 20px;
 }

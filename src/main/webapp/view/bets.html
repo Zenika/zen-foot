@@ -12,7 +12,7 @@
                               data-placement="bottom"
                               data-content="Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
                         </span>
-                        <a class="display-link" ng-click="showByDate=!showByDate">{{typeFiltreF()}}</a>
+                        <a class="display-link" ng-click="showByDate=!showByDate">{{getDisplayLinkLabel()}}</a>
 
                     </div>
 
@@ -20,7 +20,7 @@
                 <div class="col-sm-8">
 
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="btn-group groupes-blocks">
                                 <label data-ng-repeat="group in groups1" class='btn btn-danger'
                                        data-ng-model='groupsFilters[group]' btn-checkbox>
@@ -28,7 +28,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="btn-group finales-blocks">
                                 <label data-ng-repeat="group in groups2" class="btn btn-danger disabled"
                                        data-ng-model="groupsFilters[group]" btn-checkbox>
@@ -37,10 +37,12 @@
                                 &nbsp
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-3">
-                            <button class="btn btn-danger today-button" ng-show="showByDate"
-                                    data-ng-click="focusToday()">Aujourd'hui
-                            </button>
+                            <div class="today-button" ng-show="showByDate">
+                                <a data-ng-click="focusToday()">Match du jour</a>
+                            </div>
                         </div>
                     </div>
 
