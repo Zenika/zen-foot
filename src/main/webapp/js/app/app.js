@@ -41,13 +41,20 @@
 
             $urlRouterProvider.otherwise('/bets');
 
-            $httpProvider.interceptors.push(function ($q, authService, $rootScope, $location) {
+            $httpProvider.interceptors.push(function ($q, $location,$rootScope,$injector) {
                 return {
                     responseError: function (rejection) {
                         if (rejection.status === 403 && $rootScope.isAdmin()) {
                             $location.path('/admin')
                         } else if (rejection.status === 401 || rejection.status === 403) {
-                            authService.redirectToLogin()
+                            var authService = $injector.get('authService')
+
+                            if(rejection.status===401){
+                                authService.logout()
+                            }
+                            else{
+                                authService.redirectToLogin()
+                            }
                         }
                         return $q.reject(rejection)
                     }

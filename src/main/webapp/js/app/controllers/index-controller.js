@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, User, Gambler) {
+    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, User, Gambler, authService) {
 
         function onConnected(principal) {
-            // debugger;
             Session.user.connected = true;
             Session.user.email = principal.email;
             Session.user.nom = principal.nom;
@@ -31,17 +30,10 @@ angular.module('zenFoot.app')
 
 
         $scope.login = function () {
-            $location.path('/login');
+            $state.go('loginState')
         };
 
-        $scope.logout = function () {
-            Session.delete(function () {
-                $state.go('loginState');
-            });
-            Session.user.connected = false;
-            delete Session.user.fullName;
-            delete Session.user.email;
-        };
+        $scope.logout = authService.logout
 
         $scope.loggedIn = function () {
             return Session.user.connected;
@@ -60,9 +52,9 @@ angular.module('zenFoot.app')
             return $state.includes(state);
         };
 
-        $scope.hideNavBar=function(){
+        $scope.hideNavBar = function () {
 
-            return $state.current.name=='loginState' || $state.current.name.trim()==''
+            return $state.current.name == 'loginState' || $state.current.name.trim() == ''
         }
 
     });
