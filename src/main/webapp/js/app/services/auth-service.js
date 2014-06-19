@@ -2,15 +2,16 @@
 
 angular.module('zenFoot.app')
     .factory('authService',
-    function ($location,$rootScope,Session,$state) {
-        var redirectUrl;
+    function (Session, $rootScope, $state) {
         return {
-            redirectToLogin: function () {
-                redirectUrl = $location.path();
-                $state.go('loginState');
+            redirectToHome: function () {
+                if ($rootScope.isAdmin()) {
+                    $state.go('adminState');
+                } else {
+                    $state.go('betsState');
+                }
             },
-
-            logout:function () {
+            logout: function () {
                 Session.delete(function () {
                     $state.go('loginState');
                 });
@@ -18,8 +19,5 @@ angular.module('zenFoot.app')
                 delete Session.user.fullName;
                 delete Session.user.email;
             }
-
-
-
         };
     });
