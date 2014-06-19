@@ -64,7 +64,6 @@
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
 
-//                debugger
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }
