@@ -117,3 +117,9 @@ Feel free to add a comment on the trello !
 # Architecture of the application
 
 For more information about the architecture of the project, have a look at the [architecture document](./architecture.md)
+
+# Appstat
+
+Google App Engine appstat analytics is activated for this application.  It is accessible through [app-url]/appstats.
+
+The page access is restricted to admins, i.e. to google accounts which are added as admins on the google application settings.
