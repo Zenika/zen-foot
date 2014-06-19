@@ -69,11 +69,11 @@
                 }
 
 
-                if ($rootScope.isConnected()) { // différencier les 2 cas connecté / déconnecté de façon plus marqué
+                if ($rootScope.isConnected()) {
                     if (toState.name === loginRoute) {
                         evt.preventDefault()
-                        $state.go(betsState) // betsState plutôt que fromState.name qui peut entrainer une boucle
-                    } else if (toState.name === adminRoute && !$rootScope.isAdmin()) { // test de la route avant test admin pour optimiser - === au lieu de ==
+                        $state.go(betsState) 
+                    } else if (toState.name === adminRoute && !$rootScope.isAdmin()) {
                         evt.preventDefault()
                         $state.go(betsState)
                     } else if (toState.name !== adminRoute && $rootScope.isAdmin()) {
