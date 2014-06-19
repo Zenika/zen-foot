@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminCtrl', ['matchService', '$scope', 'SCORE_REGEXP', '$resource', '$filter', 'displayService',
-        function (matchService, $scope, scoreRegexp, $resource, $filter, displayService) {
+    .controller('AdminCtrl', ['Match', '$scope', 'SCORE_REGEXP', '$resource', '$filter', 'displayService',
+        function (Match, $scope, scoreRegexp, $resource, $filter, displayService) {
 
-            $scope.matchs = matchService.getAll();
+            $scope.matchs = Match.query();
 
             $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
