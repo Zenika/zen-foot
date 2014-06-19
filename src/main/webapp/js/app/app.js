@@ -41,7 +41,7 @@
 
             $urlRouterProvider.otherwise('/bets');
 
-            $httpProvider.interceptors.push(function ($q, authService, $rootScope, $location) {
+            $httpProvider.interceptors.push(function ($q, $location,$rootScope) {
                 return {
                     responseError: function (rejection) {
                         if (rejection.status === 403 && $rootScope.isAdmin()) {
@@ -50,7 +50,7 @@
                             if(rejection.status===401){
                                 $rootScope.user.connected=false
                             }
-                            authService.redirectToLogin()
+                            $location.path('/login')
                         }
                         return $q.reject(rejection)
                     }
