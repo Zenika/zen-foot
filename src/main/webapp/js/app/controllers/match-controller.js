@@ -80,7 +80,7 @@ angular.module('zenFoot.app')
 
                 $scope.matchesByGroup = _.groupBy(matches, function (match) {
                     return match.groupe
-                })
+                });
 
                 $scope.matchesByDate = _.groupBy(matches,
                     function (match) {
@@ -90,9 +90,9 @@ angular.module('zenFoot.app')
                             matchDay.setDate(matchDay.getDate() - 1)
                         }
                         return matchDay.getTime()
-                    })
+                    });
 
-                $scope.matchsDates = _.keys($scope.matchesByDate)
+                $scope.matchsDates = _.keys($scope.matchesByDate);
 
                 $scope.matches = matches;
             });
@@ -195,7 +195,7 @@ angular.module('zenFoot.app')
                 else {
                     return "afficher par date"
                 }
-            }
+            };
 
             $scope.getGroupingKeys = function () {
                 if ($scope.showByDate) {
@@ -204,7 +204,7 @@ angular.module('zenFoot.app')
                 else {
                     return $scope.groups
                 }
-            }
+            };
 
             $scope.matchesForGroup = function (group) {
                 if ($scope.showByDate) {
@@ -213,7 +213,7 @@ angular.module('zenFoot.app')
                 else {
                     return $scope.matchesByGroup[group]
                 }
-            }
+            };
 
             $scope.shouldShow = function (group) {
                 if ($scope.showByDate) {
@@ -222,7 +222,7 @@ angular.module('zenFoot.app')
                 else {
                     return $scope.shouldShowGroup(group)
                 }
-            }
+            };
 
             $scope.showMatch = function (group) {
                 if ($scope.showByDate) {
@@ -231,7 +231,7 @@ angular.module('zenFoot.app')
                 else {
                     return true
                 }
-            }
+            };
 
             $scope.focusToday = function () {
                 $('html,body').animate({
