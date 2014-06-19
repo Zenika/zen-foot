@@ -7,7 +7,7 @@ angular.module('zenFoot.app')
         return {
             redirectToLogin: function () {
                 redirectUrl = $location.path();
-                $location.path('/login');
+                $state.go('loginState');
             },
 
             logout:function () {
