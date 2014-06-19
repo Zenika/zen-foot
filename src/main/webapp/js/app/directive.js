@@ -117,11 +117,11 @@ zenFootDirectives.directive('selectTeam', ['GamblerService', function (GamblerSe
 
 var ZENIKA_EMAIL_REGEXP = /^.*@zenika\.com$/;
 
-zenFootDirectives.directive('zenMail', function() {
+zenFootDirectives.directive('zenMail', function () {
     return {
         require: 'ngModel',
-        link: function(scope, elm, attrs, ctrl) {
-            ctrl.$parsers.unshift(function(viewValue) {
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue) {
                 if (ZENIKA_EMAIL_REGEXP.test(viewValue)) {
                     // it is valid
                     ctrl.$setValidity('zenikaEmail', true);
@@ -136,24 +136,24 @@ zenFootDirectives.directive('zenMail', function() {
     };
 });
 
-zenFootDirectives.directive('todayFocus',['$location','$anchorScroll',function($location,$anchorScroll){
+zenFootDirectives.directive('todayFocus', ['$location', '$anchorScroll', function ($location, $anchorScroll) {
     return{
-        link:function(scope,element,attrs){
-            var dateMatch = new Date(parseInt(scope.group))
+        link: function (scope, element, attrs) {
+            var dateMatch = new Date(parseInt(scope.group, 10))
             var today = new Date()
 
-            if(today.getFullYear()!==dateMatch.getFullYear()){
+            if (today.getFullYear() !== dateMatch.getFullYear()) {
                 return;
             }
-            else{
-                if(today.getMonth()!==dateMatch.getMonth()){
+            else {
+                if (today.getMonth() !== dateMatch.getMonth()) {
                     return;
                 }
-                else{
-                    if(today.getDate()!==dateMatch.getDate()){
+                else {
+                    if (today.getDate() !== dateMatch.getDate()) {
                         return;
-                    }else{
-                        element.attr('id','todayFocused')
+                    } else {
+                        element.attr('id', 'todayFocused')
                     }
                 }
             }

@@ -12,7 +12,7 @@
                               data-placement="bottom"
                               data-content="Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
                         </span>
-                        <a class="display-link" ng-click="typeFiltre=!typeFiltre">{{typeFiltreF()}}</a>
+                        <a class="display-link" ng-click="showByDate=!showByDate">{{typeFiltreF()}}</a>
 
                     </div>
 
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-danger today-button" ng-show="typeFiltre"
+                            <button class="btn btn-danger today-button" ng-show="showByDate"
                                     data-ng-click="focusToday()">Aujourd'hui
                             </button>
                         </div>
@@ -51,9 +51,9 @@
                 <div data-ng-repeat="group in getGroupingKeys()"
                      data-ng-show="shouldShow(group)">
 
-                    <h3 ng-hide="typeFiltre">Groupe {{group}}</h3>
+                    <h3 ng-hide="showByDate">Groupe {{group}}</h3>
 
-                    <h3 today-focus ng-show="typeFiltre&&shouldShowDate(group)">{{group|date:'dd/MM/yyyy'}}</h3>
+                    <h3 today-focus ng-show="showByDate&&shouldShowDate(group)">{{group|date:'dd/MM/yyyy'}}</h3>
 
                     <div data-ng-show="showMatch(match.groupe)"
                          data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
@@ -64,7 +64,7 @@
                         <div class="row match-line" ng-class="{'match-ended': canBet(match)}">
                             <div class="col-xs-12 col-sm-4 col-md-3 match-date"
                                  ng-class="{'former-match':isFormer(match.date)}">
-                                {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="typeFiltre"
+                                {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="showByDate"
                                                                                  style="display:inline-block">- groupe {{match.groupe}}</span>
                             </div>
                             <!--That's the column containing informations on inputs, without the date-->
