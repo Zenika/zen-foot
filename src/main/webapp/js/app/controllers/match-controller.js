@@ -24,12 +24,32 @@ angular.module('zenFoot.app')
             $scope.matchesByGroup = {};
             $scope.betSavedSuccess = false;
             $scope.betSavedError = false;
+            /**
+             * Boolean corresponding to the way matches are displayed. True = displayed by group, false = displayed by date
+             * @type {boolean}
+             */
+            $scope.showByDate = false;
 
-            var isGroupsFiltered = function(){
-                return _.chain($scope.groupsFilters).values().any(function (v) { return v; }).value();
+            /**
+             * Should we display the matchs corresponding to this date ? Used in date displaying mode.
+             * This is based on whether or not matches are corresponding to the selected groups
+             * Return true if the matches corresponding to one date should be displayed, false otherwise
+             */
+            $scope.shouldShowDate = function (date) {
+                var toRet1 = !isGroupsFiltered()
+                return toRet1 || _.some($scope.matchesByDate[date], function (match) {
+                    return $scope.groupsFilters[match.groupe]
+                })
+
+            }
+
+            var isGroupsFiltered = function () {
+                return _.chain($scope.groupsFilters).values().any(function (v) {
+                    return v;
+                }).value();
             };
 
-            $scope.shouldShowGroup = function(group) {
+            $scope.shouldShowGroup = function (group) {
                 return $scope.matchesByGroup[group] !== undefined && (!isGroupsFiltered() || $scope.groupsFilters[group]);
             };
 
@@ -37,21 +57,23 @@ angular.module('zenFoot.app')
                 return !match.scoreUpdated && match.date < new Date();
             }
 
-            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function(results){
+            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function (results) {
                 var matches = results[0];
                 var gambler = results[1];
 
                 var matchesById = {};
 
-                matches = _.sortBy(matches, function(m) { return m.date; });
+                matches = _.sortBy(matches, function (m) {
+                    return m.date;
+                });
 
-                _.each(matches, function(match) {
+                _.each(matches, function (match) {
                     //initialize bets info with empty object
                     match.bet = { matchId: match.id, score1: null, score2: null };
                     matchesById[match.id] = match;
                 });
 
-                _.each(gambler.bets, function(bet) {
+                _.each(gambler.bets, function (bet) {
                     //update bet info
                     matchesById[bet.matchId].bet = bet;
                 });
@@ -59,11 +81,24 @@ angular.module('zenFoot.app')
                 $scope.matchesByGroup = _.groupBy(matches, function (match) {
                     return match.groupe
                 })
+
+                $scope.matchesByDate = _.groupBy(matches,
+                    function (match) {
+                        var matchDate = new Date(match.date)
+                        var matchDay = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate())
+                        if (matchDate.getHours() < 8) {
+                            matchDay.setDate(matchDay.getDate() - 1)
+                        }
+                        return matchDay.getTime()
+                    })
+
+                $scope.matchsDates = _.keys($scope.matchesByDate)
+
                 $scope.matches = matches;
             });
 
 
-            GamblerRanking.get().$promise.then( function(gamblerRanking) {
+            GamblerRanking.get().$promise.then(function (gamblerRanking) {
                 $rootScope.user.points = gamblerRanking.points
             });
 
@@ -107,7 +142,9 @@ angular.module('zenFoot.app')
                 }
                 var now = new Date();
                 var bets = _.chain($scope.matches)
-                    .filter(function(match) { return !match.scoreUpdated && new Date(match.date) > new Date(now); })
+                    .filter(function (match) {
+                        return !match.scoreUpdated && new Date(match.date) > new Date(now);
+                    })
                     .pluck('bet')
                     .value();
                 Bets.save(bets, function () {
@@ -150,6 +187,57 @@ angular.module('zenFoot.app')
             $scope.calculatePoints = betMatchService.calculatePoints;
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;
+
+            $scope.typeFiltreF = function () {
+                if ($scope.showByDate) {
+                    return "afficher par groupe"
+                }
+                else {
+                    return "afficher par date"
+                }
+            }
+
+            $scope.getGroupingKeys = function () {
+                if ($scope.showByDate) {
+                    return $scope.matchsDates
+                }
+                else {
+                    return $scope.groups
+                }
+            }
+
+            $scope.matchesForGroup = function (group) {
+                if ($scope.showByDate) {
+                    return $scope.matchesByDate[group]
+                }
+                else {
+                    return $scope.matchesByGroup[group]
+                }
+            }
+
+            $scope.shouldShow = function (group) {
+                if ($scope.showByDate) {
+                    return true;
+                }
+                else {
+                    return $scope.shouldShowGroup(group)
+                }
+            }
+
+            $scope.showMatch = function (group) {
+                if ($scope.showByDate) {
+                    return !isGroupsFiltered() || $scope.groupsFilters[group]
+                }
+                else {
+                    return true
+                }
+            }
+
+            $scope.focusToday = function () {
+                $('html,body').animate({
+                    scrollTop: $("#todayFocused").offset().top - 55
+                }, 1000);
+            }
 
 
         }]);

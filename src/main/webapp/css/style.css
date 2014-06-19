@@ -319,6 +319,12 @@ Some CSS properties on the size of inputs
     margin-bottom: 20px;
 }
 
+.display-link{
+    display: block;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 .match-line {
     margin-bottom: 20px;
 }
@@ -418,6 +424,14 @@ Some CSS properties on the size of inputs
 
 @media only screen and (max-width: 991px) {
     .finales-blocks{
+        margin-top: 5px;
+    }
+
+    .affichage-button{
+        margin-bottom: 5px;
+    }
+
+    .today-button{
         margin-top: 5px;
     }
 }
