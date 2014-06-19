@@ -34,10 +34,10 @@
                     url: '/confirmSubscription/:id',
                     templateUrl: 'view/confirmSubscription.html'
                 })
-              /*  .state('ligueState', {
-                    url: '/ligue',
-                    templateUrl: 'view/profil.html'
-                });*/
+            /*  .state('ligueState', {
+             url: '/ligue',
+             templateUrl: 'view/profil.html'
+             });*/
 
             $urlRouterProvider.otherwise('/bets');
 
@@ -60,28 +60,32 @@
             var loginRoute = 'loginState';
             var subscribeState = "subscribeState";
             var confirmSubscription = "confirmSubscription";
-            var betsState="betsState"
+            var betsState = "betsState"
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+
+//                debugger
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }
 
-                if ($rootScope.isConnected() && toState.name === loginRoute) {
-                    evt.preventDefault()
-                    $state.go(fromState.name)
-                }
 
-                else if($rootScope.isConnected() && !$rootScope.isAdmin() && toState.name==adminRoute){
-                    evt.preventDefault()
-                    $state.go(betsState)
-                }
-                else if (!$rootScope.isConnected() && toState.name !== loginRoute) {
-                    evt.preventDefault()
-                    $state.go(loginRoute)
-                } else if ($rootScope.isConnected() && $rootScope.isAdmin() && toState.name !== adminRoute) {
-                    evt.preventDefault()
-                    $state.go(adminRoute)
+                if ($rootScope.isConnected()) { // différencier les 2 cas connecté / déconnecté de façon plus marqué
+                    if (toState.name === loginRoute) {
+                        evt.preventDefault()
+                        $state.go(betsState) // betsState plutôt que fromState.name qui peut entrainer une boucle
+                    } else if (toState.name === adminRoute && !$rootScope.isAdmin()) { // test de la route avant test admin pour optimiser - === au lieu de ==
+                        evt.preventDefault()
+                        $state.go(betsState)
+                    } else if (toState.name !== adminRoute && $rootScope.isAdmin()) {
+                        evt.preventDefault()
+                        $state.go(adminRoute)
+                    }
+                } else {
+                    if (toState.name !== loginRoute) {
+                        evt.preventDefault()
+                        $state.go(loginRoute)
+                    }
                 }
             })
 
