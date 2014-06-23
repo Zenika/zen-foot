@@ -27,7 +27,7 @@
                     templateUrl: 'view/classement.html'
                 })
                 .state('classPersoState',{
-                    url:'/ranking?email',
+                    url:'/ranking?gamblerId',
                     templateUrl:'view/classement-perso.html'
                 })
                 .state('subscribeState', {

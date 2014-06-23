@@ -3,7 +3,7 @@
 angular.module('zenFoot.app')
     .factory('Gambler', ['$resource',
         function ($resource) {
-            return $resource('/api/gambler/:email',{email:'@email'},{get:{cache:false,method:'GET'}});
+            return $resource('/api/gambler/:id',{id:'@id'},{get:{cache:false,method:'GET'}});
         }])
     .factory('GamblerRanking', ['$resource',
         function ($resource) {
@@ -17,8 +17,8 @@ angular.module('zenFoot.app')
             get: function (team) {
                 return $resource('/api/gamblersTeam/' + team.name,{},{get:{cache:false,method:'GET'}}).query();
             },
-            getFromEmail:function(email){
-                return Gambler.get({email:email});
+            getFromId:function(id){
+                return Gambler.get({id:id});
             }
         }
     }]);
