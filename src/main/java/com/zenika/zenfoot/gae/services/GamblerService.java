@@ -114,11 +114,11 @@ public class GamblerService {
 
     public void calculateScores(Match match) {
         List<Gambler> gamblers = gamblerRepository.getAll();
-        GamblerRanking gamblerRanking=null;
         for (Gambler gambler : gamblers) {
+            GamblerRanking gamblerRanking=rankingDao.findByGambler(gambler.getId());
+
             Bet bet = getBetByMatchId(gambler, match.getId());
             if (bet !=null && bet.wasMade()) {
-                gamblerRanking = rankingDao.findByGambler(gambler.getId());
                 //if gamblerRanking doesn't exist yet, we create it
                 if(gamblerRanking==null){
                     gamblerRanking = new GamblerRanking(gambler.getId(),gambler.getNom(),gambler.getPrenom());

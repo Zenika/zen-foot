@@ -125,6 +125,10 @@ public class Gambler {
         this.points = points;
     }
 
+    public synchronized void addPoints(int points){
+        this.points+=points;
+    }
+
     //    /**
 //     * Return the bet with matchId, null if doesn't exist
 //     *
