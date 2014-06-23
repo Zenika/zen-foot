@@ -137,10 +137,10 @@ public class BetResource {
         return gamblerService.get(user);
     }
 
-    @GET("/gambler/{email}")
+    @GET("/gambler/{id}")
     @RolesAllowed({Roles.GAMBLER,Roles.ADMIN})
-    public Gambler getGambler(String email) {
-        return gamblerService.getFromEmail(email);
+    public Gambler getGambler(Long id) {
+        return gamblerService.get(id);
     }
 
     @GET("/gamblers")
