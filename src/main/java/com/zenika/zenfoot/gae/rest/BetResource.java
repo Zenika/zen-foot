@@ -11,10 +11,7 @@ import javax.inject.Named;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
-import restx.annotations.GET;
-import restx.annotations.POST;
-import restx.annotations.PUT;
-import restx.annotations.RestxResource;
+import restx.annotations.*;
 import restx.factory.Component;
 import restx.http.HttpStatus;
 import restx.security.PermitAll;
@@ -124,14 +121,15 @@ public class BetResource {
 
     @POST("/gambler")
     @RolesAllowed(Roles.GAMBLER)
+    @Produces("application/json;view=com.zenika.zenfoot.gae.jackson.Views$GamblerView")
     public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
         Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
         return gamblerService.getGambler(gamblerKey);
     }
 
     @GET("/gambler")
-    //@JsonView(Views.GamblerView.class)
     @RolesAllowed(Roles.GAMBLER)
+    @Produces("application/json;view=com.zenika.zenfoot.gae.jackson.Views$GamblerView")
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
         return gamblerService.get(user);
@@ -139,12 +137,14 @@ public class BetResource {
 
     @GET("/gambler/{email}")
     @PermitAll
+    @Produces("application/json;view=com.zenika.zenfoot.gae.jackson.Views$GamblerView")
     public Gambler getGambler(String email) {
         return gamblerService.getFromEmail(email);
     }
 
     @GET("/gamblers")
     @RolesAllowed(Roles.GAMBLER)
+    @Produces("application/json;view=com.zenika.zenfoot.gae.jackson.Views$GamblerView")
     public List<Gambler> getGamblers() {
         return gamblerService.getAll();
     }
@@ -168,6 +168,7 @@ public class BetResource {
 
     @POST("/joiner")
     @RolesAllowed(Roles.GAMBLER)
+    @Produces("application/json;view=com.zenika.zenfoot.gae.jackson.Views$GamblerView")
     public Gambler postJoiner(Gambler gambler) {
         return gamblerService.updateGambler(gambler);
     }
