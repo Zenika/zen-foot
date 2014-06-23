@@ -26,6 +26,10 @@
                     url: '/classement',
                     templateUrl: 'view/classement.html'
                 })
+                .state('classPersoState',{
+                    url:'/ranking?email',
+                    templateUrl:'view/classement-perso.html'
+                })
                 .state('subscribeState', {
                     url: '/subscribe',
                     templateUrl: 'view/subscribe.html'
@@ -75,7 +79,7 @@
             var betsState = "betsState";
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
-
+//            debugger
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }

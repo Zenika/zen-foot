@@ -57,7 +57,7 @@ angular.module('zenFoot.app')
             };
 
             var classementTemplate = '<div>{{getClassement(row.rowIndex)}}</div>';
-            var parieurTemplate = '<div class="ngCellText">{{row.entity.prenom}} {{row.entity.nom}}</div>';
+            var parieurTemplate = '<div class="ngCellText""><a ui-sref="classPersoState({email:\'machin\'})">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
 
 
             $scope.totalServerItems = 0;

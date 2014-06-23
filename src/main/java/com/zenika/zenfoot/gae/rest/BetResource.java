@@ -138,7 +138,7 @@ public class BetResource {
     }
 
     @GET("/gambler/{email}")
-    @PermitAll
+    @RolesAllowed({Roles.GAMBLER,Roles.ADMIN})
     public Gambler getGambler(String email) {
         return gamblerService.getFromEmail(email);
     }
