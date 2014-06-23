@@ -9,7 +9,11 @@ package com.zenika.zenfoot.gae.jackson;
  */
 public class Views {
 
-    public static class GamblerView {
+    public static class GamblerView extends  GamblerRankingView{
+
+    }
+
+    public static class GamblerRankingView {
 
     }
 

@@ -1,8 +1,10 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.zenika.zenfoot.gae.jackson.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,22 +13,31 @@ import java.util.List;
 public class Gambler {
 
     @Id
+    @JsonView(Views.GamblerRankingView.class)
     private Long id;
 
     /**
      * The list of bets of the gambler
      */
+    @JsonView(Views.GamblerView.class)
     private List<Bet> bets = new ArrayList<Bet>();
 
     /**
      * The id of the user this gambler instance is attached to
      */
     @Index
+    @JsonView(Views.GamblerView.class)
     private String email;
 
+    @JsonView(Views.GamblerRankingView.class)
     private String nom;
 
+    @JsonView(Views.GamblerRankingView.class)
     private String prenom;
+
+    @Index
+    @JsonView(Views.GamblerRankingView.class)
+    private int points;
 
 //    protected Set<Demande> demandes = new HashSet<>();
 
@@ -104,6 +115,18 @@ public class Gambler {
 
     public void setPrenom(String prenom) {
         this.prenom = prenom;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public synchronized void addPoints(int points){
+        this.points+=points;
     }
 
     //    /**
