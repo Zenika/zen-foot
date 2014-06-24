@@ -74,23 +74,25 @@ angular.module('zenFoot.app')
                  * the user, as the score server side is not kept for every bet.
                  * @param matchBet
                  */
-                calculatePoints: function (matchBet) {
-                    var match = matchBet.match;
-                    var bet = matchBet.bet;
+                calculatePoints: function (match,bet) {
+                    if(!bet)return;
+                    var actualSc1 = match.score1;
+                    var actualSc2 = match.score2;
+                    var predicSc1 = bet.score1;
+                    var predicSc2 = bet.score2;
+                    if (actualSc1 == predicSc1 && actualSc2 == predicSc2)return 1;
 
-                    //Conditions pour pouvoir calculer les points : l'outcome du match est connu et le parieur a fait un pronostic
-                    if (knownOutcome(match) && betMade(bet)) {
-                        var actualSc1 = match.outcome.score1.score;
-                        var actualSc2 = match.outcome.score2.score;
-                        var predicSc1 = bet.score1.score;
-                        var predicSc2 = bet.score2.score;
-                        if (actualSc1 == predicSc1 && actualSc2 == predicSc2)return 'img/points/full-ball-xs.png'
-                        if ((actualSc1 > actualSc2) == (predicSc1 > predicSc2)) {
-                            return 'img/points/half-ball-xs.png'
-                        }
-                        else {
-                            return 'img/points/empty-ball-xs.png'
-                        }
+                    //Team 1 wins
+                    var team1w = (actualSc1 > actualSc2) && (predicSc1 > predicSc2);
+                    //Team 2 wins
+                    var team2w = (actualSc2 > actualSc1) && (predicSc2 > predicSc1);
+                    //equality
+                    var equality = (actualSc2 == actualSc1) && (predicSc1 == predicSc2);
+                    if (team1w||team2w||equality) {
+                        return 0;
+                    }
+                    else {
+                        return -1;
                     }
                 },
 

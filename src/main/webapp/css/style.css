@@ -296,6 +296,43 @@ Some CSS properties on the size of inputs
     padding-right: 15px;
 }
 
+.classt-gambet{
+    color: rgb(163, 163, 163);
+    font-style: italic;
+}
+
+.classt-match-left{
+    display: inline-block ;
+    margin-right: 10px;
+}
+
+.classt-match-right{
+    display: inline-block ;
+    margin-left: 10px;
+}
+
+.classt-flag-left{
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.classt-flag-right{
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.classt-other-win{
+    color:#33CC00;
+}
+
+.classt-other-half{
+    color:#CC9933;
+}
+
+.classt-other-lose{
+    color:#B11016;
+}
+
 .classement-jumbo{
     text-align: center;
     padding: 15px;

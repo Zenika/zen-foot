@@ -19,6 +19,16 @@ angular.module('zenFoot.app')
             },
             getFromId:function(id){
                 return Gambler.get({id:id});
+            },
+            getCouple:function(id){
+              return $resource('/api/gamblerCouple/:id').query({id:id});
+            },
+            getBet:function(gambler, matchId){
+                for(var i = 0;i<gambler.bets.length;i++){
+                    if(gambler.bets[i].matchId==matchId){
+                        return gambler.bets[i];
+                    }
+                }
             }
         }
     }]);
