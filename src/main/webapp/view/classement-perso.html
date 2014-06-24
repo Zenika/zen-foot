@@ -3,21 +3,17 @@
     <div class="row">
 
         <div class="col-xs-12">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="match-title">
-                        <h2> Paris de {{otherGambler.prenom}} {{otherGambler.nom}} &nbsp; </h2>
-                    </div>
-                </div>
+            <div class="match-title">
+                <h2> Paris de {{otherGambler.prenom}} {{otherGambler.nom}} &nbsp; </h2>
             </div>
 
             <div data-ng-show="showMatch(match)" data-ng-repeat="match in matches | orderBy:'date'">
                 <div class="row match-line">
-                    <div class="col-xs-offset-1 col-sm-offset-0 col-xs-10 col-sm-3">
+                    <div class="col-xs-offset-2 col-sm-offset-0 col-xs-8 col-sm-4 classt-date">
                         {{match.date | date:'dd/MM/yyyy à HH:mm'}} - groupe {{match.groupe}}
                     </div>
                     <!--That's the column containing informations on inputs, without the date-->
-                    <div class="col-xs-offset-1 col-sm-offset-0 col-xs-10  col-sm-4">
+                    <div class="col-xs-offset-2 col-sm-offset-0 col-xs-8  col-sm-4">
                             <div class="classt-match-left">
                                 <div class="text-left">
                                     <span>
@@ -41,7 +37,7 @@
                                 </div>
                             </div>
                     </div>
-                    <div class="col-xs-offset-1 col-sm-offset-0 col-xs-12 col-sm-5">
+                    <div class="col-xs-offset-2 col-sm-offset-0 col-xs-8 col-sm-4">
                         <div>
                             <span>{{match.score1}} - {{match.score2}}</span> |
                             <span data-ng-init="points=points(match,match.betOther)"
