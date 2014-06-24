@@ -34,9 +34,9 @@ public class ModelModule {
                     //TODO ONLY FOR TESTS
                     Match match = matches[i];
                     match.setDate(DateTime.now().plusSeconds(30 * i));
-                    /*if(i<10){
-                        match.setDate(DateTime.now()*//*.minusDays(i)*//*.withHourOfDay(i%23));
-                    }*/
+                    if(i<10){
+                        match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
+                    }
                     matchRepository.createUpdate(match);
 
                 }
