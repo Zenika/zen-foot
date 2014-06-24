@@ -464,6 +464,12 @@ Some CSS properties on the size of inputs
     }
 }
 
+@media only screen and (max-width: 768px) {
+    .classt-date{
+        text-decoration: underline;
+    }
+}
+
 @media only screen and (max-width: 991px) {
     .finales-blocks{
         margin-top: 5px;
