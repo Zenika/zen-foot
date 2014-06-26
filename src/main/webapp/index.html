@@ -34,6 +34,8 @@
                 <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
                 <li class="ng-hide disabled" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a>Mes ligues</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text" style="cursor: pointer" ng-bind="user.email"></span></li>
@@ -66,6 +68,8 @@
 <script type="text/javascript" src="components/angular-ui/unique.js"></script>
 <script type="text/javascript" src="components/ng-grid/ng-grid.min.js"></script>
 <script type="text/javascript" src="components/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+<script type="text/javascript" src="components/moment/moment.min.js"></script>
+
 
 <script type="text/javascript" src="components/bootstrap-3.1.1-dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="components/underscore/underscore-min.js"></script>
@@ -81,6 +85,7 @@
 <script type="text/javascript" src="js/app/controllers/subscribe-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/match-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/admin-finales-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/index-controller.js"></script>

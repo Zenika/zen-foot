@@ -1,0 +1,58 @@
+<div class="row" data-ng-controller="AdminFinalesCtrl">
+    <div class="col-xs-12">
+        <div data-ng-repeat="match in matches">
+            <form name="matchForm" class="form-inline" style="display: inline" role="form">
+                <div class="form-group">
+                    <label for="dueDate">Début du match</label>
+                    <input name="dueDate" date-valid style="width: 100px" ng-model="match.date" type="text" id="dueDate" name="dueDate"
+                           class="form-control" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true"
+                           is-open="data.isOpen" ng-click="data.isOpen = true">
+                </div>
+                <div class="form-group">
+                    <timepicker id="timepicker" ng-model="match.date" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
+                </div>
+                <div class="form-group">
+                    <label class=sr-only for="team1">Equipe 1</label>
+                    <input style="width:100px" id="team1" type="text" ng-model="team1"
+                           typeahead="country for country in countries | filter:$viewValue | limitTo:8"
+                           class="form-control" placeholder="équipe 1">
+                </div>
+                <div class="form-group">
+                    <label class=sr-only for="team2">Equipe 2</label>
+                    <input style="width:100px" id="team2" type="text" ng-model="team2"
+                           typeahead="country for country in countries | filter:$viewValue | limitTo:8"
+                           class="form-control" placeholder="équipe 2">
+                </div>
+
+                <button data-ng-disabled="matchForm.$invalid" type="submit" class="btn btn-danger">valider</button>
+            </form>
+            <span ng-show="$index==matches.length-1" style="margin-left: 10px" class="glyphicon glyphicon-plus-sign" ng-click="newMatch()"></span>
+            {{match.date|date:'dd/MM'}}
+        </div>
+
+
+
+       <!-- <div class="row" data-ng-repeat="match in matches">
+            <div class="col-xs-2 aligned-picker">
+                <input ng-model="match.date" type="text" id="dueDate" name="dueDate"
+                       class="form-control" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true"
+                       is-open="data.isOpen" ng-click="data.isOpen = true">
+            </div>
+            <div class="col-xs-1">
+                <timepicker id="timepicker" ng-model="match.date" hour-step="1" minute-step="15"
+                            show-meridian="false"></timepicker>
+            </div>
+            <div class="col-xs-2 aligned-picker">
+                <input type="text" ng-model="team1"
+                       typeahead="country for country in countries | filter:$viewValue | limitTo:8"
+                       class="form-control">
+            </div>
+            <div class="col-xs-2 aligned-picker">
+                <input type="text" ng-model="team2"
+                       typeahead="country for country in countries | filter:$viewValue | limitTo:8"
+                       class="form-control">
+            </div>
+        </div>-->
+
+    </div>
+</div>

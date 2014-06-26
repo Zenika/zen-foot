@@ -454,6 +454,15 @@ Some CSS properties on the size of inputs
     background-size: 392px 240px;
 }
 
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.aligned-picker{
+    padding-top: 32px;
+}
+
 .algerie { background-position: -132px -0px;  }
 .allemagne { background-position: -158px -0px;  }
 .angleterre { background-position: -210px -0px;  }

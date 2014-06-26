@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import com.zenika.zenfoot.gae.utils.Constants;
+import org.joda.time.DateTime;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -95,6 +97,12 @@ public class BetResource {
     @PermitAll
     public List<Match> getMatchs() {
         return  matchService.getMatchs();
+    }
+
+    @GET("/pays")
+    @RolesAllowed(Roles.ADMIN)
+    public List<String> getPays(){
+        return matchService.getPays();
     }
 
     /*@POST("/matchs")
