@@ -1,7 +1,8 @@
 <div class="row" data-ng-controller="AdminFinalesCtrl">
     <div class="col-xs-12">
+
         <div data-ng-repeat="match in matches">
-            <form name="matchForm" class="form-inline" style="display: inline" role="form">
+            <form ng-show="!match.registered" name="matchForm" class="form-inline" style="display: inline" role="form">
                 <div class="form-group">
                     <label for="dueDate">Début du match</label>
                     <input name="dueDate" date-valid style="width: 100px" ng-model="match.date" type="text" id="dueDate" name="dueDate"
@@ -13,21 +14,27 @@
                 </div>
                 <div class="form-group">
                     <label class=sr-only for="team1">Equipe 1</label>
-                    <input style="width:100px" id="team1" type="text" ng-model="team1"
+                    <input style="width:100px" id="team1" type="text" ng-model="match.team1"
                            typeahead="country for country in countries | filter:$viewValue | limitTo:8"
-                           class="form-control" placeholder="équipe 1">
+                           class="form-control" placeholder="équipe 1" required>
                 </div>
                 <div class="form-group">
-                    <label class=sr-only for="team2">Equipe 2</label>
-                    <input style="width:100px" id="team2" type="text" ng-model="team2"
+                    <label class="sr-only" for="team2">Equipe 2</label>
+                    <input style="width:100px" id="team2" type="text" ng-model="match.team2"
                            typeahead="country for country in countries | filter:$viewValue | limitTo:8"
-                           class="form-control" placeholder="équipe 2">
+                           class="form-control" placeholder="équipe 2" required>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="groupe">Groupe</label>
+                    <input style="width:70px" id="groupe" type="text" ng-model="match.groupe" typeahead="group for group in groups" class="form-control" placeholder="groupe" required>
                 </div>
 
-                <button data-ng-disabled="matchForm.$invalid" type="submit" class="btn btn-danger">valider</button>
+                <button data-ng-disabled="matchForm.$invalid||matchForm.dueDate.$error.dateChk" type="submit" class="btn btn-danger" ng-click="register(match)">valider</button>
             </form>
+            <div style="display: inline-block" ng-show="match.registered">
+                <span>Match enregistr&eacute : {{match.date|date:'dd/MM/yyyy HH:mm'}} {{match.team1}}/{{match.team2}}</span>
+            </div>
             <span ng-show="$index==matches.length-1" style="margin-left: 10px" class="glyphicon glyphicon-plus-sign" ng-click="newMatch()"></span>
-            {{match.date|date:'dd/MM'}}
         </div>
 
 

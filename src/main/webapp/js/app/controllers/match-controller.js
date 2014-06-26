@@ -239,5 +239,9 @@ angular.module('zenFoot.app')
                 }, 1000);
             }
 
+            $scope.isPool=function(groupe){
+                return _.contains($scope.group1,groupe);
+            }
+
 
         }]);

@@ -163,10 +163,11 @@ zenFootDirectives.directive('todayFocus', ['$location', '$anchorScroll', functio
 
 zenFootDirectives.directive('dateValid',[function(){
     return {
+        require:'ngModel',
         link:function(scope,element,attrs,ctrl){
             scope.$watch('match.date',function(oldValue,newValue){
                 var isDate = angular.isDate(scope.match.date);
-//                scope.matchForm.dueDate.$setValidity(isDate);
+                ctrl.$setValidity('dateChk',isDate);
             });
 
         }

@@ -96,6 +96,14 @@ angular.module('zenFoot.app')
 
                 knownOutcome: knownOutcome,
 
-                betMade: betMade
+                betMade: betMade,
+
+                group1:function(){
+                    return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+                },
+
+                group2:function(){
+                    return ['1/8', '1/4', '1/2', 'finale'];
+                }
             }
         }]);

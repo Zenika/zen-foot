@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('zenFoot.app')
-.controller('AdminFinalesCtrl',['Pays','$scope',function(Pays,$scope){
+.controller('AdminFinalesCtrl',['Pays','$scope','betMatchService','Match',function(Pays,$scope,betMatchService,Match){
     Pays.getPays().then(function(response){
         $scope.countries=response.data;
     })
+
+    $scope.groups = betMatchService.group1().concat(betMatchService.group2());
 
     $scope.matches=[];
 
@@ -41,5 +43,16 @@ angular.module('zenFoot.app')
         formatYear: 'yy',
         startingDay: 1
     };
+
+    $scope.register=function(match){
+        var message = 'Voulez vous enregistrer le match suivant ? : ';
+        message+='\n'+match.team1+" - "+match.team2;
+        message+='\n'+match.date.getDate()+'/'+0+(match.date.getMonth()+1)+'/'+match.date.getFullYear();
+        var confirmation  = confirm(message);
+        if(confirmation){
+            Match.save(match);
+        }
+        match.registered=true;
+    }
 
 }])
