@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="btn-group finales-blocks">
-                                <label data-ng-repeat="group in groups2" class="btn btn-danger disabled"
+                                <label data-ng-repeat="group in groups2" class="btn btn-danger" ng-class="{'disabled': !matchesByGroup[group]}"
                                        data-ng-model="groupsFilters[group]" btn-checkbox>
                                     {{group}}
                                 </label>
