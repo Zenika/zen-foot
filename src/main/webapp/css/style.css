@@ -463,6 +463,21 @@ Some CSS properties on the size of inputs
     padding-top: 32px;
 }
 
+.admin-time-picker{
+    text-align: center;
+}
+
+.admin-time-picker > table{
+    display: inline-block
+}
+
+.input-due-date{
+    width: 108px;
+    display: inline-block;
+    position: relative;
+    top: -45px;
+}
+
 .algerie { background-position: -132px -0px;  }
 .allemagne { background-position: -158px -0px;  }
 .angleterre { background-position: -210px -0px;  }

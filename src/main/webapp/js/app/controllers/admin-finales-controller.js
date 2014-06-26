@@ -1,22 +1,19 @@
 'use strict';
 
 angular.module('zenFoot.app')
-.controller('AdminFinalesCtrl',['Pays','$scope','betMatchService','Match',function(Pays,$scope,betMatchService,Match){
+.controller('AdminFinalesCtrl',['Pays','$scope','betMatchService','Match','$timeout',function(Pays,$scope,betMatchService,Match,$timeout){
     Pays.getPays().then(function(response){
         $scope.countries=response.data;
     })
 
     $scope.groups = betMatchService.group1().concat(betMatchService.group2());
 
-    $scope.matches=[];
-
     $scope.newMatch=function(){
         var date = new Date();
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
-        var match={team1:'',team2:'',score1:null,score2:null,date:date};
-        $scope.matches.push(match);
+        $scope.match={team1:'',team2:'',score1:null,score2:null,date:date};
     }
     $scope.newMatch();
 
@@ -50,9 +47,14 @@ angular.module('zenFoot.app')
         message+='\n'+match.date.getDate()+'/'+0+(match.date.getMonth()+1)+'/'+match.date.getFullYear();
         var confirmation  = confirm(message);
         if(confirmation){
-            Match.save(match);
+            Match.save(match,function(){
+                $scope.newMatch();
+                $scope.registeredMatch=match;
+                $timeout(function(){
+                    delete $scope.registeredMatch;
+                },8000);
+            });
         }
-        match.registered=true;
     }
 
 }])
