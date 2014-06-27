@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import com.zenika.zenfoot.gae.utils.Constants;
-import org.joda.time.DateTime;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
