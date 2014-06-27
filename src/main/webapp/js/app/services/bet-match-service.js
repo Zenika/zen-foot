@@ -36,22 +36,30 @@ angular.module('zenFoot.app')
 
             };
 
-            /**
-             * Return whether or not the prediction contains a result (either the outcome of a match or a bet).
-             * @param prediction
-             * @returns {boolean} true if the prediction is not empty (i.e. the scores are not ==""
-             */
-            var scoreGiven = function (prediction) {
-                return prediction.score1.score.trim() != "" && prediction.score2.score.trim() != "";
-            };
-
-
-            var betMade = function (bet) {
-                return scoreGiven(bet);
-            };
-
             var knownOutcome = function (match) {
                 return scoreGiven(match.outcome);
+            };
+
+            var calculatePoints = function (match, bet) {
+                if (match.score1 === null || !bet || bet.score1 === null || bet.score2 === null)return;
+                var actualSc1 = match.score1;
+                var actualSc2 = match.score2;
+                var predicSc1 = bet.score1;
+                var predicSc2 = bet.score2;
+                if (actualSc1 == predicSc1 && actualSc2 == predicSc2)return 1;
+
+                //Team 1 wins
+                var team1w = (actualSc1 > actualSc2) && (predicSc1 > predicSc2);
+                //Team 2 wins
+                var team2w = (actualSc2 > actualSc1) && (predicSc2 > predicSc1);
+                //equality
+                var equality = (actualSc2 == actualSc1) && (predicSc1 == predicSc2);
+                if (team1w || team2w || equality) {
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
             };
 
             return {
@@ -74,30 +82,21 @@ angular.module('zenFoot.app')
                  * the user, as the score server side is not kept for every bet.
                  * @param matchBet
                  */
-                calculatePoints: function (match,bet) {
-                    if(!bet)return;
-                    var actualSc1 = match.score1;
-                    var actualSc2 = match.score2;
-                    var predicSc1 = bet.score1;
-                    var predicSc2 = bet.score2;
-                    if (actualSc1 == predicSc1 && actualSc2 == predicSc2)return 1;
+                calculatePoints: calculatePoints,
 
-                    //Team 1 wins
-                    var team1w = (actualSc1 > actualSc2) && (predicSc1 > predicSc2);
-                    //Team 2 wins
-                    var team2w = (actualSc2 > actualSc1) && (predicSc2 > predicSc1);
-                    //equality
-                    var equality = (actualSc2 == actualSc1) && (predicSc1 == predicSc2);
-                    if (team1w||team2w||equality) {
-                        return 0;
-                    }
-                    else {
-                        return -1;
-                    }
+                is3Points: function (match, bet) {
+                    return calculatePoints(match, bet) === 1;
+                },
+
+                is1Point: function (match, bet) {
+                    return calculatePoints(match, bet) === 0;
+                },
+
+                is0Point: function (match, bet) {
+                    return calculatePoints(match, bet) === -1;
                 },
 
                 knownOutcome: knownOutcome,
 
-                betMade: betMade
             }
         }]);

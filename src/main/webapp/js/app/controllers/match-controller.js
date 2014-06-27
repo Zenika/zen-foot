@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('MatchCtrl', ['$scope', '$timeout', 'betMatchService', '$rootScope', '$q', 'displayService', 'Match', 'Bets', 'Gambler', 'GamblerRanking',
-        function ($scope, $timeout, betMatchService, $rootScope, $q, displayService, Match, Bets, Gambler, GamblerRanking) {
+    .controller('MatchCtrl', ['$scope', '$timeout', 'betMatchService', '$rootScope', '$q', 'displayService', 'Match', 'Bets', 'Gambler', 'GamblerService', 'GamblerRanking', '$stateParams',
+        function ($scope, $timeout, betMatchService, $rootScope, $q, displayService, Match, Bets, Gambler, GamblerService, GamblerRanking, $stateParams) {
 
             $scope.groups1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
             $scope.groups2 = ['1/8', '1/4', '1/2', 'finale'];
@@ -57,9 +57,10 @@ angular.module('zenFoot.app')
                 return !match.scoreUpdated && match.date < new Date();
             }
 
-            $q.all([Match.query().$promise, Gambler.get().$promise]).then(function (results) {
+            $q.all([Match.query().$promise, Gambler.get().$promise, GamblerService.getFromId($stateParams.gamblerId)]).then(function (results) {
                 var matches = results[0];
                 var gambler = results[1];
+                var otherGambler = results[2];
 
                 var matchesById = {};
 
@@ -95,6 +96,13 @@ angular.module('zenFoot.app')
                 $scope.matchsDates = _.keys($scope.matchesByDate);
 
                 $scope.matches = matches;
+
+                if (otherGambler.id !== gambler.id) {
+                    $scope.otherGambler = otherGambler;
+                    _.each(otherGambler.bets, function (bet) {
+                        matchesById[bet.matchId].otherBet = bet;
+                    })
+                }
             });
 
 
@@ -185,6 +193,9 @@ angular.module('zenFoot.app')
 
             $scope.isTeamWinner = displayService.isTeamWinner;
             $scope.calculatePoints = betMatchService.calculatePoints;
+            $scope.is3Points = betMatchService.is3Points;
+            $scope.is1Point = betMatchService.is1Point;
+            $scope.is0Point = betMatchService.is0Point;
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;
 
@@ -233,10 +244,23 @@ angular.module('zenFoot.app')
                 }
             };
 
+            $scope.displayScore = function (score) {
+                if (score) {
+                    return score;
+                }
+                else {
+                    return '-';
+                }
+            }
+
             $scope.focusToday = function () {
                 $('html,body').animate({
                     scrollTop: $("#todayFocused").offset().top - 55
                 }, 1000);
+            }
+
+            $scope.removeOther = function () {
+                delete $scope.otherGambler;
             }
 
 

@@ -8,14 +8,14 @@
         'autofill-directive', 'ngGrid', 'angular-md5'
     ])
 
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+        .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             $stateProvider
                 .state('loginState', {
                     url: '/login?subscriptionSuccess',
                     templateUrl: 'view/login.html'
                 })
                 .state('betsState', {
-                    url: '/bets',
+                    url: '/bets?gamblerId',
                     templateUrl: 'view/bets.html'
                 })
                 .state('adminState', {
@@ -26,9 +26,9 @@
                     url: '/classement',
                     templateUrl: 'view/classement.html'
                 })
-                .state('classPersoState',{
-                    url:'/ranking?gamblerId',
-                    templateUrl:'view/classement-perso.html'
+                .state('classPersoState', {
+                    url: '/ranking?gamblerId',
+                    templateUrl: 'view/classement-perso.html'
                 })
                 .state('subscribeState', {
                     url: '/subscribe',
@@ -47,14 +47,14 @@
 
             $httpProvider.interceptors.push(function ($q, $location, $injector) {
 
-                var getAuthService = function() {
+                var getAuthService = function () {
                     return $injector.get('authService');
                 };
-                var getState = function() {
+                var getState = function () {
                     return $injector.get('$state');
                 };
 
-                var isLoginState = function() {
+                var isLoginState = function () {
                     return getState().current.name === 'loginState';
                 };
 
