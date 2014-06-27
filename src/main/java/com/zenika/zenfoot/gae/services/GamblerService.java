@@ -42,6 +42,10 @@ public class GamblerService {
         return gamblerRepository.getGamblerFromEmail(email);
     }
 
+    public Gambler get(Long id){
+        return gamblerRepository.getGambler(id);
+    }
+
     public Bet getBetByMatchId(Gambler gambler, Long matchId) {
         for (Bet bet : gambler.getBets()) {
             if (bet.getMatchId().equals(matchId)) {

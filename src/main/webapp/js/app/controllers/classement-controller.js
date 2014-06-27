@@ -57,7 +57,8 @@ angular.module('zenFoot.app')
             };
 
             var classementTemplate = '<div>{{getClassement(row.rowIndex)}}</div>';
-            var parieurTemplate = '<div class="ngCellText">{{row.entity.prenom}} {{row.entity.nom}}</div>';
+            //TODO : change gamblerId to id once the ranking model is back to what it was earlier
+            var parieurTemplate = '<div class="ngCellText""><a ui-sref="classPersoState({gamblerId:\'{{row.entity.gamblerId}}\'})">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
 
 
             $scope.totalServerItems = 0;

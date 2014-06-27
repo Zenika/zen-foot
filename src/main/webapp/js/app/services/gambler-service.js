@@ -3,7 +3,7 @@
 angular.module('zenFoot.app')
     .factory('Gambler', ['$resource',
         function ($resource) {
-            return $resource('/api/gambler',{},{get:{cache:false,method:'GET'}});
+            return $resource('/api/gambler/:id',{id:'@id'},{get:{cache:false,method:'GET'}});
         }])
     .factory('GamblerRanking', ['$resource',
         function ($resource) {
@@ -15,7 +15,20 @@ angular.module('zenFoot.app')
                 return $resource('/api/gamblers',{},{get:{cache:false,method:'GET'}}).query();
             },
             get: function (team) {
-                return $resource('/api/gamblersTeam/' + team.name,{},{get:{cache:false,method:'GET'}}).query()
+                return $resource('/api/gamblersTeam/' + team.name,{},{get:{cache:false,method:'GET'}}).query();
+            },
+            getFromId:function(id){
+                return Gambler.get({id:id});
+            },
+            getCouple:function(id){
+              return $resource('/api/gamblerCouple/:id').query({id:id});
+            },
+            getBet:function(gambler, matchId){
+                for(var i = 0;i<gambler.bets.length;i++){
+                    if(gambler.bets[i].matchId==matchId){
+                        return gambler.bets[i];
+                    }
+                }
             }
         }
     }]);
