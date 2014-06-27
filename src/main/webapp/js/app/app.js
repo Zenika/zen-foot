@@ -26,10 +26,6 @@
                     url: '/classement',
                     templateUrl: 'view/classement.html'
                 })
-                .state('classPersoState', {
-                    url: '/ranking?gamblerId',
-                    templateUrl: 'view/classement-perso.html'
-                })
                 .state('subscribeState', {
                     url: '/subscribe',
                     templateUrl: 'view/subscribe.html'
