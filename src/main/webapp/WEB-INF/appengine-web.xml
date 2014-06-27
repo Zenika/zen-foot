@@ -6,11 +6,11 @@
 
 
     <static-files>
-        <include path="/**.xml" expiration="5m"></include>
-        <include path="/**.js" expiration="5m"></include>
+        <include path="/js/**.js" expiration="5m"></include>
         <include path="/**.html" expiration="5m"></include>
         <include path="/**.css" expiration="5m"></include>
         <include path="/img/**" expiration="5m"></include>
+        <include path="/components/**" expiration="30d"></include>
         <exclude path="/node_modules/**"></exclude>
     </static-files>
 
