@@ -25,15 +25,6 @@ angular.module('zenFoot.app')
             $scope.betSavedSuccess = false;
             $scope.betSavedError = false;
 
-            $scope.allowFilter = {
-                '1/8': false,
-                '1/4': false,
-                '1/2': false,
-                'finale': false
-            }
-
-
-
             $scope.displayGroup=function(group){
                 var texte;
                 if($scope.isPool(group)){
@@ -115,29 +106,6 @@ angular.module('zenFoot.app')
                 $scope.matchsDates = _.keys($scope.matchesByDate);
 
                 $scope.matches = matches;
-
-
-                /**
-                 * Checks whether there are matches for 1/8, 1/4, 1/2 or finale. If there is, adds the info to $scope.allowFilter
-                 * This is used to disable/enable filtering buttons
-                 */
-
-                var initFilter = function() {
-                    $scope.allowFilter['1/8']= _.some($scope.matches,function(match){
-                        return match.groupe==='1/8';
-                    });
-                    $scope.allowFilter['1/4']= _.some($scope.matches,function(match){
-                        return match.groupe==='1/4';
-                    });
-                    $scope.allowFilter['1/2']= _.some($scope.matches,function(match){
-                        return match.groupe==='1/2';
-                    })
-                    $scope.allowFilter['finale']= _.some($scope.matches,function(match){
-                        return match.groupe==='finale';
-                    })
-                }
-
-                initFilter();
             });
 
 
