@@ -1,5 +1,7 @@
 <div class="row" data-ng-controller="AdminFinalesCtrl">
+
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+    <h3>Nouveaux matchs</h3>
 
             <div class="alert alert-success" ng-show="registeredMatch">
                 <span>Match enregistr&eacute : {{registeredMatch.date|date:'dd/MM/yyyy HH:mm'}} {{registeredMatch.team1}}/{{registeredMatch.team2}}</span>
@@ -9,7 +11,7 @@
                     <label class="sr-only" for="dueDate">Début du match</label>
                     <input name="dueDate" date-valid ng-model="match.date" type="text" id="dueDate" name="dueDate"
                            class="form-control input-due-date" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true"
-                           is-open="data.isOpen" ng-click="data.isOpen = true">
+                           is-open="data.isOpen" ng-click="data.isOpen = true" min-date="today" placeholder="début du match">
                     <timepicker style="display: inline-block" id="timepicker" ng-model="match.date" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
                 </div>
                 <div class="form-group">
@@ -25,8 +27,10 @@
                            class="form-control" placeholder="équipe 2" required>
                 </div>
                 <div class="form-group">
-                    <label class="sr-only" for="groupe">Groupe</label>
-                    <input id="groupe" type="text" ng-model="match.groupe" typeahead="group for group in groups" class="form-control" placeholder="groupe" required>
+                    <!--<label>Groupe : </label>-->
+                    <select class="form-control select-group" required ng-model="match.groupe" ng-options="group for group in groups">
+                        <option value="" disabled selected>groupe</option>
+                    </select>
                 </div>
 
                 <div class="text-center">

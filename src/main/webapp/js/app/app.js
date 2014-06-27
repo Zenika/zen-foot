@@ -24,7 +24,7 @@
                 })
                 .state('adminFinales', {
                     url:'/adminfinales',
-                    templateUrl:'view/admin-finales.html'
+                    templateUrl:'view/admin-new-matchs.html'
                 })
                 .state('classState', {
                     url: '/classement',
