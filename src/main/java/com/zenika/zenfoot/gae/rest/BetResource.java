@@ -144,23 +144,6 @@ public class BetResource {
         return gamblerService.get(id);
     }
 
-    @GET("/gamblerCouple/{id}")
-    @RolesAllowed({Roles.GAMBLER})
-    public List<Gambler> getGamblerCouple(Long id) {
-        Gambler current = gamblerService.get(sessionInfo.getUser());
-        Gambler otherGambler;
-        if (current.getId().equals(current)) {
-            otherGambler = current;
-        } else {
-            otherGambler = gamblerService.get(id);
-        }
-
-        List<Gambler> gamblers = new ArrayList<>();
-        gamblers.add(current);
-        gamblers.add(otherGambler);
-        return gamblers;
-    }
-
     @GET("/gamblers")
     @RolesAllowed(Roles.GAMBLER)
     public List<Gambler> getGamblers() {
