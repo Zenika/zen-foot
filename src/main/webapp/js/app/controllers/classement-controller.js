@@ -147,8 +147,6 @@ angular.module('zenFoot.app')
              */
 
             $scope.changePage = function (gamblerRanking) {
-                console.log('here')
-                debugger
                 if (gamblerRanking) {
 
                     if ($scope.focusedGambler) {
@@ -165,7 +163,6 @@ angular.module('zenFoot.app')
             };
 
             $scope.changeToGambler = function (ranking) {
-                console.log('here')
                 $scope.changePage(ranking)
             }
 
