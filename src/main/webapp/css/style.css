@@ -650,3 +650,28 @@ Some CSS properties on the size of inputs
 .usa {
     background-position: -288px -208px
 }
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.aligned-picker{
+    padding-top: 32px;
+}
+
+.admin-time-picker{
+    text-align: center;
+}
+
+.admin-time-picker > table{
+    display: inline-block
+}
+
+.input-due-date{
+    width: 108px;
+    display: inline-block;
+    position: relative;
+    top: -45px;
+}
+
