@@ -52,7 +52,7 @@ angular.module('zenFoot.app')
         $scope.register = function (match) {
             var message = 'Voulez vous enregistrer le match suivant ? : ';
             message += '\n' + match.team1 + " - " + match.team2;
-            message += '\n' + match.date.getDate() + '/' + match.date.getMonth() + '/' + match.date.getFullYear() + ' à ' + match.date.getHours() + ':' + match.date.getMinutes();
+            message += '\n' + match.date.getDate() + '/' + (match.date.getMonth()+1) + '/' + match.date.getFullYear() + ' à ' + match.date.getHours() + ':' + match.date.getMinutes();
             var confirmation = confirm(message);
             if (confirmation) {
                 match.date = checkDate(match.date);
