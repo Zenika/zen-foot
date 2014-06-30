@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <application>zenfoot-prod</application>
-    <version>1-3</version>
+    <version>1-4</version>
     <threadsafe>true</threadsafe>
     
     <system-properties>
