@@ -245,7 +245,7 @@ angular.module('zenFoot.app')
             };
 
             $scope.displayScore = function (score) {
-                if (score) {
+                if (score||score==0) {
                     return score;
                 }
                 else {
