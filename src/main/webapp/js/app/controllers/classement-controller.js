@@ -34,6 +34,7 @@ angular.module('zenFoot.app')
                         }
                         ranking[i].classement = indexClassement;
                         ranking[i].equality = equality;
+                        ranking[i].index = i+1;
                     }
 
                     $scope.classement = ranking;
@@ -153,7 +154,7 @@ angular.module('zenFoot.app')
                     }
                     $scope.focusedGambler = gamblerRanking;
                     gamblerRanking.focused = true;
-                    var roundedPage = gamblerRanking.classement / $scope.pagingOptions.pageSize;
+                    var roundedPage = gamblerRanking.index / $scope.pagingOptions.pageSize;
                     var page = Math.ceil(roundedPage);
 
                     $scope.pagingOptions.currentPage = page;
