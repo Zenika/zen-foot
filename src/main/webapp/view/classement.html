@@ -5,7 +5,7 @@
             <div class="jumbotron classement-jumbo">
                 <p>
                     Vous êtes
-                    <strong><span>{{personnalRanking.classement}}</span><sup ng-pluralize count="personnalRanking.classement" when="{'1':'er','other':'ème'}"></sup></strong>
+                    <strong><span>{{personnalRanking.classement}}</span><sup ng-pluralize count="personnalRanking.classement" when="{'1':'er','other':'ème'}"></sup>{{personnalRanking.equality?'(ex aequo)':''}}</strong>
                     </p>&nbsp;
                 <p>
                     avec

@@ -22,9 +22,18 @@ angular.module('zenFoot.app')
                     /*var rankingSorted = _.sortBy(ranking, function (peopleRanking) {
                      return -peopleRanking.points;
                      });*/
-
+                    var indexClassement = 1;
+                    var equality = false;
                     for (var i = 0; i < ranking.length; i++) {
-                        ranking[i].classement = i + 1;
+                        var ii = i - 1;
+                        if (i > 0 && (ranking[ii].points != ranking[i].points)) {
+                            indexClassement++;
+                            equality = false;
+                        } else {
+                            equality = true;
+                        }
+                        ranking[i].classement = indexClassement;
+                        ranking[i].equality = equality;
                     }
 
                     $scope.classement = ranking;
