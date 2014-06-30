@@ -7,7 +7,6 @@
                 <div class="col-sm-4">
                     <div class="match-title">
                         <h2> Liste des matchs &nbsp; </h2>
-
                         <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
                               data-placement="bottom"
                               data-content="Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
@@ -50,24 +49,24 @@
             </div>
 
             <form name="scoreform" class="form-score form-horizontal match-form">
-                <div data-ng-repeat="group in getGroupingKeys()"
-                     data-ng-show="shouldShow(group)">
+                <h4 style="display: inline-block" ng-show="otherGambler" class="other-gamb-theme">
+                    Pronostics de {{otherGambler.prenom}} {{otherGambler.nom}}</h4>
+                <span ng-show="otherGambler" class="glyphicon glyphicon-remove" ng-click="removeOther()"></span>
 
+                <div data-ng-repeat="group in getGroupingKeys()" data-ng-show="shouldShow(group)">
                     <h3 ng-hide="showByDate">Groupe {{group}}</h3>
 
                     <h3 today-focus ng-show="showByDate&&shouldShowDate(group)">{{group|date:'dd/MM/yyyy'}}</h3>
 
-                    <div data-ng-show="showMatch(match.groupe)"
-                         data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
+                    <div data-ng-show="showMatch(match.groupe)" data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
 
                         <!--That's the column containing inputs, and results-->
 
                         <!--That's the row for inputs-->
                         <div class="row match-line" ng-class="{'match-ended': canBet(match)}">
-                            <div class="col-xs-12 col-sm-4 col-md-3 match-date"
-                                 ng-class="{'former-match':isFormer(match.date)}">
-                                {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="showByDate"
-                                                                                 style="display:inline-block">- groupe {{match.groupe}}</span>
+                            <div class="col-xs-12 col-sm-4 col-md-3 match-date" ng-class="{'former-match':isFormer(match.date)}">
+                                {{match.date | date:'dd/MM/yyyy à HH:mm'}}
+                                <span data-ng-show="showByDate" style="display:inline-block">- groupe {{match.groupe}}</span>
                             </div>
                             <!--That's the column containing informations on inputs, without the date-->
                             <div class="col-xs-12 col-sm-8 col-md-8">
@@ -79,10 +78,14 @@
                                             </span>
 
                                             <span class="country-flag" ng-class="match.team1"></span>
-
                                             <ng-form name="score1Form"
                                                      data-ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
-                                                <input name="score1input"
+                                                <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classt-other-win':is3Points(match,match.bet),
+                                                 'classt-other-half':is1Point(match,match.bet), 'classt-other-lose':is0Point(match,match.bet)}">
+                                                 {{displayScore(match.bet.score1)}}
+                                                </span>
+                                                <input ng-show="!isFormer(match.date)"
+                                                       name="score1input"
                                                        class="form-control input-sm text-center input-score"
                                                        zen-disable
                                                        oldmatch="{{isFormer(match.date)}}"
@@ -94,7 +97,16 @@
                                                       data-ng-show="score1Form.score1input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
                                             <div class="text-right" data-ng-class="{'match-score':!knownResult(match)}">
+                                                <span>Résultat</span>
                                                 <span class="real-score">{{match.score1}} </span>
+                                            </div>
+                                            <div class="text-right other-gamb-theme"
+                                                 ng-class="{'match-score':!knownResult(match)||!otherGambler}">
+                                                <span>{{otherGambler.prenom}} :</span>
+                                                <span class="real-score"
+                                                      ng-class="{'classt-other-win':is3Points(match,match.otherBet), 'classt-other-half':is1Point(match,match.otherBet),
+                                                      'classt-other-lose':is0Point(match,match.otherBet)}">{{displayScore(match.otherBet.score1)}}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -103,8 +115,12 @@
 
                                             <ng-form name="score2Form"
                                                      ng-class="{'has-error':score2Form.score2input.$error.pattern||score2Form.$invalid}">
-
-                                                <input name="score2input"
+                                                <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classt-other-win':is3Points(match,match.bet),
+                                                 'classt-other-half':is1Point(match,match.bet), 'classt-other-lose':is0Point(match,match.bet)}">
+                                                    {{displayScore(match.bet.score2)}}
+                                                </span>
+                                                <input ng-show="!isFormer(match.date)"
+                                                       name="score2input"
                                                        class="form-control input-sm text-center input-score"
                                                        zen-disable
                                                        oldmatch="{{isFormer(match.date)}}"
@@ -122,19 +138,18 @@
                                             <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1), 'match-winner': isTeamWinner(match.score2, match.score1)}">
                                                 {{getTeamDisplayName(match.team2)}}
                                             </span>
-
                                         </div>
                                         <div class="text-left" data-ng-class="{'match-score':!knownResult(match)}">
                                             <span class="real-score">{{match.score2}}</span>
                                         </div>
+                                        <div class="text-left other-gamb-theme"
+                                             ng-class="{'match-score':!knownResult(match)||!otherGambler}">
+                                            <span class="real-score" ng-class="{'classt-other-win':is3Points(match,match.otherBet), 'classt-other-half':is1Point(match,match.otherBet),
+                                                      'classt-other-lose':is0Point(match,match.otherBet)}">
+                                                {{displayScore(match.otherBet.score2)}}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <!--<div class="col-xs-1" ng-if="dispPoints(match)">-->
-                                    <!--<img data-ng-src="{{calculatePoints(match)}}">-->
-                                    <!--</div>-->
-                                    <!--<div ng-if="dispPoints(match)" class="col-sm-2 zen-points">-->
-                                    <!--{{calculatePoints(match)}} pts-->
-
-                                    <!--</div>-->
                                 </div>
                             </div>
                         </div>

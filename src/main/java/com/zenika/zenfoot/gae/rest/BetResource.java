@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +64,7 @@ public class BetResource {
         this.userService = (MockUserService) userService;
         this.gamblerService = gamblerService;
         this.teamDAO = teamDAO;
-        this.rankingDAO=rankingDAO;
+        this.rankingDAO = rankingDAO;
     }
 
 
@@ -94,7 +95,7 @@ public class BetResource {
     @GET("/matchs")
     @PermitAll
     public List<Match> getMatchs() {
-        return  matchService.getMatchs();
+        return matchService.getMatchs();
     }
 
     /*@POST("/matchs")
@@ -137,10 +138,10 @@ public class BetResource {
         return gamblerService.get(user);
     }
 
-    @GET("/gambler/{email}")
-    @PermitAll
-    public Gambler getGambler(String email) {
-        return gamblerService.getFromEmail(email);
+    @GET("/gambler/{id}")
+    @RolesAllowed({Roles.GAMBLER, Roles.ADMIN})
+    public Gambler getGambler(Long id) {
+        return gamblerService.get(id);
     }
 
     @GET("/gamblers")
@@ -175,14 +176,14 @@ public class BetResource {
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
-    	String email = subscriber.getUser().getEmail();
-    	User alreadyExistingUser = userService.getUserByEmail(email);
+        String email = subscriber.getUser().getEmail();
+        User alreadyExistingUser = userService.getUserByEmail(email);
 
-    	if (alreadyExistingUser != null) {
-    		throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL",
-    				String.format("L'email %s est déjà pris par un autre utilisateur !", email));
-    	}
-        
+        if (alreadyExistingUser != null) {
+            throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL",
+                    String.format("L'email %s est déjà pris par un autre utilisateur !", email));
+        }
+
         subscriber.getUser().setPassword(subscriber.getUser().getPasswordHash());
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
         subscriber.getUser().setIsActive(Boolean.TRUE);
@@ -240,7 +241,7 @@ public class BetResource {
     @RolesAllowed(Roles.GAMBLER)
     public Set<Gambler> wantToJoin() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
-        
+
         return gamblerService.wantToJoin(gambler);
     }
 
@@ -252,14 +253,14 @@ public class BetResource {
 
     @GET("/rankings")
     @RolesAllowed(Roles.GAMBLER)
-    public List<GamblerRanking> rankings(){
+    public List<GamblerRanking> rankings() {
         return rankingDAO.getAll();
     }
 
     @GET("/ranking")
     @RolesAllowed(Roles.GAMBLER)
-    public GamblerRanking ranking(){
-        Gambler gambler =gamblerService.get(sessionInfo.getUser());
+    public GamblerRanking ranking() {
+        Gambler gambler = gamblerService.get(sessionInfo.getUser());
         return rankingDAO.findByGambler(gambler.getId());
     }
 }

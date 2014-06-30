@@ -57,7 +57,7 @@ angular.module('zenFoot.app')
             };
 
             var classementTemplate = '<div>{{getClassement(row.rowIndex)}}</div>';
-            var parieurTemplate = '<div class="ngCellText">{{row.entity.prenom}} {{row.entity.nom}}</div>';
+            var parieurTemplate = '<div class="ngCellText""><a ui-sref="betsState({gamblerId:\'{{row.entity.gamblerId}}\'})">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
 
 
             $scope.totalServerItems = 0;
@@ -152,7 +152,7 @@ angular.module('zenFoot.app')
 
             };
 
-            $scope.changeToGambler=function(ranking){
+            $scope.changeToGambler = function (ranking) {
                 $scope.changePage(ranking)
             }
 

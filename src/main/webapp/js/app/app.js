@@ -8,14 +8,14 @@
         'autofill-directive', 'ngGrid', 'angular-md5'
     ])
 
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+        .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             $stateProvider
                 .state('loginState', {
                     url: '/login?subscriptionSuccess',
                     templateUrl: 'view/login.html'
                 })
                 .state('betsState', {
-                    url: '/bets',
+                    url: '/bets?gamblerId',
                     templateUrl: 'view/bets.html'
                 })
                 .state('adminState', {
@@ -43,14 +43,14 @@
 
             $httpProvider.interceptors.push(function ($q, $location, $injector) {
 
-                var getAuthService = function() {
+                var getAuthService = function () {
                     return $injector.get('authService');
                 };
-                var getState = function() {
+                var getState = function () {
                     return $injector.get('$state');
                 };
 
-                var isLoginState = function() {
+                var isLoginState = function () {
                     return getState().current.name === 'loginState';
                 };
 
@@ -75,7 +75,6 @@
             var betsState = "betsState";
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
-
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }
