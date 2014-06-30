@@ -22,6 +22,10 @@
                     url: '/admin',
                     templateUrl: 'view/admin-tmp.html'
                 })
+                .state('adminFinales', {
+                    url:'/adminfinales',
+                    templateUrl:'view/admin-new-matchs.html'
+                })
                 .state('classState', {
                     url: '/classement',
                     templateUrl: 'view/classement.html'
@@ -69,25 +73,30 @@
 
         .run(function ($rootScope, $state) {
             var adminRoute = 'adminState';
+            var finalesState='adminFinales';
             var loginRoute = 'loginState';
             var subscribeState = "subscribeState";
             var confirmSubscription = "confirmSubscription";
             var betsState = "betsState";
+            var adminRoutes = [adminRoute,finalesState]
+
+            var adminAuthorized = function(routeName){
+                return _.contains(adminRoutes,routeName);
+            }
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }
 
-
                 if ($rootScope.isConnected()) {
                     if (toState.name === loginRoute) {
                         evt.preventDefault()
                         $state.go(betsState)
-                    } else if (toState.name === adminRoute && !$rootScope.isAdmin()) {
+                    } else if (adminAuthorized(toState.name) && !$rootScope.isAdmin()) {
                         evt.preventDefault()
                         $state.go(betsState)
-                    } else if (toState.name !== adminRoute && $rootScope.isAdmin()) {
+                    } else if (!adminAuthorized(toState.name) && $rootScope.isAdmin()) {
                         evt.preventDefault()
                         $state.go(adminRoute)
                     }

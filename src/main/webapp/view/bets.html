@@ -12,9 +12,7 @@
                               data-content="Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
                         </span>
                         <a class="display-link" ng-click="showByDate=!showByDate">{{getDisplayLinkLabel()}}</a>
-
                     </div>
-
                 </div>
                 <div class="col-sm-8">
 
@@ -29,7 +27,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="btn-group finales-blocks">
-                                <label data-ng-repeat="group in groups2" class="btn btn-danger" ng-class="{'disabled': !matchesByGroup[group]}"
+                                <label data-ng-repeat="group in groups2" class="btn btn-danger" ng-class="{'disabled':!matchesByGroup[group]}"
                                        data-ng-model="groupsFilters[group]" btn-checkbox>
                                     {{group}}
                                 </label>
@@ -54,7 +52,7 @@
                 <span ng-show="otherGambler" class="glyphicon glyphicon-remove" ng-click="removeOther()"></span>
 
                 <div data-ng-repeat="group in getGroupingKeys()" data-ng-show="shouldShow(group)">
-                    <h3 ng-hide="showByDate">Groupe {{group}}</h3>
+                    <h3 ng-hide="showByDate">{{displayGroup(group)}}</h3>
 
                     <h3 today-focus ng-show="showByDate&&shouldShowDate(group)">{{group|date:'dd/MM/yyyy'}}</h3>
 
@@ -64,9 +62,10 @@
 
                         <!--That's the row for inputs-->
                         <div class="row match-line" ng-class="{'match-ended': canBet(match)}">
-                            <div class="col-xs-12 col-sm-4 col-md-3 match-date" ng-class="{'former-match':isFormer(match.date)}">
-                                {{match.date | date:'dd/MM/yyyy à HH:mm'}}
-                                <span data-ng-show="showByDate" style="display:inline-block">- groupe {{match.groupe}}</span>
+                            <div class="col-xs-12 col-sm-4 col-md-3 match-date"
+                                 ng-class="{'former-match':isFormer(match.date)}">
+                                {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="showByDate"
+                                                                                 style="display:inline-block">- {{displayGroup(match.groupe)}}</span>
                             </div>
                             <!--That's the column containing informations on inputs, without the date-->
                             <div class="col-xs-12 col-sm-8 col-md-8">

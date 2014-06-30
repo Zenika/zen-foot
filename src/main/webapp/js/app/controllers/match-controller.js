@@ -24,6 +24,17 @@ angular.module('zenFoot.app')
             $scope.matchesByGroup = {};
             $scope.betSavedSuccess = false;
             $scope.betSavedError = false;
+
+            $scope.displayGroup=function(group){
+                var texte;
+                if($scope.isPool(group)){
+                    texte="Groupe "+group
+                }
+                else{
+                    texte=group;
+                }
+                return texte;
+            }
             /**
              * Boolean corresponding to the way matches are displayed. True = displayed by group, false = displayed by date
              * @type {boolean}
@@ -261,6 +272,9 @@ angular.module('zenFoot.app')
 
             $scope.removeOther = function () {
                 delete $scope.otherGambler;
+            }
+            $scope.isPool=function(groupe){
+                return _.contains($scope.groups1,groupe);
             }
 
 

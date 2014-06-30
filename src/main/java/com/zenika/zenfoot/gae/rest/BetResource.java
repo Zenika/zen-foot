@@ -98,6 +98,12 @@ public class BetResource {
         return matchService.getMatchs();
     }
 
+    @GET("/pays")
+    @RolesAllowed(Roles.ADMIN)
+    public List<String> getPays(){
+        return matchService.getPays();
+    }
+
     /*@POST("/matchs")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatchs(List<Match> matchs){
@@ -106,6 +112,11 @@ public class BetResource {
         }
     }*/
 
+    @POST("/matchs")
+    @RolesAllowed(Roles.ADMIN)
+    public void postMatch(Match match){
+        matchService.createUpdate(match);
+    }
 
     @GET("/bets")
     @RolesAllowed({Roles.GAMBLER})
