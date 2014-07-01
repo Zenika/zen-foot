@@ -28,10 +28,8 @@ angular.module('zenFoot.app')
                         ranking[0].classement = 1;
                     }
 
-                    if (ranking.length > 1) {
-                        if (ranking[0].points == ranking[1].points) {
-                            ranking[0].equality = true;
-                        }
+                    if (ranking.length > 1 && (ranking[0].points == ranking[1].points)) {
+                        ranking[0].equality = true;
                     }
 
                     // general algorithm
