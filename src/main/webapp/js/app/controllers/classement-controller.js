@@ -22,17 +22,22 @@ angular.module('zenFoot.app')
                     /*var rankingSorted = _.sortBy(ranking, function (peopleRanking) {
                      return -peopleRanking.points;
                      });*/
-                    var indexClassement = 1;
                     var equality = false;
                     for (var i = 0; i < ranking.length; i++) {
                         var ii = i - 1;
                         if (i > 0 && (ranking[ii].points != ranking[i].points)) {
-                            indexClassement++;
+                            ranking[i].classement = i + 1;
                             equality = false;
                         } else {
-                            equality = true;
+                            //initiating for first in ranking
+                            if(i==0){
+                                ranking[0].classement = 1;
+                            }
+                            else{
+                                ranking[i].classement = ranking[ii].classement;
+                                equality = true;
+                            }
                         }
-                        ranking[i].classement = indexClassement;
                         ranking[i].equality = equality;
                     }
 

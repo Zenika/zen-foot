@@ -99,6 +99,7 @@ public class GamblerService {
 
         Key<Gambler> toRet = gamblerRepository.saveGambler(gambler);
         GamblerRanking gamblerRanking = new GamblerRanking(toRet.getId(),user.getNom(),user.getPrenom());
+        gamblerRanking.setPoints(points);
         rankingDao.createUpdate(gamblerRanking);
 
         return toRet;

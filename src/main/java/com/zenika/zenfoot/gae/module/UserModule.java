@@ -106,20 +106,20 @@ public class UserModule {
 
 
             List<Match> matchs = matchService.getMatchs();
-            gamblerService.createGambler(jean, matchs);
+            gamblerService.createGambler(jean, matchs,13);
             gamblerService.createGambler(mira, matchs, 12);
-            gamblerService.createGambler(bill, matchs, 15);
-            gamblerService.createGambler(andy, matchs, 58);
-            gamblerService.createGambler(sophie, matchs, 47);
-            gamblerService.createGambler(kate, matchs, 18);
+            gamblerService.createGambler(bill, matchs, 12);
+            gamblerService.createGambler(andy, matchs, 12);
+            gamblerService.createGambler(sophie, matchs, 12);
+            gamblerService.createGambler(kate, matchs, 12);
             gamblerService.createGambler(olivier, matchs, 95);
             gamblerService.createGambler(russell, matchs, 35);
             gamblerService.createGambler(harold, matchs, 29);
             gamblerService.createGambler(richard, matchs, 65);
             gamblerService.createGambler(jc, matchs, 28);
             gamblerService.createGambler(leonardo, matchs, 18);
-            gamblerService.createGambler(j, matchs);
-            gamblerService.createGambler(k, matchs);
+            gamblerService.createGambler(j, matchs,13);
+            gamblerService.createGambler(k, matchs,1);
             gamblerService.createGambler(l, matchs);
         }
         return userService;
