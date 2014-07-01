@@ -34,16 +34,18 @@ angular.module('zenFoot.app')
 
                     // general algorithm
                     var equality = false;
+                    var classement;
                     for (var i = 1; i < ranking.length; i++) {
                         var ii = i - 1;
                         if (ranking[ii].points != ranking[i].points) {
-                            ranking[i].classement = i + 1;
+                            classement = i + 1;
                             equality = false;
                         } else {
-                            ranking[i].classement = ranking[ii].classement;
+                            classement = ranking[ii].classement;
                             equality = true;
                         }
                         ranking[i].equality = equality;
+                        ranking[i].classement = classement;
                     }
 
                     $scope.classement = ranking;
