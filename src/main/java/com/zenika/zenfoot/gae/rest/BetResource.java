@@ -83,13 +83,7 @@ public class BetResource {
     @PUT("/matchs/{id}")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
-        boolean isRegistered = matchService.getMatch(Long.parseLong(id)).isScoreUpdated();
-        if (!isRegistered) {
-            match.setScoreUpdated(true);
-            matchService.createUpdate(match);
-            gamblerService.calculateScores(match);
-        }
-        //TODO ELSE ?
+        gamblerService.setScore(match);
     }
 
     @GET("/matchs")

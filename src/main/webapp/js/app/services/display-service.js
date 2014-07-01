@@ -10,7 +10,7 @@ angular.module('zenFoot.app')
                 isWinner: function (match, scoreConcerne, autreScore) {
                     var scoreConcerne = match[scoreConcerne];
                     var autreScore = match[autreScore];
-                    if ((!autreScore) || autreScore.trim() == '') return false;
+                    if ((!autreScore) || (''+autreScore).trim() == '') return false;
                     return (scoreConcerne > autreScore);
                 },
                 dispPoints: function (matchBet) {

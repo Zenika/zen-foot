@@ -113,7 +113,7 @@ public class GamblerService {
         return gamblerRepository.getGambler(gamblerKey);
     }
 
-    public void calculateScores(Match match) {
+    private void calculateScores(Match match,boolean add) {
         List<Gambler> gamblers = gamblerRepository.getAll();
         for (Gambler gambler : gamblers) {
             Bet bet = getBetByMatchId(gambler, match.getId());
@@ -125,11 +125,33 @@ public class GamblerService {
                 }
                 int points = CalculateScores.calculateScores(bet,match);
                 if(points>0){
-                    gamblerRanking.addPoints(points);
+                    if(add){
+                        gamblerRanking.addPoints(points);
+                    }
+                    else{
+                        gamblerRanking.removePoints(points);
+                    }
                 }
                 rankingDao.createUpdate(gamblerRanking);
             }
         }
+    }
+
+    public void setScore(Match match) {
+        Match former = matchService.getMatch(match.getId());
+        //Remove points which were added thanks to that match if the match already had a result
+        if(former.isScoreUpdated()){
+            this.calculateScores(former,false);
+        }
+        //registering the new result
+        // We re-register the former value of the match with the new score values only, to make sure that nothing
+        // else is updated in the match. We also set the updated property to true
+        former.setScoreUpdated(true);
+        former.setScore1(match.getScore1());
+        former.setScore2(match.getScore2());
+        matchService.createUpdate(former);
+        //calculate scores again with the new match result
+        this.calculateScores(match,true);
     }
 
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
@@ -196,6 +218,7 @@ public class GamblerService {
 
         return joining;
     }
+
 
 
 }
