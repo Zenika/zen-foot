@@ -113,7 +113,7 @@ public class UserModule {
             gamblerService.createGambler(sophie, matchs, 12);
             gamblerService.createGambler(kate, matchs, 12);
             gamblerService.createGambler(olivier, matchs, 95);
-            gamblerService.createGambler(russell, matchs, 35);
+            gamblerService.createGambler(russell, matchs, 95);
             gamblerService.createGambler(harold, matchs, 29);
             gamblerService.createGambler(richard, matchs, 65);
             gamblerService.createGambler(jc, matchs, 28);
