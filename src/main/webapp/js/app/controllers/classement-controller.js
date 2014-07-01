@@ -26,6 +26,8 @@ angular.module('zenFoot.app')
                     // initializing for first gambler :
                     if (ranking.length > 0) {
                         ranking[0].classement = 1;
+                        ranking[0].index=1;
+                        ranking.equality=false;
                     }
 
                     if (ranking.length > 1 && (ranking[0].points == ranking[1].points)) {
