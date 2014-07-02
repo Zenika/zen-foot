@@ -75,4 +75,8 @@ public class GamblerRanking {
         this.points += points;
     }
 
+    public void removePoints(int points) {
+        this.points -= points;
+    }
+
 }
