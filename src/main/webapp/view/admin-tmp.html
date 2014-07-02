@@ -47,9 +47,7 @@
                             <div class="col-sm-1"
                                  ng-class="{'has-error':ngscoreForm.score2input.$error.pattern||ngscoreForm.score2input.$invalid}">
                                 <input name="score2input" class="form-control input-sm text-center"
-
                                        data-ng-model="match.score2" ng-pattern=scoreRegexp
-
                                        ng-required="partiallyFilled(match)">
                                 <span class="label label-danger" data-ng-show="ngscoreForm.score2input.$error.pattern">score : entre 0 et 99</span>
                             </div>
@@ -57,12 +55,18 @@
                         <div class="col-sm-2 text-left" data-ng-class="{'zen-bold':isWinner(match,'score2','score1')}">
                             {{match.team2}}
                         </div>
-                        <div class="col-sm-1" data-ng-hide="match.scoreUpdated">
+                        <div class="col-sm-1">
                             <button type="button" class="btn btn-danger"
-                                    data-ng-disabled="ngscoreForm.$invalid||cannotPost(match)||match.scoreUpdated"
+                                    data-ng-disabled="ngscoreForm.$invalid||cannotPost(match)"
                                     data-ng-click="poster(match)">
                                 Valider
                             </button>
+                        </div>
+                        <div class="col-sm-1" ng-show="match.registered">
+                            <span class="label label-success">enregistré !</span>
+                        </div>
+                        <div class="col-sm-1" ng-show="match.error">
+                            <span class="label label-danger">erreur !</span>
                         </div>
 
 
