@@ -7,6 +7,7 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
     $q.when(Gambler.get().$promise, function (gambler) {
         $scope.gambler = gambler;
         //former is used to know whether the user has already modified their name (used to disable or not the validation button)
+        // TODO : improve validation using this variable
         $scope.former = angular.copy(gambler);
     })
 
@@ -17,6 +18,10 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
             var user = response[1];
             $rootScope.user.nom = user.nom;
             $rootScope.user.prenom = user.prenom;
+            $scope.messageName = 'Vos données personnelles ont été modifiées';
+            $timeout(function(){
+                delete $scope.messageName;
+            },5000);
         })
     }
 
@@ -56,18 +61,18 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
             }
         );
 
-
-        $scope.isOK = function () {
-            return 'OK' === $scope.response;
-        }
-
-        $scope.isWrong = function () {
-            return 'WRONG' === $scope.response;
-        }
-
-        $scope.isError = function () {
-            return 'ERROR' == $scope.response;
-        }
-
     }
+
+    $scope.isOK = function () {
+        return 'OK' === $scope.response;
+    }
+
+    $scope.isWrong = function () {
+        return 'WRONG' === $scope.response;
+    }
+
+    $scope.isError = function () {
+        return 'ERROR' == $scope.response;
+    }
+
 }])
