@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import com.google.common.base.Optional;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -133,6 +134,34 @@ public class BetResource {
     public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
         Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
         return gamblerService.getGambler(gamblerKey);
+    }
+
+    @PUT("/gambler")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<Object> updateGambler2(Gambler newGambler){
+        User user = sessionInfo.getUser();
+        Gambler gambler = gamblerService.get(user);
+        GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
+        String prenom = newGambler.getPrenom();
+        String nom = newGambler.getNom();
+
+        user.setPrenom(prenom);
+        user.setName(nom);
+        gambler.setPrenom(prenom);
+        gambler.setNom(nom);
+        gamblerRanking.setNom(nom);
+        gamblerRanking.setPrenom(prenom);
+
+        Key<User> userKey = userService.createUser(user);
+        User userRet = userService.get(userKey);
+        Gambler gamblerRet = gamblerService.updateGambler(gambler);
+        rankingDAO.createUpdate(gamblerRanking);
+
+        List<Object> userGambler = new ArrayList<>();
+        userGambler.add(userRet);
+        userGambler.add(gamblerRet);
+
+        return userGambler;
     }
 
     @GET("/gambler")
@@ -267,5 +296,13 @@ public class BetResource {
     public GamblerRanking ranking() {
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
         return rankingDAO.findByGambler(gambler.getId());
+    }
+
+    @POST("/changePW")
+    @RolesAllowed(Roles.GAMBLER)
+    public void changePW(List<String> pwds){
+        String oldPW = pwds.get(0);
+        String newPW = pwds.get(1);
+        userService.resetPWD(sessionInfo.getUser().getEmail(),oldPW,newPW);
     }
 }

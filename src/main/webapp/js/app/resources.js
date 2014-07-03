@@ -14,3 +14,6 @@ angular.module('zenFoot.app')
             }
         }
     }])
+    .factory('Pwd', ['$resource', function ($resource) {
+        return $resource('/api/changePW');
+    }])

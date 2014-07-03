@@ -1,125 +1,125 @@
-<div class="page-header">
-    <h1>Profil</h1>
+<div class="row" data-ng-controller="ProfilCtrl">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-4">
 
-    <p class="lead"></p>
-</div>
+        <div class="page-header">
+            <h1 style="text-align: center">Profil</h1>
 
-<h3 class="form-title titre-profil" style="text-align: left">Modifiez les informations de votre profil</h3>
+            <p class="lead"></p>
+        </div>
 
+        <h4 class="form-title titre-profil" style="text-align: left">Modifiez les informations de votre profil</h4>
+                <form action="" method="post" name="editProfileForm" role="form" autocomplete="off">
+                    <div class="form-group">
+                        <label for="prenom" class="sr-only">Prénom</label>
 
-<div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prénom"
+                                   ng-model="gambler.prenom" required
+                                   autofocus/>
+                        </div>
+                    </div>
 
-    <div class="col-xs-10 col-md-4">
-        <form action="" method="post" name="editProfileForm" role="form" autocomplete="off">
+                    <div class="form-group">
+                        <label for="name" class="sr-only">Nom</label>
 
-            <div class="form-group">
-                <label for="prenom" class="sr-only">Prénom</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Nom"
+                                   ng-model="gambler.nom"
+                                   required/>
+                        </div>
+                    </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prénom"
-                           ng-model="truc" required
-                           autofocus/>
+                    <div class="form-group">
+                        <div class="controls text-center">
+                            <button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid"
+                                    ng-click="sendNames()">Modifier
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+        <div class="page-header">
+            <p class="lead"></p>
+        </div>
+
+        <h4 class="form-title titre-profil" style="text-align: left">Réinitialisez votre mot de passe</h4>
+
+                <form action="" method="post" name="editPassForm" role="form" autocomplete="off">
+
+                    <div class="form-group"
+                         ng-class="{'has-error': editPassForm.password.$invalid && editPassForm.password.$dirty}">
+                        <label for="password">Ancien mot de passe</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="password" id="password" class="form-control"
+                                   data-ng-model="passwordCouple[0]"
+                                   placeholder="Ancien mot de passe (min. 6 caractères)"
+                                   data-ng-minlength="6" required/>
+                        </div>
+                        <p class="help-block"
+                           data-ng-show="editPassForm.password.$error.required && editPassForm.password.$dirty">
+                            Champ obligatoire
+                        </p>
+
+                        <p class="help-block" data-ng-show="editPassForm.password.$error.minlength">
+                            Le mot de passe doit faire 6 caractères minimum.
+                        </p>
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{'has-error': editPassForm.newPassword.$invalid && editPassForm.newPassword.$dirty}">
+                        <label for="password">Nouveau mot de passe</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="newPassword" id="newPassword" class="form-control"
+                                   data-ng-model="passwordCouple[1]"
+                                   placeholder="Nouveau mot de passe (min. 6 caractères)"
+                                   data-ng-minlength="6" required/>
+                        </div>
+                        <p class="help-block"
+                           data-ng-show="editPassForm.newPassword.$error.required && editPassForm.newPassword.$dirty">
+                            Champ obligatoire
+                        </p>
+
+                        <p class="help-block" data-ng-show="editPassForm.newPassword.$error.minlength">
+                            Le mot de passe doit faire 6 caractères minimum.
+                        </p>
+
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{'has-error': editPassForm.confirmPassword.$invalid && editPassForm.confirmPassword.$dirty}">
+                        <label for="confirmPassword">Confirmation du nouveau mot de passe</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+                                   data-ng-model="confirmPW"
+                                   placeholder="Entrez à nouveau le mot de passe"
+                                   pwd-check="newPassword"
+                                   required="required"/> <br/>
+                        </div>
+                        <p class="help-block"
+                           data-ng-show="editPassForm.confirmPassword.$error.pwdmatch && editPassForm.confirmPassword.$dirty">
+                            Les mots de passe ne sont pas identiques !
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls text-center">
+                            <button type="submit" class="btn btn-primary" data-ng-click="sendPW()"
+                                    data-ng-disabled="editPassForm.$invalid">Modifier
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+                <div style="text-align: center" ng-show="response" class="alert" ng-class="{'alert-success':isOK(),'alert-danger':isWrong()}">
+                    {{message}}
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="name" class="sr-only">Nom</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Nom" ng-model="machin"
-                           required/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="controls text-center">
-                    <button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid"
-                            data-ng-click="">Modifier
-                    </button>
-                </div>
-            </div>
-        </form>
     </div>
-
 </div>
-
-<div class="page-header">
-    <p class="lead"></p>
-</div>
-<h3 class="form-title titre-profil" style="text-align: left">Réinitialisez votre mot de passe</h3>
-
-<div class="row">
-    <div class="col-xs-10 col-md-4">
-        <form action="" method="post" name="editPassForm" role="form" autocomplete="off">
-
-            <div class="form-group"
-                 ng-class="{'has-error': editPassForm.password.$invalid && editPassForm.password.$dirty}">
-                <label for="password">Ancien mot de passe</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input type="password" name="password" id="password" class="form-control"
-                           data-ng-model="subscriber.passwordHash" placeholder="Ancien mot de passe (min. 6 caractères)"
-                           data-ng-minlength="6" required/>
-                </div>
-                <p class="help-block"
-                   data-ng-show="editPassForm.password.$error.required && editPassForm.password.$dirty">
-                    Champ obligatoire
-                </p>
-
-                <p class="help-block" data-ng-show="editPassForm.password.$error.minlength">
-                    Le mot de passe doit faire 6 caractères minimum.
-                </p>
-
-            </div>
-
-            <div class="form-group"
-                 ng-class="{'has-error': editPassForm.password.$invalid && editPassForm.password.$dirty}">
-                <label for="password">Nouveau mot de passe</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input type="password" name="newPassword" id="newPassword" class="form-control"
-                           data-ng-model="subscriber.newPassword" placeholder="Nouveau mot de passe (min. 6 caractères)"
-                           data-ng-minlength="6" required/>
-                </div>
-                <p class="help-block"
-                   data-ng-show="editPassForm.newPassword.$error.required && editPassForm.newPassword.$dirty">
-                    Champ obligatoire
-                </p>
-
-                <p class="help-block" data-ng-show="editPassForm.newPassword.$error.minlength">
-                    Le mot de passe doit faire 6 caractères minimum.
-                </p>
-
-            </div>
-
-            <div class="form-group"
-                 ng-class="{'has-error': editPassForm.confirmPassword.$invalid && editPassForm.confirmPassword.$dirty}">
-                <label for="confirmPassword">Confirmation du nouveau mot de passe</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-                           data-ng-model="subscriber.confirmPasswordHash"
-                           placeholder="Entrez à nouveau le mot de passe"
-                           pwd-check="newPassword"
-                           required="required"/> <br/>
-                </div>
-                <p class="help-block"
-                   data-ng-show="editPassForm.confirmPassword.$error.pwdmatch && editPassForm.confirmPassword.$dirty">
-                    Les mots de passe ne sont pas identiques !
-                </p>
-            </div>
-            <div class="form-group">
-                <div class="controls text-center">
-                    <button type="submit" class="btn btn-primary" data-ng-click="changePwd()" data-ng-disabled="editPassForm.$invalid">Modifier</button>
-                </div>
-            </div>
-
-        </form>
-    </div>
-</div>
-

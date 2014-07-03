@@ -3,7 +3,7 @@
 angular.module('zenFoot.app')
     .factory('Gambler', ['$resource',
         function ($resource) {
-            return $resource('/api/gambler/:id',{id:'@id'},{get:{cache:false,method:'GET'}});
+            return $resource('/api/gambler/:id',{id:'@id'},{get:{cache:false,method:'GET'},update:{method:'PUT',isArray:true}});
         }])
     .factory('GamblerRanking', ['$resource',
         function ($resource) {
