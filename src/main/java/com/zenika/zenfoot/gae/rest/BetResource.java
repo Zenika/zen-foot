@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import com.google.common.base.Optional;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -129,7 +128,7 @@ public class BetResource {
         gamblerService.updateBets(bets, gambler);
     }
 
-    @POST("/gambler")
+    @POST("/gamblers")
     @RolesAllowed(Roles.GAMBLER)
     public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
         Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
@@ -172,7 +171,7 @@ public class BetResource {
         return gamblerService.get(user);
     }
 
-    @GET("/gambler/{id}")
+    @GET("/gamblers/{id}")
     @RolesAllowed({Roles.GAMBLER, Roles.ADMIN})
     public Gambler getGambler(Long id) {
         return gamblerService.get(id);
