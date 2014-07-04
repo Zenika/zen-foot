@@ -13,7 +13,8 @@ angular.module('zenFoot.app')
         function ($resource) {
             return $resource('/api/ranking',{},{get:{cache:false,method:'GET'}});
         }])
-    .factory('GamblerService', ['Gambler','Gamblers', '$resource','$q', function (Gambler,Gamblers, $resource,) {
+    .factory('GamblerService', ['Gambler','Gamblers', '$resource','$q',
+        function (Gambler,Gamblers,$q, $resource) {
         return {
             getAll: function () {
                 return $resource('/api/gamblers',{},{get:{cache:false,method:'GET'}}).query();
@@ -25,13 +26,10 @@ angular.module('zenFoot.app')
                 if(id) {
                     return Gamblers.get({id: id});
                 }
-                else{
-                    return $q.when({id:''});
-                }
             },
             getBet:function(gambler, matchId){
                 for(var i = 0;i<gambler.bets.length;i++){
-                    if(gambler.bets[i].matchId==matchId){
+                    if(gambler.bets[i].matchId == matchId){
                         return gambler.bets[i];
                     }
                 }

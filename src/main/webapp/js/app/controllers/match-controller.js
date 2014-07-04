@@ -68,7 +68,22 @@ angular.module('zenFoot.app')
                 return !match.scoreUpdated && match.date < new Date();
             }
 
-            $q.all([Match.query().$promise, Gambler.get().$promise, GamblerService.getFromId($stateParams.gamblerId).$promise]).then(function (results) {
+            /**
+             * Return a promise of the gambler corresponding to the id. If the id is undefined, a promise of a gambler with
+             * a -1 id is returned
+             * @param id
+             * @returns {*}
+             */
+            var getGambler=function(id){
+                if(id){
+                    return GamblerService.getFromId($stateParams.gamblerId).$promise;
+                }
+                else{
+                    return $q.when({id:-1})
+                }
+            }
+
+            $q.all([Match.query().$promise, Gambler.get().$promise, getGambler($stateParams.gamblerId)]).then(function (results) {
                 var matches = results[0];
                 var gambler = results[1];
                 var otherGambler = results[2];
@@ -108,7 +123,7 @@ angular.module('zenFoot.app')
 
                 $scope.matches = matches;
 
-                if (otherGambler.id != gambler.id) {
+                if (otherGambler.id != gambler.id && otherGambler.id != -1) {
                     $scope.otherGambler = otherGambler;
                     _.each(otherGambler.bets, function (bet) {
                         matchesById[bet.matchId].otherBet = bet;
