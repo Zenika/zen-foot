@@ -38,8 +38,7 @@
                 <li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
-
+                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
                 <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
                     <a data-ng-click="logout()" href="">Se déconnecter</a>
                 </li>
@@ -88,8 +87,9 @@
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-new-match-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
-<script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/ligues-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/index-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
 <script type="text/javascript" src="js/app/services/auth-service.js"></script>
 <script type="text/javascript" src="js/app/services/bet-match-service.js"></script>
 <script type="text/javascript" src="js/app/services/display-service.js"></script>

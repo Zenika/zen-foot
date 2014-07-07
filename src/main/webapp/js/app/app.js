@@ -37,11 +37,15 @@
                 .state('confirmSubscription', {
                     url: '/confirmSubscription/:id',
                     templateUrl: 'view/confirmSubscription.html'
-                });
-            /*  .state('ligueState', {
-             url: '/ligue',
-             templateUrl: 'view/profil.html'
-             });*/
+                })
+                .state('profileState',{
+                    url:'/profil',
+                    templateUrl:'view/profil.html'
+                })
+              /*  .state('ligueState', {
+                    url: '/ligue',
+                    templateUrl: 'view/ligues.html'
+                });*/
 
             $urlRouterProvider.otherwise('/bets');
 

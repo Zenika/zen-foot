@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
 import com.zenika.zenfoot.user.User;
 import org.slf4j.Logger;
@@ -55,5 +56,17 @@ public class MockUserService implements UserService<User> {
 
     public User updateUser(User user) {
         return zenFootUserRepository.updateUser(user);
+    }
+
+    public void resetPWD(String userEmail,String oldPW, String newPW) {
+        Optional<User> userOpt = this.findAndCheckCredentials(userEmail, oldPW);
+        if(!userOpt.isPresent()){
+            throw new JsonWrappedErrorWebException("WRONG_PWD","le mot de passe renseigné n'est pas le bon");
+        }
+        else{
+            User user = userOpt.get();
+            user.setPassword(newPW);
+            this.createUser(user);
+        }
     }
 }

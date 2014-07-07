@@ -668,10 +668,15 @@ Some CSS properties on the size of inputs
     display: inline-block
 }
 
+.titre-profil {
+    margin-bottom: 20px;
+}
 .input-due-date{
     width: 108px;
     display: inline-block;
     position: relative;
     top: -45px;
 }
+
+
 

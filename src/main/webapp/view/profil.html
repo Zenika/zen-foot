@@ -1,101 +1,126 @@
 <div class="row" data-ng-controller="ProfilCtrl">
-    <div class="col-sm-12">
-        <p>
+    <div class="col-xs-12 col-sm-4 col-sm-offset-4">
 
-        <h2>Page de profil</h2>
-        </p>
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                Informations du profil
-            </div>
-            <table class="table">
-                <th>nom</th>
-                <th>prénom</th>
-                <th>email</th>
-                <tr>
-                    <td>{{user.nom}}</td>
-                    <td>{{user.prenom}}</td>
-                    <td>{{user.email}}</td>
-                </tr>
-            </table>
+        <div class="page-header">
+            <h1 style="text-align: center">Profil</h1>
+
+            <p class="lead"></p>
         </div>
 
-        <p>
-
-        <h3>Gestion des ligues</h3>
-        </p>
-        <div class="team-profil">
-            <h4>Teams auxquelles j'appartiens :</h4>
-            <ul>
-                <li data-ng-show="belongTo(statutTeam)" data-ng-repeat="statutTeam in gambler.statutTeams">
-                    {{statutTeam.team.name}}
-                </li>
-            </ul>
-            <h4>Teams en attente de confirmation :</h4>
-            <ul>
-                <li data-ng-repeat="statutTeam in waiting=(gambler.statutTeams | waitTeamFilter:gambler)">
-                    {{statutTeam.team.name}}
-                </li>
-            </ul>
-            <h4>Teams dont je suis propriétaire :</h4>
-            <ul>
-                <li data-ng-repeat="team in getOwnerTeams()">
-                    {{team.name}}
-                </li>
-            </ul>
-
-            <div class="panel panel-danger" data-ng-hide="noApplicant()">
-                <div class="panel-heading">
-                    Ils veulent vous rejoindre
-                </div>
-                <table class="table">
-                    <th>nom</th>
-                    <th>prénom</th>
-                    <th>team</th>
-                    <th>accepter/refuser</th>
-
-                    <tbody data-ng-repeat="joiner in joiners">
-                    <tr data-ng-hide="statutTeam.accepted||!isOwner(statutTeam,gambler)" data-ng-repeat="statutTeam in joiner.statutTeams">
-                        <td>{{joiner.nom}}</td>
-                        <td>{{joiner.prenom}}</td>
-                        <td>{{statutTeam.team.name}}</td>
-                        <td>
-                            <button class="btn btn-success" data-ng-click="makeJoin(joiner,statutTeam)">accepter
-                            </button>
-                            <button class="btn btn-danger" data-ng-click="refuseJoin(joiner,statutTeam)">refuser
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <form class="form-horizontal" action="" method="post" name="subscriptionForm" role="form" novalidate>
-
-            <h4>Rejoindre/créer une ligue :</h4>
-                <form>
-                <ng-form new-team name="teamForm" generate-input data-ng-repeat="team in joinedTeams">
+        <h4 class="form-title titre-profil" style="text-align: left">Modifiez les informations de votre profil</h4>
+                <form action="" method="post" name="editProfileForm" role="form" autocomplete="off">
                     <div class="form-group">
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" data-ng-model="team.name"
-                                   placeholder="Ligue"
-                                   typeahead-loading="loadingTeams"
-                                   typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"/>
-                        </div>
-                        <div class="col-sm-1">
-                            <span class="label label-danger" data-ng-show="team.isNew">nouveau</span>
+                        <label for="prenom" class="sr-only">Prénom</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prénom"
+                                   ng-model="gambler.prenom" required
+                                   autofocus/>
                         </div>
                     </div>
 
-
-                </ng-form>
                     <div class="form-group">
-                        <div class="controls">
-                            <button type="submit" class="btn btn-primary" data-ng-click="valider()" data-ng-disabled="subscriptionForm.$invalid">valider</button>
+                        <label for="name" class="sr-only">Nom</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Nom"
+                                   ng-model="gambler.nom"
+                                   required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="controls text-center">
+                            <button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid"
+                                    ng-click="sendNames()">Modifier
+                            </button>
                         </div>
                     </div>
                 </form>
-            </form>
+                <div style="text-align: center" class="alert alert-success" ng-show="messageName">{{messageName}}</div>
+
+        <div class="page-header">
+            <p class="lead"></p>
         </div>
+
+        <h4 class="form-title titre-profil" style="text-align: left">Réinitialisez votre mot de passe</h4>
+
+                <form action="" method="post" name="editPassForm" role="form" autocomplete="off">
+
+                    <div class="form-group"
+                         ng-class="{'has-error': editPassForm.password.$invalid && editPassForm.password.$dirty}">
+                        <label for="password">Ancien mot de passe</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="password" id="password" class="form-control"
+                                   data-ng-model="passwordCouple[0]"
+                                   placeholder="Ancien mot de passe (min. 6 caractères)"
+                                   data-ng-minlength="6" required/>
+                        </div>
+                        <p class="help-block"
+                           data-ng-show="editPassForm.password.$error.required && editPassForm.password.$dirty">
+                            Champ obligatoire
+                        </p>
+
+                        <p class="help-block" data-ng-show="editPassForm.password.$error.minlength">
+                            Le mot de passe doit faire 6 caractères minimum.
+                        </p>
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{'has-error': editPassForm.newPassword.$invalid && editPassForm.newPassword.$dirty}">
+                        <label for="password">Nouveau mot de passe</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="newPassword" id="newPassword" class="form-control"
+                                   data-ng-model="passwordCouple[1]"
+                                   placeholder="Nouveau mot de passe (min. 6 caractères)"
+                                   data-ng-minlength="6" required/>
+                        </div>
+                        <p class="help-block"
+                           data-ng-show="editPassForm.newPassword.$error.required && editPassForm.newPassword.$dirty">
+                            Champ obligatoire
+                        </p>
+
+                        <p class="help-block" data-ng-show="editPassForm.newPassword.$error.minlength">
+                            Le mot de passe doit faire 6 caractères minimum.
+                        </p>
+
+                    </div>
+
+                    <div class="form-group"
+                         ng-class="{'has-error': editPassForm.confirmPassword.$invalid && editPassForm.confirmPassword.$dirty}">
+                        <label for="confirmPassword">Confirmation du nouveau mot de passe</label>
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+                                   data-ng-model="confirmPW"
+                                   placeholder="Entrez à nouveau le mot de passe"
+                                   pwd-check="newPassword"
+                                   required="required"/> <br/>
+                        </div>
+                        <p class="help-block"
+                           data-ng-show="editPassForm.confirmPassword.$error.pwdmatch && editPassForm.confirmPassword.$dirty">
+                            Les mots de passe ne sont pas identiques !
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls text-center">
+                            <button type="submit" class="btn btn-primary" data-ng-click="sendPW()"
+                                    data-ng-disabled="editPassForm.$invalid">Modifier
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+                <div style="text-align: center" ng-show="response" class="alert" ng-class="{'alert-success':isOK(),'alert-danger':isWrong()}">
+                    {{message}}
+                </div>
 
     </div>
 </div>
