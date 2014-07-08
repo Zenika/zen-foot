@@ -49,4 +49,12 @@ public class Team {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Team)){
+            return false;
+        }
+        return ((Team)obj).getName().equals(this.getName());
+    }
 }

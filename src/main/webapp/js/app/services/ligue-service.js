@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .factory('ProfilService', [
+    .factory('LigueService', [
         function () {
             var isOwner = function (statutTeam, gambler) {
                 return statutTeam.team.ownerEmail == gambler.email

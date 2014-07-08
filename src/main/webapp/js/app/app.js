@@ -42,10 +42,14 @@
                     url:'/profil',
                     templateUrl:'view/profil.html'
                 })
-              /*  .state('ligueState', {
+                .state('ligueState', {
                     url: '/ligue',
                     templateUrl: 'view/ligues.html'
-                });*/
+                })
+                .state('ligueDetails',{
+                    url : '/ligueDetails?name',
+                    templateUrl : 'view/ligue-details.html'
+                })
 
             $urlRouterProvider.otherwise('/bets');
 

@@ -3,12 +3,14 @@ package com.zenika.zenfoot.gae.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import com.zenika.zenfoot.gae.model.*;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -27,11 +29,6 @@ import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Team;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.MockUserService;
@@ -81,16 +78,6 @@ public class BetResource {
     }
 
 
-    /*@POST("/matchs")
-    @RolesAllowed(Roles.ADMIN)
-    public void updateMatchs(List<Match> matchs){
-        for(Match match:matchs){
-            matchService.createUpdate(match);
-        }
-    }*/
-
-
-
     @GET("/bets")
     @RolesAllowed({Roles.GAMBLER})
     public List<Bet> getBets() {
@@ -106,6 +93,4 @@ public class BetResource {
         Gambler gambler = gamblerService.get(user);
         gamblerService.updateBets(bets, gambler);
     }
-
-
 }

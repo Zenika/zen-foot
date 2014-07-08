@@ -52,29 +52,39 @@ public class GamblerResource {
 
     @PUT("/gambler")
     @RolesAllowed(Roles.GAMBLER)
-    public List<Object> updateGambler2(Gambler newGambler){
+    public List<Object> updateGambler2(Gambler newGambler) {
+
         User user = sessionInfo.getUser();
         Gambler gambler = gamblerService.get(user);
-        GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
-        String prenom = newGambler.getPrenom();
-        String nom = newGambler.getNom();
-
-        user.setPrenom(prenom);
-        user.setName(nom);
-        gambler.setPrenom(prenom);
-        gambler.setNom(nom);
-        gamblerRanking.setNom(nom);
-        gamblerRanking.setPrenom(prenom);
-
-        Key<User> userKey = userService.createUser(user);
-        User userRet = userService.get(userKey);
-        Gambler gamblerRet = gamblerService.updateGambler(gambler);
-        rankingDAO.createUpdate(gamblerRanking);
-
         List<Object> userGambler = new ArrayList<>();
-        userGambler.add(userRet);
-        userGambler.add(gamblerRet);
 
+        //Updating the gambler when the name changed
+        if (!newGambler.getNom().equals(gambler.getNom()) || !newGambler.getPrenom().equals(gambler.getPrenom())) {
+            GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
+            String prenom = newGambler.getPrenom();
+            String nom = newGambler.getNom();
+
+            user.setPrenom(prenom);
+            user.setName(nom);
+            gambler.setPrenom(prenom);
+            gambler.setNom(nom);
+            gamblerRanking.setNom(nom);
+            gamblerRanking.setPrenom(prenom);
+            Key<User> userKey = userService.createUser(user);
+            User userRet = userService.get(userKey);
+            Gambler gamblerRet = gamblerService.updateGambler(gambler);
+            rankingDAO.createUpdate(gamblerRanking);
+
+            userGambler.add(userRet);
+            userGambler.add(gamblerRet);
+        }
+        // Simply updating with new value
+        else{
+            gambler.setStatutTeams(newGambler.getStatutTeams());
+            Gambler gamblerRetrieved = gamblerService.updateGambler(gambler);
+            userGambler.add(user);
+            userGambler.add(gamblerRetrieved);
+        }
         return userGambler;
     }
 

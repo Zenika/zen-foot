@@ -174,10 +174,15 @@ public class GamblerService {
                 toRegister = teamDAO.get(teamKey);
                 owner = true;
             }
-            toReg.add(new StatutTeam().setTeam(toRegister).setAccepted(owner));
+
+            //Checking that the gambler has not already joined the team
+            if(!gambler.hasTeam(team)){
+                StatutTeam statutTeam = new StatutTeam().setTeam(toRegister).setAccepted(owner);
+                toReg.add(statutTeam);
+            }
 
         }
-//        gambler.addTeams(toReg);
+        gambler.addTeams(toReg);
         return gamblerRepository.saveGambler(gambler);
 
     }
@@ -192,14 +197,14 @@ public class GamblerService {
      * @param gambler
      * @return
      */
-    private Set<Team> isOwnerOf(Gambler gambler) {
+    private Set<Team> ownedBy(Gambler gambler) {
         Set<Team> set = new HashSet<>();
-//        for(StatutTeam statutTeam:gambler.getStatutTeams()){
-//            Team team = statutTeam.getTeam();
-//            if(team.getOwnerEmail().equals(gambler.getEmail())){
-//                set.add(team);
-//            }
-//        }
+        for(StatutTeam statutTeam:gambler.getStatutTeams()){
+            Team team = statutTeam.getTeam();
+            if(team.getOwnerEmail().equals(gambler.getEmail())){
+                set.add(team);
+            }
+        }
         return set;
     }
 
@@ -210,7 +215,7 @@ public class GamblerService {
      * @return
      */
     public Set<Gambler> wantToJoin(Gambler gambler) {
-        Set<Team> ownedTeams = isOwnerOf(gambler);
+        Set<Team> ownedTeams = ownedBy(gambler);
         Set<Gambler> joining = new HashSet<>();
 
         for (Team team : ownedTeams) {
