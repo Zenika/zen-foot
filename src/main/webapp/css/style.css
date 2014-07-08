@@ -466,6 +466,22 @@ Some CSS properties on the size of inputs
     margin-top: 15px;
 }
 
+.ligue-col > h3 {
+    text-align: center;
+}
+
+.mes-ligues{
+    margin-bottom: 50px;
+}
+
+.mes-ligues > h4{
+    margin-bottom: 20px;
+}
+
+.rejoindre-ligue > h4{
+    margin-bottom: 20px;
+}
+
 .zen-logo {
     max-width: 100px;
     margin-top: -7px;

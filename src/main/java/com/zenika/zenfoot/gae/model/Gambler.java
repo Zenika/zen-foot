@@ -132,4 +132,12 @@ public class Gambler {
         return ((Gambler) obj).getEmail().equals(this.getEmail());
     }
 
+    public boolean hasTeam(Team team) {
+        for(StatutTeam statutTeam : this.getStatutTeams()){
+            if(statutTeam.getTeam().equals(team)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

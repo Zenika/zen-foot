@@ -173,3 +173,22 @@ zenFootDirectives.directive('dateValid',[function(){
         }
     }
 }])
+
+
+/**
+ * Checks that the gambler is not trying to join a team he has already applied to/ already belongs to
+ */
+zenFootDirectives.directive('ligueCheck',[function(){
+    return {
+        require:'ngModel',
+        link:function(scope,element,attrs,ctrl){
+            scope.$watch('team.name',function(oldValue,newValue){
+                ctrl.$setValidity('ligueChk',true);
+                if(scope.team.name != '' && scope.statutTeamByName[scope.team.name]){
+                    ctrl.$setValidity('ligueChk',false);
+                }
+            });
+
+        }
+    }
+}])

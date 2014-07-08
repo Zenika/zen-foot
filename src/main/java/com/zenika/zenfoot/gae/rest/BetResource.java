@@ -3,12 +3,14 @@ package com.zenika.zenfoot.gae.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import com.zenika.zenfoot.gae.model.*;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -27,11 +29,6 @@ import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Team;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.MockUserService;
@@ -94,7 +91,7 @@ public class BetResource {
 
     @GET("/pays")
     @RolesAllowed(Roles.ADMIN)
-    public List<String> getPays(){
+    public List<String> getPays() {
         return matchService.getPays();
     }
 
@@ -108,7 +105,7 @@ public class BetResource {
 
     @POST("/matchs")
     @RolesAllowed(Roles.ADMIN)
-    public void postMatch(Match match){
+    public void postMatch(Match match) {
         matchService.createUpdate(match);
     }
 
@@ -128,7 +125,7 @@ public class BetResource {
         gamblerService.updateBets(bets, gambler);
     }
 
-    @POST("/gamblers")
+    @POST("/gamblerAndTeam")
     @RolesAllowed(Roles.GAMBLER)
     public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
         Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
@@ -137,29 +134,39 @@ public class BetResource {
 
     @PUT("/gambler")
     @RolesAllowed(Roles.GAMBLER)
-    public List<Object> updateGambler2(Gambler newGambler){
+    public List<Object> updateGambler2(Gambler newGambler) {
+
         User user = sessionInfo.getUser();
         Gambler gambler = gamblerService.get(user);
-        GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
-        String prenom = newGambler.getPrenom();
-        String nom = newGambler.getNom();
-
-        user.setPrenom(prenom);
-        user.setName(nom);
-        gambler.setPrenom(prenom);
-        gambler.setNom(nom);
-        gamblerRanking.setNom(nom);
-        gamblerRanking.setPrenom(prenom);
-
-        Key<User> userKey = userService.createUser(user);
-        User userRet = userService.get(userKey);
-        Gambler gamblerRet = gamblerService.updateGambler(gambler);
-        rankingDAO.createUpdate(gamblerRanking);
-
         List<Object> userGambler = new ArrayList<>();
-        userGambler.add(userRet);
-        userGambler.add(gamblerRet);
 
+        //Updating the gambler when the name changed
+        if (!newGambler.getNom().equals(gambler.getNom()) || !newGambler.getPrenom().equals(gambler.getPrenom())) {
+            GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
+            String prenom = newGambler.getPrenom();
+            String nom = newGambler.getNom();
+
+            user.setPrenom(prenom);
+            user.setName(nom);
+            gambler.setPrenom(prenom);
+            gambler.setNom(nom);
+            gamblerRanking.setNom(nom);
+            gamblerRanking.setPrenom(prenom);
+            Key<User> userKey = userService.createUser(user);
+            User userRet = userService.get(userKey);
+            Gambler gamblerRet = gamblerService.updateGambler(gambler);
+            rankingDAO.createUpdate(gamblerRanking);
+
+            userGambler.add(userRet);
+            userGambler.add(gamblerRet);
+        }
+        // Simply updating with new value
+        else{
+            gambler.setStatutTeams(newGambler.getStatutTeams());
+            Gambler gamblerRetrieved = gamblerService.updateGambler(gambler);
+            userGambler.add(user);
+            userGambler.add(gamblerRetrieved);
+        }
         return userGambler;
     }
 
@@ -186,18 +193,18 @@ public class BetResource {
     @GET("/gamblersTeam/{team}")
     @RolesAllowed(Roles.GAMBLER)
     public Set<Gambler> getGamblersTeam(String team) {
-        throw new UnsupportedOperationException();
-//        Set<Gambler> toRet = new HashSet<>();
-//        List<Gambler> gamblers = gamblerService.getAll();
-//        for(Gambler gambler:gamblers){
-//            for(StatutTeam statutTeam:gambler.getStatutTeams()){
-//                if(statutTeam.getTeam().getName().equals(team)&&statutTeam.isAccepted()){
-//                    toRet.add(gambler);
-//                    break;
-//                }
-//            }
-//        }
-//        return toRet;
+//        throw new UnsupportedOperationException();
+        Set<Gambler> toRet = new HashSet<>();
+        List<Gambler> gamblers = gamblerService.getAll();
+        for (Gambler gambler : gamblers) {
+            for (StatutTeam statutTeam : gambler.getStatutTeams()) {
+                if (statutTeam.getTeam().getName().equals(team) && statutTeam.isAccepted()) {
+                    toRet.add(gambler);
+                    break;
+                }
+            }
+        }
+        return toRet;
     }
 
     @POST("/joiner")
@@ -299,9 +306,9 @@ public class BetResource {
 
     @POST("/changePW")
     @RolesAllowed(Roles.GAMBLER)
-    public void changePW(List<String> pwds){
+    public void changePW(List<String> pwds) {
         String oldPW = pwds.get(0);
         String newPW = pwds.get(1);
-        userService.resetPWD(sessionInfo.getUser().getEmail(),oldPW,newPW);
+        userService.resetPWD(sessionInfo.getUser().getEmail(), oldPW, newPW);
     }
 }
