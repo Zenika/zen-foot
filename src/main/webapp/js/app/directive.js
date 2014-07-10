@@ -82,6 +82,7 @@ zenFootDirectives.directive('generateInput', function () {
 zenFootDirectives.directive('newTeam', function () {
 
     var isNew = function (team, regTeams) {
+        if(!team.name)return;
         var result = _.find(regTeams, function (regTeam) {
             return regTeam.name == team.name;
         });

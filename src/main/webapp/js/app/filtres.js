@@ -118,7 +118,7 @@ zenContactFilters.filter('waitTeamFilter',['ProfilService',function(ProfilServic
         var toRet = [];
         for(x in statutTeams){
             var statutTeam = statutTeams[x];
-            if(!ProfilService.isOwner(statutTeam,gambler)&&!statutTeam.accepted){
+            if(!ProfilService.isOwner(statutTeam.team,gambler)&&!statutTeam.accepted){
                 toRet.push(statutTeam);
             }
         }

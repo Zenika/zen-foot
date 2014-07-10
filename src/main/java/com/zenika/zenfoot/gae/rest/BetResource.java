@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.model.*;
 import restx.RestxRequest;
 import restx.RestxResponse;
@@ -132,6 +133,33 @@ public class BetResource {
         return gamblerService.getGambler(gamblerKey);
     }
 
+    @PUT("/gamblersAndTeam")
+    @RolesAllowed(Roles.GAMBLER)
+    public void updateGambler2(GamblerStatutTeam gamblerStatutTeam){
+        // The gambler who made the request :
+        Gambler requestGambler = gamblerService.get(sessionInfo.getUser());
+        //The gambler whose teams will be updated :
+        Gambler receivedGambler = gamblerStatutTeam.getGambler();
+        // The team to be updated :
+        StatutTeam statutTeam = gamblerStatutTeam.getStatutTeam();
+
+        Optional<Team> teamOpt = teamDAO.get(statutTeam.getTeam().getName());
+        if(!teamOpt.isPresent() || !teamOpt.get().getOwnerEmail().equals(requestGambler.getEmail())){
+            throw new WebException(HttpStatus.BAD_REQUEST);
+        }
+
+        Gambler gambler = gamblerService.get(receivedGambler.getId());
+        if (gambler == null) throw new WebException(HttpStatus.BAD_REQUEST);
+
+        boolean hasTeam = gambler.removeTeam(statutTeam.getTeam());
+        if(!hasTeam) throw  new WebException(HttpStatus.BAD_REQUEST);
+
+        if(statutTeam.isAccepted()){
+            gambler.addTeam(statutTeam);
+        }
+        gamblerService.updateGambler(gambler);
+    }
+
     @PUT("/gambler")
     @RolesAllowed(Roles.GAMBLER)
     public List<Object> updateGambler2(Gambler newGambler) {
@@ -161,7 +189,7 @@ public class BetResource {
             userGambler.add(gamblerRet);
         }
         // Simply updating with new value
-        else{
+        else {
             gambler.setStatutTeams(newGambler.getStatutTeams());
             Gambler gamblerRetrieved = gamblerService.updateGambler(gambler);
             userGambler.add(user);
@@ -212,6 +240,53 @@ public class BetResource {
     public Gambler postJoiner(Gambler gambler) {
         return gamblerService.updateGambler(gambler);
     }
+
+    @POST("/invite")
+    @RolesAllowed(Roles.GAMBLER)
+    public void invite(GamblerStatutTeam gamblerStatutTeam){
+        //The gambler who called that request
+        Gambler requestCaller = gamblerService.get(sessionInfo.getUser());
+        //The gambler that's to be invited
+        Gambler sentGambler = gamblerStatutTeam.getGambler();
+        //The statutTeam to add to sentGambler :
+        StatutTeam statutTeam = gamblerStatutTeam.getStatutTeam();
+
+        //The owner of the team is the only one allowed to invite people
+        if(!requestCaller.getEmail().equals(statutTeam.getTeam().getOwnerEmail())){
+            throw new WebException(HttpStatus.BAD_REQUEST);
+        }
+
+        Gambler regGambler = gamblerService.get(sentGambler.getId());
+        if(regGambler.hasTeam(statutTeam.getTeam())) return;
+
+        statutTeam.setInvitation(true);
+        regGambler.addTeam(statutTeam);
+        gamblerService.updateGambler(regGambler);
+    }
+
+    @PUT("/joinLigue")
+    @RolesAllowed(Roles.GAMBLER)
+    public void joinLigue(GamblerStatutTeam gamblerStatutTeam){
+        //The gambler who called that request
+        Gambler requestCaller = gamblerService.get(sessionInfo.getUser());
+        //The gambler that's to be invited
+        Gambler sentGambler = gamblerStatutTeam.getGambler();
+
+        if(!requestCaller.getEmail().equals(sentGambler.getEmail())){
+            throw new WebException(HttpStatus.BAD_REQUEST);
+        }
+
+        StatutTeam statutTeam = requestCaller.getTeam(gamblerStatutTeam.getStatutTeam().getTeam().getId());
+
+        if(statutTeam == null || ! statutTeam.isInvitation()){
+            throw new WebException(HttpStatus.BAD_REQUEST);
+        }
+
+        statutTeam.setAccepted(true);
+
+        gamblerService.updateGambler(requestCaller);
+    }
+
 
     @POST("/performSubscription")
     @PermitAll
@@ -285,10 +360,28 @@ public class BetResource {
         return gamblerService.wantToJoin(gambler);
     }
 
+    @GET("/wannajoinTeam/{id}")
+    @RolesAllowed(Roles.GAMBLER)
+    public Set<Gambler> wannaJoin(Long id){
+        return gamblerService.wantToJoin(id);
+    }
+
+
     @GET("/teams")
     @PermitAll
     public List<Team> getTeams() {
         return teamDAO.getAll();
+    }
+
+    @GET("/teams/{id}")
+    @PermitAll
+    public Team getTeam(Long id) {
+        Team team = teamDAO.get(id);
+        if (team == null) {
+            throw new WebException(HttpStatus.NOT_FOUND);
+        } else {
+            return team;
+        }
     }
 
     @GET("/rankings")

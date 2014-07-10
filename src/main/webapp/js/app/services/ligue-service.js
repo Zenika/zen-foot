@@ -3,14 +3,14 @@
 angular.module('zenFoot.app')
     .factory('LigueService', [
         function () {
-            var isOwner = function (statutTeam, gambler) {
-                return statutTeam.team.ownerEmail == gambler.email
+            var isOwner = function (team, gambler) {
+                return team.ownerEmail == gambler.email;
             };
 
             var getOwnerTeams = function (statutTeams, gambler) {
                 var toRet = [];
                 for (var x in statutTeams) {
-                    if (isOwner(statutTeams[x], gambler)) {
+                    if (isOwner(statutTeams[x].team, gambler)) {
                         toRet.push(statutTeams[x].team);
                     }
                 }
@@ -30,7 +30,7 @@ angular.module('zenFoot.app')
                     var applicant = gamblers[x];
                     for (var y in applicant.statutTeams) {
                         var statutTeam = applicant.statutTeams[y];
-                        if (isOwner(statutTeam, gambler)) {
+                        if (isOwner(statutTeam.team, gambler)) {
                             coupleArray.push({gambler: applicant, statutTeam: statutTeam})
                         }
                     }

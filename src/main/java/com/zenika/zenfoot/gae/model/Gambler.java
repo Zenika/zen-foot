@@ -140,4 +140,26 @@ public class Gambler {
         }
         return false;
     }
+
+    public boolean removeTeam(Team team){
+        for(StatutTeam statutTeam : this.getStatutTeams()){
+            if(statutTeam.getTeam().equals(team)){
+                return this.getStatutTeams().remove(statutTeam);
+            }
+        }
+        return false;
+    }
+
+    public StatutTeam getTeam(Long id) {
+        for (StatutTeam statutTeam : this.getStatutTeams()) {
+            if (statutTeam.getTeam().getId().equals(id)) {
+                return statutTeam;
+            }
+        }
+        return null;
+    }
+
+    public void addTeam(StatutTeam statutTeam) {
+        this.statutTeams.add(statutTeam);
+    }
 }

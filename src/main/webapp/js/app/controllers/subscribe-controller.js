@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$state', '$modal', 'Team',
-        function ($scope, $resource, $http, $rootScope, $state, $modal, Team) {
+    .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$state', '$modal', 'TeamService',
+        function ($scope, $resource, $http, $rootScope, $state, $modal, TeamService) {
             $scope.subscriber = {teams: [
                 {name: "", isNew: false}
             ]};
             $rootScope.subscriber = {};
-            $scope.existingTeams = Team.getAll();
+            $scope.existingTeams = TeamService.getAll();
 
             var checkTeams = function () {
-                for (var i=0;i<$scope.subscriber.teams.length;i++) {
+                for (var i = $scope.subscriber.teams.length - 1; i > -1; i--) {
                     if ($scope.subscriber.teams[i].name.trim() == "") {
-                        $scope.subscriber.teams.splice(i)
+                        $scope.subscriber.teams.splice(i);
                     }
                 }
             };
@@ -59,7 +59,7 @@ angular.module('zenFoot.app')
                 if ($scope.subscriptionForm.$invalid) {
                     return;
                 }
-                if (Team.hasNewGroup($scope.subscriber.teams)) {
+                if (TeamService.hasNewGroup($scope.subscriber.teams)) {
                     subscribeGroups()
                 }
                 else {

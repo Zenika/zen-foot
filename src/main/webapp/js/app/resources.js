@@ -17,3 +17,9 @@ angular.module('zenFoot.app')
     .factory('Pwd', ['$resource', function ($resource) {
         return $resource('/api/changePW');
     }])
+    .factory('Team',['$resource',function($resource){
+        return $resource('api/teams/:id',{id:'@id'});
+    }])
+    .factory('GamblerStatutTeam',function($resource){
+        return $resource('api/gamblersAndTeam',{},{update:{method:'PUT',isArray:false}});
+    })

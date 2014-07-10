@@ -13,6 +13,8 @@ import java.util.logging.Logger;
  */
 public class TeamDAO {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
+
     public Key<Team> createUpdate(Team team) {
         return OfyService.ofy().save().entity(team).now();
     }
@@ -25,7 +27,6 @@ public class TeamDAO {
         return OfyService.ofy().load().key(key).now();
     }
 
-
     public List<Team> getAll() {
         return OfyService.ofy().load().type(Team.class).list();
     }
@@ -37,7 +38,6 @@ public class TeamDAO {
      */
     public Optional<Team> get(String name) {
         List<Team> team = OfyService.ofy().load().type(Team.class).filter("name", name).limit(1).list();
-        Logger logger = Logger.getLogger(TeamDAO.class.getName());
 
         Team toRet = null;
         if (team.size() > 1) {

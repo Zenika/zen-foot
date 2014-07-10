@@ -10,19 +10,23 @@
 
                 <div data-ng-repeat="statutTeam in gambler.statutTeams | orderBy:'team.name'" class="row">
                     <div class="col-xs-3">
-                        <a ui-sref="ligueDetails({name:statutTeam.team.name})">
+                        <a ui-sref="ligueDetails({id:statutTeam.team.id})">
                             - {{statutTeam.team.name}}
                         </a>
                     </div>
-                    <div class="col-xs-1">
-                        <span class="glyphicon glyphicon-remove" ng-show="!statutTeam.isOwner" ng-click="quitLigue(statutTeam)"></span>
+                    <div class="col-xs-2">
+                        <div class="yesno-applicant">
+                            <span class="glyphicon glyphicon-ok" ng-show="!statutTeam.isOwner && statutTeam.invitation" ng-click="accept(statutTeam)"></span>
+                            <span class="glyphicon glyphicon-remove" ng-show="!statutTeam.isOwner" ng-click="quitLigue(statutTeam)"></span>
+                        </div>
                     </div>
                     <div class="col-xs-6">
                         <span ng-show="statutTeam.isOwner" class="label label-info">propriétaire</span>
                         <span ng-show="statutTeam.isOwner"> &nbsp; &nbsp; &nbsp;{{textDemandes(statutTeam)}}</span>
                         <span ng-show="!statutTeam.isOwner && statutTeam.accepted"
                         class="label label-success">membre</span>
-                        <span ng-show="!statutTeam.isOwner && !statutTeam.accepted" class="label label-warning">en attente</span>
+                        <span ng-show="!statutTeam.isOwner && !statutTeam.accepted && !statutTeam.invitation" class="label label-warning">en attente</span>
+                        <span ng-show="!statutTeam.isOwner && !statutTeam.accepted && statutTeam.invitation" class="label label-danger">invitation</span>
                     </div>
                 </div>
                 <div ng-show="gambler.statutTeams.length==0">
@@ -38,7 +42,9 @@
                     <ng-form new-team name="teamForm" generate-input data-ng-repeat="team in joinedTeams">
                         <div class="form-group">
                             <div class="col-sm-11">
-                                <input name="ligueInput"
+                                <input
+                                       ng-pattern="ligue_regexp"
+                                       name="ligueInput"
                                        ligue-check type="text" class="form-control" data-ng-model="team.name"
                                        placeholder="Ligue"
                                        typeahead-loading="loadingTeams"
@@ -53,7 +59,7 @@
 
                     </ng-form>
                     <div class="form-group">
-                        <div class="controls">
+                        <div class="controls" style="text-align: center">
                             <button type="submit" class="btn btn-primary" data-ng-click="valider()"
                                     data-ng-disabled="subscriptionForm.$invalid||subscriptionForm.ligueInput.ligueChk">valider
                             </button>
