@@ -9,6 +9,8 @@ public class StatutTeam {
 
     protected boolean accepted = false;
 
+    protected boolean invitation = false;
+
     @Index
     protected Team team;
 
@@ -22,6 +24,14 @@ public class StatutTeam {
     public StatutTeam setAccepted(boolean accepted) {
         this.accepted = accepted;
         return this;
+    }
+
+    public boolean isInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(boolean invitation) {
+        this.invitation = invitation;
     }
 
     public Team getTeam() {

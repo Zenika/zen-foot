@@ -1,6 +1,5 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.google.common.collect.Sets;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.model.Gambler;

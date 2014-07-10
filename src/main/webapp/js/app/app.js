@@ -47,7 +47,7 @@
                     templateUrl: 'view/ligues.html'
                 })
                 .state('ligueDetails',{
-                    url : '/ligueDetails?name',
+                    url : '/ligueDetails?id',
                     templateUrl : 'view/ligue-details.html'
                 })
 
@@ -125,6 +125,10 @@
                     navbar_toggle.trigger('click');
                 }
             })
+
+            $rootScope.size = function(obj){
+                return _.size(obj);
+            }
         })
 
 }());

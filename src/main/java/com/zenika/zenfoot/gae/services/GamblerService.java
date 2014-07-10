@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
@@ -223,6 +224,12 @@ public class GamblerService {
         }
 
         return joining;
+    }
+
+    public Set<Gambler> wantToJoin(Long id){
+        Team team = teamDAO.get(id);
+        HashSet<Gambler> gamblers = Sets.newHashSet(gamblerRepository.wantToJoin(team.getName()));
+        return gamblers;
     }
 
 
