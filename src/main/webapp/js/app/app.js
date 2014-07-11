@@ -126,6 +126,7 @@
                 }
             })
 
+
             $rootScope.size = function(obj){
                 return _.size(obj);
             }

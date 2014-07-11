@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-xs-2">
                         <div class="yesno-applicant">
-                            <span class="glyphicon glyphicon-ok" ng-show="!statutTeam.isOwner && statutTeam.invitation" ng-click="accept(statutTeam)"></span>
+                            <span class="glyphicon glyphicon-ok" ng-show="!statutTeam.isOwner && statutTeam.invitation && !statutTeam.accepted" ng-click="accept(statutTeam)"></span>
                             <span class="glyphicon glyphicon-remove" ng-show="!statutTeam.isOwner" ng-click="quitLigue(statutTeam)"></span>
                         </div>
                     </div>
@@ -49,7 +49,6 @@
                                        placeholder="Ligue"
                                        typeahead-loading="loadingTeams"
                                        typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"/>
-
                             </div>
                             <div class="col-sm-1">
                                 <span class="label label-danger" data-ng-show="team.isNew">nouveau</span>

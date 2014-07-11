@@ -150,7 +150,7 @@ public class Gambler {
         return false;
     }
 
-    public StatutTeam getTeam(Long id) {
+    public StatutTeam getStatutTeam(Long id) {
         for (StatutTeam statutTeam : this.getStatutTeams()) {
             if (statutTeam.getTeam().getId().equals(id)) {
                 return statutTeam;
@@ -159,7 +159,12 @@ public class Gambler {
         return null;
     }
 
+
     public void addTeam(StatutTeam statutTeam) {
         this.statutTeams.add(statutTeam);
+    }
+
+    public boolean isOwner(StatutTeam statutTeam) {
+        return this.getEmail().equals(statutTeam.getTeam().getOwnerEmail());
     }
 }

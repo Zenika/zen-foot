@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('ClassementCtrl', ['$scope', 'RankingService', '$q', 'Gambler', 'TeamService', '$timeout',
-        function ($scope, RankingService, $q, Gambler, TeamService, $timeout) {
+    .controller('ClassementCtrl', ['$scope', 'RankingService', '$q', 'Gambler', 'TeamService', '$timeout', 'Team',
+        function ($scope, RankingService, $q, Gambler, TeamService, $timeout, Team) {
 
             $scope.modes = {gambler: 'ligue', ligue: 'gambler'};
 
@@ -43,9 +43,7 @@ angular.module('zenFoot.app')
                 return RankingService.getAll().$promise;
             }
             $scope.serverRanking['ligue'] = function () {
-                return [
-                    {id: 6632254138744832, nom: 'zenika', points: '20'}
-                ]
+                return Team.query().$promise;
             }
 
             /**
@@ -59,6 +57,7 @@ angular.module('zenFoot.app')
                             ranking[0].classement = 1;
                             ranking[0].index = 1;
                             ranking.equality = false;
+                            ranking[0].points = +ranking[0].points.toFixed(2);
                         }
 
                         if (ranking.length > 1 && (ranking[0].points == ranking[1].points)) {
@@ -69,6 +68,7 @@ angular.module('zenFoot.app')
                         var equality = false;
                         var classement;
                         for (var i = 1; i < ranking.length; i++) {
+                            ranking[i].points = +ranking[i].points.toFixed(2);
                             var ii = i - 1;
                             if (ranking[ii].points != ranking[i].points) {
                                 classement = i + 1;
@@ -111,7 +111,7 @@ angular.module('zenFoot.app')
 
             var parieurTemplate = {};
             parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.gamblerId}}">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
-            parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.nom}}</a></div>';
+            parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.name}}</a></div>';
 
 
             $scope.totalServerItems = 0;

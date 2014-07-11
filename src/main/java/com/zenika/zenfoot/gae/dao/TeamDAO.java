@@ -28,7 +28,7 @@ public class TeamDAO {
     }
 
     public List<Team> getAll() {
-        return OfyService.ofy().load().type(Team.class).list();
+        return OfyService.ofy().load().type(Team.class).order("-points").list();
     }
 
     /**

@@ -33,6 +33,6 @@ angular.module('zenFoot.app')
                         return gambler.bets[i];
                     }
                 }
-            }
+            },
         }
     }]);

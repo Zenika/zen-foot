@@ -6,12 +6,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
 import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.model.*;
+import com.zenika.zenfoot.gae.services.*;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -30,10 +32,6 @@ import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.MockUserService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.user.User;
 
 
@@ -42,20 +40,22 @@ import com.zenika.zenfoot.user.User;
 public class BetResource {
 
     private Logger logger = Logger.getLogger(getClass().getName());
-
     private MatchService matchService;
+
     private SessionInfo sessionInfo;
     private GamblerService gamblerService;
     private MockUserService userService;
     private TeamDAO teamDAO;
     private RankingDAO rankingDAO;
+    private LigueService ligueService;
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
                        @Named("userService") UserService userService,
                        GamblerService gamblerService,
                        TeamDAO teamDAO,
-                       RankingDAO rankingDAO) {
+                       RankingDAO rankingDAO,
+                       LigueService ligueService) {
 
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
@@ -63,6 +63,7 @@ public class BetResource {
         this.gamblerService = gamblerService;
         this.teamDAO = teamDAO;
         this.rankingDAO = rankingDAO;
+        this.ligueService = ligueService;
     }
 
 
@@ -82,6 +83,7 @@ public class BetResource {
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
         gamblerService.setScore(match);
+        ligueService.recalculateScores();
     }
 
     @GET("/matchs")
@@ -133,9 +135,15 @@ public class BetResource {
         return gamblerService.getGambler(gamblerKey);
     }
 
+    /**
+     * This is called when a gambler applied to your team. The owner of the team sends a GamblerStatutTeam object with the
+     * accepted boolean set to true or false
+     * @param gamblerStatutTeam
+     */
     @PUT("/gamblersAndTeam")
     @RolesAllowed(Roles.GAMBLER)
     public void updateGambler2(GamblerStatutTeam gamblerStatutTeam){
+
         // The gambler who made the request :
         Gambler requestGambler = gamblerService.get(sessionInfo.getUser());
         //The gambler whose teams will be updated :
@@ -151,14 +159,48 @@ public class BetResource {
         Gambler gambler = gamblerService.get(receivedGambler.getId());
         if (gambler == null) throw new WebException(HttpStatus.BAD_REQUEST);
 
-        boolean hasTeam = gambler.removeTeam(statutTeam.getTeam());
-        if(!hasTeam) throw  new WebException(HttpStatus.BAD_REQUEST);
+        StatutTeam existingST = gambler.getStatutTeam(statutTeam.getTeam().getId());
 
-        if(statutTeam.isAccepted()){
+        //Trying to accept someone or remove someone from a statutTeam he made a request for, while the gambler never applied to it
+        if (existingST == null || (statutTeam.isAccepted() && existingST.isAccepted())) {
+            throw new WebException(HttpStatus.BAD_REQUEST);
+        }
+
+        // We'll now remove the statutTeam object.
+        gambler.removeTeam(statutTeam.getTeam());
+
+        if (statutTeam.isAccepted()) {
             gambler.addTeam(statutTeam);
+            ligueService.recalcultateScore(statutTeam.getTeam(), gambler, true);
+        }
+        else{
+            if(existingST.isAccepted()){
+                ligueService.recalcultateScore(statutTeam.getTeam(),gambler,false);
+            }
         }
         gamblerService.updateGambler(gambler);
     }
+
+    @GET("/quitTeam/{teamId}")
+    @RolesAllowed(Roles.GAMBLER)
+    public Gambler quitTeam(Long teamId){
+        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+
+        StatutTeam statutTeam = gambler.getStatutTeam(teamId);
+
+        if(statutTeam ==null) throw new WebException(HttpStatus.NOT_FOUND);
+
+        gambler.removeTeam(statutTeam.getTeam());
+
+        if(statutTeam.isAccepted()){
+            ligueService.recalcultateScore(statutTeam.getTeam(),gambler,false);
+        }
+
+        gamblerService.updateGambler(gambler);
+
+        return gambler;
+    }
+
 
     @PUT("/gambler")
     @RolesAllowed(Roles.GAMBLER)
@@ -276,7 +318,7 @@ public class BetResource {
             throw new WebException(HttpStatus.BAD_REQUEST);
         }
 
-        StatutTeam statutTeam = requestCaller.getTeam(gamblerStatutTeam.getStatutTeam().getTeam().getId());
+        StatutTeam statutTeam = requestCaller.getStatutTeam(gamblerStatutTeam.getStatutTeam().getTeam().getId());
 
         if(statutTeam == null || ! statutTeam.isInvitation()){
             throw new WebException(HttpStatus.BAD_REQUEST);
@@ -285,6 +327,8 @@ public class BetResource {
         statutTeam.setAccepted(true);
 
         gamblerService.updateGambler(requestCaller);
+
+        ligueService.recalcultateScore(statutTeam.getTeam(),requestCaller,true);
     }
 
 
