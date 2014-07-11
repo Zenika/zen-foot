@@ -68,7 +68,7 @@
             <div ng-repeat="member in members">
                 <div style="display: inline-block">
                     - {{member.prenom}} {{member.nom}}
-                    <span class="label label-info" ng-show="statutTeamByGambler[member.id].isOwner">propriétaire</span>
+                    <span class="label label-info" ng-show="isOwner(team,member)">propriétaire</span>
                 </div>
                 <span class="glyphicon glyphicon-remove" ng-show="isOwner(team,gambler)&&!isOwner(team,member)"
                       ng-click="removeFromTeam(member)"></span>
