@@ -83,7 +83,7 @@ angular.module('zenFoot.app').controller('LigueDetailCtrl', ['$scope', 'Gambler'
                 var joiner = joiners[i];
                 for (var j = 0; j < joiner.statutTeams.length; j++) {
                     var statutTeam = joiner.statutTeams[j];
-                    if (statutTeam.team.name = currentTeam.name) {
+                    if (statutTeam.team.name == currentTeam.name) {
                         $scope.statutTeamByGambler[joiner.id] = statutTeam;
                     }
                 }
