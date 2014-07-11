@@ -80,14 +80,16 @@ public class LigueService {
         int gamblerPoints = gamblerRanking.getPoints();
 
         int formerPoints;
+        int coef=1;
         if(add){
             //The cumulated number of points before adding the member :
             formerPoints = (int)(formerMean * (nbMembers -1));
         }
         else{
+            coef=-1;
             formerPoints = (int) (formerMean * (nbMembers + 1));
         }
-        double newMean = (double)(formerPoints + gamblerPoints)/nbMembers;
+        double newMean = (double)(formerPoints + coef*gamblerPoints)/nbMembers;
         logger.log(Level.INFO,""+newMean+" ("+formerPoints+'/'+nbMembers+" participants)");
 
         regTeam.setPoints(newMean);
