@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('LiguesCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'LigueService', 'TeamService', '$modal', '$q', 'GuestService',
-        function ($resource, Gambler, $scope, Joiners, LigueService, TeamService, $modal, $q, GuestService) {
+    .controller('LiguesCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'LigueService', 'TeamService', '$modal', '$q', 'GuestService','QuitTeam',
+        function ($resource, Gambler, $scope, Joiners, LigueService, TeamService, $modal, $q, GuestService, QuitTeam) {
 
             var isOwner = LigueService.isOwner;
 
@@ -114,6 +114,10 @@ angular.module('zenFoot.app')
                 GuestService.accept(gamblerStatutTeam);
             }
 
+            $scope.showOk = function (applicant) {
+                return $scope.statutTeamByGambler[applicant.id].invitation && !$scope.statutTeamByGambler[applicant.id].accepted;
+            }
+
 
             //Logic to create/join/quit a group
 
@@ -178,8 +182,8 @@ angular.module('zenFoot.app')
                 for (var i = $scope.gambler.statutTeams.length-1; i > -1 ; i--) {
                     if($scope.gambler.statutTeams[i].team.name == statutTeam.team.name){
                         $scope.gambler.statutTeams.splice(i,1);
-                        Gambler.update($scope.gambler,function(response){
-                            var gambler = response[1];
+                        QuitTeam.get({teamId:statutTeam.team.id},function(response){
+                            var gambler = response;
                             $scope.gambler = getGambler(gambler);
                         });
                         break;

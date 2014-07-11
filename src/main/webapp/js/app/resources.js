@@ -23,3 +23,6 @@ angular.module('zenFoot.app')
     .factory('GamblerStatutTeam',function($resource){
         return $resource('api/gamblersAndTeam',{},{update:{method:'PUT',isArray:false}});
     })
+    .factory('QuitTeam',function($resource){
+        return $resource('api/quitTeam/:teamId',{teamId:'@teamId'});
+    })

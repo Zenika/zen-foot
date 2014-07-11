@@ -171,6 +171,8 @@ public class GamblerService {
             } else { //The team was created by the user and thus, the latter is the owner of it
 //                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
+                GamblerRanking gamblerRanking = rankingDao.findByGambler(gambler.getId());
+                team.setPoints(gamblerRanking.getPoints());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 toRegister = teamDAO.get(teamKey);
                 owner = true;
