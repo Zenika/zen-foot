@@ -33,9 +33,9 @@
             <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
                 <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
-                <li class="ng-hide disabled" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a>Mes ligues</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a ui-sref="ligueState">Mes ligues</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
@@ -88,6 +88,7 @@
 <script type="text/javascript" src="js/app/controllers/admin-new-match-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/ligues-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/ligue-detail-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/index-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
 <script type="text/javascript" src="js/app/services/auth-service.js"></script>
@@ -95,7 +96,8 @@
 <script type="text/javascript" src="js/app/services/display-service.js"></script>
 <script type="text/javascript" src="js/app/services/gambler-service.js"></script>
 <script type="text/javascript" src="js/app/services/joiner-service.js"></script>
-<script type="text/javascript" src="js/app/services/profil-service.js"></script>
+<script type="text/javascript" src="js/app/services/ligue-service.js"></script>
+<script type="text/javascript" src="js/app/services/guest-service.js"></script>
 <script type="text/javascript" src="js/app/services/session-service.js"></script>
 <script type="text/javascript" src="js/app/services/team-service.js"></script>
 <script type="text/javascript" src="js/app/services/user-service.js"></script>

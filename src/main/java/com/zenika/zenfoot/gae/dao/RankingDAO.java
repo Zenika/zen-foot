@@ -2,14 +2,10 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.GamblerRanking;
-import com.zenika.zenfoot.gae.model.StatutTeam;
 
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Created by raphael on 11/06/14.
@@ -35,11 +31,11 @@ public class RankingDAO {
     }
 
     public List<GamblerRanking> getAll() {
-        List<GamblerRanking> toRet= ObjectifyService.ofy().load().type(GamblerRanking.class).order("-points").list();
+        List<GamblerRanking> toRet = ObjectifyService.ofy().load().type(GamblerRanking.class).order("-points").list();
         return toRet;
     }
 
-    public GamblerRanking findByGambler(Long gamblerId){
+    public GamblerRanking findByGambler(Long gamblerId) {
         List<GamblerRanking> rankings = ObjectifyService.ofy().load().type(GamblerRanking.class).filter("gamblerId", gamblerId).list();
         if (rankings == null || rankings.isEmpty()) {
             return null;

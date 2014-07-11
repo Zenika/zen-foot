@@ -42,10 +42,14 @@
                     url:'/profil',
                     templateUrl:'view/profil.html'
                 })
-              /*  .state('ligueState', {
+                .state('ligueState', {
                     url: '/ligue',
                     templateUrl: 'view/ligues.html'
-                });*/
+                })
+                .state('ligueDetails',{
+                    url : '/ligueDetails?id',
+                    templateUrl : 'view/ligue-details.html'
+                })
 
             $urlRouterProvider.otherwise('/bets');
 
@@ -121,6 +125,11 @@
                     navbar_toggle.trigger('click');
                 }
             })
+
+
+            $rootScope.size = function(obj){
+                return _.size(obj);
+            }
         })
 
         .constant('SCORE_REGEXP', /^[0-9]{1,2}$|^$/);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .factory('Team', ['$resource',
+    .factory('TeamService', ['$resource',
         function ($resource) {
             return {
                 getAll: function () {

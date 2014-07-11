@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.Team;
 
 import java.util.List;
 
@@ -29,4 +30,5 @@ public interface GamblerDAO {
 
     List<Gambler> gamblersWannaJoin(String name);
 
+    int nbGamblersInTeam(Team team);
 }

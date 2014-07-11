@@ -364,6 +364,10 @@ Some CSS properties on the size of inputs
     margin: auto;
 }
 
+.me-trouver{
+    visibility: hidden;
+}
+
 .match-title > h2 {
     display: inline;
 
@@ -464,6 +468,53 @@ Some CSS properties on the size of inputs
 
 .team-profil > h4 {
     margin-top: 15px;
+}
+
+.ligue-col > h3 {
+    text-align: center;
+}
+
+.mes-ligues{
+    margin-bottom: 20px;
+}
+
+.mes-ligues > h4{
+    margin-bottom: 20px;
+}
+
+.rejoindre-ligue > h4{
+    margin-bottom: 20px;
+}
+
+/*css for specific ligue page*/
+
+.specific-ligue-member {
+    margin-top: 20px;
+}
+
+.specific-ligue-owner{
+    margin-top: 15px;
+}
+
+.want-join-ligue {
+    display: inline-block;
+}
+
+.invite-ligue{
+    padding-left: 15px;
+}
+
+.ligue-applicant{
+    display: inline-block;
+    width: 200px;
+}
+
+.yesno-applicant{
+    display: inline-block;
+}
+
+.yesno-applicant > span{
+    padding-left: 10px;
 }
 
 .zen-logo {
@@ -677,6 +728,8 @@ Some CSS properties on the size of inputs
     position: relative;
     top: -45px;
 }
+
+
 
 
 

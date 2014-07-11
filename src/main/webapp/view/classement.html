@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="jumbotron classement-jumbo">
+            <div ng-show="mode=='gambler'" class="jumbotron classement-jumbo ng-hide">
                 <p>
                     Vous êtes
                     <strong><span>{{personnalRanking.classement}}</span><sup ng-pluralize count="personnalRanking.classement" when="{'1':'er','other':'ème'}"></sup>{{personnalRanking.equality?'(ex aequo)':''}}</strong>
@@ -11,6 +11,11 @@
                     avec
                     <strong><span>{{personnalRanking.points}}</span></strong>
                     point<span ng-pluralize count="personnalRanking.points" when="{'0':'','1':'','other':'s'}"></span>
+                </p>
+            </div>
+            <div ng-show="mode=='ligue'" class="jumbotron classement-jumbo ng-hide">
+                <p>
+                    Classement des organisations
                 </p>
             </div>
         </div>
@@ -42,10 +47,14 @@
                             </a>
                         </li>
                     </ul>
-                    <button class="btn btn-primary" data-ng-click="changePage(personnalRanking)">Me trouver</button>
+                    <button class="btn btn-primary" ng-class="{'me-trouver':ligueMode()}"  data-ng-click="changePage(personnalRanking)">Me trouver</button>
                 </div>
             </div>
+            <div>
+                <a ng-click="switchMode()">classement par {{switchModeDisplay()}}</a>
+            </div>
         </div>
+
         <div class="col-lg-9">
             <div class="gridStyle" ng-grid="gridOptions"></div>
         </div>

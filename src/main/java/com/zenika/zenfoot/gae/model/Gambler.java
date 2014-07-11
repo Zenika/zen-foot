@@ -5,7 +5,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Gambler {
@@ -28,10 +30,10 @@ public class Gambler {
 
     private String prenom;
 
-//    protected Set<Demande> demandes = new HashSet<>();
+    protected Set<Demande> demandes = new HashSet<>();
 
-//    @Index
-//    protected Set<StatutTeam> statutTeams =new HashSet<>();
+    @Index
+    protected Set<StatutTeam> statutTeams =new HashSet<>();
 
 
     public Gambler(String email) {
@@ -40,26 +42,26 @@ public class Gambler {
 
     public Gambler() {
     }
-//
-//    public void addTeams(Set<StatutTeam> teams){
-//        this.statutTeams.addAll(teams);
-//    }
-//
-//    public Set<StatutTeam> getStatutTeams() {
-//        return statutTeams;
-//    }
-//
-//    public void setStatutTeams(Set<StatutTeam> statutTeams) {
-//        this.statutTeams = statutTeams;
-//    }
-//
-//    public Set<Demande> getDemandes() {
-//        return demandes;
-//    }
-//
-//    public void setDemandes(Set<Demande> demandes) {
-//        this.demandes = demandes;
-//    }
+
+    public void addTeams(Set<StatutTeam> teams){
+        this.statutTeams.addAll(teams);
+    }
+
+    public Set<StatutTeam> getStatutTeams() {
+        return statutTeams;
+    }
+
+    public void setStatutTeams(Set<StatutTeam> statutTeams) {
+        this.statutTeams = statutTeams;
+    }
+
+    public Set<Demande> getDemandes() {
+        return demandes;
+    }
+
+    public void setDemandes(Set<Demande> demandes) {
+        this.demandes = demandes;
+    }
 
     public Long getId() {
         return id;
@@ -130,4 +132,39 @@ public class Gambler {
         return ((Gambler) obj).getEmail().equals(this.getEmail());
     }
 
+    public boolean hasTeam(Team team) {
+        for(StatutTeam statutTeam : this.getStatutTeams()){
+            if(statutTeam.getTeam().equals(team)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeTeam(Team team){
+        for(StatutTeam statutTeam : this.getStatutTeams()){
+            if(statutTeam.getTeam().equals(team)){
+                return this.getStatutTeams().remove(statutTeam);
+            }
+        }
+        return false;
+    }
+
+    public StatutTeam getStatutTeam(Long id) {
+        for (StatutTeam statutTeam : this.getStatutTeams()) {
+            if (statutTeam.getTeam().getId().equals(id)) {
+                return statutTeam;
+            }
+        }
+        return null;
+    }
+
+
+    public void addTeam(StatutTeam statutTeam) {
+        this.statutTeams.add(statutTeam);
+    }
+
+    public boolean isOwner(StatutTeam statutTeam) {
+        return this.getEmail().equals(statutTeam.getTeam().getOwnerEmail());
+    }
 }
