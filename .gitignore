@@ -13,3 +13,4 @@ node_modules
 deployGAE.*
 deploy*
 test/
+src/main/webapp/components/polymer/bower_components/
