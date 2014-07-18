@@ -2,6 +2,91 @@
  * Created by raphael on 17/07/14.
  */
 
-core-header-panel{
-    height: 400px;
+core-header-panel {
+    background: #ffffff;
+    height: 100px;
+
+}
+
+#menu-header{
+    background: whitesmoke;
+}
+
+core-toolbar {
+    background-color: #B11016;
+}
+#navheader {
+    background-color: #B11016;
+}
+.content {
+    padding: 20px;
+}
+/* drawer is always visible on a wide screen
+   so menu button isn't required */
+core-drawer-panel:not([narrow]) #navicon {
+    display: none;
+
+}
+
+/* overriding padding on content class. The default is set to 20px on each side otherwise */
+.content{
+    padding: 0 0;
+}
+
+paper-button {
+    margin: 1em;
+}
+
+paper-button.colored {
+    color: #B11016;
+    fill: #B11016;
+}
+
+paper-button[raisedButton].colored {
+    background: #B11016;
+    color: #fff;
+}
+
+paper-button[raisedButton].colored #ripple,
+paper-button[raisedButton].colored::shadow #ripple {
+    color: #8E0D12;
+}
+
+paper-button[raisedButton].colored #focusBg,
+paper-button[raisedButton].colored::shadow #focusBg {
+    background: #8E0D12;
+}
+
+.pariez-button2 {
+    position: fixed;
+    background-color: #F5F5F5;
+    border-top: 1px groove #DDD;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.pariez-button2 span.saved-error, .pariez-button2 span.saved-sucess {
+    line-height: 54px;
+    font-weight: bold;
+}
+
+.pariez-button2 span.saved-sucess {
+    color: #3c763d;
+}
+
+.pariez-button2 span.saved-error {
+    color: #a94442;
+}
+
+.pariez-button2 button {
+    margin: 10px;
+}
+
+
+
+@media only screen and (min-width: 640px) {
+    .pariez-button2{
+        z-index: 15;
+    }
 }

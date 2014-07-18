@@ -156,12 +156,12 @@
                 </div>
 
 
-                <div class="pariez-button" data-ng-hide="modified">
+                <div class="pariez-button2" data-ng-hide="modified">
                     <div class="container text-center">
-
-                        <button type="submit" class="btn btn-danger pull-right " data-ng-disabled="scoreform.$invalid"
-                                data-ng-click="pariez()">Parier !
-                        </button>
+                        <paper-button data-ng-disabled="scoreform.$invalid" data-ng-click="pariez()" style="float:right" raisedButton class="colored" label="Parier !"></paper-button>
+                        <!--<button type="submit" class="btn btn-danger pull-right " data-ng-disabled="scoreform.$invalid"-->
+                                <!--data-ng-click="pariez()">Parier !-->
+                        <!--</button>-->
 
                       <span class="saved-sucess ng-hide" data-ng-show="betSavedSuccess">
                         Vos pronostics ont été enregistrés

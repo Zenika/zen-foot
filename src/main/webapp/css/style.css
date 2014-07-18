@@ -170,9 +170,6 @@ body {
     background-color: #FA787E;
 }
 
-div {
-    color: #4c4c4c;
-}
 
 h1 {
     color: #4c4c4c;
@@ -429,7 +426,7 @@ Some CSS properties on the size of inputs
 .pariez-button {
     position: fixed;
     background-color: #F5F5F5;
-    border-top: 1px solid #DDD;
+    border-top: 1px groove #DDD;
     left: 0;
     right: 0;
     bottom: 0;
@@ -467,7 +464,7 @@ Some CSS properties on the size of inputs
 }
 
 .zen-logo {
-    max-width: 100px;
+    max-width: 80px;
     margin-top: -7px;
     width: 60%;
 }
@@ -509,6 +506,13 @@ Some CSS properties on the size of inputs
         margin-top: 5px;
     }
 }
+
+@media only screen and (min-width: 640px) {
+    .pariez-button{
+        z-index: 15;
+    }
+}
+
 
 .error {
     color: red;

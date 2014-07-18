@@ -15,61 +15,94 @@
     <link rel="import" href="components/polymer/bower_components/core-header-panel/core-header-panel.html">
     <link rel="import" href="components/polymer/bower_components/core-icons/core-icons.html">
     <link rel="import" href="components/polymer/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="components/polymer/bower_components/core-scaffold/core-scaffold.html">
+    <link rel="import" href="components/polymer/bower_components/core-menu/core-menu.html">
+    <link rel="import" href="components/polymer/bower_components/core-item/core-item.html">
+    <link rel="import" href="components/polymer/bower_components/core-drawer-panel/core-drawer-panel.html">
+    <link rel="import" href="components/polymer/bower_components/polymer/polymer.html">
 
 </head>
 
 
-<body unresolved>
+<body unresolved data-ng-controller="IndexCtrl">
 
 <!-- Static navbar -->
 
-<div  class="navbar navbar-inverse navbar-fixed-top ng-hide" data-ng-hide="true||hideNavBar()" role="navigation" data-ng-controller="IndexCtrl" ng-cloack>
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="user.connected">
-                <span class="sr-only">Menu</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" ui-sref="betsState"><img class="zen-logo" src="img/logo.png"></a>
-            <span class="navbar-text pull-right visible-xs" ng-bind="user.email"></span>
-        </div>
-        <div class="navbar-collapse collapse" style="height: 1px;">
-            <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
-                <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
-                <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
-                <li class="ng-hide disabled" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a>Mes ligues</a></li>
-                <li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>
-                <li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
-                <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
-                    <a data-ng-click="logout()" href="">Se déconnecter</a>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</div>
-<core-header-panel >
-    <core-toolbar style="background: #B11016;">
-        <paper-icon-button icon="menu"></paper-icon-button>
-        <span flex>zenfoot</span>
-        <paper-icon-button icon="refresh"></paper-icon-button>
-        <paper-icon-button icon="more-vert"></paper-icon-button>
-    </core-toolbar>
-</core-header-panel>
+<!--<div  class="navbar navbar-inverse navbar-fixed-top ng-hide" data-ng-hide="true||hideNavBar()" role="navigation" ng-cloack>-->
+    <!--<div class="container">-->
+        <!--<div class="navbar-header">-->
+            <!--<button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="user.connected">-->
+                <!--<span class="sr-only">Menu</span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
+            <!--<a class="navbar-brand" ui-sref="betsState"><img class="zen-logo" src="img/logo.png"></a>-->
+            <!--<span class="navbar-text pull-right visible-xs" ng-bind="user.email"></span>-->
+        <!--</div>-->
+        <!--<div class="navbar-collapse collapse" style="height: 1px;">-->
+            <!--<ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">-->
+                <!--<li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>-->
+                <!--<li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>-->
+                <!--<li class="ng-hide disabled" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a>Mes ligues</a></li>-->
+                <!--<li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>-->
+                <!--<li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>-->
+            <!--</ul>-->
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--<li data-ng-show="user.connected" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>-->
+                <!--<li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">-->
+                    <!--<a data-ng-click="logout()" href="">Se déconnecter</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>&lt;!&ndash;/.nav-collapse &ndash;&gt;-->
+    <!--</div>-->
+<!--</div>-->
 
 
-<div id="view" class="container page">
-    <div ui-view></div>
-</div>
+<core-drawer-panel id="drawerPanel">
+
+    <core-header-panel drawer id="menu-header">
+        <core-toolbar id="navheader'">
+            <span>Menu</span>
+        </core-toolbar>
+        <core-menu selected="prono" valueattr="name">
+            <core-item ng-show="!isAdmin()" ui-sref="betsState" name="prono" label="Pronostics"></core-item>
+            <core-item ng-show="!isAdmin()" ui-sref="classState" name="classement" label="Classement"></core-item>
+        </core-menu>
+    </core-header-panel>
+
+    <core-header-panel main>
+        <core-toolbar id="mainheader">
+            <paper-icon-button id="navicon" icon="menu" ng-click="togglePanel()"></paper-icon-button>
+            <span flex><a><img class="zen-logo" src="img/logo.png"></a></span>
+        </core-toolbar>
+        <content-main-page>
+            <div class="content">
+                <div id="view" class="container page">
+                    <div ui-view></div>
+                </div>
+            </div>
+        </content-main-page>
+
+    </core-header-panel>
+
+</core-drawer-panel>
+
+
+
 
 
 
 </body>
-
+<script type="text/javascript">
+    document.addEventListener('polymer-ready', function() {
+        var navicon = document.getElementById('navicon');
+        var drawerPanel = document.getElementById('drawerPanel');
+        navicon.addEventListener('click', function() {
+            drawerPanel.togglePanel();
+        });
+    });
+</script>
 
 <script type="text/javascript" src="js/cookie.js"></script>
 <script type="text/javascript" src="components/jquery/jquery.js"></script>
