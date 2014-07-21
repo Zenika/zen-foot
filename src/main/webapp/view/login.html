@@ -68,17 +68,16 @@
 
             <div class="form-group">
                 <div class="controls text-center">
-                    <input
-                            type="submit"
-                            value="Connexion"
-                            class="btn btn-primary"
-                            />
+                    <!--<input-->
+                            <!--type="submit"-->
+                            <!--value="Connexion"-->
+                            <!--class="btn btn-primary"-->
+                            <!--/>-->
 
-                    <input
-                            type="button"
-                            value="S'inscrire"
-                            class="btn btn-link"
-                            data-ng-click="subscribe()"/>
+                    <paper-button ng-disabled="loginForm.$invalid" raisedButton class=" login-button colored" label="Connexion" ng-click="submit()"></paper-button>
+
+                    <paper-button class="colored subscribe-button" label="S'inscrire" ng-click="subscribe()"></paper-button>
+
                 </div>
             </div>
 

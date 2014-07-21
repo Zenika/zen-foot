@@ -44,31 +44,60 @@ core-drawer-panel:not([narrow]) #navicon {
     padding: 0 0;
 }
 
-paper-button {
+.pariez-button2 {
     margin: 1em;
 }
 
-paper-button.colored {
+.pariez-button2 .colored {
     color: #B11016;
     fill: #B11016;
 }
 
-paper-button[raisedButton].colored {
+.pariez-button2[raisedButton].colored {
     background: #B11016;
     color: #fff;
 }
 
-paper-button[raisedButton].colored #ripple,
-paper-button[raisedButton].colored::shadow #ripple {
+.pariez-button2[raisedButton].colored #ripple,
+.pariez-button2[raisedButton].colored::shadow #ripple {
     color: #8E0D12;
 }
 
-paper-button[raisedButton].colored #focusBg,
-paper-button[raisedButton].colored::shadow #focusBg {
+.pariez-button2[raisedButton].colored #focusBg,
+.pariez-button2[raisedButton].colored::shadow #focusBg {
     background: #8E0D12;
+
 }
 
-.pariez-button2 {
+.login-button {
+    margin: 1em;
+}
+
+.login-button .colored {
+    color: cornflowerblue;
+    fill: cornflowerblue;
+}
+
+.login-button[raisedButton].colored {
+    background: cornflowerblue;
+    color: #fff;
+}
+
+.login-button[raisedButton].colored #ripple,
+.login-button[raisedButton].colored::shadow #ripple {
+    color: #132c8e;
+}
+
+.login-button[raisedButton].colored #focusBg,
+.login-button[raisedButton].colored::shadow #focusBg {
+    background: #132c8e;
+}
+
+.subscribe-button{
+    color:cornflowerblue;
+}
+
+.footer {
     position: fixed;
     background-color: #F5F5F5;
     border-top: 1px groove #DDD;
@@ -77,20 +106,20 @@ paper-button[raisedButton].colored::shadow #focusBg {
     bottom: 0;
 }
 
-.pariez-button2 span.saved-error, .pariez-button2 span.saved-sucess {
+.footer span.saved-error, .footer span.saved-sucess {
     line-height: 54px;
     font-weight: bold;
 }
 
-.pariez-button2 span.saved-sucess {
+.footer span.saved-sucess {
     color: #3c763d;
 }
 
-.pariez-button2 span.saved-error {
+.footer span.saved-error {
     color: #a94442;
 }
 
-.pariez-button2 button {
+.footer button {
     margin: 10px;
 }
 
@@ -103,7 +132,7 @@ paper-button[raisedButton].colored::shadow #focusBg {
 }
 
 @media only screen and (min-width: 640px) {
-    .pariez-button2{
+    .footer {
         z-index: 15;
     }
 
