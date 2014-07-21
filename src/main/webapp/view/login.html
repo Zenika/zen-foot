@@ -23,53 +23,45 @@
 
         <form name="loginForm" id="loginForm" role="form" autofill-submit="submit()">
 
-            <div class="form-group" ng-class="{'has-error': loginForm.user.$invalid && loginForm.user.$dirty}">
-                <label for="user" class="sr-only">Email</label>
 
-                <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input
-                            class="form-control"
-                            type="email"
-                            placeholder="Adresse mail"
-                            id="user"
-                            name="user"
-                            data-ng-model="login.email"
-                            autofocus
-                            autofill
-                            required/>
-                </div>
+            <div class="form-group" ng-class="{'has-error2': loginForm.user2.$invalid && loginForm.user2.$dirty}">
+                <core-field>
+                    <core-icon icon="account-box"></core-icon>
+                    <input ng-model="login.email" placeholder="Adresse email" type="email"
+                           id="user2"
+                           name="user2"
+                           autofocus
+                           autofill
+                           required
+                           flex>
+                </core-field>
                 <p
                         class="help-block"
-                        data-ng-show="loginForm.user.$error.required && loginForm.user.$dirty">
+                        data-ng-show="loginForm.user2.$error.required && loginForm.user2.$dirty">
                     Champ obligatoire
                 </p>
 
                 <p
                         class="help-block"
-                        data-ng-show="loginForm.user.$error.email && !loginForm.user.$error.required">
+                        data-ng-show="loginForm.user2.$error.email && !loginForm.user2.$error.required">
                     Format non valide
                 </p>
             </div>
-
-            <div class="form-group" ng-class="{'has-error': loginForm.pass.$invalid && loginForm.pass.$dirty}">
-                <label for="pass" class="sr-only">Mot de passe</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input
-                            class="form-control"
-                            type="password"
-                            placeholder="Mot de passe"
-                            id="pass"
-                            name="pass"
-                            data-ng-model="login.password"
-                            autofill
-                            required/>
-                </div>
+            <div class="form-group" ng-class="{'has-error2': loginForm.pass2.$invalid && loginForm.pass2.$dirty}">
+                <core-field>
+                    <core-icon icon="lock"></core-icon>
+                    <input ng-model="login.password"
+                           type="password"
+                           placeholder="Mot de passe"
+                           id="pass2" 
+                           name="pass2"
+                           autofill
+                           required
+                           flex>
+                </core-field>
                 <p
                         class="help-block"
-                        data-ng-show="loginForm.pass.$error.required && loginForm.pass.$dirty">
+                        data-ng-show="loginForm.pass2.$error.required && loginForm.pass2.$dirty">
                     Champ obligatoire
                 </p>
             </div>

@@ -2,6 +2,12 @@
  * Created by raphael on 17/07/14.
  */
 
+core-field{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 35px;
+}
+
 core-header-panel {
     background: #ffffff;
     height: 100px;
@@ -109,4 +115,19 @@ paper-button[raisedButton].colored::shadow #focusBg {
         display: flex!important;
     }
 
+}
+
+.has-error2,
+.has-error2 .help-block,
+.has-error2 .control-label,
+.has-error2 .radio,
+.has-error2 .checkbox,
+.has-error2 .radio-inline,
+.has-error2 .checkbox-inline {
+    color: #a94442;
+}
+.has-error2 core-field {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }

@@ -53,8 +53,7 @@ angular.module('zenFoot.app')
         };
 
         $scope.hideNavBar = function () {
-
-            return $state.current.name == 'loginState' || $state.current.name.trim() == ''
+            return !$rootScope.user.connected;
         }
 
     });
