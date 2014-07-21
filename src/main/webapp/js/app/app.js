@@ -10,35 +10,45 @@
 
         .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             $stateProvider
-                .state('loginState', {
-                    url: '/login?subscriptionSuccess',
+                .state('login', {
+                    abstract:true,
+                    url: '/login',
+                    templateUrl: 'view/login-template.html'
+                })
+                 .state('login.child', {
+                    url: '/uh?subscriptionSuccess',
                     templateUrl: 'view/login.html'
                 })
-                .state('betsState', {
+                .state('index', {
+                    abstract:true,
+                    url: '/index',
+                    templateUrl: 'view/index-template.html'
+                })
+                .state('index.betsState', {
                     url: '/bets?gamblerId',
                     templateUrl: 'view/bets.html'
                 })
-                .state('adminState', {
+                .state('index.adminState', {
                     url: '/admin',
                     templateUrl: 'view/admin-tmp.html'
                 })
-                .state('adminFinales', {
+                .state('index.adminFinales', {
                     url:'/adminfinales',
                     templateUrl:'view/admin-new-matchs.html'
                 })
-                .state('classState', {
+                .state('index.classState', {
                     url: '/classement',
                     templateUrl: 'view/classement.html'
                 })
-                .state('subscribeState', {
+                .state('index.subscribeState', {
                     url: '/subscribe',
                     templateUrl: 'view/subscribe.html'
                 })
-                .state('confirmSubscription', {
+                .state('index.confirmSubscription', {
                     url: '/confirmSubscription/:id',
                     templateUrl: 'view/confirmSubscription.html'
                 })
-                .state('profileState',{
+                .state('index.profileState',{
                     url:'/profil',
                     templateUrl:'view/profil.html'
                 })
