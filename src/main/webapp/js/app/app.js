@@ -10,18 +10,16 @@
 
         .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             $stateProvider
-                .state('login', {
+                .state('unconnected', {
                     abstract:true,
-                    url: '/login',
                     templateUrl: 'view/login-template.html'
                 })
-                 .state('login.child', {
-                    url: '/uh?subscriptionSuccess',
+                 .state('unconnected.login', {
+                    url: '/login?subscriptionSuccess',
                     templateUrl: 'view/login.html'
                 })
                 .state('index', {
                     abstract:true,
-                    url: '/index',
                     templateUrl: 'view/index-template.html'
                 })
                 .state('index.betsState', {
@@ -40,7 +38,7 @@
                     url: '/classement',
                     templateUrl: 'view/classement.html'
                 })
-                .state('index.subscribeState', {
+                .state('unconnected.subscribeState', {
                     url: '/subscribe',
                     templateUrl: 'view/subscribe.html'
                 })
@@ -57,7 +55,7 @@
                     templateUrl: 'view/ligues.html'
                 });*/
 
-            $urlRouterProvider.otherwise('/bets');
+            $urlRouterProvider.otherwise('/index/bets');
 
             $httpProvider.interceptors.push(function ($q, $location, $injector) {
 
@@ -69,7 +67,7 @@
                 };
 
                 var isLoginState = function () {
-                    return getState().current.name === 'loginState';
+                    return getState().current.name === 'unconnected.login';
                 };
 
                 return {
@@ -86,12 +84,12 @@
         })
 
         .run(function ($rootScope, $state) {
-            var adminRoute = 'adminState';
-            var finalesState='adminFinales';
-            var loginRoute = 'loginState';
-            var subscribeState = "subscribeState";
-            var confirmSubscription = "confirmSubscription";
-            var betsState = "betsState";
+            var adminRoute = 'index.adminState';
+            var finalesState='index.adminFinales';
+            var loginRoute = 'unconnected.login';
+            var subscribeState = "unconnected.subscribeState";
+            var confirmSubscription = "index.confirmSubscription";
+            var betsState = "index.betsState";
             var adminRoutes = [adminRoute,finalesState]
 
             var adminAuthorized = function(routeName){

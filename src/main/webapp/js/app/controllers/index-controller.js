@@ -30,7 +30,7 @@ angular.module('zenFoot.app')
 
 
         $scope.login = function () {
-            $state.go('loginState')
+            $state.go('unconnected.login')
         };
 
         $scope.logout = authService.logout

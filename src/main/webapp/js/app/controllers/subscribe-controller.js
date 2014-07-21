@@ -21,7 +21,7 @@ angular.module('zenFoot.app')
                 checkTeams();
                 var Subscription = $resource('/api/performSubscription');
                 Subscription.save({user: $scope.subscriber, teams: $scope.subscriber.teams}, function () {
-                    $state.go('loginState', {subscriptionSuccess: true});
+                    $state.go('unconnected.login', {subscriptionSuccess: true});
                     $rootScope.subscriber = $scope.subscriber;
                 }, function (postResponse) {
                 	$scope.subscriptionForm.$setPristine();

@@ -38,10 +38,10 @@
             <span>Menu</span>
         </core-toolbar>
         <core-menu selected="prono" valueattr="name">
-            <core-item ng-show="!isAdmin()" class="ng-hide" name="prono" label="Pronostics" ui-sref="betsState"></core-item>
-            <core-item ng-show="!isAdmin()" class="ng-hide" name="classement" label="Classement" ui-sref="classState"></core-item>
-            <core-item ng-show="isAdmin()" class="ng-hide" label="Résultats" ui-sref="adminState"></core-item>
-            <core-item ng-show="isAdmin()" class="ng-hide" label="Nouveaux matchs" ui-sref="adminFinales"></core-item>
+            <core-item ng-show="!isAdmin()" class="ng-hide" name="prono" label="Pronostics" ui-sref="index.betsState"></core-item>
+            <core-item ng-show="!isAdmin()" class="ng-hide" name="classement" label="Classement" ui-sref="index.classState"></core-item>
+            <core-item ng-show="isAdmin()" class="ng-hide" label="Résultats" ui-sref="index.adminState"></core-item>
+            <core-item ng-show="isAdmin()" class="ng-hide" label="Nouveaux matchs" ui-sref="index.adminFinales"></core-item>
             <core-item ng-show="user.connected" class="ng-hide visible-mobile" name="logout" label="Deconnexion" ng-click="logout()" ng-controller="LoginCtrl"></core-item>
         </core-menu>
     </core-header-panel>
@@ -62,3 +62,13 @@
     </core-header-panel>
 
 </core-drawer-panel>
+
+<script type="text/javascript">
+    document.addEventListener('polymer-ready', function() {
+        var navicon = document.getElementById('navicon');
+        var drawerPanel = document.getElementById('drawerPanel');
+        navicon.addEventListener('click', function() {
+            drawerPanel.togglePanel();
+        });
+    });
+</script>

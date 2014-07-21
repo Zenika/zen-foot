@@ -41,6 +41,6 @@ angular.module('zenFoot.app')
             };
 
             $scope.subscribe = function () {
-                $state.go('subscribeState');
+                $state.go('unconnected.subscribeState');
             };
         }]);

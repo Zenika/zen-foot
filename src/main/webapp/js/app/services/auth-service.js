@@ -6,14 +6,14 @@ angular.module('zenFoot.app')
         return {
             redirectToHome: function () {
                 if ($rootScope.isAdmin()) {
-                    $state.go('adminState');
+                    $state.go('index.adminState');
                 } else {
-                    $state.go('betsState');
+                    $state.go('index.betsState');
                 }
             },
             logout: function () {
                 Session.delete(function () {
-                    $state.go('loginState');
+                    $state.go('unconnected.login');
                 });
                 Session.user.connected = false;
                 delete Session.user.fullName;
