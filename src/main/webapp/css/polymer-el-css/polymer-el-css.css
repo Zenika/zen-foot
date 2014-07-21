@@ -5,7 +5,6 @@
 core-header-panel {
     background: #ffffff;
     height: 100px;
-
 }
 
 #menu-header{
@@ -14,10 +13,17 @@ core-header-panel {
 
 core-toolbar {
     background-color: #B11016;
+    color:#f2f2f2;
 }
+
+.clicable{
+    cursor: pointer;
+}
+
 #navheader {
     background-color: #B11016;
 }
+
 .content {
     padding: 20px;
 }
@@ -25,7 +31,6 @@ core-toolbar {
    so menu button isn't required */
 core-drawer-panel:not([narrow]) #navicon {
     display: none;
-
 }
 
 /* overriding padding on content class. The default is set to 20px on each side otherwise */
@@ -83,10 +88,25 @@ paper-button[raisedButton].colored::shadow #focusBg {
     margin: 10px;
 }
 
+.hide-mobile{
+    display: none !important;
+}
 
+.visible-mobile{
+    display: flex !important;
+}
 
 @media only screen and (min-width: 640px) {
     .pariez-button2{
         z-index: 15;
     }
+
+    .visible-mobile{
+        display: none !important;
+    }
+
+    .hide-mobile{
+        display: flex!important;
+    }
+
 }

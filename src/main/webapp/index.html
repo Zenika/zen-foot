@@ -44,7 +44,6 @@
             <!--<ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">-->
                 <!--<li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>-->
                 <!--<li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>-->
-                <!--<li class="ng-hide disabled" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a>Mes ligues</a></li>-->
                 <!--<li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>-->
                 <!--<li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>-->
             <!--</ul>-->
@@ -59,15 +58,18 @@
 <!--</div>-->
 
 
-<core-drawer-panel id="drawerPanel">
+<core-drawer-panel ng-hide="hideNavBar()" id="drawerPanel">
 
     <core-header-panel drawer id="menu-header">
         <core-toolbar id="navheader'">
             <span>Menu</span>
         </core-toolbar>
         <core-menu selected="prono" valueattr="name">
-            <core-item ng-show="!isAdmin()" ui-sref="betsState" name="prono" label="Pronostics"></core-item>
-            <core-item ng-show="!isAdmin()" ui-sref="classState" name="classement" label="Classement"></core-item>
+            <core-item ng-show="!isAdmin()" class="ng-hide" name="prono" label="Pronostics" ui-sref="betsState"></core-item>
+            <core-item ng-show="!isAdmin()" class="ng-hide" name="classement" label="Classement" ui-sref="classState"></core-item>
+            <core-item ng-show="isAdmin()" class="ng-hide" label="Résultats" ui-sref="adminState"></core-item>
+            <core-item ng-show="isAdmin()" class="ng-hide" label="Nouveaux matchs" ui-sref="adminFinales"></core-item>
+            <core-item ng-show="user.connected" class="ng-hide visible-mobile" name="logout" label="Deconnexion" ng-click="logout()" ng-controller="LoginCtrl"></core-item>
         </core-menu>
     </core-header-panel>
 
@@ -75,6 +77,7 @@
         <core-toolbar id="mainheader">
             <paper-icon-button id="navicon" icon="menu" ng-click="togglePanel()"></paper-icon-button>
             <span flex><a><img class="zen-logo" src="img/logo.png"></a></span>
+            <span class="hide-mobile clicable" ng-controller="LoginCtrl" ng-click="logout()">Déconnexion</span>
         </core-toolbar>
         <content-main-page>
             <div class="content">
@@ -83,10 +86,15 @@
                 </div>
             </div>
         </content-main-page>
-
     </core-header-panel>
 
 </core-drawer-panel>
+
+<div ng-show="hideNavBar()" class="content">
+    <div class="container page">
+        <div ui-view></div>
+    </div>
+</div>
 
 
 
