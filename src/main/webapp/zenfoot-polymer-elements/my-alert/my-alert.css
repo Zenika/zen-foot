@@ -1,0 +1,17 @@
+:host > div{
+    margin: 15px 0;
+}
+
+.my-alert{
+    color: white;
+    padding:20px;
+    border-radius: 5px;
+}
+
+.my-alert-success{
+    background: limegreen;
+}
+
+.my-alert-danger{
+    background: #B11016;
+}

@@ -3,9 +3,9 @@
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
     <h3>Nouveaux matchs</h3>
 
-            <div class="alert alert-success" ng-show="registeredMatch">
-                <span>Match enregistr&eacute : {{registeredMatch.date|date:'dd/MM/yyyy HH:mm'}} {{registeredMatch.team1}}/{{registeredMatch.team2}}</span>
-            </div>
+            <my-alert z="1" alertType="success" text="Match enregistr&eacute : {{registeredMatch.date|date:'dd/MM/yyyy HH:mm'}} {{registeredMatch.team1}}/{{registeredMatch.team2}}" ng-show="registeredMatch">
+
+            </my-alert>
             <form name="matchForm" style="display: inline" role="form">
                 <div class="form-group">
                     <label class="sr-only" for="dueDate">Début du match</label>

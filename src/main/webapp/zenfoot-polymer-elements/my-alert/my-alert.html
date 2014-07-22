@@ -1,0 +1,15 @@
+<polymer-element name="my-alert" attributes="alertType z text">
+    <template>
+        <link rel="stylesheet" href="my-alert.css">
+        <div class="my-alert my-alert-{{alertType}}">
+            <paper-shadow z="{{z}}"></paper-shadow>
+            {{text}}
+        </div>
+    </template>
+    <script>
+        Polymer('my-alert',{
+            z: 0,
+            alertType: 'danger'
+        });
+    </script>
+</polymer-element>

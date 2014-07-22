@@ -5,9 +5,8 @@
             <core-icon ui-sref="unconnected.login" icon="arrow-back"></core-icon>
         </core-tooltip>
 
-    	<div class="alert alert-danger text-center"  data-ng-show="subscriber.subscriptionError">
-            Une erreur est survenue lors de la subscription de votre compte.
-        </div>
+        <my-alert data-ng-show="subscriber.subscriptionError" class="text-center2" text="Une erreur est survenue lors de la souscription à votre compte." z="1" alertType="danger">
+        </my-alert>
 
         <form action="" method="post" name="subscriptionForm" role="form" autocomplete="off">
             <h2 class="form-title">S'inscrire</h2>

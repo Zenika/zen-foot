@@ -1,5 +1,5 @@
 <div class="row" data-ng-controller="ProfilCtrl">
-    <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-3">
 
         <div class="page-header">
             <h1 style="text-align: center">Profil</h1>
@@ -39,7 +39,8 @@
                         </div>
                     </div>
                 </form>
-                <div style="text-align: center" class="alert alert-success" ng-show="messageName">{{messageName}}</div>
+                <my-alert class="text-center2" z="1" alertType="success" text="{{messageName}}" ng-show="messageName"></my-alert>
+
 
         <div class="page-header">
             <p class="lead"></p>
@@ -118,9 +119,7 @@
                     </div>
 
                 </form>
-                <div style="text-align: center" ng-show="response" class="alert" ng-class="{'alert-success':isOK(),'alert-danger':isWrong()}">
-                    {{message}}
-                </div>
+                <my-alert class="text-center2" ng-show="response" z="1" alertType="{{getClass()}}" text="{{message}}"></my-alert>
 
     </div>
 </div>

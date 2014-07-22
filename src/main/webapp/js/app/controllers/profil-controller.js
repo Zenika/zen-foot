@@ -75,4 +75,18 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
         return 'ERROR' == $scope.response;
     }
 
+
+    /**
+     * Once the user sent their credentials and the new password, this method says
+     * what kind of class to apply on the displayed alert (success or danger)
+     */
+    $scope.getClass = function(){
+        if($scope.isOK()){
+            return 'success';
+        }
+        else{
+            return 'danger';
+        }
+    }
+
 }])
