@@ -179,3 +179,7 @@ core-tooltip.fancy:focus::shadow .polymer-tooltip {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
+
+.text-center2 {
+    text-align: center;
+}
