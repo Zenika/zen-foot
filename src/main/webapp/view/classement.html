@@ -2,7 +2,8 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="jumbotron classement-jumbo">
+            <div class="card classement-jumbo">
+                <paper-shadow z="1"></paper-shadow>
                 <p>
                     Vous êtes
                     <strong><span>{{personnalRanking.classement}}</span><sup ng-pluralize count="personnalRanking.classement" when="{'1':'er','other':'ème'}"></sup>{{personnalRanking.equality?'(ex aequo)':''}}</strong>
@@ -19,7 +20,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="panel panel-default">
-                <div class="panel-body">
+                <div class="card classt-search-box">
                     <!--   <form>
                         <div class="form-group">
                             <select select-team class="form-control" ng-model="selectedTeam" ng-options="team.name for team in teams">
@@ -28,12 +29,10 @@
                         </div>
                     </form>-->
                     <form>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                <input class="form-control" placeholder="Trouver un joueur" data-ng-model="search">
-                            </div>
-                        </div>
+                        <core-field>
+                            <core-icon icon="search"></core-icon>
+                            <input ng-model="search" placeholder="Trouver un joueur">
+                        </core-field>
                     </form>
                     <ul>
                         <li data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')">
@@ -42,7 +41,8 @@
                             </a>
                         </li>
                     </ul>
-                    <button class="btn btn-primary" data-ng-click="changePage(personnalRanking)">Me trouver</button>
+                    <paper-button raisedButton class="blue-button colored"
+                                  label="Me trouver" ng-click="changePage(personnalRanking)"></paper-button>
                 </div>
             </div>
         </div>

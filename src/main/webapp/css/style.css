@@ -354,6 +354,8 @@ Some CSS properties on the size of inputs
 .classement-jumbo {
     text-align: center;
     padding: 15px;
+    margin:25px 0;
+    font-size: 20px;
 }
 
 .classement-jumbo > p {

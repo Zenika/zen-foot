@@ -1,6 +1,10 @@
 <div class="row" data-ng-controller="subscribeCtrl">
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
-    
+
+        <core-tooltip class="fancy" label="page de login" position="left">
+            <core-icon ui-sref="unconnected.login" icon="arrow-back"></core-icon>
+        </core-tooltip>
+
     	<div class="alert alert-danger text-center"  data-ng-show="subscriber.subscriptionError">
             Une erreur est survenue lors de la subscription de votre compte.
         </div>
@@ -8,61 +12,72 @@
         <form action="" method="post" name="subscriptionForm" role="form" autocomplete="off">
             <h2 class="form-title">S'inscrire</h2>
 
-            <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.prenom.$dirty}">
-                <label for="prenom" class="sr-only">Prénom</label>
+            <my-form-group ng-class="{'has-error2': subscriptionForm.prenom2.$invalid && subscriptionForm.prenom2.$dirty}">
 
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.prenom"
-                           placeholder="Prénom" required autofocus/>
-                </div>
+                <core-field>
+                    <core-icon icon="account-box"></core-icon>
+                    <input ng-model="subscriber.prenom" placeholder="Prénom" type="text"
+                           id="prenom2"
+                           name="prenom2"
+                           autofocus
+                           autofill
+                           required
+                           flex>
+                </core-field>
+
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.prenom.$error.required && subscriptionForm.prenom.$dirty">
+                        data-ng-show="subscriptionForm.prenom2.$error.required && subscriptionForm.prenom2.$dirty">
                     Champ obligatoire
                 </p>
-            </div>
+            </my-form-group>
 
-            <div class="form-group"
-                 ng-class="{'has-error': subscriptionForm.name.$invalid && subscriptionForm.name.$dirty}">
-                <label for="name" class="sr-only">Nom</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.name"
-                           placeholder="Nom" required/>
-                </div>
+            <my-form-group
+                 ng-class="{'has-error2': subscriptionForm.nom.$invalid && subscriptionForm.nom.$dirty}">
+                <core-field>
+                    <core-icon icon="account-box"></core-icon>
+                    <input ng-model="subscriber.name" placeholder="Nom" type="text"
+                           id="nom"
+                           name="nom"
+                           autofill
+                           required
+                           flex>
+                </core-field>
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.name.$error.required && subscriptionForm.name.$dirty">
+                        data-ng-show="subscriptionForm.nom.$error.required && subscriptionForm.nom.$dirty">
                     Champ obligatoire
                 </p>
-            </div>
+            </my-form-group>
 
-            <div class="form-group" ng-class="{'has-error': (subscriptionForm.email.$invalid && subscriptionForm.email.$dirty) || 
-            	(subscriber.subscriptionErrorAlreadyUsedEmail && !subscriptionForm.email.$dirty)}">
-                <label for="email" class="sr-only">Email</label>
+            <my-form-group ng-class="{'has-error2': (subscriptionForm.email2.$invalid && subscriptionForm.email2.$dirty) ||
+            	(subscriber.subscriptionErrorAlreadyUsedEmail && !subscriptionForm.email2.$dirty)}">
 
-                <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email"
-                           placeholder="prenom.nom@zenika.com" zen-mail required/>
-                </div>
+                <core-field>
+                    <core-icon icon="mail"></core-icon>
+                    <input ng-model="subscriber.email" placeholder="prenom.nom@zenika.com" type="email"
+                           id="email2"
+                           name="email2"
+                           autofill
+                           required
+                           zen-mail
+                           flex>
+                </core-field>
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.email.$error.required && subscriptionForm.email.$dirty">
+                        data-ng-show="subscriptionForm.email2.$error.required && subscriptionForm.email2.$dirty">
                     Champ obligatoire
                 </p>
 
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.email.$error.email && !subscriptionForm.email.$error.required">
+                        data-ng-show="subscriptionForm.email2.$error.email && !subscriptionForm.email2.$error.required">
                     Format non valide
                 </p>
 
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.email.$error.zenikaEmail && !subscriptionForm.email.$error.email">
+                        data-ng-show="!subscriptionForm.email2.$error.required && subscriptionForm.email2.$error.zenikaEmail && !subscriptionForm.email2.$error.email">
                     Doit être une adresse @zenika.com
                 </p>
                 <p
@@ -70,51 +85,54 @@
                     data-ng-show="subscriber.subscriptionErrorAlreadyUsedEmail && !subscriptionForm.email.$dirty">
                     Cette adresse email est déjà utilisée.
                 </p>
-            </div>
+            </my-form-group>
 
 
-            <div class="form-group"
-                 ng-class="{'has-error': subscriptionForm.password.$invalid && subscriptionForm.password.$dirty}">
-                <label for="password" class="sr-only">Mot de passe</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input type="password" name="password" id="password" class="form-control"
-                           data-ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)"
-                           data-ng-minlength="6" required/>
-                </div>
+            <my-form-group
+                 ng-class="{'has-error2': subscriptionForm.password2.$invalid && subscriptionForm.password2.$dirty}">
+                <core-field>
+                    <core-icon icon="lock"></core-icon>
+                    <input ng-model="subscriber.passwordHash" placeholder="Mot de passe (min. 6 caractères)" type="password"
+                           id="password2"
+                           name="password2"
+                           data-ng-minlength="6"
+                           required
+                           flex>
+                </core-field>
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.password.$error.required && subscriptionForm.password.$dirty">
+                        data-ng-show="subscriptionForm.password2.$error.required && subscriptionForm.password2.$dirty">
                     Champ obligatoire
                 </p>
 
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.password.$error.minlength">
+                        data-ng-show="subscriptionForm.password2.$error.minlength">
                     Le mot de passe doit faire 6 caractères minimum.
                 </p>
 
-            </div>
+            </my-form-group>
 
-            <div class="form-group"
-                 ng-class="{'has-error': subscriptionForm.confirmPassword.$invalid && subscriptionForm.confirmPassword.$dirty}">
-                <label for="confirmPassword" class="sr-only">Confirmation du mot de passe</label>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                    <input type="password" name="confirmPassword" id="confirmPasswords" class="form-control"
+            <my-form-group
+                 ng-class="{'has-error2': subscriptionForm.confirmPassword2.$invalid && subscriptionForm.confirmPassword2.$dirty}">
+                <core-field>
+                    <core-icon icon="lock"></core-icon>
+                    <input placeholder="Mot de passe (min. 6 caractères)" type="password"
+                           name="confirmPassword2"
+                           id="confirmPassword2"
                            data-ng-model="subscriber.confirmPasswordHash"
-                           placeholder="Entrez à nouveau le mot de passe" data-match="password"
-                           pwd-check="password"
-                           required="required"/> <br/>
-                </div>
+                           placeholder="Entrez à nouveau le mot de passe"
+                           data-match="password2"
+                           pwd-check="password2"
+                           required="required"
+                           flex>
+                </core-field>
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.confirmPassword.$error.pwdmatch && subscriptionForm.confirmPassword.$dirty">
+                        data-ng-show="subscriptionForm.confirmPassword2.$error.pwdmatch && subscriptionForm.confirmPassword2.$dirty">
                     Les mots de passe ne sont pas identiques !
                 </p>
-            </div>
+            </my-form-group>
 
            <!-- <p>Rejoindre une ligue ?</p>
 
@@ -139,11 +157,9 @@
                 </div>
 
             </ng-form>-->
-            <div class="form-group">
-                <div class="controls text-center">
-                    <button type="submit" class="btn btn-primary" data-ng-click="valider()" data-ng-disabled="subscriptionForm.$invalid">Créer mon compte</button>
-                </div>
-            </div>
+            <my-form-group>
+                <paper-button raisedButton class=" blue-button colored" data-ng-click="valider()" data-ng-disabled="subscriptionForm.$invalid" label="Créer mon compte"></paper-button>
+            </my-form-group>
 
         </form>
 
