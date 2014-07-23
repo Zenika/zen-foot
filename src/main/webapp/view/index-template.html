@@ -50,6 +50,7 @@
         <core-toolbar id="mainheader">
             <paper-icon-button id="navicon" icon="menu" ng-click="togglePanel()"></paper-icon-button>
             <span flex><a><img class="zen-logo" src="img/logo.png"></a></span>
+            <span class="clicable toolbar-icon text-right2" ui-sref="index.profileState">{{user.prenom}}</span>
             <span class="hide-mobile clicable" ng-controller="LoginCtrl" ng-click="logout()">Déconnexion</span>
         </core-toolbar>
         <content-main-page>

@@ -184,4 +184,18 @@ core-tooltip.fancy:focus::shadow .polymer-tooltip {
     text-align: center;
 }
 
+.text-right2{
+    text-align: right;
+}
 
+.text-left2{
+    text-align: left;
+}
+
+.toolbar-icon{
+    min-width: 70px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space: nowrap;
+}
