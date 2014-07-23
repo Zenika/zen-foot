@@ -43,3 +43,7 @@
 .ngPagerCurrent {
     display: inline;
 }
+
+.ngTopPanel{
+    z-index: auto !important;
+}

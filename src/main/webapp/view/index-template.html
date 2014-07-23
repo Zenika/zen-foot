@@ -37,11 +37,11 @@
         <core-toolbar id="navheader'">
             <span>Menu</span>
         </core-toolbar>
-        <core-menu selected="prono" valueattr="name">
+        <core-menu id="core_menu" selected="prono" valueattr="name">
             <core-item ng-show="!isAdmin()" class="ng-hide" name="prono" label="Pronostics" ui-sref="index.betsState"></core-item>
             <core-item ng-show="!isAdmin()" class="ng-hide" name="classement" label="Classement" ui-sref="index.classState"></core-item>
-            <core-item ng-show="isAdmin()" class="ng-hide" label="Résultats" ui-sref="index.adminState"></core-item>
-            <core-item ng-show="isAdmin()" class="ng-hide" label="Nouveaux matchs" ui-sref="index.adminFinales"></core-item>
+            <core-item ng-show="isAdmin()" class="ng-hide" name="results" label="Résultats" ui-sref="index.adminState"></core-item>
+            <core-item ng-show="isAdmin()" class="ng-hide" name="newmatchs" label="Nouveaux matchs" ui-sref="index.adminFinales"></core-item>
             <core-item ng-show="user.connected" class="ng-hide visible-mobile" name="logout" label="Deconnexion" ng-click="logout()" ng-controller="LoginCtrl"></core-item>
         </core-menu>
     </core-header-panel>
@@ -49,7 +49,7 @@
     <core-header-panel main>
         <core-toolbar id="mainheader">
             <paper-icon-button id="navicon" icon="menu" ng-click="togglePanel()"></paper-icon-button>
-            <span flex><a><img class="zen-logo" src="img/logo.png"></a></span>
+            <span flex><a ui-sref="index.betsState"><img class="zen-logo" src="img/logo.png"></a></span>
             <span class="clicable toolbar-icon text-right2" ui-sref="index.profileState">{{user.prenom}}</span>
             <span class="hide-mobile clicable" ng-controller="LoginCtrl" ng-click="logout()">Déconnexion</span>
         </core-toolbar>

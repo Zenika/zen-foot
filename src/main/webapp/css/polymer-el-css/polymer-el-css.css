@@ -199,3 +199,9 @@ core-tooltip.fancy:focus::shadow .polymer-tooltip {
     overflow:hidden;
     white-space: nowrap;
 }
+
+.page-header2{
+    padding-bottom: 9px;
+    border-bottom: solid 1px #eee;
+    margin: 40px 0 20px;
+}

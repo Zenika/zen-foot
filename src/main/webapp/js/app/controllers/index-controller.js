@@ -56,4 +56,10 @@ angular.module('zenFoot.app')
             return !$rootScope.user.connected;
         }
 
+        $scope.getMenuItem2 = function(){
+            return 'prono';
+        }
+
+
+
     });

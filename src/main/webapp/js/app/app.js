@@ -59,6 +59,7 @@
 
             $httpProvider.interceptors.push(function ($q, $location, $injector) {
 
+
                 var getAuthService = function () {
                     return $injector.get('authService');
                 };
@@ -96,7 +97,29 @@
                 return _.contains(adminRoutes,routeName);
             }
 
+            var getMenuItem = function(state){
+                if(state.name === 'index.betsState'){
+                    return 'prono';
+                }
+                else if(state.name === 'index.classState'){
+                    return 'classement';
+                }
+                else if(state.name === 'index.adminState'){
+                    return 'results';
+                }
+                else if(state.name === 'index.adminFinales'){
+                    return 'newmatchs';
+                }
+                return 'whatever';
+            }
+
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+
+                var coreMenu = document.getElementById('core_menu');
+                if(coreMenu){
+                    coreMenu.setAttribute('selected', getMenuItem(toState));
+                }
+
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }
