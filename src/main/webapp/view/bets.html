@@ -6,11 +6,18 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="match-title">
-                        <h2> Liste des matchs &nbsp; </h2>
-                        <span popover-info class="glyphicon glyphicon-info-sign" data-toggle="popover"
-                              data-placement="bottom"
-                              data-content="Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point. Si vous avez le score exact, vous gagnez 3 points">
-                        </span>
+                        <h2> Liste des matchs &nbsp;</h2>
+                        <core-tooltip class="bet-tooltip fancy" position="bottom">
+                            <core-icon icon="info-outline"></core-icon>
+                            <div tip>
+                                <p>
+                                    Si vous avez le bon résultat mais pas le score exact, vous gagnez 1 point.
+                                </p>
+                                <p>
+                                    Si vous avez le score exact, vous gagnez 3 points
+                                </p>
+                            </div>
+                        </core-tooltip>
                         <a class="display-link" ng-click="showByDate=!showByDate">{{getDisplayLinkLabel()}}</a>
                     </div>
                 </div>
@@ -62,7 +69,7 @@
 
                         <!--That's the row for inputs-->
                         <div class="row match-line" ng-class="{'match-ended': canBet(match)}">
-                            <div class="col-xs-12 col-sm-4 col-md-3 match-date"
+                            <div class="col-xs-12 col-sm-4 col-md-2 match-date"
                                  ng-class="{'former-match':isFormer(match.date)}">
                                 {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="showByDate"
                                                                                  style="display:inline-block">- {{displayGroup(match.groupe)}}</span>
@@ -83,15 +90,29 @@
                                                  'classt-other-half':is1Point(match,match.bet), 'classt-other-lose':is0Point(match,match.bet)}">
                                                  {{displayScore(match.bet.score1)}}
                                                 </span>
-                                                <input ng-show="!isFormer(match.date)"
-                                                       name="score1input"
-                                                       class="form-control input-sm text-center input-score"
-                                                       zen-disable
-                                                       oldmatch="{{isFormer(match.date)}}"
-                                                       data-ng-model="match.bet.score1"
-                                                       data-ng-pattern=scoreRegexp
-                                                       data-ng-required="hasTwoScores(match.bet)"
-                                                       data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2)}">
+                                                <!--<input ng-show="!isFormer(match.date)"-->
+                                                       <!--name="score1input"-->
+                                                       <!--class="form-control input-sm text-center input-score"-->
+                                                       <!--zen-disable-->
+                                                       <!--oldmatch="{{isFormer(match.date)}}"-->
+                                                       <!--data-ng-model="match.bet.score1"-->
+                                                       <!--data-ng-pattern=scoreRegexp-->
+                                                       <!--data-ng-required="hasTwoScores(match.bet)"-->
+                                                       <!--data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2)}">-->
+
+                                                <!--<paper-input ng-show="!isFormer(match.date)" class="text-center input-score2"></paper-input>-->
+                                                <core-field ng-show="!isFormer(match.date)" class="input-score2" style="display: inline-flex">
+                                                    <input
+                                                           name="score1input"
+                                                           class="text-center2 input-score"
+                                                           zen-disable
+                                                           oldmatch="{{isFormer(match.date)}}"
+                                                           data-ng-model="match.bet.score1"
+                                                           data-ng-pattern=scoreRegexp
+                                                           data-ng-required="hasTwoScores(match.bet)"
+                                                           data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2)}">
+                                                </core-field>
+
                                                 <span class="label label-danger"
                                                       data-ng-show="score1Form.score1input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
@@ -118,16 +139,26 @@
                                                  'classt-other-half':is1Point(match,match.bet), 'classt-other-lose':is0Point(match,match.bet)}">
                                                     {{displayScore(match.bet.score2)}}
                                                 </span>
-                                                <input ng-show="!isFormer(match.date)"
-                                                       name="score2input"
-                                                       class="form-control input-sm text-center input-score"
-                                                       zen-disable
-                                                       oldmatch="{{isFormer(match.date)}}"
-                                                       data-ng-model="match.bet.score2"
-                                                       data-ng-pattern=scoreRegexp
-                                                       data-ng-required="hasTwoScores(match.bet)"
-                                                       data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1)}">
-
+                                                <!--<input ng-show="!isFormer(match.date)"-->
+                                                       <!--name="score2input"-->
+                                                       <!--class="form-control input-sm text-center input-score"-->
+                                                       <!--zen-disable-->
+                                                       <!--oldmatch="{{isFormer(match.date)}}"-->
+                                                       <!--data-ng-model="match.bet.score2"-->
+                                                       <!--data-ng-pattern=scoreRegexp-->
+                                                       <!--data-ng-required="hasTwoScores(match.bet)"-->
+                                                       <!--data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1)}">-->
+                                                <core-field ng-show="!isFormer(match.date)" class="input-score2" style="display: inline-flex">
+                                                    <input style="width:inherit"
+                                                            name="score2input"
+                                                           class="text-center2 input-score2"
+                                                           zen-disable
+                                                           oldmatch="{{isFormer(match.date)}}"
+                                                           ng-model="match.bet.score2"
+                                                           data-ng-required="hasTwoScores(match.bet)"
+                                                           data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1)}"
+                                                           flex>
+                                                </core-field>
                                                 <span class="label label-danger"
                                                       data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>

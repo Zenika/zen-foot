@@ -205,3 +205,14 @@ core-tooltip.fancy:focus::shadow .polymer-tooltip {
     border-bottom: solid 1px #eee;
     margin: 40px 0 20px;
 }
+
+.input-score2{
+    width:40px;
+}
+
+.bet-tooltip {
+    position: absolute;
+    top:0;
+}
+
+
