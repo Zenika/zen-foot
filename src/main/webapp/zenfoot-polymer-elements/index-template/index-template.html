@@ -1,0 +1,57 @@
+<polymer-element name="index-template" attributes="query">
+
+    <template>
+        <link rel="stylesheet" href="index-template.css">
+        <!--DESKTOP TEMPLATE-->
+        <template if="{{desktopScreen}}">
+            <core-header-panel mode="seamed" ng-hide="hideNavBar()" flex>
+                <core-toolbar id="mainheader">
+                    <content select="span"></content>
+                </core-toolbar>
+                <content select="#view"></content>
+                <!--<div class="content">content</div>-->
+            </core-header-panel>
+        </template>
+
+        <!--MOBILE TEMPLATE-->
+        <template if="{{!desktopScreen}}">
+            <core-drawer-panel ng-hide="hideNavBar()" id="drawerPanel">
+
+                <core-header-panel drawer id="menu-header">
+                    <core-toolbar id="navheader'">
+                        <span>Menu</span>
+                    </core-toolbar>
+                    <core-menu id="core_menu" selected="prono" valueattr="name">
+                        <content select="core-item"></content>
+                    </core-menu>
+                </core-header-panel>
+
+                <core-header-panel main>
+                    <core-toolbar id="mainheader">
+                        <content select="paper-icon-button"></content>
+                        <content select="span#logo"></content>
+                    </core-toolbar>
+                    <content-main-page>
+                        <content select="#view"></content>
+                    </content-main-page>
+                </core-header-panel>
+
+            </core-drawer-panel>
+
+        </template>
+
+        <core-media-query query="{{query}}" queryMatches="{{desktopScreen}}"></core-media-query>
+
+    </template>
+    <script>
+        Polymer('index-template',{
+            ready:function(){
+                var navicon = document.getElementById('navicon');
+                var drawerPanel = this.$.drawerPanel;
+                navicon.addEventListener('click', function () {
+                    drawerPanel.togglePanel();
+                });
+            }
+        })
+    </script>
+</polymer-element>

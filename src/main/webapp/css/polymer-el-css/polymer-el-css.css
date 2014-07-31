@@ -8,41 +8,7 @@ core-field{
     height: 35px;
 }
 
-core-header-panel {
-    background: #ffffff;
-    height: 100px;
-}
 
-#menu-header{
-    background: whitesmoke;
-}
-
-core-toolbar {
-    background-color: #B11016;
-    color:#f2f2f2;
-}
-
-.clicable{
-    cursor: pointer;
-}
-
-#navheader {
-    background-color: #B11016;
-}
-
-.content {
-    padding: 20px;
-}
-/* drawer is always visible on a wide screen
-   so menu button isn't required */
-core-drawer-panel:not([narrow]) #navicon {
-    display: none;
-}
-
-/* overriding padding on content class. The default is set to 20px on each side otherwise */
-.content{
-    padding: 0 0;
-}
 
 .pariez-button2 {
     margin: 1em;
@@ -190,14 +156,6 @@ core-tooltip.fancy:focus::shadow .polymer-tooltip {
 
 .text-left2{
     text-align: left;
-}
-
-.toolbar-icon{
-    min-width: 70px;
-    max-width: 150px;
-    text-overflow: ellipsis;
-    overflow:hidden;
-    white-space: nowrap;
 }
 
 .page-header2{

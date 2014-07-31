@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <form name="scoreform" class="form-score form-horizontal match-form">
+            <form name="scoreform" class="form-score form-horizontal match-form" autofill-submit="pariez()">
                 <h4 style="display: inline-block" ng-show="otherGambler" class="other-gamb-theme">
                     Pronostics de {{otherGambler.prenom}} {{otherGambler.nom}}</h4>
                 <span ng-show="otherGambler" class="glyphicon glyphicon-remove" ng-click="removeOther()"></span>
@@ -69,7 +69,7 @@
 
                         <!--That's the row for inputs-->
                         <div class="row match-line" ng-class="{'match-ended': canBet(match)}">
-                            <div class="col-xs-12 col-sm-4 col-md-2 match-date"
+                            <div class="col-xs-12 col-sm-4 col-md-3 match-date"
                                  ng-class="{'former-match':isFormer(match.date)}">
                                 {{match.date | date:'dd/MM/yyyy à HH:mm'}} <span data-ng-show="showByDate"
                                                                                  style="display:inline-block">- {{displayGroup(match.groupe)}}</span>
@@ -189,19 +189,18 @@
 
                 <div class="footer" data-ng-hide="modified">
                     <div class="container text-center">
-                        <paper-button class="pariez-button2 colored" data-ng-disabled="scoreform.$invalid" data-ng-click="pariez()" style="float:right" raisedButton label="Parier !"></paper-button>
-                        <!--<button type="submit" class="btn btn-danger pull-right " data-ng-disabled="scoreform.$invalid"-->
-                                <!--data-ng-click="pariez()">Parier !-->
-                        <!--</button>-->
+                        <paper-button class="pariez-button2 colored" data-ng-disabled="scoreform.$invalid"
+                                      data-ng-click="pariez()" style="float:right" raisedButton
+                                      label="Parier !"></paper-button>
+                        <input type="submit" style="display: none">
 
-                      <span class="saved-sucess ng-hide" data-ng-show="betSavedSuccess">
+                        <span class="saved-sucess ng-hide" data-ng-show="betSavedSuccess">
                         Vos pronostics ont été enregistrés
-                      </span>
+                        </span>
 
-                      <span class="saved-error ng-hide" data-ng-show="betSavedError">
+                        <span class="saved-error ng-hide" data-ng-show="betSavedError">
                         Erreur lors l'enregistrement de vos pronostics
-                      </span>
-
+                        </span>
                     </div>
                 </div>
             </form>

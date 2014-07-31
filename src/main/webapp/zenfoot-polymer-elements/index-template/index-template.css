@@ -1,0 +1,65 @@
+#menu-header{
+    background: whitesmoke;
+}
+
+core-toolbar {
+    background-color: #B11016;
+    color:#f2f2f2;
+}
+
+.clicable{
+    cursor: pointer;
+}
+
+#navheader {
+    background-color: #B11016;
+}
+
+/* drawer is always visible on a wide screen
+   so menu button isn't required */
+core-drawer-panel:not([narrow]) #navicon {
+    display: none;
+}
+
+core-header-panel {
+    background: #ffffff;
+    position : absolute;
+    top: 0;
+    bottom : 0;
+    float: left;
+    width: 100%;
+    overflow: auto;
+
+}
+
+.core-header {
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    padding: 0 10px;
+    background-color: #4F7DC9;
+    color: #FFF;
+    transition: height 0.2s;
+}
+
+.content {
+    height: 2000px;
+    background: linear-gradient(rgb(214, 227, 231), lightblue);
+}
+
+polyfill-next-selector { content: '#mainheader span'; }
+
+#mainheader ::content span{
+    cursor: pointer;
+}
+
+polyfill-next-selector { content: '#userName'; }
+
+::content #userName{
+    min-width: 70px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space: nowrap;
+}
+

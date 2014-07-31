@@ -63,13 +63,10 @@
             </my-form-group>
 
             <my-form-group class="text-center2">
-                <!--<input-->
-                <!--type="submit"-->
-                <!--value="Connexion"-->
-                <!--class="btn btn-primary"-->
-                <!--/>-->
 
-                <paper-button ng-disabled="loginForm.$invalid" raisedButton class=" blue-button colored"
+                <input style="display:none" type="submit" value="Submit">
+
+                <paper-button ng-disabled="loginForm.$invalid" raisedButton class="blue-button colored"
                               label="Connexion" ng-click="submit()"></paper-button>
 
                 <paper-button class="colored subscribe-button" label="S'inscrire"
