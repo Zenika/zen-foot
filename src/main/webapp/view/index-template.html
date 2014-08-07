@@ -18,6 +18,8 @@
     <span id="logo"><a ui-sref="index.betsState"><img class="zen-logo" src="img/logo.png"></a></span>
     <span class="ng-hide clicable" data-ng-show="!isAdmin()" ui-sref="index.betsState">Pronostics</span>
     <span class="ng-hide clicable" data-ng-show="!isAdmin()" ui-sref="index.classState">Classement</span>
+    <span class="ng-hide clicable" data-ng-show="isAdmin()" ui-sref="index.adminState">Résultats</span>
+    <span class="ng-hide clicable" data-ng-show="isAdmin()" ui-sref="index.adminFinales">Nouveaux matchs</span>
     <span flex></span>
     <span id="userName" class="clicable toolbar-icon text-right2" ui-sref="index.profileState">{{user.prenom}}</span>
     <span class="hide-mobile clicable" ng-controller="LoginCtrl" ng-click="logout()">Déconnexion</span>
@@ -29,6 +31,5 @@
     </div>
 
 </index-template>
-
 
 

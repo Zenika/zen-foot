@@ -1,0 +1,21 @@
+<polymer-element name="my-input" attributes="person">
+    <template>
+        <input value="{{person.name}}">
+        {{person.name}}
+    </template>
+    <script>
+        Polymer('my-input',{
+            publish:{
+                person : {
+                    name :{
+                        value: 'Raoul',
+                        reflect: true
+                    }
+                }
+            },
+            ready : function() {
+                this.person = {};
+            }
+        });
+    </script>
+</polymer-element>

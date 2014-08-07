@@ -5,7 +5,7 @@
         'zenContact.filters', 'zenFoot.directives',
         'ngCookies', 'ngResource', 'ngRoute',
         'ui.router', 'ui.bootstrap', 'ui.unique',
-        'autofill-directive', 'ngGrid', 'angular-md5'
+        'autofill-directive', 'ngGrid', 'angular-md5', 'eee-c.angularBindPolymer'
     ])
 
         .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {

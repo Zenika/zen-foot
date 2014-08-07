@@ -43,4 +43,6 @@ angular.module('zenFoot.app')
             $scope.subscribe = function () {
                 $state.go('unconnected.subscribeState');
             };
+
+//            $scope.person = {name:'jean'};
         }]);
