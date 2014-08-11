@@ -64,9 +64,9 @@ public class MockUserService implements UserService<User> {
             throw new JsonWrappedErrorWebException("WRONG_PWD","le mot de passe renseigné n'est pas le bon");
         }
         else{
-            User user = userOpt.get();
-            user.setPassword(newPW);
-            this.createUser(user);
+//            User user = userOpt.get();
+//            user.setPassword(newPW);
+//            this.createUser(user);
         }
     }
 }

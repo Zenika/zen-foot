@@ -36,10 +36,17 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
             function (response) {
                 $scope.response = 'OK';
                 $scope.message = 'Votre mot de passe a été réinitialisé !';
+
+                $timeout(function(){
+                    $scope.message = 'Non je déconne ;)';
+                },3500);
+
                 $timeout(function () {
                     delete $scope.message;
                     delete $scope.response;
-                }, 5000);
+                }, 8000);
+
+
             },
             function (response) {
                 if (response.status === 400 && response.data.hasOwnProperty('errorCode') && response.data.errorCode === 'WRONG_PWD') {

@@ -6,7 +6,7 @@
 angular.module('zenFoot.app')
     .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams','$timeout',
         function ($scope, $rootScope, $http, $state, $stateParams,$timeout) {
-            $scope.login = { };
+            $scope.login = {email:'jean.bon@zenika.com', password:'zenika' };
 
             if ($stateParams.subscriptionSuccess) {
                 $scope.subscriptionSuccess = true;
