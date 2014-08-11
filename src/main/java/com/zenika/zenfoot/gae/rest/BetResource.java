@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -23,9 +22,7 @@ import restx.annotations.PUT;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.http.HttpStatus;
-import restx.security.PermitAll;
-import restx.security.RolesAllowed;
-import restx.security.UserService;
+import restx.security.*;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
