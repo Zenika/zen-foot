@@ -86,7 +86,7 @@ public class GamblerService {
         return createGambler(user, matchs, 0);
     }
 
-    //TODO : remove once the mocked users are removed
+    //TODO : remove once mocked users are removed
     public Key<Gambler> createGambler(User user, List<Match> matchs, int points) {
         Gambler gambler = new Gambler(user.getEmail());
         gambler.setPrenom(user.getPrenom());
