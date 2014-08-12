@@ -42,18 +42,23 @@ angular.module('zenFoot.app')
             $scope.showByDate = false;
 
             /**
-             * Should we display the matchs corresponding to this date ? Used in date displaying mode.
+             * Should we display matchs corresponding to this date ? Used in date displaying mode.
              * This is based on whether or not matches are corresponding to the selected groups
              * Return true if the matches corresponding to one date should be displayed, false otherwise
              */
             $scope.shouldShowDate = function (date) {
-                var toRet1 = !isGroupsFiltered()
+                var toRet1 = !isGroupsFiltered();
                 return toRet1 || _.some($scope.matchesByDate[date], function (match) {
                     return $scope.groupsFilters[match.groupe]
                 })
 
             }
 
+            /**
+             * Return whether or not at least one group button is clicked, and thus whether only some groups
+             * should be shown, or all of them.
+             * @returns true if one of group button is activated, false otherwise.
+             */
             var isGroupsFiltered = function () {
                 return _.chain($scope.groupsFilters).values().any(function (v) {
                     return v;
@@ -138,29 +143,6 @@ angular.module('zenFoot.app')
 
             $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
-            /**
-             * This function get bets from the server and compare them to the bets client side,
-             * in order to identify bets which were not registered (usefull to identify bets which were
-             * voted but were posted after the beginning of the match
-             */
-//            var updateBets = function () {
-//                var matchAndBets = betMatchService.getAll().$promise;
-//                matchAndBets.then(function (result) {
-//                    var matchBetsCl = angular.copy($scope.matchsBets);
-//                    return {result: result, matchBetsCl: matchBetsCl};
-//
-//                })
-//                    .then(function (couple) {
-//                        $scope.matchsBets = couple.result;
-//                        return couple;
-//                    })
-//                    .then(function (couple) {
-//                        betMatchService.markUnreg(couple.matchBetsCl, $scope.matchsBets);
-//                    })
-//
-//            }
-
-
             var pariezNotificationTimeout = null;
 
             /**
@@ -243,27 +225,35 @@ angular.module('zenFoot.app')
                 }
             };
 
-            $scope.matchesForGroup = function (group) {
+            $scope.matchesForKey = function (key) {
                 if ($scope.showByDate) {
-                    return $scope.matchesByDate[group]
+                    return $scope.matchesByDate[key]
                 }
                 else {
-                    return $scope.matchesByGroup[group]
+                    return $scope.matchesByGroup[key]
                 }
             };
 
-            $scope.shouldShow = function (group) {
+
+            /**
+             * Return whether or not the matches corresponding to this key should be shown. If the display mode is set to
+             * true, then matches should always be displayed. If the displaying mode is set to group, then shouldShowGroup
+             * is called to decide whether or not matches corresponding to the group should be displayed.
+             * @param group
+             * @returns true if matches corresponding to the key should be displayed, false otherwise
+             */
+            $scope.shouldShowKeyMatch = function (key) {
                 if ($scope.showByDate) {
                     return true;
                 }
                 else {
-                    return $scope.shouldShowGroup(group)
+                    return $scope.shouldShowGroup(key)
                 }
             };
 
             $scope.showMatch = function (group) {
                 if ($scope.showByDate) {
-                    return !isGroupsFiltered() || $scope.groupsFilters[group]
+                    return $scope.shouldShowGroup(group);
                 }
                 else {
                     return true
