@@ -6,15 +6,15 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
 
     $q.when(Gambler.get().$promise, function (gambler) {
         $scope.gambler = gambler;
-        //former is used to know whether the user has already modified their name (used to disable or not the validation button)
+        //tampon is used to know whether the user has already modified their name (used to disable or not the validation button)
         // TODO : improve validation using this variable
-        $scope.former = angular.copy(gambler);
+        $scope.tampon = angular.copy(gambler);
     })
 
     $scope.sendNames = function () {
-        Gambler.update($scope.gambler,function(response){
+        Gambler.update($scope.tampon,function(response){
             $scope.gambler = response[0];
-            $scope.former = angular.copy($scope.gambler);
+            $scope.tampon = angular.copy($scope.gambler);
             var user = response[1];
             $rootScope.user.nom = user.nom;
             $rootScope.user.prenom = user.prenom;
@@ -73,6 +73,11 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
 
     $scope.isError = function () {
         return 'ERROR' == $scope.response;
+    }
+
+    $scope.canModifyNames=function(){
+        if(!$scope.gambler)return;
+        return $scope.gambler.prenom !== $scope.tampon.prenom || $scope.gambler.nom !== $scope.tampon.nom;
     }
 
 }])

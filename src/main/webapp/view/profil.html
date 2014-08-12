@@ -15,7 +15,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                             <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prénom"
-                                   ng-model="gambler.prenom" required
+                                   ng-model="tampon.prenom" required
                                    autofocus/>
                         </div>
                     </div>
@@ -26,20 +26,21 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                             <input type="text" name="name" id="name" class="form-control" placeholder="Nom"
-                                   ng-model="gambler.nom"
+                                   ng-model="tampon.nom"
                                    required/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="controls text-center">
-                            <button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid"
+                            <button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid || !canModifyNames()"
                                     ng-click="sendNames()">Modifier
                             </button>
                         </div>
                     </div>
                 </form>
                 <div style="text-align: center" class="alert alert-success" ng-show="messageName">{{messageName}}</div>
+
 
         <div class="page-header">
             <p class="lead"></p>
