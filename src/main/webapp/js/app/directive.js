@@ -4,7 +4,6 @@
 
 zenFootDirectives = angular.module('zenFoot.directives', []);
 
-
 zenFootDirectives.directive('groupeDirective', function () {
     return {
         restrict: 'E',
