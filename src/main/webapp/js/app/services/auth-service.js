@@ -13,7 +13,7 @@ angular.module('zenFoot.app')
             },
             logout: function () {
                 Session.delete(function () {
-                    $state.go('loginState');
+                   $state.go($state.current.name,null,{reload:true});
                 });
                 Session.user.connected = false;
                 delete Session.user.fullName;
