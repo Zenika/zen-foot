@@ -1,7 +1,6 @@
 package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
-import com.google.appengine.repackaged.org.joda.time.DateTimeZone;
 import com.zenika.zenfoot.gae.dao.*;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
@@ -109,4 +108,11 @@ public class ModelModule {
     public RankingDAO rankingDAO() {
         return new RankingDAO();
     }
+
+    @Provides
+    public PWDLinkDAO pwdLinkDAO(){
+        return new PWDLinkDAO();
+    }
+
+
 }

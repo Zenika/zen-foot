@@ -1,4 +1,4 @@
-application: zenfoot-prod
+application: zen-foot
 version: 1-4
 runtime: java
 api_version: 1
