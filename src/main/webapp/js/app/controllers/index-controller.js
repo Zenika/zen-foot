@@ -39,7 +39,6 @@ angular.module('zenFoot.app')
             return Session.user.connected;
         };
 
-
         $rootScope.isAdmin = function () {
             return _.contains($rootScope.user.roles, 'ADMIN');
         };
