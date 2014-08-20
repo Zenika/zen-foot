@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+
+    <cron>
+        <url>/api/cron/cleanPWDLinks</url>
+        <description>Deleting expired password recovery links</description>
+        <schedule>every 1 hours</schedule>
+        <timezone>Europe/Paris</timezone>
+    </cron>
+</cronentries>

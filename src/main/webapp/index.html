@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/override_bootstrap.css" media="screen">
     <link rel="stylesheet" href="css/profil.css" media="screen">
     <link rel="stylesheet" href="css/login.css" media="screen">
+    <link rel="stylesheet" href="css/login2.css" media="screen">
+    <link rel="stylesheet" href="css/shake.css" media="screen">
 
 </head>
 
@@ -32,7 +34,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="betsState"><img class="zen-logo" src="img/logo.png"></a>
+            <a class="navbar-brand" ui-sref="betsState"><img ng-class="{'shaked':shakeLogo}" class="zen-logo" src="img/logo.png"></a>
             <span class="navbar-text pull-right visible-xs" ng-bind="user.email"></span>
         </div>
         <div class="navbar-collapse collapse" style="height: 1px;">
@@ -96,6 +98,7 @@
 <script type="text/javascript" src="js/app/controllers/ligue-detail-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/index-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/profil-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/reset-pwd-controller.js"></script>
 <script type="text/javascript" src="js/app/services/auth-service.js"></script>
 <script type="text/javascript" src="js/app/services/bet-match-service.js"></script>
 <script type="text/javascript" src="js/app/services/display-service.js"></script>
@@ -103,6 +106,8 @@
 <script type="text/javascript" src="js/app/services/joiner-service.js"></script>
 <script type="text/javascript" src="js/app/services/ligue-service.js"></script>
 <script type="text/javascript" src="js/app/services/guest-service.js"></script>
+<script type="text/javascript" src="js/app/services/forgot-PWD-service.js"></script>
+<script type="text/javascript" src="js/app/services/profil-service.js"></script>
 <script type="text/javascript" src="js/app/services/session-service.js"></script>
 <script type="text/javascript" src="js/app/services/user-service.js"></script>
 <script type="text/javascript" src="js/app/services/ranking-service.js"></script>
