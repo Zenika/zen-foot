@@ -4,7 +4,6 @@
 
 zenFootDirectives = angular.module('zenFoot.directives', []);
 
-
 zenFootDirectives.directive('groupeDirective', function () {
     return {
         restrict: 'E',
@@ -139,8 +138,8 @@ zenFootDirectives.directive('zenMail', function () {
 zenFootDirectives.directive('todayFocus', ['$location', '$anchorScroll', function ($location, $anchorScroll) {
     return{
         link: function (scope, element, attrs) {
-            var dateMatch = new Date(parseInt(scope.group, 10))
-            var today = new Date()
+            var dateMatch = new Date(parseInt(scope.key, 10));
+            var today = new Date();
 
             if (today.getFullYear() !== dateMatch.getFullYear()) {
                 return;

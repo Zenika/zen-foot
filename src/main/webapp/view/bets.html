@@ -51,12 +51,14 @@
                     Pronostics de {{otherGambler.prenom}} {{otherGambler.nom}}</h4>
                 <span ng-show="otherGambler" class="glyphicon glyphicon-remove" ng-click="removeOther()"></span>
 
-                <div data-ng-repeat="group in getGroupingKeys()" data-ng-show="shouldShow(group)">
-                    <h3 ng-hide="showByDate">{{displayGroup(group)}}</h3>
 
-                    <h3 today-focus ng-show="showByDate&&shouldShowDate(group)">{{group|date:'dd/MM/yyyy'}}</h3>
+                <!--'group' corresponds either to a group, or to a date. It's a key containing several corresponding matchs-->
+                <div data-ng-repeat="key in getGroupingKeys()" data-ng-show="shouldShowKeyMatch(key)">
+                    <h3 ng-show="!showByDate">{{displayGroup(key)}}</h3>
 
-                    <div data-ng-show="showMatch(match.groupe)" data-ng-repeat="match in matchesForGroup(group) | orderBy:'date'">
+                    <h3 today-focus ng-show="showByDate&&shouldShowDate(key)">{{key|date:'dd/MM/yyyy'}}</h3>
+
+                    <div data-ng-show="showMatch(match.groupe)" data-ng-repeat="match in matchesForKey(key) | orderBy:'date'">
 
                         <!--That's the column containing inputs, and results-->
 
