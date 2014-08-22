@@ -22,6 +22,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import java.util.List;
 import java.util.Properties;
 
@@ -92,7 +93,7 @@ public class NewPasswordResource {
             msg.setFrom(new InternetAddress("raphael.martignoni@zenika.com", "Admin Zenfoot"));
             msg.addRecipient(Message.RecipientType.TO,
                     new InternetAddress(destEmail));
-            msg.setSubject("Réinitialisation de votre mot de passe zenfoot");
+            msg.setSubject(MimeUtility.encodeText("Réinitialisation de votre mot de passe zenfoot", "UTF-8", "Q"));
             msg.setText(msgBody);
             Transport.send(msg);
     }
