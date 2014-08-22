@@ -64,6 +64,8 @@ public class SubscriptionResource {
         gamblerService.addTeams(subscriber.getTeams(), gambler);
     }
 
+
+
     @GET("/confirmSubscription")
     @PermitAll
     public String confirmSubscription(String email) {
