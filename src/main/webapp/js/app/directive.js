@@ -81,6 +81,7 @@ zenFootDirectives.directive('generateInput', function () {
 zenFootDirectives.directive('newTeam', function () {
 
     var isNew = function (team, regTeams) {
+        if(!team.name)return;
         var result = _.find(regTeams, function (regTeam) {
             return regTeam.name == team.name;
         });
@@ -167,6 +168,25 @@ zenFootDirectives.directive('dateValid',[function(){
             scope.$watch('match.date',function(oldValue,newValue){
                 var isDate = angular.isDate(scope.match.date);
                 ctrl.$setValidity('dateChk',isDate);
+            });
+
+        }
+    }
+}])
+
+
+/**
+ * Checks that the gambler is not trying to join a team he has already applied to/ already belongs to
+ */
+zenFootDirectives.directive('ligueCheck',[function(){
+    return {
+        require:'ngModel',
+        link:function(scope,element,attrs,ctrl){
+            scope.$watch('team.name',function(oldValue,newValue){
+                ctrl.$setValidity('ligueChk',true);
+                if(scope.team.name != '' && scope.statutTeamByName[scope.team.name]){
+                    ctrl.$setValidity('ligueChk',false);
+                }
             });
 
         }

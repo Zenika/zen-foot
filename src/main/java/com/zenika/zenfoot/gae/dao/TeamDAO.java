@@ -13,6 +13,8 @@ import java.util.logging.Logger;
  */
 public class TeamDAO {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
+
     public Key<Team> createUpdate(Team team) {
         return OfyService.ofy().save().entity(team).now();
     }
@@ -25,14 +27,17 @@ public class TeamDAO {
         return OfyService.ofy().load().key(key).now();
     }
 
-
     public List<Team> getAll() {
-        return OfyService.ofy().load().type(Team.class).list();
+        return OfyService.ofy().load().type(Team.class).order("-points").list();
     }
 
+    /**
+     * Returns the optional of a team given its name
+     * @param name the name of the team to find
+     * @return the optional of the team corresponding to the name, an absent optional if no team is found 
+     */
     public Optional<Team> get(String name) {
         List<Team> team = OfyService.ofy().load().type(Team.class).filter("name", name).limit(1).list();
-        Logger logger = Logger.getLogger(TeamDAO.class.getName());
 
         Team toRet = null;
         if (team.size() > 1) {

@@ -34,7 +34,7 @@ public class ModelModule {
                     //TODO ONLY FOR TESTS
                     Match match = matches[i];
                     match.setDate(DateTime.now().plusSeconds(30 * i));
-                    if(i<10){
+                    if(i>30){
                         match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
                     }
                     matchRepository.createUpdate(match);
@@ -108,5 +108,10 @@ public class ModelModule {
     @Provides
     public RankingDAO rankingDAO() {
         return new RankingDAO();
+    }
+
+    @Provides
+    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, RankingDAO rankingDAO){
+        return new LigueService(teamDAO, gamblerDAO, rankingDAO);
     }
 }

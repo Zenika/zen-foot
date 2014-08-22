@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.StatutTeam;
+import com.zenika.zenfoot.gae.model.Team;
 
 import java.util.List;
 import java.util.Set;
@@ -88,6 +89,21 @@ public class GamblerDAOImpl implements GamblerDAO {
     public List<Gambler> gamblersWannaJoin(String name) {
         List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name", name).list();
         return gamblers;
+    }
+
+    @Override
+    public int nbGamblersInTeam(Team team){
+        List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name", team.getName()).list();
+        int number = 0;
+
+        for(Gambler gambler : gamblers){
+            StatutTeam statutTeam = gambler.getStatutTeam(team.getId());
+            if((statutTeam!=null) && (statutTeam.isAccepted() || gambler.isOwner(statutTeam))){
+                number ++;
+            }
+        }
+
+        return number;
     }
 
 

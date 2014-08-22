@@ -3,12 +3,16 @@ package com.zenika.zenfoot.gae.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import com.google.common.base.Optional;
+import com.zenika.zenfoot.gae.model.*;
+import com.zenika.zenfoot.gae.services.*;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -18,24 +22,13 @@ import restx.annotations.PUT;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.http.HttpStatus;
-import restx.security.PermitAll;
-import restx.security.RolesAllowed;
-import restx.security.UserService;
+import restx.security.*;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Team;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.MockUserService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.user.User;
 
 
@@ -44,27 +37,23 @@ import com.zenika.zenfoot.user.User;
 public class BetResource {
 
     private Logger logger = Logger.getLogger(getClass().getName());
-
     private MatchService matchService;
+
     private SessionInfo sessionInfo;
     private GamblerService gamblerService;
     private MockUserService userService;
     private TeamDAO teamDAO;
     private RankingDAO rankingDAO;
+    private LigueService ligueService;
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
-                       @Named("userService") UserService userService,
-                       GamblerService gamblerService,
-                       TeamDAO teamDAO,
-                       RankingDAO rankingDAO) {
+                       @Named("userService") UserService userService
+                       ) {
 
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
         this.userService = (MockUserService) userService;
-        this.gamblerService = gamblerService;
-        this.teamDAO = teamDAO;
-        this.rankingDAO = rankingDAO;
     }
 
 
@@ -79,16 +68,6 @@ public class BetResource {
             }
         };
     }
-
-
-    /*@POST("/matchs")
-    @RolesAllowed(Roles.ADMIN)
-    public void updateMatchs(List<Match> matchs){
-        for(Match match:matchs){
-            matchService.createUpdate(match);
-        }
-    }*/
-
 
 
     @GET("/bets")
@@ -106,6 +85,5 @@ public class BetResource {
         Gambler gambler = gamblerService.get(user);
         gamblerService.updateBets(bets, gambler);
     }
-
 
 }
