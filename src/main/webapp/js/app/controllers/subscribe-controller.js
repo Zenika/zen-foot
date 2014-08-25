@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$state', '$modal', 'TeamService',
-        function ($scope, $resource, $http, $rootScope, $state, $modal, TeamService) {
+    .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$state', '$modal', 'LigueService',
+        function ($scope, $resource, $http, $rootScope, $state, $modal, LigueService) {
             $scope.subscriber = {teams: [
                 {name: "", isNew: false}
             ]};
             $rootScope.subscriber = {};
-            $scope.existingTeams = TeamService.getAll();
+            $scope.existingTeams = LigueService.getAll();
 
             var checkTeams = function () {
                 for (var i = $scope.subscriber.teams.length - 1; i > -1; i--) {
@@ -59,7 +59,7 @@ angular.module('zenFoot.app')
                 if ($scope.subscriptionForm.$invalid) {
                     return;
                 }
-                if (TeamService.hasNewGroup($scope.subscriber.teams)) {
+                if (LigueService.hasNewGroup($scope.subscriber.teams)) {
                     subscribeGroups()
                 }
                 else {

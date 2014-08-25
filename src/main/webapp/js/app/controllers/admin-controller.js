@@ -11,9 +11,9 @@ angular.module('zenFoot.app')
             $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
             $scope.partiallyFilled = function (match) {
-                var sc1Empty = match.score1==null||(''+match.score1).trim()=="";
-                var sc2empty = match.score2==null||(''+match.score2).trim()=="";
-                var partiallyFilled = (sc1Empty && !sc2empty) || (!sc1Empty && sc2empty);
+                var score1NotFilled = match.score1==null || match.score1 == '';
+                var score2NotFilled = match.score2==null || match.score2 == '';
+                var partiallyFilled = (score1NotFilled && !score2NotFilled) || (!score1NotFilled && score2NotFilled);
                 return partiallyFilled;
             };
 
@@ -33,16 +33,14 @@ angular.module('zenFoot.app')
                 var result = confirm(message);
                 if (!result || !match.id) return;
                 $resource('/api/matchs/:id', {id: match.id}, {put: {method: 'PUT'}}).put(match,
-                    //success
-                    function () {
+                    function success() {
                         match.scoreUpdated= true;
                         match.registered = true;
                         $timeout(function(){
                             delete match.registered;
                         },5000);
                     },
-                    //error
-                    function(){
+                    function error(){
                         match.error = true;
                         $timeout(function(){
                             delete match.error;
@@ -51,13 +49,8 @@ angular.module('zenFoot.app')
                 );
             };
 
-
             $scope.cannotPost = function (match) {
-                var score1 = match.score1;
-                var score2 = match.score2;
-                if (score1==null||score2==null||(''+score1).trim()==""||(''+score2).trim()=="")return true;
-
-                return (''+score1).trim() == "" || (''+score2).trim() == "";
+                return match.score1 == undefined || match.score2 == undefined || match.score2 == '' || match.score1 == '';
             };
 
             $scope.isWinner = displayService.isWinner;

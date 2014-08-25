@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('ClassementCtrl', ['$scope', 'RankingService', '$q', 'Gambler', 'TeamService', '$timeout', 'Team',
-        function ($scope, RankingService, $q, Gambler, TeamService, $timeout, Team) {
+    .controller('ClassementCtrl', ['$scope', 'RankingService', '$q', 'Gambler', 'LigueService', '$timeout', 'Team',
+        function ($scope, RankingService, $q, Gambler, LigueService, $timeout, Team) {
 
             $scope.modes = {gambler: 'ligue', ligue: 'gambler'};
 
@@ -36,7 +36,7 @@ angular.module('zenFoot.app')
 
             $scope.gambler = Gambler.get();
 
-            $scope.teams = TeamService.getAll();
+            $scope.teams = LigueService.getAll();
 
             $scope.serverRanking = {};
             $scope.serverRanking['gambler'] = function () {

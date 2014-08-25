@@ -81,8 +81,8 @@
                                             <span class="country-flag" ng-class="match.team1"></span>
                                             <ng-form name="score1Form"
                                                      data-ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
-                                                <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classt-other-win':is3Points(match,match.bet),
-                                                 'classt-other-half':is1Point(match,match.bet), 'classt-other-lose':is0Point(match,match.bet)}">
+                                                <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classement-other-win':isMaxPoints(match,match.bet),
+                                                 'classement-other-half':rightWinner(match,match.bet), 'classement-other-lose':noPoints(match,match.bet)}">
                                                  {{displayScore(match.bet.score1)}}
                                                 </span>
                                                 <input ng-show="!isFormer(match.date)"
@@ -105,8 +105,8 @@
                                                  ng-class="{'match-score':!knownResult(match)||!otherGambler}">
                                                 <span>{{otherGambler.prenom}} :</span>
                                                 <span class="real-score"
-                                                      ng-class="{'classt-other-win':is3Points(match,match.otherBet), 'classt-other-half':is1Point(match,match.otherBet),
-                                                      'classt-other-lose':is0Point(match,match.otherBet)}">{{displayScore(match.otherBet.score1)}}
+                                                      ng-class="{'classement-other-win':isMaxPoints(match,match.otherBet), 'classement-other-half':rightWinner(match,match.otherBet),
+                                                      'classement-other-lose':noPoints(match,match.otherBet)}">{{displayScore(match.otherBet.score1)}}
                                                 </span>
                                             </div>
                                         </div>
@@ -116,8 +116,8 @@
 
                                             <ng-form name="score2Form"
                                                      ng-class="{'has-error':score2Form.score2input.$error.pattern||score2Form.$invalid}">
-                                                <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classt-other-win':is3Points(match,match.bet),
-                                                 'classt-other-half':is1Point(match,match.bet), 'classt-other-lose':is0Point(match,match.bet)}">
+                                                <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classement-other-win':isMaxPoints(match,match.bet),
+                                                 'classement-other-half':rightWinner(match,match.bet), 'classement-other-lose':noPoints(match,match.bet)}">
                                                     {{displayScore(match.bet.score2)}}
                                                 </span>
                                                 <input ng-show="!isFormer(match.date)"
@@ -145,8 +145,8 @@
                                         </div>
                                         <div class="text-left other-gamb-theme"
                                              ng-class="{'match-score':!knownResult(match)||!otherGambler}">
-                                            <span class="real-score" ng-class="{'classt-other-win':is3Points(match,match.otherBet), 'classt-other-half':is1Point(match,match.otherBet),
-                                                      'classt-other-lose':is0Point(match,match.otherBet)}">
+                                            <span class="real-score" ng-class="{'classement-other-win':isMaxPoints(match,match.otherBet), 'classement-other-half':rightWinner(match,match.otherBet),
+                                                      'classement-other-lose':noPoints(match,match.otherBet)}">
                                                 {{displayScore(match.otherBet.score2)}}
                                             </span>
                                         </div>

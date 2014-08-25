@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .factory('LigueService', [
-        function () {
+    .factory('LigueService', ['$resource',
+        function ($resource) {
             var isOwner = function (team, gambler) {
                 return team.ownerEmail == gambler.email;
             };
@@ -36,11 +36,41 @@ angular.module('zenFoot.app')
                     }
                 }
                 return coupleArray
+                }
+
+            var getAll = function () {
+                return $resource('/api/teams').query()
+            };
+
+            var hasNewGroup = function (subscribedTeams) {
+
+                for (var x in subscribedTeams) {
+
+                    if (subscribedTeams[x].isNew) {
+                        return true;
+                    }
+                }
+                return false;
+
+            };
+
+            var quitTeam = function(){
+                return $resource('api/quitTeam/:teamId',{teamId:'@teamId'});
             };
 
             return {
                 isOwner: isOwner,
                 getOwnerTeams: getOwnerTeams,
-                gamblerTeam: gamblerTeam
-            }
-        }]);
+                gamblerTeam: gamblerTeam,
+                getAll: getAll,
+                hasNewGroup: hasNewGroup,
+                quitTeam: quitTeam            }
+        }])
+
+    .factory('Team',['$resource',function($resource){
+        return $resource('api/teams/:id',{id:'@id'});
+    }])
+
+    .factory('GamblerStatutTeam',function($resource){
+        return $resource('api/gamblersAndTeam',{},{update:{method:'PUT',isArray:false}});
+    })
