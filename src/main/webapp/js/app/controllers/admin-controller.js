@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminCtrl', ['Match', '$scope', 'SCORE_REGEXP', '$resource', '$filter', 'displayService','$timeout',
-        function (Match, $scope, scoreRegexp, $resource, $filter, displayService,$timeout) {
+    .controller('AdminCtrl', ['Match', '$scope', '$resource', '$filter', 'displayService','$timeout',
+        function (Match, $scope, $resource, $filter, displayService,$timeout) {
 
             $scope.matchs = Match.query();
 
             $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-            $scope.scoreRegexp = scoreRegexp;
+            $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
             $scope.partiallyFilled = function (match) {
                 var sc1Empty = match.score1==null||(''+match.score1).trim()=="";
