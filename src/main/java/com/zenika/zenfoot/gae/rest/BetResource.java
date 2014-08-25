@@ -42,18 +42,17 @@ public class BetResource {
     private SessionInfo sessionInfo;
     private GamblerService gamblerService;
     private MockUserService userService;
-    private TeamDAO teamDAO;
-    private RankingDAO rankingDAO;
-    private LigueService ligueService;
 
     public BetResource(MatchService matchService,
                        @Named("sessioninfo") SessionInfo sessionInfo,
-                       @Named("userService") UserService userService
+                       @Named("userService") UserService userService,
+                       GamblerService gamblerService
                        ) {
 
         this.sessionInfo = sessionInfo;
         this.matchService = matchService;
         this.userService = (MockUserService) userService;
+        this.gamblerService = gamblerService;
     }
 
 
