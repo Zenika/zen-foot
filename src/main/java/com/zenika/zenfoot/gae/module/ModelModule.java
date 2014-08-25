@@ -20,13 +20,14 @@ public class ModelModule {
 
 
     @Provides
-    @Named("matchRepoGAE")
-    public MatchRepository matchRepositoryGAE(@Named("matchDAO") MatchDAO matchDAO) {
-        MatchRepository matchRepository = new MatchRepository(matchDAO);
+    @Named("matchDAOMock")
+    public MatchDAO matchDAO2() {
+
+        MatchDAO matchDAO = new MatchDAOImpl();
 
         if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
             Match[] matches = GenerateMatches.generate();
-            List<Match> registered = matchRepository.getAll();
+            List<Match> registered = matchDAO.getAll();
 
             //check whether there were registered matchs
             if (registered.size() == 0) {
@@ -37,7 +38,7 @@ public class ModelModule {
                     if(i>30){
                         match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
                     }
-                    matchRepository.createUpdate(match);
+                    matchDAO.createUpdate(match);
 
                 }
 
@@ -45,7 +46,7 @@ public class ModelModule {
         }
 
 
-        return matchRepository;
+        return matchDAO;
     }
 
     //DAOs
@@ -72,17 +73,9 @@ public class ModelModule {
 
     @Provides
     @Named("matchService")
-    public MatchService matchService(@Named("matchRepoGAE") MatchRepository matchRepository) {
-
-        MatchService matchService = new MatchService(matchRepository);
-/*
-        Participant participant1=new Participant().setGroupe(Groupe.G).setPays("Corée du Nord");
-        Participant participant2 = new Participant().setGroupe(Groupe.G).setPays("Thaïlande");
-        Match match = new Match().setDate(DateTime.now().plusMinutes(2)).setParticipant1(participant1).setParticipant2(participant2);
-        matchRepository.createUpdate(match);*/
-
+    public MatchService matchService(@Named("matchDAOMock") MatchDAO matchDAO) {
+        MatchService matchService = new MatchService(matchDAO);
         return matchService;
-
     }
 
     @Provides
@@ -96,7 +89,7 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
         return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO, teamRankingDAO);
     }
 
@@ -106,8 +99,8 @@ public class ModelModule {
     }
 
     @Provides
-    public RankingDAO rankingDAO() {
-        return new RankingDAO();
+    public GamblerRankingDAO rankingDAO() {
+        return new GamblerRankingDAO();
     }
 
     @Provides
@@ -116,7 +109,7 @@ public class ModelModule {
     }
 
     @Provides
-    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO){
+    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO){
         return new LigueService(teamDAO, gamblerDAO, rankingDAO, teamRankingDAO);
     }
 

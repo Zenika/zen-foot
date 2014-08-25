@@ -96,10 +96,7 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public void deleteAll() {
-        List<Match> matchs = getAll();
-        for (Match match : matchs) {
-            this.deleteMatch(match.getId());
-        }
+        OfyService.ofy().delete().type(Match.class);
         clearCache();
     }
 

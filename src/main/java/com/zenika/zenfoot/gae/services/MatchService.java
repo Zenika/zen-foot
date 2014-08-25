@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.ArrayList;
@@ -8,24 +9,36 @@ import java.util.List;
 
 public class MatchService {
 
-    private MatchRepository matchRepository;
+    private MatchDAO matchDAO;
 
-    public MatchService(MatchRepository matchRepository) {
-        this.matchRepository = matchRepository;
-    }
-
-    public List<Match> getMatchs() {
-        return matchRepository.getAll();
-    }
-
-    public Match getMatch(Long id) {
-        return matchRepository.getMatch(id);
+    public MatchService(MatchDAO matchDAO) {
+        this.matchDAO = matchDAO;
     }
 
     public void createUpdate(Match match) {
-        this.matchRepository.createUpdate(match);
+        this.matchDAO.createUpdate(match);
     }
 
+
+    public void delete(Long id) {
+        this.matchDAO.deleteMatch(id);
+    }
+
+
+    public Match getMatch(Long id) {
+        return this.matchDAO.getMatch(id);
+    }
+
+
+    public List<Match> getAll() {
+        return matchDAO.getAll();
+    }
+
+    public void deleteAll() {
+        matchDAO.deleteAll();
+    }
+
+    //TODO register name of countries in DB
     public List<String> getPays(){
         String[]pays = {  "croatie","bresil",
            "cameroun","mexique",

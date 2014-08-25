@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by raphael on 11/06/14.
  */
-public class RankingDAO {
+public class GamblerRankingDAO {
 
     public Key<GamblerRanking> createUpdate(GamblerRanking gamblerRanking) {
         Key<GamblerRanking> key = ObjectifyService.ofy().save().entity(gamblerRanking).now();
@@ -49,4 +49,5 @@ public class RankingDAO {
         return rankings.get(0);
 
     }
+
 }

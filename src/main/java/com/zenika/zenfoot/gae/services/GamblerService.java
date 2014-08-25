@@ -3,7 +3,7 @@ package com.zenika.zenfoot.gae.services;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.dao.RankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.*;
@@ -23,10 +23,10 @@ public class GamblerService {
     private GamblerRepository gamblerRepository;
     private MatchService matchService;
     private TeamDAO teamDAO;
-    private RankingDAO rankingDao;
+    private GamblerRankingDAO rankingDao;
     private TeamRankingDAO teamRankingDAO;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
         this.teamDAO = teamDAO;

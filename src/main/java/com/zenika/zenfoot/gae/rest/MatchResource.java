@@ -39,7 +39,7 @@ public class MatchResource {
     @GET("/matchs")
     @PermitAll
     public List<Match> getMatchs() {
-        return matchService.getMatchs();
+        return matchService.getAll();
     }
 
     @GET("/pays")

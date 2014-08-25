@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.RankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.*;
@@ -19,11 +19,11 @@ public class LigueService {
 
     private TeamDAO teamDAO;
     private GamblerDAO gamblerDAO;
-    private RankingDAO rankingDAO;
+    private GamblerRankingDAO rankingDAO;
     private Logger logger = Logger.getLogger(getClass().getName());
     private TeamRankingDAO teamRankingDAO;
 
-    public LigueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
+    public LigueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
         this.teamDAO = teamDAO;
         this.gamblerDAO = gamblerDAO;
         this.rankingDAO = rankingDAO;
