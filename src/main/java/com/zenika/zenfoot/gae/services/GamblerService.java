@@ -5,6 +5,7 @@ import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.RankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
+import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.CalculateScores;
 import com.zenika.zenfoot.user.User;
@@ -22,13 +23,15 @@ public class GamblerService {
     private GamblerRepository gamblerRepository;
     private MatchService matchService;
     private TeamDAO teamDAO;
-    protected RankingDAO rankingDao;
+    private RankingDAO rankingDao;
+    private TeamRankingDAO teamRankingDAO;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
         this.teamDAO = teamDAO;
         this.rankingDao=rankingDAO;
+        this.teamRankingDAO = teamRankingDAO;
     }
 
     public List<Gambler> getAll() {
@@ -156,36 +159,46 @@ public class GamblerService {
         this.calculateScores(match,true);
     }
 
+    /**
+     * Adds a list of team to the user. If the team doesn't exist in the DB, it is created and registered in the database
+     * with the given gambler as its owner. The teamRanking object is also created
+     * @param teams
+     * @param gambler
+     * @return
+     */
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
 
-        Set<StatutTeam> toReg = new HashSet<>();
+        Set<StatutTeam> teamsToRegister = new HashSet<>();
         for (Team team : teams) {
-            Optional<Team> optTeam = teamDAO.get(team.getName());
+            Optional<Team> DBTeamOptional = teamDAO.get(team.getName());
 
-            Team toRegister;
+            Team teamToRegister;
             boolean owner = false;
 
-            if (optTeam.isPresent()) { // Team has already been created
-                toRegister = optTeam.get();
+            if (DBTeamOptional.isPresent()) { // Team has already been created
+                teamToRegister = DBTeamOptional.get();
 //                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
-            } else { //The team was created by the user and thus, the latter is the owner of it
+            } else { //The team was created by the user and thus, the latter is its owner
 //                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
                 GamblerRanking gamblerRanking = rankingDao.findByGambler(gambler.getId());
-                team.setPoints(gamblerRanking.getPoints());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
-                toRegister = teamDAO.get(teamKey);
+                teamToRegister = teamDAO.get(teamKey);
+                TeamRanking teamRanking = new TeamRanking();
+                teamRanking.setTeamId(teamToRegister.getId());
+                teamRanking.setPoints(gamblerRanking.getPoints());
+                teamRankingDAO.createUpdate(teamRanking);
                 owner = true;
             }
 
             //Checking that the gambler has not already joined the team
             if(!gambler.hasTeam(team)){
-                StatutTeam statutTeam = new StatutTeam().setTeam(toRegister).setAccepted(owner);
-                toReg.add(statutTeam);
+                StatutTeam statutTeam = new StatutTeam().setTeam(teamToRegister).setAccepted(owner);
+                teamsToRegister.add(statutTeam);
             }
 
         }
-        gambler.addTeams(toReg);
+        gambler.addTeams(teamsToRegister);
         return gamblerRepository.saveGambler(gambler);
 
     }

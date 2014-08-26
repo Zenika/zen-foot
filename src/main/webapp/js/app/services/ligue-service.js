@@ -58,6 +58,10 @@ angular.module('zenFoot.app')
                 return $resource('api/quitTeam/:teamId',{teamId:'@teamId'});
             };
 
+            var getRanking = function(){
+                return $resource('/api/teamRanking').query();
+            }
+
             return {
                 isOwner: isOwner,
                 getOwnerTeams: getOwnerTeams,

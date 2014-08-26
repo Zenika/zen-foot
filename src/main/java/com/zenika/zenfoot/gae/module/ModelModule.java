@@ -3,6 +3,7 @@ package com.zenika.zenfoot.gae.module;
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.dao.*;
 import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.TeamRanking;
 import com.zenika.zenfoot.gae.services.*;
 import org.joda.time.DateTime;
 import restx.factory.Module;
@@ -95,8 +96,8 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO) {
-        return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO, teamRankingDAO);
     }
 
     @Provides
@@ -110,8 +111,13 @@ public class ModelModule {
     }
 
     @Provides
-    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, RankingDAO rankingDAO){
-        return new LigueService(teamDAO, gamblerDAO, rankingDAO);
+    public TeamRankingDAO teamRankingDAO(){
+        return new TeamRankingDAO();
+    }
+
+    @Provides
+    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, RankingDAO rankingDAO, TeamRankingDAO teamRankingDAO){
+        return new LigueService(teamDAO, gamblerDAO, rankingDAO, teamRankingDAO);
     }
 
     @Provides

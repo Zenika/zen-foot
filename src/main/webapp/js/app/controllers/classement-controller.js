@@ -22,15 +22,15 @@ angular.module('zenFoot.app')
                 }
             }
 
-            $scope.gamblerMode = function(){
+            $scope.gamblerMode = function () {
                 return $scope.mode === 'gambler';
             }
 
-            $scope.ligueMode = function(){
+            $scope.ligueMode = function () {
                 return $scope.mode === 'ligue';
             }
 
-            $scope.switchModeDisplay = function(){
+            $scope.switchModeDisplay = function () {
                 return modeInFrench($scope.modes[$scope.mode]);
             }
 
@@ -42,8 +42,30 @@ angular.module('zenFoot.app')
             $scope.serverRanking['gambler'] = function () {
                 return RankingService.getAll().$promise;
             }
+
+            /**
+             * Returns teams with points added from TeamRanking objects
+             * @return {*}
+             */
             $scope.serverRanking['ligue'] = function () {
-                return Team.query().$promise;
+                var teamsWithPoints = $q.all([TeamService.getRanking().$promise, Team.query().$promise]).then(function (result) {
+                    var teamById = {};
+                    var teams = result[1];
+                    var teamRankings = result[0];
+                    for (var i = 0; i < teams.length; i++) {
+                        teamById[teams[i].id] = teams[i];
+                    }
+
+                    for (var i = 0; i < teamRankings.length; i++) {
+                        var teamRanking = teamRankings[i];
+                        teamRanking.name = teamById[teamRanking.teamId].name;
+                        teamRanking.ownerEmail = teamById[teamRanking.teamId].ownerEmail;
+                    }
+
+                    return teamRankings;
+                })
+
+                return teamsWithPoints;
             }
 
             /**

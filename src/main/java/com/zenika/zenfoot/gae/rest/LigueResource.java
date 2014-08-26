@@ -4,9 +4,11 @@ import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
+import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.StatutTeam;
 import com.zenika.zenfoot.gae.model.Team;
+import com.zenika.zenfoot.gae.model.TeamRanking;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.LigueService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
@@ -40,11 +42,15 @@ public class LigueResource {
 
     private TeamDAO teamDAO;
 
-    public LigueResource(GamblerService gamblerService, @Named("sessioninfo")SessionInfo sessionInfo, TeamDAO teamDAO, LigueService ligueService) {
+    private TeamRankingDAO teamRankingDAO;
+
+    public LigueResource(GamblerService gamblerService, @Named("sessioninfo")SessionInfo sessionInfo, TeamDAO teamDAO, LigueService ligueService, TeamRankingDAO teamRankingDAO) {
         this.gamblerService = gamblerService;
         this.sessionInfo = sessionInfo;
         this.teamDAO = teamDAO;
         this.ligueService = ligueService;
+        this.teamRankingDAO = teamRankingDAO;
+
     }
 
 
@@ -225,5 +231,11 @@ public class LigueResource {
         } else {
             return team;
         }
+    }
+
+    @GET("/teamRanking")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<TeamRanking> teamRankings(){
+        return this.teamRankingDAO.getAll();
     }
 }
