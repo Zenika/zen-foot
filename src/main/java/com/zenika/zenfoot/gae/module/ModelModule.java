@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.dao.*;
+import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.TeamRanking;
 import com.zenika.zenfoot.gae.services.*;
@@ -118,4 +119,19 @@ public class ModelModule {
         return new PWDLinkDAO();
     }
 
+    @Provides
+
+    public GamblerRankingService gamblerRankingService(GamblerRankingDAO gamblerRankingDAO){
+        return new GamblerRankingService(gamblerRankingDAO);
+    }
+
+    @Provides
+    public TeamRankingService teamRankingService(TeamRankingDAO teamRankingDAO){
+        return new TeamRankingService(teamRankingDAO);
+    }
+
+    @Provides
+    public EventDAO eventDAO(){
+        return new EventDAO();
+    }
 }

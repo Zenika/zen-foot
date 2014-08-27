@@ -142,21 +142,21 @@ public class GamblerService {
         }
     }
 
-    public void setScore(Match match) {
-        Match former = matchService.getMatch(match.getId());
-        //Remove points which were added thanks to that match if the match already had a result
-        if(former.isScoreUpdated()){
-            this.calculateScores(former,false);
+    public void setScore(Match matchFormerValue, Match matchNewValue) {
+        //Remove points which were added thanks to that match if the match already had a result (that's if a result had been
+        // given by mistake to the match, and the admin would like to change it. Scores have to be calculated again).
+        if(matchFormerValue.isScoreUpdated()){
+            this.calculateScores(matchFormerValue,false);
         }
         //registering the new result
         // We re-register the former value of the match with the new score values only, to make sure that nothing
         // else is updated in the match. We also set the updated property to true
-        former.setScoreUpdated(true);
-        former.setScore1(match.getScore1());
-        former.setScore2(match.getScore2());
-        matchService.createUpdate(former);
+        matchFormerValue.setScoreUpdated(true);
+        matchFormerValue.setScore1(matchNewValue.getScore1());
+        matchFormerValue.setScore2(matchNewValue.getScore2());
+        matchService.createUpdate(matchFormerValue);
         //calculate scores again with the new match result
-        this.calculateScores(match,true);
+        this.calculateScores(matchNewValue,true);
     }
 
     /**

@@ -33,7 +33,12 @@ public class MatchResource {
     @PUT("/matchs/{id}")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(String id, Match match) {
-        gamblerService.setScore(match);
+        Match matchFormerValue = matchService.getMatch(match.getId());
+        gamblerService.setScore(matchFormerValue,match);
+        matchFormerValue.setScore1(match.getScore1());
+        matchFormerValue.setScore2(match.getScore2());
+        matchFormerValue.setScoreUpdated(true);
+        matchService.createUpdate(matchFormerValue);
     }
 
     @GET("/matchs")
