@@ -2,7 +2,7 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-import com.zenika.zenfoot.gae.model.PWDLink;
+import com.zenika.zenfoot.gae.utils.PWDLink;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.zenika.zenfoot.gae.rest;
+package com.zenika.zenfoot.gae.utils;
 
 /**
  * Created by raphael on 19/08/14.

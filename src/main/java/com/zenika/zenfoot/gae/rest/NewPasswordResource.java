@@ -4,8 +4,9 @@ import com.google.appengine.api.utils.SystemProperty;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.PWDLinkDAO;
 import com.zenika.zenfoot.gae.dao.UserDao;
-import com.zenika.zenfoot.gae.model.PWDLink;
+import com.zenika.zenfoot.gae.utils.PWDLink;
 import com.zenika.zenfoot.gae.services.MockUserService;
+import com.zenika.zenfoot.gae.utils.ResetPWD;
 import com.zenika.zenfoot.user.User;
 import restx.WebException;
 import restx.annotations.GET;
@@ -50,7 +51,7 @@ public class NewPasswordResource {
 
     @POST("/generateLink")
     @PermitAll
-    public StringWrapper generateLink(User user) {
+    public void generateLink(User user) {
         User regUser = userDao.getUser(user.getEmail());
 
         if (regUser == null) {
@@ -63,22 +64,19 @@ public class NewPasswordResource {
 
         String domain = "http://";
 
-        if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
+        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
             domain += "localhost:9000/";
-        }
-        else{
-            domain += SystemProperty.applicationId.get()+".appspot.com";
+        } else {
+            domain += SystemProperty.applicationId.get() + ".appspot.com";
         }
 
-        String urlToSend = domain+"#/reset_password/" + key.getId();
+        String urlToSend = domain + "#/reset_password/" + key.getId();
 
         try {
             sendMail(urlToSend, regUser.getEmail());
         } catch (Exception e) {
             throw new WebException(HttpStatus.NOT_FOUND);
         }
-
-        return new StringWrapper(urlToSend);
 
     }
 
@@ -87,15 +85,15 @@ public class NewPasswordResource {
         Session session = Session.getDefaultInstance(props, null);
 
         String msgBody = "Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : ";
-        msgBody +='\n'+urlToSend;
+        msgBody += '\n' + urlToSend;
 
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("raphael.martignoni@zenika.com", "Admin Zenfoot"));
-            msg.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(destEmail));
-            msg.setSubject(MimeUtility.encodeText("Réinitialisation de votre mot de passe zenfoot", "UTF-8", "Q"));
-            msg.setText(msgBody);
-            Transport.send(msg);
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress("raphael.martignoni@zenika.com", "Admin Zenfoot"));
+        msg.addRecipient(Message.RecipientType.TO,
+                new InternetAddress(destEmail));
+        msg.setSubject(MimeUtility.encodeText("Réinitialisation de votre mot de passe zenfoot", "UTF-8", "Q"));
+        msg.setText(msgBody);
+        Transport.send(msg);
     }
 
     @POST("/resetPWD")
@@ -104,7 +102,7 @@ public class NewPasswordResource {
 
         try {
             PWDLink pwdLink = pwdLinkDAO.get(resetPWD.getPwdLinkId());
-            User user = userDao.getUser(pwdLink.getUserId());
+            User user = userDao.getUser(pwdLink.getUserEmail());
             user.setPassword(resetPWD.getNewPWD());
             userService.createUser(user);
             pwdLinkDAO.delete(pwdLink.getId());
@@ -115,13 +113,30 @@ public class NewPasswordResource {
 
     }
 
+    /**
+     * This is used to check that the PWDLink object exists. It is used when a user accesses a page to reset
+     * the password, with a PWDLink id that's no longer available (either because it is expired, or because
+     * the user has already reset their password with it, or even because it simply never existed). The resource
+     * is used to display a message to the client and inform them that the resource doesn't exist.
+     *
+     * @param id
+     */
+    @GET("/checkPWDLink/{id}")
+    @PermitAll
+    public void checkPWDLink(Long id) {
+        PWDLink pwdLink = pwdLinkDAO.get(id);
+        if (pwdLink == null) {
+            throw new WebException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GET("/cron/cleanPWDLinks")
     @PermitAll
-    public void cleanPWDLinks(){
+    public void cleanPWDLinks() {
         List<PWDLink> pwdLinks = pwdLinkDAO.getAll();
 
-        for(PWDLink pwdLink : pwdLinks){
-            if(pwdLink.mustBeRemoved()){
+        for (PWDLink pwdLink : pwdLinks) {
+            if (pwdLink.mustBeRemoved()) {
                 pwdLinkDAO.delete(pwdLink.getId());
             }
         }
