@@ -4,6 +4,7 @@ import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.GamblerBets;
 import com.zenika.zenfoot.gae.services.*;
 import restx.WebException;
 import restx.annotations.GET;
@@ -42,7 +43,7 @@ public class AdminResource {
     @POST("/archive")
     @RolesAllowed(Roles.ADMIN)
     public void archive(StringWrapper eventName) {
-        if(eventService.contains(eventName.getString())){
+        if (eventService.contains(eventName.getString())) {
             throw new WebException(HttpStatus.BAD_REQUEST);
         }
 
@@ -51,6 +52,7 @@ public class AdminResource {
         event.setGamblerRankings(gamblerRankingService.getAll());
         event.setMatches(matchService.getAll());
         event.setTeamRankings(teamRankingService.getAll());
+        event.setGamblerBetsList(generateGamblerBets());
 
         eventService.save(event);
 
@@ -69,9 +71,20 @@ public class AdminResource {
         teamRankingService.reinitializePoints();
     }
 
+    public List<GamblerBets> generateGamblerBets() {
+        List<GamblerBets> gamblerBetsList = new ArrayList<>();
+
+        for (Gambler gambler : gamblerService.getAll()) {
+            GamblerBets gamblerBets = new GamblerBets(gambler);
+            gamblerBetsList.add(gamblerBets);
+        }
+
+        return gamblerBetsList;
+    }
+
     @GET("/eventNames")
     @RolesAllowed(Roles.ADMIN)
-    public List<Event> eventNames(){
+    public List<Event> eventNames() {
         return eventService.getAll();
     }
 

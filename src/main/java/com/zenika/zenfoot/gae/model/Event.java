@@ -25,6 +25,8 @@ public class Event {
 
     private List<TeamRanking> teamRankings;
 
+    private List<GamblerBets> gamblerBetsList;
+
     @Index
     private String name;
 
@@ -77,5 +79,13 @@ public class Event {
 
     public void setTeamRankings(List<TeamRanking> teamRankings) {
         this.teamRankings = teamRankings;
+    }
+
+    public List<GamblerBets> getGamblerBetsList() {
+        return gamblerBetsList;
+    }
+
+    public void setGamblerBetsList(List<GamblerBets> gamblerBetsList) {
+        this.gamblerBetsList = gamblerBetsList;
     }
 }
