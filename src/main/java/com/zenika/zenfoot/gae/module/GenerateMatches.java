@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.zenika.zenfoot.gae.utils.Constants;
 import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.utils.Constants;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 

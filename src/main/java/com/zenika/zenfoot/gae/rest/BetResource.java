@@ -1,13 +1,13 @@
 package com.zenika.zenfoot.gae.rest;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.inject.Named;
-
-import com.zenika.zenfoot.gae.model.*;
-import com.zenika.zenfoot.gae.services.*;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.MockUserService;
+import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.user.User;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -16,10 +16,13 @@ import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.http.HttpStatus;
-import restx.security.*;
+import restx.security.RolesAllowed;
+import restx.security.UserService;
 
-import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.user.User;
+import javax.inject.Named;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 
 
 @RestxResource

@@ -1,9 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.googlecode.objectify.ObjectifyService;
-import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
-import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.GamblerRanking;
 
 import java.util.List;

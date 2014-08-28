@@ -1,14 +1,13 @@
 package com.zenika.zenfoot.gae.exception;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
 import restx.http.HttpStatus;
+
+import java.io.IOException;
 
 public class JsonWrappedErrorWebException extends WebException {
 	

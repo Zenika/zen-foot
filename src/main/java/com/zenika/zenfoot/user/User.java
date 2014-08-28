@@ -1,13 +1,12 @@
 package com.zenika.zenfoot.user;
 
-import java.util.Collection;
-
-import com.zenika.zenfoot.gae.utils.PasswordUtils;
-import restx.security.RestxPrincipal;
-
 import com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.zenika.zenfoot.gae.utils.PasswordUtils;
+import restx.security.RestxPrincipal;
+
+import java.util.Collection;
 
 @Entity
 public class User implements RestxPrincipal {
