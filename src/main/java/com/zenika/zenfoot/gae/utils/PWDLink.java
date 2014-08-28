@@ -1,4 +1,4 @@
-package com.zenika.zenfoot.gae.model;
+package com.zenika.zenfoot.gae.utils;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -17,7 +17,7 @@ public class PWDLink {
     @Id
     private Long id;
 
-    private String userId;
+    private String userEmail;
 
     private DateTime whenCreated;
 
@@ -32,7 +32,7 @@ public class PWDLink {
 
     public PWDLink(String userId) {
         this();
-        this.userId = userId;
+        this.userEmail = userId;
     }
 
     public Long getId() {
@@ -43,12 +43,12 @@ public class PWDLink {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public boolean mustBeRemoved(){
