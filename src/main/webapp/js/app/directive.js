@@ -192,3 +192,22 @@ zenFootDirectives.directive('ligueCheck',[function(){
         }
     }
 }])
+
+/**
+ * Checks that the name given to the event has not been given yet.
+ */
+zenFootDirectives.directive('eventNameCheck', ['AdminService',function(AdminService){
+    return {
+        require: 'ngModel',
+        link:function(scope, element, attrs, ctrl){
+
+            scope.$watch('eventName', function(oldValue, newValue){
+
+                ctrl.$setValidity('eventNameCheck', true);
+                if(oldValue!==newValue && AdminService.invalidEventName(scope.registeredEvents, scope.eventName)){
+                    ctrl.$setValidity('eventNameCheck',false);
+                }
+            })
+        }
+    }
+}])

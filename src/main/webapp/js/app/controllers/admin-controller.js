@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminCtrl', ['Match', '$scope', '$resource', '$filter', 'displayService','$timeout','AdminService',
-        function (Match, $scope, $resource, $filter, displayService,$timeout, AdminService) {
+    .controller('AdminCtrl', ['Match', '$scope', '$resource', '$filter', 'displayService','$timeout',
+        function (Match, $scope, $resource, $filter, displayService,$timeout) {
 
             $scope.matchs = Match.query();
 
@@ -55,8 +55,5 @@ angular.module('zenFoot.app')
 
             $scope.isWinner = displayService.isWinner;
 
-            $scope.archive = function(){
-                AdminService.archiveEvent('coupe du monde');
-            }
 
         }]);

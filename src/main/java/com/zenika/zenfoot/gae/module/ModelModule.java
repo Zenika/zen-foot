@@ -2,9 +2,7 @@ package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.dao.*;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.TeamRanking;
 import com.zenika.zenfoot.gae.services.*;
 import org.joda.time.DateTime;
 import restx.factory.Module;
@@ -133,5 +131,10 @@ public class ModelModule {
     @Provides
     public EventDAO eventDAO(){
         return new EventDAO();
+    }
+
+    @Provides
+    public EventService eventService(EventDAO eventDAO){
+        return new EventService(eventDAO);
     }
 }

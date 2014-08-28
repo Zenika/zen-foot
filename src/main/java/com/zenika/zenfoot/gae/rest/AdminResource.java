@@ -1,20 +1,20 @@
 package com.zenika.zenfoot.gae.rest;
 
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.EventDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.services.GamblerRankingService;
-import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.TeamRankingService;
+import com.zenika.zenfoot.gae.services.*;
+import restx.WebException;
+import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
+import restx.http.HttpStatus;
 import restx.security.RolesAllowed;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by raphael on 25/08/14.
@@ -24,31 +24,35 @@ import java.util.ArrayList;
 
 public class AdminResource {
 
-    private EventDAO eventDAO;
     private GamblerService gamblerService;
     private MatchService matchService;
     private GamblerRankingService gamblerRankingService;
     private TeamRankingService teamRankingService;
+    private EventService eventService;
 
-    public AdminResource(EventDAO eventDAO, GamblerService gamblerService, MatchService matchService,
-                         GamblerRankingService gamblerRankingService, TeamRankingService teamRankingService) {
-        this.eventDAO = eventDAO;
+    public AdminResource(GamblerService gamblerService, MatchService matchService,
+                         GamblerRankingService gamblerRankingService, TeamRankingService teamRankingService, EventService eventService) {
         this.gamblerService = gamblerService;
         this.matchService = matchService;
         this.gamblerRankingService = gamblerRankingService;
         this.teamRankingService = teamRankingService;
+        this.eventService = eventService;
     }
 
     @POST("/archive")
     @RolesAllowed(Roles.ADMIN)
     public void archive(StringWrapper eventName) {
+        if(eventService.contains(eventName.getString())){
+            throw new WebException(HttpStatus.BAD_REQUEST);
+        }
+
         Event event = new Event();
         event.setName(eventName.getString());
         event.setGamblerRankings(gamblerRankingService.getAll());
         event.setMatches(matchService.getAll());
         event.setTeamRankings(teamRankingService.getAll());
 
-        eventDAO.save(event);
+        eventService.save(event);
 
         //Deleting what's been registered on the current competition
         //Deleting all bets
@@ -63,6 +67,12 @@ public class AdminResource {
         //Reinitializing points to 0 for gamblers, and teams
         gamblerRankingService.reinitializePoints();
         teamRankingService.reinitializePoints();
+    }
+
+    @GET("/eventNames")
+    @RolesAllowed(Roles.ADMIN)
+    public List<Event> eventNames(){
+        return eventService.getAll();
     }
 
 }
