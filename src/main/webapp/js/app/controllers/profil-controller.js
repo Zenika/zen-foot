@@ -13,9 +13,9 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
 
     $scope.sendNames = function () {
         Gambler.update($scope.tampon,function(response){
-            $scope.gambler = response[0];
+            $scope.gambler = response[1];
             $scope.tampon = angular.copy($scope.gambler);
-            var user = response[1];
+            var user = response[0];
             $rootScope.user.nom = user.nom;
             $rootScope.user.prenom = user.prenom;
             $scope.messageName = 'Vos données personnelles ont été modifiées';

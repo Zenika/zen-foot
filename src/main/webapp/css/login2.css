@@ -1,0 +1,19 @@
+#newPWDForm{
+    margin-top: 40px;
+    border-top: thick double lightgrey;
+    -webkit-animation: shade 0.5s; /* Chrome, Safari, Opera */
+    animation: shade 0.5s;
+}
+
+@keyframes shade{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@-webkit-keyframes shade{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
+

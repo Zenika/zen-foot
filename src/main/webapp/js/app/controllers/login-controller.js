@@ -4,9 +4,11 @@
  * This controller sends the login request to restx and spreads an AUTHENTICATED event to scopes.
  */
 angular.module('zenFoot.app')
-    .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams','$timeout',
-        function ($scope, $rootScope, $http, $state, $stateParams,$timeout) {
+    .controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$stateParams','$timeout', 'PWDLink',
+        function ($scope, $rootScope, $http, $state, $stateParams,$timeout, PWDLink) {
             $scope.login = { };
+
+            $scope.forgotten = {email:''};
 
             if ($stateParams.subscriptionSuccess) {
                 $scope.subscriptionSuccess = true;
@@ -43,4 +45,21 @@ angular.module('zenFoot.app')
             $scope.subscribe = function () {
                 $state.go('subscribeState');
             };
+
+            $scope.generateLink = function(){
+                PWDLink.save($scope.forgotten,
+                    function (response) {
+                        $scope.linkGenerated = true;
+                    },
+                    function(response){
+                        if(response.status == 404){
+                            $scope.wrongEmail = true;
+
+                            $timeout(function(){
+                                $scope.wrongEmail = false;
+                            },5000);
+                        }
+                    }
+                );
+            }
         }]);
