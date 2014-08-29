@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('LiguesCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'LigueService', 'TeamService', '$modal', '$q', 'GuestService','QuitTeam',
-        function ($resource, Gambler, $scope, Joiners, LigueService, TeamService, $modal, $q, GuestService, QuitTeam) {
+    .controller('LiguesCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'LigueService', '$modal', '$q', 'GuestService',
+        function ($resource, Gambler, $scope, Joiners, LigueService, $modal, $q, GuestService) {
 
             var isOwner = LigueService.isOwner;
 
@@ -136,7 +136,7 @@ angular.module('zenFoot.app')
             /**
              * Any already existing team
              */
-            $scope.existingTeams = TeamService.getAll()
+            $scope.existingTeams = LigueService.getAll()
 
             $scope.pushTeam = function () {
                 $scope.joinedTeams.push({name: "", isNew: false})
@@ -145,18 +145,18 @@ angular.module('zenFoot.app')
             /**
              * Check there is no team with an empty name on $scope.joinedTeams, otherwise delete it
              */
-            var checkTeams = function () {
+            var deleteEmptyNameTeams = function () {
                 for (var i = $scope.joinedTeams.length-1; i > -1 ; i--) {
                     if ($scope.joinedTeams[i].name.trim() == "") {
-                        $scope.joinedTeams.splice(i)
+                        $scope.joinedTeams.splice(i);
                     }
                 }
             };
 
             var join = function () {
-                checkTeams();
+                deleteEmptyNameTeams();
                 var joinTeam = $resource('/api/gamblerAndTeam').save({gambler: $scope.gambler, teams: $scope.joinedTeams}, function (response) {
-                    $scope.existingTeams = TeamService.getAll();
+                    $scope.existingTeams = LigueService.getAll();
                     $scope.gambler = getGambler(response);
                     initJoinedTeams();
                 });
@@ -182,7 +182,7 @@ angular.module('zenFoot.app')
                 for (var i = $scope.gambler.statutTeams.length-1; i > -1 ; i--) {
                     if($scope.gambler.statutTeams[i].team.name == statutTeam.team.name){
                         $scope.gambler.statutTeams.splice(i,1);
-                        QuitTeam.get({teamId:statutTeam.team.id},function(response){
+                        LigueService.quitTeam().get({teamId:statutTeam.team.id},function(response){
                             var gambler = response;
                             $scope.gambler = getGambler(gambler);
                         });
@@ -196,7 +196,7 @@ angular.module('zenFoot.app')
              * "valider" button click action, when the gambler has entered all the teams they'd like to join/create
              */
             $scope.valider = function () {
-                if (TeamService.hasNewGroup($scope.joinedTeams)) {
+                if (LigueService.hasNewGroup($scope.joinedTeams)) {
                     joinGroups()
                 }
                 else {

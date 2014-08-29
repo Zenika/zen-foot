@@ -5,10 +5,10 @@ angular.module('zenFoot.app')
 .factory('RankingService',['$resource',function($resource){
         return {
             getAll:function(){
-                return $resource('/api/rankings').query()
+                return $resource('/api/rankings').query();
             },
             myRanking:function(){
-                return $resource('/api/ranking').get()
+                return $resource('/api/ranking').get();
             }
         }
     }])

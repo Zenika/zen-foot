@@ -6,57 +6,40 @@
  * if the result's known
  */
 angular.module('zenFoot.app')
+    .factory('Match', ['$resource', function ($resource) {
+        return $resource('/api/matchs/:id', {id: '@id'});
+    }])
+    .factory('Bets', ['$resource', function ($resource) {
+        return $resource('/api/bets');
+    }])
     .factory('betMatchService', ['Match',
         function (Match) {
-
-            var equals = function (bet1, bet2) {
-                if (bet1 && bet2) {
-                    return (bet1.score1.score == bet2.score1.score ) && (bet1.score2.score == bet2.score2.score);
-                }
-                return false;
-            };
-
-            var mark = function (matchBetCl, matchBetServ) {
-                if (!equals(matchBetCl.bet, matchBetServ.bet)) {
-                    matchBetServ.unreg = true;
-                }
-
-            };
-
-            var findBetByMatchId = function (id, matchBetsServ) {
-                var toRet;
-                for (var x in matchBetsServ) {
-                    var matchBetServ = matchBetsServ[x];
-                    if (matchBetServ.bet.matchId == id) {
-                        toRet = matchBetServ;
-                        break;
-                    }
-                }
-                return toRet;
-
-            };
 
             var knownOutcome = function (match) {
                 return scoreGiven(match.outcome);
             };
 
-            var calculatePoints = function (match, bet) {
+            /**
+             * Gives a convention to know whether a bet was won. The choice was made to return arbitrary figures, corresponding to the different
+             * cases that can be encountered for the result of a bet, without returning points. Useful if the number of points are changed.
+             * @param matchBet
+             * @return -1 if the gambler lost the bet, 0 if they had the right winner, 1 if they had the right winner and score
+             */
+            var issueDuPari = function (match, bet) {
                 if (match.score1 === null || !bet || bet.score1 === null || bet.score2 === null)return;
-                var actualSc1 = match.score1;
-                var actualSc2 = match.score2;
-                var predicSc1 = bet.score1;
-                var predicSc2 = bet.score2;
-                if (actualSc1 == predicSc1 && actualSc2 == predicSc2)return 1;
 
-                //Team 1 wins
-                var team1w = (actualSc1 > actualSc2) && (predicSc1 > predicSc2);
-                //Team 2 wins
-                var team2w = (actualSc2 > actualSc1) && (predicSc2 > predicSc1);
-                //equality
-                var equality = (actualSc2 == actualSc1) && (predicSc1 == predicSc2);
-                if (team1w || team2w || equality) {
+                // If the score given by the gambler is exact :
+                if (match.score1 == bet.score1 && match.score2 == bet.score2)return 1;
+
+                // If the gambler has the right winner
+                var team1wins = (match.score1 > match.score2) && (bet.score1 > bet.score2);
+                var team2wins = (match.score2 > match.score1) && (bet.score2 > bet.score1);
+                var equality = (match.score2 == match.score1) && (bet.score1 == bet.score2);
+
+                if (team1wins || team2wins || equality) {
                     return 0;
                 }
+                //Otherwise
                 else {
                     return -1;
                 }
@@ -68,32 +51,25 @@ angular.module('zenFoot.app')
                     return Match.query(callback);
                 },
 
-                markUnreg: function (matchBetsCl, matchBetsServ) {
-                    for (var x in matchBetsCl) {
-                        var matchBetCl = matchBetsCl[x];
-                        var matchBetServ = findBetByMatchId(matchBetCl.bet.matchId, matchBetsServ);
-                        mark(matchBetCl, matchBetServ);
-                    }
-                },
-
 
                 /**
-                 * Calculates the score for one bet once the result is known. This is only used to display to
-                 * the user, as the score server side is not kept for every bet.
+                 * Gives a convention to know whether a bet was won. The choice was made to return arbitrary figures, corresponding to the different
+                 * cases that can be encountered for the result of a bet, without returning points. Useful if the number of points are changed.
                  * @param matchBet
+                 * @return -1 if the gambler lost the bet, 0 if they had the right winner, 1 if they had the right winner and score
                  */
-                calculatePoints: calculatePoints,
+                issueDuPari: issueDuPari,
 
-                is3Points: function (match, bet) {
-                    return calculatePoints(match, bet) === 1;
+                isMaxPoints: function (match, bet) {
+                    return issueDuPari(match, bet) === 1;
                 },
 
-                is1Point: function (match, bet) {
-                    return calculatePoints(match, bet) === 0;
+                rightWinner: function (match, bet) {
+                    return issueDuPari(match, bet) === 0;
                 },
 
-                is0Point: function (match, bet) {
-                    return calculatePoints(match, bet) === -1;
+                noPoints: function (match, bet) {
+                    return issueDuPari(match, bet) === -1;
                 },
 
                 knownOutcome: knownOutcome,

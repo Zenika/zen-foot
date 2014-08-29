@@ -200,10 +200,10 @@ angular.module('zenFoot.app')
             };
 
             $scope.isTeamWinner = displayService.isTeamWinner;
-            $scope.calculatePoints = betMatchService.calculatePoints;
-            $scope.is3Points = betMatchService.is3Points;
-            $scope.is1Point = betMatchService.is1Point;
-            $scope.is0Point = betMatchService.is0Point;
+            $scope.issueDuPari = betMatchService.issueDuPari;
+            $scope.isMaxPoints = betMatchService.isMaxPoints;
+            $scope.rightWinner = betMatchService.rightWinner;
+            $scope.noPoints = betMatchService.noPoints;
             $scope.dispPoints = displayService.dispPoints;
             $scope.getTeamDisplayName = displayService.getTeamDisplayName;
 
