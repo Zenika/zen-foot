@@ -68,7 +68,9 @@ angular.module('zenFoot.app')
                 gamblerTeam: gamblerTeam,
                 getAll: getAll,
                 hasNewGroup: hasNewGroup,
-                quitTeam: quitTeam            }
+                quitTeam: quitTeam,
+                getRanking: getRanking
+            }
         }])
 
     .factory('Team',['$resource',function($resource){
