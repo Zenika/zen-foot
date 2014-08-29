@@ -42,6 +42,10 @@
                     url:'/profil',
                     templateUrl:'view/profil.html'
                 })
+                .state('resetPWD',{
+                    url:'/reset_password/:resetid',
+                    templateUrl:'view/reset-password.html'
+                })
                 .state('ligueState', {
                     url: '/ligue',
                     templateUrl: 'view/ligues.html'
@@ -70,6 +74,8 @@
                     responseError: function (rejection) {
                         if (rejection.status === 401 && !isLoginState()) {
                             getAuthService().logout();
+
+//                            getState().go(getState().current.name,null,true );
                         } else if (rejection.status === 403) {
                             getAuthService().redirectToHome();
                         }
@@ -86,10 +92,16 @@
             var subscribeState = "subscribeState";
             var confirmSubscription = "confirmSubscription";
             var betsState = "betsState";
-            var adminRoutes = [adminRoute,finalesState]
+            var resetPWD = 'resetPWD';
+            var adminRoutes = [adminRoute,finalesState];
+            var uncoAuthorized = [loginRoute, resetPWD];
 
             var adminAuthorized = function(routeName){
                 return _.contains(adminRoutes,routeName);
+            }
+
+            var unconnectedAuthorized = function(routeName){
+                return _.contains(uncoAuthorized, routeName);
             }
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
@@ -109,7 +121,7 @@
                         $state.go(adminRoute)
                     }
                 } else {
-                    if (toState.name !== loginRoute) {
+                    if (!unconnectedAuthorized(toState.name)) {
                         evt.preventDefault()
                         $state.go(loginRoute)
                     }

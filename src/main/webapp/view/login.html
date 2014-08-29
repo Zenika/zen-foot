@@ -8,7 +8,7 @@
                 F&eacute;licitations votre compte a &eacute;t&eacute; cr&eacute;&eacute;. <!--Un mail de confirmation a &eacute;t&eacute; envoy&eacute; pour valider votre inscription.
             -->
             </div>
-            <div class="alert alert-danger text-center"  data-ng-show="wrongLogin">
+            <div class="alert alert-danger text-center" data-ng-show="wrongLogin">
                 Utilisateur ou mot de passe incorrect
             </div>
         </div>
@@ -87,9 +87,37 @@
                             value="S'inscrire"
                             class="btn btn-link"
                             data-ng-click="subscribe()"/>
+                    <input ng-click="forgottenPW=true" type="button" value="Mot de passe oublié ?"
+                           class="btn btn-link"/>
+
                 </div>
             </div>
 
         </form>
+
+        <form id="newPWDForm" name="newPWDForm" ng-show="forgottenPW">
+            <div>
+                <h3 class="form-title">Oubli de mot de passe : </h3>
+
+                <div ng-hide="linkGenerated" class="form-group">
+                    <div class="input-group">
+
+                        <span class="input-group-addon">@</span>
+                        <input class="form-control" type="email" placeholder="Votre email"
+                               data-ng-model="forgotten.email"
+                               required>
+                    </div>
+                </div>
+
+                <div ng-hide="linkGenerated" class="form-group text-center">
+                    <input class="btn btn-primary" type="submit" value="Envoyer" data-ng-click="generateLink()"
+                           data-ng-disabled="newPWDForm.$invalid">
+                </div>
+            </div>
+            <div ng-init="linkGenerated=false" ng-show="linkGenerated" class="alert alert-success text-center sample-show-hide">Un email a été envoyé à {{forgotten.email}}</div>
+            <div ng-init="wrongEmail=false" ng-show="wrongEmail" class="alert alert-danger text-center sample-show-hide">Aucun compte ne correspond à cet email</div>
+        </form>
+
     </div>
+
 </div>

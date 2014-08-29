@@ -52,6 +52,10 @@ public class User implements RestxPrincipal {
         return this;
     }
 
+    public String getId(){
+        return this.email;
+    }
+
     public String getEmail() {
 		return email;
 	}
