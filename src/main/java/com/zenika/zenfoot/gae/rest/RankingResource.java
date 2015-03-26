@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae.rest;
 
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.RankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.services.GamblerService;
@@ -21,13 +21,13 @@ import java.util.List;
 @Component
 public class RankingResource {
 
-    private RankingDAO rankingDAO;
+    private GamblerRankingDAO rankingDAO;
 
     private GamblerService gamblerService;
 
     private SessionInfo sessionInfo;
 
-    public RankingResource(RankingDAO rankingDAO, GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo) {
+    public RankingResource(GamblerRankingDAO rankingDAO, GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo) {
         this.rankingDAO = rankingDAO;
         this.gamblerService = gamblerService;
         this.sessionInfo = sessionInfo;

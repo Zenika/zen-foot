@@ -17,9 +17,6 @@ public class Team {
     @Unindex
     protected String ownerEmail;
 
-    @Index
-    protected double points=0;
-
     public Team() {
 
     }
@@ -51,23 +48,6 @@ public class Team {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public double getPoints() {
-        return points;
-    }
-
-    public void setPoints(double points) {
-        this.points = points;
-    }
-
-    public void addPoints(double points) {
-        this.points += points;
-    }
-
-    public void decPoints(int points){
-        double newPoints = (this.points-points);
-        this.points = (newPoints > 0)?newPoints:0;
     }
 
     @Override

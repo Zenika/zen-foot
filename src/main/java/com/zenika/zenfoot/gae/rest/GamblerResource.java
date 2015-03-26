@@ -2,7 +2,7 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.RankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.services.GamblerService;
@@ -30,13 +30,13 @@ public class GamblerResource {
 
     private GamblerService gamblerService;
 
-    private RankingDAO rankingDAO;
+    private GamblerRankingDAO rankingDAO;
 
     private SessionInfo sessionInfo;
 
     private MockUserService userService;
 
-    public GamblerResource(GamblerService gamblerService, RankingDAO rankingDAO, @Named("sessioninfo") SessionInfo sessionInfo, @Named("userService") UserService userService) {
+    public GamblerResource(GamblerService gamblerService, GamblerRankingDAO rankingDAO, @Named("sessioninfo") SessionInfo sessionInfo, @Named("userService") UserService userService) {
         this.gamblerService = gamblerService;
         this.rankingDAO = rankingDAO;
         this.sessionInfo = sessionInfo;

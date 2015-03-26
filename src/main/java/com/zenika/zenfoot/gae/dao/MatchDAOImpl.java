@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.dao;
 
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Match;
 import net.sf.jsr107cache.Cache;
 import net.sf.jsr107cache.CacheException;
@@ -96,10 +97,8 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public void deleteAll() {
-        List<Match> matchs = getAll();
-        for (Match match : matchs) {
-            this.deleteMatch(match.getId());
-        }
+        List<Key<Match>> keys = OfyService.ofy().load().type(Match.class).keys().list();
+        OfyService.ofy().delete().keys(keys).now();
         clearCache();
     }
 

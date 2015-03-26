@@ -2,7 +2,6 @@ package com.zenika.zenfoot.user;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
-
 import restx.security.BasicPrincipalAuthenticator;
 import restx.security.RestxPrincipal;
 //TODO delete and check nothing bad happens.

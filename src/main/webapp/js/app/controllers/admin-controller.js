@@ -55,4 +55,5 @@ angular.module('zenFoot.app')
 
             $scope.isWinner = displayService.isWinner;
 
+
         }]);

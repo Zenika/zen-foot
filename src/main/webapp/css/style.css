@@ -6,7 +6,9 @@ body {
     padding-top: 10px;
 }
 
-
+.alert{
+    text-align: center;
+}
 
 
 
@@ -27,6 +29,10 @@ h1 {
 h2 {
     color: #4c4c4c;
 
+}
+
+a{
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 480px) {

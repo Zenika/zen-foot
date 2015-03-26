@@ -18,7 +18,6 @@ public interface MatchDAO {
 
     List<Match> getAll();
 
-    //TODO delete
     void deleteAll();
 
 }

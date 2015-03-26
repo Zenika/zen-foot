@@ -54,6 +54,10 @@
                     url : '/ligueDetails?id',
                     templateUrl : 'view/ligue-details.html'
                 })
+                .state('events',{
+                    url: '/events',
+                    templateUrl: 'view/admin-events.html'
+                })
 
             $urlRouterProvider.otherwise('/bets');
 
@@ -88,12 +92,13 @@
         .run(function ($rootScope, $state) {
             var adminRoute = 'adminState';
             var finalesState='adminFinales';
+            var events = 'events';
             var loginRoute = 'loginState';
             var subscribeState = "subscribeState";
             var confirmSubscription = "confirmSubscription";
             var betsState = "betsState";
             var resetPWD = 'resetPWD';
-            var adminRoutes = [adminRoute,finalesState];
+            var adminRoutes = [adminRoute,finalesState, events];
             var uncoAuthorized = [loginRoute, resetPWD];
 
             var adminAuthorized = function(routeName){

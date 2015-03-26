@@ -1,12 +1,10 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.RankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
-import com.zenika.zenfoot.gae.model.StatutTeam;
-import com.zenika.zenfoot.gae.model.Team;
+import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
+import com.zenika.zenfoot.gae.model.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,16 +17,18 @@ import java.util.logging.Logger;
  */
 public class LigueService {
 
-
     private TeamDAO teamDAO;
     private GamblerDAO gamblerDAO;
-    private RankingDAO rankingDAO;
+    private GamblerRankingDAO rankingDAO;
     private Logger logger = Logger.getLogger(getClass().getName());
+    private TeamRankingDAO teamRankingDAO;
 
-    public LigueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, RankingDAO rankingDAO) {
+    public LigueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
         this.teamDAO = teamDAO;
         this.gamblerDAO = gamblerDAO;
         this.rankingDAO = rankingDAO;
+        this.teamRankingDAO = teamRankingDAO;
+
     }
 
     /**
@@ -41,11 +41,16 @@ public class LigueService {
         List<Team> teams = teamDAO.getAll();
         Map<Long, GamblerRanking> gamblerRankingMap = new HashMap<>();
         List<GamblerRanking> gamblerRankings = rankingDAO.getAll();
+        Map<Long, TeamRanking> teamRankingMap = new HashMap<>();
+        List<TeamRanking> teamRankings = teamRankingDAO.getAll();
 
         for(Team team:teams){
-            team.setPoints(0);
             teamMap.put(team.getId(), team);
             teamMembers.put(team.getId(),gamblerDAO.nbGamblersInTeam(team));
+        }
+
+        for(TeamRanking teamRanking : teamRankings){
+            teamRankingMap.put(teamRanking.getTeamId(), teamRanking);
         }
 
         for(GamblerRanking gamblerRanking : gamblerRankings){
@@ -61,21 +66,26 @@ public class LigueService {
             for(StatutTeam statutTeam: gambler.getStatutTeams()){
                 if(statutTeam.isAccepted()){
                     int nbGamblersInTeam = teamMembers.get(statutTeam.getTeam().getId());
-                    teamMap.get(statutTeam.getTeam().getId()).addPoints((double)gamblerRankingMap.get(gambler.getId()).getPoints()/(double)nbGamblersInTeam);
+                    TeamRanking teamRanking = teamRankingMap.get(statutTeam.getTeam().getId());
+                    if(teamRanking == null){
+                        teamRanking = new TeamRanking().setTeamId(statutTeam.getTeam().getId());
+                    }
+                    teamRanking.addPoints((double)gamblerRankingMap.get(gambler.getId()).getPoints()/(double)nbGamblersInTeam);
                 }
             }
         }
 
-        for(Team team:teams){
-            teamDAO.createUpdate(team);
+        for(TeamRanking teamRanking:teamRankings){
+            teamRankingDAO.createUpdate(teamRanking);
         }
     }
 
 
     public void recalcultateScore(Team team, Gambler requestCaller, boolean add) {
-        Team regTeam = teamDAO.get(team.getId());
+        TeamRanking teamRanking = teamRankingDAO.getOrCreate(team.getId());
+
         GamblerRanking gamblerRanking = rankingDAO.findByGambler(requestCaller.getId());
-        double formerMean = regTeam.getPoints();
+        double formerMean = teamRanking.getPoints();
         int nbMembers = gamblerDAO.nbGamblersInTeam(team);
         int gamblerPoints = gamblerRanking.getPoints();
 
@@ -92,8 +102,8 @@ public class LigueService {
         double newMean = (double)(formerPoints + coef*gamblerPoints)/nbMembers;
         logger.log(Level.INFO,""+newMean+" ("+formerPoints+'/'+nbMembers+" participants)");
 
-        regTeam.setPoints(newMean);
+        teamRanking.setPoints(newMean);
 
-        teamDAO.createUpdate(regTeam);
+        teamRankingDAO.createUpdate(teamRanking);
     }
 }

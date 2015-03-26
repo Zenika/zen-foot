@@ -105,7 +105,7 @@ public class UserModule {
             userService.createUser(l);
 
 
-            List<Match> matchs = matchService.getMatchs();
+            List<Match> matchs = matchService.getAll();
             gamblerService.createGambler(jean, matchs,13);
             gamblerService.createGambler(mira, matchs, 12);
             gamblerService.createGambler(bill, matchs, 12);

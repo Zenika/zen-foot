@@ -3,8 +3,9 @@ package com.zenika.zenfoot.gae.services;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.dao.RankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
+import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.CalculateScores;
 import com.zenika.zenfoot.user.User;
@@ -22,13 +23,15 @@ public class GamblerService {
     private GamblerRepository gamblerRepository;
     private MatchService matchService;
     private TeamDAO teamDAO;
-    protected RankingDAO rankingDao;
+    private GamblerRankingDAO rankingDao;
+    private TeamRankingDAO teamRankingDAO;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, RankingDAO rankingDAO) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
         this.teamDAO = teamDAO;
         this.rankingDao=rankingDAO;
+        this.teamRankingDAO = teamRankingDAO;
     }
 
     public List<Gambler> getAll() {
@@ -139,53 +142,63 @@ public class GamblerService {
         }
     }
 
-    public void setScore(Match match) {
-        Match former = matchService.getMatch(match.getId());
-        //Remove points which were added thanks to that match if the match already had a result
-        if(former.isScoreUpdated()){
-            this.calculateScores(former,false);
+    public void setScore(Match matchFormerValue, Match matchNewValue) {
+        //Remove points which were added thanks to that match if the match already had a result (that's if a result had been
+        // given by mistake to the match, and the admin would like to change it. Scores have to be calculated again).
+        if(matchFormerValue.isScoreUpdated()){
+            this.calculateScores(matchFormerValue,false);
         }
         //registering the new result
         // We re-register the former value of the match with the new score values only, to make sure that nothing
         // else is updated in the match. We also set the updated property to true
-        former.setScoreUpdated(true);
-        former.setScore1(match.getScore1());
-        former.setScore2(match.getScore2());
-        matchService.createUpdate(former);
+        matchFormerValue.setScoreUpdated(true);
+        matchFormerValue.setScore1(matchNewValue.getScore1());
+        matchFormerValue.setScore2(matchNewValue.getScore2());
+        matchService.createUpdate(matchFormerValue);
         //calculate scores again with the new match result
-        this.calculateScores(match,true);
+        this.calculateScores(matchNewValue,true);
     }
 
+    /**
+     * Adds a list of team to the user. If the team doesn't exist in the DB, it is created and registered in the database
+     * with the given gambler as its owner. The teamRanking object is also created
+     * @param teams
+     * @param gambler
+     * @return
+     */
     public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
 
-        Set<StatutTeam> toReg = new HashSet<>();
+        Set<StatutTeam> teamsToRegister = new HashSet<>();
         for (Team team : teams) {
-            Optional<Team> optTeam = teamDAO.get(team.getName());
+            Optional<Team> DBTeamOptional = teamDAO.get(team.getName());
 
-            Team toRegister;
+            Team teamToRegister;
             boolean owner = false;
 
-            if (optTeam.isPresent()) { // Team has already been created
-                toRegister = optTeam.get();
+            if (DBTeamOptional.isPresent()) { // Team has already been created
+                teamToRegister = DBTeamOptional.get();
 //                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
-            } else { //The team was created by the user and thus, the latter is the owner of it
+            } else { //The team was created by the user and thus, the latter is its owner
 //                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
                 GamblerRanking gamblerRanking = rankingDao.findByGambler(gambler.getId());
-                team.setPoints(gamblerRanking.getPoints());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
-                toRegister = teamDAO.get(teamKey);
+                teamToRegister = teamDAO.get(teamKey);
+                TeamRanking teamRanking = new TeamRanking();
+                teamRanking.setTeamId(teamToRegister.getId());
+                teamRanking.setPoints(gamblerRanking.getPoints());
+                teamRankingDAO.createUpdate(teamRanking);
                 owner = true;
             }
 
             //Checking that the gambler has not already joined the team
             if(!gambler.hasTeam(team)){
-                StatutTeam statutTeam = new StatutTeam().setTeam(toRegister).setAccepted(owner);
-                toReg.add(statutTeam);
+                StatutTeam statutTeam = new StatutTeam().setTeam(teamToRegister).setAccepted(owner);
+                teamsToRegister.add(statutTeam);
             }
 
         }
-        gambler.addTeams(toReg);
+        gambler.addTeams(teamsToRegister);
         return gamblerRepository.saveGambler(gambler);
 
     }

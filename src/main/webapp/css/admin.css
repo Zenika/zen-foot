@@ -20,3 +20,16 @@
 .jumbotron {
     height: 50%;
 }
+
+.smaller-jumbotron{
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+}
+
+.input-md{
+    width:400px;
+}
+
+.alert-md{
+    width:400px;
+}
