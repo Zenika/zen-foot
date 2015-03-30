@@ -1,44 +1,90 @@
 <div class="row" data-ng-controller="AdminEventsCtrl">
     <div class="col-xs-10 col-xs-offset-1">
-        <div class="jumbotron smaller-jumbotron">
-            <h3 class="text-center">Archivage de l'événement</h3>
-            <h4 class="text-center">Pour archiver les résultats, veuillez renseigner un nom à l'événement et cliquer sur
-                "Archiver"</h4>
-            <div>
-                <span class="glyphicon glyphicon-warning-sign"></span>
-                &nbsp;Attention ! L'archivage est une action irreversible
-                qui historise les résultats des joueurs et efface leurs paris. Il ne sera plus possible de faire de paris sur cette compétition. Cette action est à réaliser une fois la compétition
-                terminée.
-                &nbsp;
+        <div class="form-group">
+            <div class="col-xs-12">
+                <div class="alert alert-success" ng-show="actionSucceed">La {{action}} a correctement &eacute;t&eacute; effectu&eacute;.</div>
+                <div class="alert alert-danger" ng-show="actionFailed">La {{action}} a &eacute;chou&eacute;.</div>
+                <div class="alert alert-danger" ng-show="dateCheckFailed">Les dates ne sont pas valides</div>
+                <div class="alert alert-danger" ng-show="invalidEventName()">Un &eacute;v&eacute;nement poss&egrave;de d&eacute;j&agrave; ce nom</div>
             </div>
         </div>
         <form class="form-horizontal" name="eventNameForm">
             <div class="form-group">
-                <div class="col-xs-6">
+                <label for="eventNameInput" class="col-xs-2 control-label">Nom</label>
+                <div class="col-xs-10">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
-                        <input name="eventNameInput" class="form-control input-md" type="text" placeholder="nom de l'événement" ng-model="eventName" required event-name-check>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-tasks"></i></span>
+                        <input name="eventNameInput" id="eventNameInput" 
+                               class="form-control input-md" type="text" placeholder="nom de l'&eacute;v&eacute;nement" 
+                               ng-model="event.name" required ng-disabled="modeUpdate">
                     </div>
-                </div>
-                <div class="col-xs-2">
-                    <button type="submit" class="btn btn-danger" ng-click="archive()" ng-disabled="eventNameForm.$invalid || eventNameForm.eventNameInput.eventNameCheck">Archiver</button>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-xs-6">
-                    <div class="alert alert-success alert-md" ng-show="archivedSuccess">L'archivage a correctement été effectué.</div>
-                    <div class="alert alert-danger alert-md" ng-show="archivedFail">L'archivage a échoué.</div>
-                    <div class="alert alert-danger" ng-show="invalidEventName()">Un événement possède déjà ce nom</div>
+                <label for="eventStartInput" class="col-xs-2 control-label">D&eacute;but</label>
+                <div class="col-xs-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <input name="eventStartInput" id="eventStartInput" class="form-control input-md" type="text" 
+                               placeholder="d&eacute;but de l'&eacute;v&eacute;nement" ng-model="event.start" required
+                               datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true" min-date="today"
+                               is-open="isStartOpen" ng-click="isStartOpen = true" date-valid>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="eventEndInput" class="col-xs-2 control-label">Fin</label>
+                <div class="col-xs-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <input name="eventEndInput" id="eventEndInput" class="form-control input-md" type="text" 
+                               placeholder="fin de l'&eacute;v&eacute;nement" ng-model="event.end" required
+                               datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true" min-date="event.start"
+                               is-open="isEndOpen" ng-click="isEndOpen = true" date-valid >
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-2 ">
+                    <button type="submit" class="btn btn-primary" ng-click="save()" 
+                            ng-disabled="eventNameForm.$invalid" ng-show="modeCreate">Sauvegarder</button>
+                    <button type="submit" class="btn btn-primary" ng-click="update()" 
+                            ng-disabled="eventNameForm.$invalid" ng-show="modeUpdate">Modifier</button>
+                    <button type="submit" class="btn btn-danger" ng-click="cancel()" 
+                            ng-show="modeUpdate">Annuler</button>
                 </div>
             </div>
         </form>
-        <div>
-            <h4>&Eacute;v&eacute;nements enregistr&eacute;s pr&eacute;c&eacute;demment</h4>
-            <ul>
-                <li ng-repeat="event in registeredEvents">
-                    {{event.name}}
-                </li>
-            </ul>
-        </div>
+        <table class="table table-bordered table-hover table-condensed">
+            <tr style="font-weight: bold">
+                <td style="width:35%">Nom</td>
+                <td style="width:20%">D&eacute;but</td>
+                <td style="width:20%">Fin</td>
+                <td style="width:25%">&Eacute;dition</td>
+            </tr>
+            <tr ng-repeat="event in events">
+                <td>
+                    <span e-name="name" e-form="rowform" e-required>
+                      {{ event.name || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                      {{ (event.start | date : 'dd/MM/yyyy') || 'empty' }}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                      {{ (event.end | date : 'dd/MM/yyyy') || 'empty' }}
+                    </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary" ng-click="startUpdate($index, event)">&Eacute;dition</button>
+                        <button class="btn btn-danger" ng-click="removeEvent($index, event)">Supprimer</button>
+                    </div>  
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

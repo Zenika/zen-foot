@@ -25,20 +25,29 @@ public class EventService {
     public boolean contains(String eventName){
         List<Event> events = eventDAO.getAll();
         boolean toRet = false;
-        for(Event event : events){
-            if(event.getName().equals(eventName)){
-                toRet = true;
-                break;
+        if (events != null && events.size() > 0) {
+            for(Event event : events){
+                if(event.getName().equals(eventName)){
+                    toRet = true;
+                    break;
+                }
             }
         }
         return toRet;
     }
 
-    public Key<Event> save(Event event){
-        return eventDAO.save(event);
+    public Key<Event> createUpdate(Event event) {
+        return this.eventDAO.createUpdate(event);
     }
 
     public List<Event> getAll() {
         return eventDAO.getAll();
+    }
+
+    public Event getEvent(Key<Event> eventKey) {
+        return eventDAO.get(eventKey);
+    }
+    public void delete(Long id) {
+        this.eventDAO.delete(id);
     }
 }

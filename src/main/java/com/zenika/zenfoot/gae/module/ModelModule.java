@@ -130,7 +130,7 @@ public class ModelModule {
 
     @Provides
     public EventDAO eventDAO(){
-        return new EventDAO();
+        return new EventDAOImpl();
     }
 
     @Provides

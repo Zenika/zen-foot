@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.model.Event;
 
 import java.util.List;
@@ -8,16 +9,6 @@ import java.util.List;
 /**
  * Created by raphael on 25/08/14.
  */
-public interface EventDAO {
-
-    Key<Event> createUpdate(Event event);
-
-    List<Event> getAll();
-
-    Event get(Long id);
-
-    Event get(Key<Event> key);
-
-    void delete(Long id);
+public class EventDAOImpl extends GenericDAO<Event> implements EventDAO {
 
 }
