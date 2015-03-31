@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.services.*;
 import restx.WebException;
@@ -44,6 +45,12 @@ public class EventResource {
     @RolesAllowed(Roles.ADMIN)
     public List<Event> eventNames() {
         return eventService.getAll();
+    }
+
+    @GET("/events/{id}/matches")
+    @RolesAllowed(Roles.ADMIN)
+    public List<MatchDTO> getMatches(Long id) {
+        return eventService.getMatches(id);
     }
 
     @DELETE("/events/{id}")

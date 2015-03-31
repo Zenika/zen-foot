@@ -1,5 +1,6 @@
-package com.zenika.zenfoot.gae.model;
+package com.zenika.zenfoot.gae.dto;
 
+import com.zenika.zenfoot.gae.model.*;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -9,7 +10,7 @@ import org.joda.time.DateTime;
 import java.io.Serializable;
 
 @Entity
-public class Match implements Serializable{
+public class MatchDTO implements Serializable{
 
     @Id
     private Long id;
@@ -23,12 +24,12 @@ public class Match implements Serializable{
     private Integer score2;
     private boolean scoreUpdated = false;
     
-    @Parent private Key<Event> event;
+    Event event;
 
-    public Match() {
+    public MatchDTO() {
     }
 
-    public Match(DateTime date, String groupe, String team1, String team2) {
+    public MatchDTO(DateTime date, String groupe, String team1, String team2) {
         this.date = date;
         this.groupe = groupe;
         this.team1 = team1;
@@ -105,11 +106,11 @@ public class Match implements Serializable{
         return team1 + " / " + team2 + " (" + date + ")";
     }
 
-    public Key<Event> getEvent() {
+    public Event getEvent() {
         return event;
     }
 
-    public void setEvent(Key<Event> event) {
+    public void setEvent(Event event) {
         this.event = event;
     }
 }

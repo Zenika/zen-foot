@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
 import com.zenika.zenfoot.user.User;
@@ -31,7 +32,8 @@ public class UserModule {
 
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, MatchService matchService) {
+    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, 
+            MatchService matchService, EventService eventService) {
         MockUserService userService = new MockUserService(userRepository);
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {
@@ -86,7 +88,6 @@ public class UserModule {
             User k = new User().setEmail("k@k.fr").setName("k").setPrenom("k").setRoles(Arrays.asList(Roles.GAMBLER));
             k.setPassword("999");
 
-
             userService.createUser(admin);
             userService.createUser(jean);
             userService.createUser(mira);
@@ -103,6 +104,14 @@ public class UserModule {
             userService.createUser(j);
             userService.createUser(k);
             userService.createUser(l);
+            
+            Event e = new Event();
+            e.setName("Cdm 2014 Foot");
+            eventService.createUpdate(e);
+            
+            Event e2 = new Event();
+            e2.setName("Cdm 2015 Rugby");
+            eventService.createUpdate(e2);
 
 
             List<Match> matchs = matchService.getAll();

@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Event;
+import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.List;
 
@@ -19,5 +20,7 @@ public interface EventDAO {
     Event get(Key<Event> key);
 
     void delete(Long id);
+
+    List<Match> getMatches(Event parent);
 
 }

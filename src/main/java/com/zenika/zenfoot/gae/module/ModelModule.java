@@ -2,14 +2,13 @@ package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.dao.*;
-import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
+import com.zenika.zenfoot.gae.mapper.MatchDtoToMatchMapper;
 import com.zenika.zenfoot.gae.services.*;
-import org.joda.time.DateTime;
 import restx.factory.Module;
 import restx.factory.Provides;
 
 import javax.inject.Named;
-import java.util.List;
 
 /**
  * Created by raphael on 24/04/14.
@@ -25,7 +24,7 @@ public class ModelModule {
         MatchDAO matchDAO = new MatchDAOImpl();
 
         if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
-            Match[] matches = GenerateMatches.generate();
+            /*Match[] matches = GenerateMatches.generate();
             List<Match> registered = matchDAO.getAll();
 
             //check whether there were registered matchs
@@ -41,7 +40,7 @@ public class ModelModule {
 
                 }
 
-            }
+            }*/
         }
 
 
@@ -72,8 +71,8 @@ public class ModelModule {
 
     @Provides
     @Named("matchService")
-    public MatchService matchService(@Named("matchDAOMock") MatchDAO matchDAO) {
-        MatchService matchService = new MatchService(matchDAO);
+    public MatchService matchService(@Named("matchDAOMock") MatchDAO matchDAO, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory) {
+        MatchService matchService = new MatchService(matchDAO, mapperFacadeFactory);
         return matchService;
     }
 
@@ -118,7 +117,6 @@ public class ModelModule {
     }
 
     @Provides
-
     public GamblerRankingService gamblerRankingService(GamblerRankingDAO gamblerRankingDAO){
         return new GamblerRankingService(gamblerRankingDAO);
     }
@@ -132,9 +130,22 @@ public class ModelModule {
     public EventDAO eventDAO(){
         return new EventDAOImpl();
     }
+    
+    @Provides
+    @Named("matchDtoToMatchMapper")
+    public MatchDtoToMatchMapper matchDtoToMatchMapper(){
+        return new MatchDtoToMatchMapper();
+    }
+    
+    @Provides
+    @Named("mapperFacadeFactory")
+    public MapperFacadeFactory mapperFacadeFactory(@Named("matchDtoToMatchMapper") MatchDtoToMatchMapper matchDtoToMatchMapper){
+        return new MapperFacadeFactory(matchDtoToMatchMapper);
+    }
 
     @Provides
-    public EventService eventService(EventDAO eventDAO){
-        return new EventService(eventDAO);
+    @Named("eventService")
+    public EventService eventService(EventDAO eventDAO, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory){
+        return new EventService(eventDAO, mapperFacadeFactory);
     }
 }

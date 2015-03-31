@@ -1,12 +1,10 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminCtrl', ['Match', '$scope', '$resource', '$filter', 'displayService','$timeout',
-        function (Match, $scope, $resource, $filter, displayService,$timeout) {
-
-            $scope.matchs = Match.query();
-
-            $scope.groupes = ["A", "B", "C", "D", "E", "F", "G", "H"];
+    .controller('AdminCtrl', ['Match', '$scope', '$resource', '$filter', 'displayService','$timeout', 'Events',
+        function (Match, $scope, $resource, $filter, displayService,$timeout, Events) {
+            
+            $scope.events = Events.query();
 
             $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
@@ -54,6 +52,15 @@ angular.module('zenFoot.app')
             };
 
             $scope.isWinner = displayService.isWinner;
+            
+            $scope.matchs = []
+            var success = function(response) {
+                $scope.matchs = response;
+            }
+            $scope.loadMatches = function() {
+                
+                Events.matches({id : $scope.event.id}, success);
+            }
 
 
         }]);
