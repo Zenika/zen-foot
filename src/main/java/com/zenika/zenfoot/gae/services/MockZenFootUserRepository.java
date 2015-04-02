@@ -3,7 +3,9 @@ package com.zenika.zenfoot.gae.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hamcrest.Factory;
+import restx.factory.Factory;
+
+import restx.factory.Component;
 
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
