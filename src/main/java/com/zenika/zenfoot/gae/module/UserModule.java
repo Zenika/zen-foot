@@ -137,7 +137,7 @@ public class UserModule {
     		// p.setIdPays(idPays);
     		p.setIdPays((long)1);
     		p.setNomPays("FRANCE");
-    		paysService.createUpdate(p);
+    		paysService.createOrUpdate(p);
     		
         }
         return userService;
