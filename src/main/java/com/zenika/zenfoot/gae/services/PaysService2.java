@@ -4,6 +4,11 @@ import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.PaysDAO;
 import com.zenika.zenfoot.gae.model.Pays;
 
+/**
+ * 
+ * @author vickrame
+ *
+ */
 public class PaysService2 extends AbstractGenericService<PaysService2, Pays> {
 
 	

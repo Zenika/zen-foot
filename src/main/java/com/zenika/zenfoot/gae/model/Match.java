@@ -29,8 +29,8 @@ public class Match implements Serializable{
     private boolean scoreUpdated = false;
 
     private Sport sport;
-    
-    public Match() {
+
+	public Match() {
     }
 
     public Match(DateTime date, String groupe, String team1, String team2) {
@@ -41,7 +41,29 @@ public class Match implements Serializable{
     }
 
 
-    public Long getId() {
+    public Match(DateTime date, String groupe, String team1, String team2,
+			Integer score1, Integer score2, boolean scoreUpdated, Sport sport) {
+		super();
+		this.date = date;
+		this.groupe = groupe;
+		this.team1 = team1;
+		this.team2 = team2;
+		this.score1 = score1;
+		this.score2 = score2;
+		this.scoreUpdated = scoreUpdated;
+		this.sport = sport;
+	}
+
+	public Match(DateTime dateTime, String groupe, String team1,
+			String team2, Sport sport) {
+		this.date = dateTime;
+		this.groupe = groupe;
+		this.team1 = team1;
+		this.team2 = team2;
+		this.sport = sport;
+	}
+
+	public Long getId() {
         return id;
     }
 

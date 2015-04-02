@@ -11,8 +11,8 @@ import com.googlecode.objectify.Key;
  * 
  * @author vickrame
  *
- * @param <T>
- * @param <Y>
+ * @param <T> le nom du service 
+ * @param <Y> le model
  */
 public class AbstractGenericService<T, Y> extends AbstractBase<T> {
 

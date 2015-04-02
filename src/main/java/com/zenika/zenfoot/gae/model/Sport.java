@@ -21,7 +21,7 @@ public class Sport implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private String name;
@@ -36,17 +36,17 @@ public class Sport implements Serializable {
 		return id;
 	}
 
-	public Sport(Long id, String name) {
+	public Sport( Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	/**
+//	 * @param id the id to set
+//	 */
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	/**
 	 * @return the name

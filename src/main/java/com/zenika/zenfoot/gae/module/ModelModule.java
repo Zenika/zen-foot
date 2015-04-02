@@ -10,6 +10,7 @@ import restx.factory.Module;
 import restx.factory.Provides;
 
 import com.google.appengine.api.utils.SystemProperty;
+import com.zenika.zenfoot.gae.common.SportEnum;
 import com.zenika.zenfoot.gae.dao.EventDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
@@ -17,6 +18,8 @@ import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.dao.PWDLinkDAO;
+import com.zenika.zenfoot.gae.dao.PaysDAO;
+import com.zenika.zenfoot.gae.dao.SportDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.Match;
@@ -29,6 +32,8 @@ import com.zenika.zenfoot.gae.services.GamblerRepository;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.LigueService;
 import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.PaysService2;
+import com.zenika.zenfoot.gae.services.SportService;
 import com.zenika.zenfoot.gae.services.TeamRankingService;
 
 /**
@@ -53,7 +58,7 @@ public class ModelModule {
                 for (int i = 0; i < matches.length; i++) {
                     //TODO ONLY FOR TESTS
                     Match match = matches[i];
-                    match.setSport(new Sport( (long) i+1, "Foot"));
+                    match.setSport(new Sport( SportEnum.FOOTBALL.getIdentifiantSport(), SportEnum.FOOTBALL.getNameSport()));
                     match.setDate(DateTime.now().plusSeconds(30 * i));
                     if(i>30){
                         match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
@@ -183,6 +188,30 @@ public class ModelModule {
 //    	return new SportService(SportService.class,  genericSportDAO());
 //    }
     
-
     
+    //DAOs
+    @Provides
+    @Named("sportDAO")
+    public SportDAO sportDAO() {
+        return new SportDAO();
+    }	 
+	
+    @Provides
+    @Named("sportService")
+    public SportService sportService(@Named("sportDAO") SportDAO sportDAO){
+        return new SportService(sportDAO);
+    }
+
+    //DAOs
+    @Provides
+    @Named("paysDAO")
+    public PaysDAO paysDAO() {
+        return new PaysDAO();
+    }	 
+	
+    @Provides
+    @Named("paysService")
+    public PaysService2 paysService(@Named("paysDAO") PaysDAO paysDAO){
+        return new PaysService2(paysDAO);
+    }
 }

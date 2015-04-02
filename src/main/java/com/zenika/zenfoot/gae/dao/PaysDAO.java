@@ -12,7 +12,7 @@ public class PaysDAO extends GenericDAO {
 
 	public PaysDAO() {
 		super(Pays.class);
-		System.out.println("on passe par ici");
+//		System.out.println("on passe par ici");
 	}
 
 	

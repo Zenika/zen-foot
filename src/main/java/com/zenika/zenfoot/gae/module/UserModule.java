@@ -12,15 +12,16 @@ import restx.security.UserService;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.PaysDAO;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Pays;
+import com.zenika.zenfoot.gae.model.Sport;
 import com.zenika.zenfoot.gae.services.GamblerRepository;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.MockUserService;
 import com.zenika.zenfoot.gae.services.MockZenFootUserRepository;
 import com.zenika.zenfoot.gae.services.PaysService2;
+import com.zenika.zenfoot.gae.services.SportService;
 import com.zenika.zenfoot.user.User;
 
 @Module
@@ -40,7 +41,8 @@ public class UserModule {
 
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, MatchService matchService, @Named("paysService") PaysService2 paysService) {
+    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, 
+    		GamblerService gamblerService, MatchService matchService, @Named("paysService") PaysService2 paysService,@Named("sportService") SportService sportService) {
         MockUserService userService = new MockUserService(userRepository);
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {
@@ -133,16 +135,67 @@ public class UserModule {
             
             
             
-    		Pays p = new Pays();
-    		// p.setIdPays(idPays);
-    		p.setIdPays((long)1);
-    		p.setNomPays("FRANCE");
-    		paysService.createOrUpdate(p);
+    		injectedPays(paysService);
+    		injectedSport(sportService);
+    		
     		
         }
         return userService;
 
     }
+
+
+
+
+    /**
+     * injection d'une liste de sport
+     * @param sportService
+     */
+	private void injectedSport(SportService sportService) {
+    	// le modele
+    	Sport sport = new Sport();
+    	sport.setName("Foot");
+//    	sport.setId((long)1);
+    	
+    	sportService.createOrUpdate(sport);
+    	
+		sport = new Sport();
+		sport.setName("Rugby");
+//		sport.setId((long) 2);
+
+		sportService.createOrUpdate(sport);
+
+		sport = new Sport();
+		sport.setName("HandBall");
+//		sport.setId((long) 3);
+
+		sportService.createOrUpdate(sport);
+
+		sport = new Sport();
+		sport.setName("Basket");
+//		sport.setId((long) 4);
+		sportService.createOrUpdate(sport);
+
+		sport = new Sport();
+		sport.setName("Tennis");
+//		sport.setId((long) 5);
+		sportService.createOrUpdate(sport);
+	}
+
+
+
+
+	/**
+	 * injection d'une liste de pays
+	 * @param paysService
+	 */
+	private void injectedPays(PaysService2 paysService) {
+		Pays p = new Pays();
+		// p.setIdPays(idPays);
+//		p.setIdPays((long)1);
+		p.setNomPays("FRANCE");
+		paysService.createOrUpdate(p);
+	}
 
     @Provides
     @Named("userService")
@@ -151,16 +204,16 @@ public class UserModule {
     }
 
     
-    //DAOs
-    @Provides
-    @Named("paysDAO")
-    public PaysDAO paysDAO() {
-        return new PaysDAO();
-    }	 
-	
-    @Provides
-    @Named("paysService")
-    public PaysService2 paysService(@Named("paysDAO") PaysDAO paysDAO){
-        return new PaysService2(paysDAO);
-    }
+//    @Provides
+//    @Named("sportServiceGAE")
+//    public SportService getSportService(@Named("sportService") SportService sportService) {
+//    	
+//    	// le modele
+//    	Sport sport = new Sport();
+//    	sport.setName("Foot");
+//    	sport.setId((long)1);
+//    	
+//    	sportService.createOrUpdate(sport);
+//    	return sportService;
+//    }
 }
