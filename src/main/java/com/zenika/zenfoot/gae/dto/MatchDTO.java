@@ -1,18 +1,12 @@
 package com.zenika.zenfoot.gae.dto;
 
 import com.zenika.zenfoot.gae.model.*;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Parent;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
 
-@Entity
 public class MatchDTO implements Serializable{
 
-    @Id
     private Long id;
     private DateTime date;
     private String groupe;

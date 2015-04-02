@@ -3,7 +3,11 @@ package com.zenika.zenfoot.gae.dao;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
+import static com.googlecode.objectify.Key.key;
+import com.googlecode.objectify.ObjectifyService;
+import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.utils.KeyBuilder;
 import net.sf.jsr107cache.Cache;
 import net.sf.jsr107cache.CacheException;
 import net.sf.jsr107cache.CacheManager;
@@ -62,12 +66,13 @@ public class MatchDAOImpl implements MatchDAO {
     }
 
     @Override
-    public Match getMatch(Long id) {
+    public Match getMatch(Long id, Event event) {
         Match matchFromCache = getMatchFromCache(id);
         if (matchFromCache != null) {
             return matchFromCache;
         } else {
-            return OfyService.ofy().load().type(Match.class).id(id).now();
+            return ObjectifyService.ofy().load().key(
+                    KeyBuilder.buildMatchKey(id, event.getId())).now();
         }
     }
 

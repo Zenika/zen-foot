@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.services;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
+import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 
 import java.util.List;
@@ -20,16 +21,16 @@ public class GamblerRepository {
 
 
     public Gambler getGambler(Long id) {
-        return gamblerDAO.getGambler(id);
+        return gamblerDAO.get(id);
 
     }
 
     public Gambler getGambler(Key<Gambler> key) {
-        return gamblerDAO.getGambler(key);
+        return gamblerDAO.get(key);
     }
 
-    public Gambler getGamblerFromEmail(String email) {
-        return gamblerDAO.getGamblerFromEmail(email);
+    public Gambler getFromEmailAndEvent(String email, Event event) {
+        return gamblerDAO.getGamblerFromEmailAndEvent(email, event);
     }
 
     public Key<Gambler> saveGambler(Gambler gambler) {

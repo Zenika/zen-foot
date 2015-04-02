@@ -1,7 +1,9 @@
 package com.zenika.zenfoot.gae.rest;
 
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
@@ -11,7 +13,6 @@ import com.zenika.zenfoot.user.User;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
-import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
@@ -59,23 +60,6 @@ public class BetResource {
                         .setHeader("Location", "/#/bets");
             }
         };
-    }
-
-
-    @GET("/bets")
-    @RolesAllowed({Roles.GAMBLER})
-    public List<Bet> getBets() {
-        User user = sessionInfo.getUser();
-        Gambler gambler = gamblerService.get(user);
-        return gambler.getBets();
-    }
-
-    @POST("/bets")
-    @RolesAllowed(Roles.GAMBLER)
-    public void postBets(List<Bet> bets) {
-        User user = sessionInfo.getUser();
-        Gambler gambler = gamblerService.get(user);
-        gamblerService.updateBets(bets, gambler);
     }
 
 }

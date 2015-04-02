@@ -1,26 +1,25 @@
-package com.zenika.zenfoot.gae.model;
+package com.zenika.zenfoot.gae.dto;
 
+import com.zenika.zenfoot.gae.model.*;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Parent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-public class Gambler {
+public class GamblerDTO {
 
-    @Id
     private Long id;
+
+    /**
+     * The list of bets of the gambler
+     */
+    private List<Bet> bets = new ArrayList<Bet>();
 
     /**
      * The id of the user this gambler instance is attached to
      */
-    @Index
     private String email;
 
     private String nom;
@@ -29,20 +28,16 @@ public class Gambler {
 
     protected Set<Demande> demandes = new HashSet<>();
 
-    @Index
     protected Set<StatutTeam> statutTeams =new HashSet<>();
     
-    @Parent private Key<Event> event;
-    
-    @Index
-    protected int points;
+    private Event event;
 
 
-    public Gambler(String email) {
+    public GamblerDTO(String email) {
         this.email = email;
     }
 
-    public Gambler() {
+    public GamblerDTO() {
     }
 
     public void addTeams(Set<StatutTeam> teams){
@@ -69,9 +64,21 @@ public class Gambler {
         return id;
     }
 
-    public Gambler setId(Long id) {
+    public GamblerDTO setId(Long id) {
         this.id = id;
         return this;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
+    }
+
+    public void addBet(Bet bet) {
+        this.bets.add(bet);
     }
 
     public String getEmail() {
@@ -97,20 +104,29 @@ public class Gambler {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
-    
-    public void addPoints(int points) {
-        this.points += points;
-    }
-    
-    public void removePoints(int points) {
-        this.points -= points;
-    }
+
+    //    /**
+//     * Return the bet with matchId, null if doesn't exist
+//     *
+//     * @param matchId
+//     * @return the bet with matchId, null if doesn't exist
+//     */
+//    private Bet getBet(Long matchId) {
+//        Bet toRet = null;
+//        for (Bet bet : bets) {
+//            if (bet.getMatchId().equals(matchId)) {
+//                toRet = bet;
+//                break;
+//            }
+//        }
+//        return toRet;
+//    }
 
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Gambler)) return false;
-        return ((Gambler) obj).getEmail().equals(this.getEmail());
+        if (!(obj instanceof GamblerDTO)) return false;
+        return ((GamblerDTO) obj).getEmail().equals(this.getEmail());
     }
 
     public boolean hasTeam(Team team) {
@@ -149,19 +165,11 @@ public class Gambler {
         return this.getEmail().equals(statutTeam.getTeam().getOwnerEmail());
     }
 
-    public Key<Event> getEvent() {
+    public Event getEvent() {
         return event;
     }
 
-    public void setEvent(Key<Event> event) {
+    public void setEvent(Event event) {
         this.event = event;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
     }
 }

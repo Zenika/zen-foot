@@ -81,9 +81,10 @@ public class LigueResource {
     @GET("/wannajoin")
     @RolesAllowed(Roles.GAMBLER)
     public Set<Gambler> wantToJoin() {
-        Gambler gambler = gamblerService.get(sessionInfo.getUser());
+        /*Gambler gambler = gamblerService.get(sessionInfo.getUser());
 
-        return gamblerService.wantToJoin(gambler);
+        return gamblerService.wantToJoin(gambler);*/
+        return null;
     }
 
     @GET("/teams")
@@ -107,7 +108,7 @@ public class LigueResource {
     @PUT("/gamblersAndTeam")
     @RolesAllowed(Roles.GAMBLER)
     public void updateGambler2(GamblerStatutTeam gamblerStatutTeam){
-
+        /*
         // The gambler who made the request :
         Gambler requestGambler = gamblerService.get(sessionInfo.getUser());
         //The gambler whose teams will be updated :
@@ -142,12 +143,13 @@ public class LigueResource {
                 ligueService.recalcultateScore(statutTeam.getTeam(),gambler,false);
             }
         }
-        gamblerService.updateGambler(gambler);
+        gamblerService.updateGambler(gambler);*/
     }
 
     @GET("/quitTeam/{teamId}")
     @RolesAllowed(Roles.GAMBLER)
     public Gambler quitTeam(Long teamId){
+        /*
         Gambler gambler = gamblerService.get(sessionInfo.getUser());
 
         StatutTeam statutTeam = gambler.getStatutTeam(teamId);
@@ -162,13 +164,14 @@ public class LigueResource {
 
         gamblerService.updateGambler(gambler);
 
-        return gambler;
+        return gambler;*/
+        return null;
     }
 
 
     @POST("/invite")
     @RolesAllowed(Roles.GAMBLER)
-    public void invite(GamblerStatutTeam gamblerStatutTeam){
+    public void invite(GamblerStatutTeam gamblerStatutTeam){/*
         //The gambler who called that request
         Gambler requestCaller = gamblerService.get(sessionInfo.getUser());
         //The gambler that's to be invited
@@ -186,12 +189,12 @@ public class LigueResource {
 
         statutTeam.setInvitation(true);
         regGambler.addTeam(statutTeam);
-        gamblerService.updateGambler(regGambler);
+        gamblerService.updateGambler(regGambler);*/
     }
 
     @PUT("/joinLigue")
     @RolesAllowed(Roles.GAMBLER)
-    public void joinLigue(GamblerStatutTeam gamblerStatutTeam){
+    public void joinLigue(GamblerStatutTeam gamblerStatutTeam){/*
         //The gambler who called that request
         Gambler requestCaller = gamblerService.get(sessionInfo.getUser());
         //The gambler that's to be invited
@@ -211,7 +214,7 @@ public class LigueResource {
 
         gamblerService.updateGambler(requestCaller);
 
-        ligueService.recalcultateScore(statutTeam.getTeam(),requestCaller,true);
+        ligueService.recalcultateScore(statutTeam.getTeam(),requestCaller,true);*/
     }
 
 

@@ -3,11 +3,15 @@ package com.zenika.zenfoot.gae.services;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
+import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
+import com.zenika.zenfoot.gae.dto.BetDTO;
+import com.zenika.zenfoot.gae.dto.GamblerDTO;
+import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.CalculateScores;
+import com.zenika.zenfoot.gae.utils.KeyBuilder;
 import com.zenika.zenfoot.user.User;
 import org.joda.time.DateTime;
 
@@ -22,63 +26,38 @@ public class GamblerService {
 
     private GamblerRepository gamblerRepository;
     private MatchService matchService;
+    private BetService betService;
     private TeamDAO teamDAO;
-    private GamblerRankingDAO rankingDao;
     private TeamRankingDAO teamRankingDAO;
+    private MapperFacadeFactory mapper;
+    private GamblerDAO gamblerDao;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
+    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, 
+            TeamRankingDAO teamRankingDAO, MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
         this.matchService = matchService;
         this.gamblerRepository = gamblerRepository;
         this.teamDAO = teamDAO;
-        this.rankingDao=rankingDAO;
         this.teamRankingDAO = teamRankingDAO;
+        this.betService = betService;
+        this.mapper = mapper;
+        this.gamblerDao = gamblerDao;
     }
 
     public List<Gambler> getAll() {
         return gamblerRepository.getAll();
     }
 
-    public Gambler get(User user) {
-        return getFromEmail(user.getEmail());
+    public Gambler get(User user, Event event) {
+        return getFromEmailAndEvent(user.getEmail(), event);
     }
 
-    public Gambler getFromEmail(String email) {
-        return gamblerRepository.getGamblerFromEmail(email);
+    public Gambler getFromEmailAndEvent(String email, Event event) {
+        return gamblerRepository.getFromEmailAndEvent(email, event);
     }
 
     public Gambler get(Long id){
         return gamblerRepository.getGambler(id);
     }
-
-    public Bet getBetByMatchId(Gambler gambler, Long matchId) {
-        for (Bet bet : gambler.getBets()) {
-            if (bet.getMatchId().equals(matchId)) {
-                return bet;
-            }
-        }
-        return null;
-    }
-
-    public void updateBets(List<Bet> newBets, Gambler gambler) {
-        DateTime registerTime = DateTime.now();
-        for (Bet bet : newBets) {
-            Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
-            Match correspondingMatch = matchService.getMatch(bet.getMatchId());
-
-            //Check the bet already existed in the database
-            if(correspondingMatch.getDate().isAfter(registerTime)){
-                if (existingBet == null) {
-                    gambler.addBet(bet);
-                } else {
-                    existingBet.setScore1(bet.getScore1());
-                    existingBet.setScore2(bet.getScore2());
-                }
-            }
-
-        }
-        updateGambler(gambler);
-    }
-
 
     /**
      * Used to create gambler, and also to create the GamblerRanking object
@@ -86,25 +65,18 @@ public class GamblerService {
      * @param matchs
      * @return
      */
-    public Key<Gambler> createGambler(User user, List<Match> matchs) {
-        return createGambler(user, matchs, 0);
+    public Key<Gambler> createGambler(User user) {
+        return createGambler(user);
     }
 
     //TODO : remove once mocked users are removed
-    public Key<Gambler> createGambler(User user, List<Match> matchs, int points) {
-        Gambler gambler = new Gambler(user.getEmail());
+    public Key<Gambler> createGambler(User user, Event event) {
+        GamblerDTO gambler = new GamblerDTO(user.getEmail());
         gambler.setPrenom(user.getPrenom());
         gambler.setNom(user.getNom());
+        gambler.setEvent(event);
 
-        for (Match match : matchs) {
-            Bet bet = new Bet(match.getId());
-            gambler.addBet(bet);
-        }
-
-        Key<Gambler> toRet = gamblerRepository.saveGambler(gambler);
-        GamblerRanking gamblerRanking = new GamblerRanking(toRet.getId(),user.getNom(),user.getPrenom());
-        gamblerRanking.setPoints(points);
-        rankingDao.createUpdate(gamblerRanking);
+        Key<Gambler> toRet = gamblerRepository.saveGambler(mapper.getMapper().map(gambler, Gambler.class));
 
         return toRet;
     }
@@ -117,17 +89,42 @@ public class GamblerService {
     public Gambler getGambler(Key<Gambler> gamblerKey) {
         return gamblerRepository.getGambler(gamblerKey);
     }
+    
+
+    public Bet getBetByMatchId(Gambler gambler, Long matchId) {
+        return this.betService.getBetByMatchId(gambler, matchId);
+    }
+    
+    public void updateBets(List<BetDTO> newBets, Gambler gambler, Event event) {
+        DateTime registerTime = DateTime.now();
+        Key<Gambler> keyGambler = KeyBuilder.buildGamblerKey(gambler.getId(), event.getId());
+        for (BetDTO bet : newBets) {
+            if (bet.getScore1() != null && bet.getScore2() != null) {
+                Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
+                Match correspondingMatch = matchService.getMatch(bet.getMatchId(), event);
+
+                //Check the bet already existed in the database
+                if(correspondingMatch.getDate().isAfter(registerTime)){
+                    if (existingBet == null) {
+                        existingBet = new Bet();
+                        existingBet.setMatchId(bet.getMatchId());
+                    }
+                    existingBet.setGambler(keyGambler);
+                    existingBet.setScore1(bet.getScore1());
+                    existingBet.setScore2(bet.getScore2());
+                    betService.createUpdate(existingBet);
+                }
+            }
+        }
+    }
 
     private void calculateScores(Match match,boolean add) {
         List<Gambler> gamblers = gamblerRepository.getAll();
         for (Gambler gambler : gamblers) {
-            Bet bet = getBetByMatchId(gambler, match.getId());
+            Bet bet = null;//getBetByMatchId(gambler, match.getId());
             if (bet !=null && bet.wasMade()) {
-                GamblerRanking gamblerRanking = rankingDao.findByGambler(gambler.getId());
-                //if gamblerRanking doesn't exist yet, we create it
-                if(gamblerRanking==null){
-                    gamblerRanking = new GamblerRanking(gambler.getId(),gambler.getNom(),gambler.getPrenom());
-                }
+                Gambler gamblerRanking = gamblerDao.get(gambler.getId());
+                
                 int points = CalculateScores.calculateScores(bet,match);
                 if(points>0){
                     if(add){
@@ -137,7 +134,7 @@ public class GamblerService {
                         gamblerRanking.removePoints(points);
                     }
                 }
-                rankingDao.createUpdate(gamblerRanking);
+                gamblerDao.createUpdate(gamblerRanking);
             }
         }
     }
@@ -181,7 +178,7 @@ public class GamblerService {
             } else { //The team was created by the user and thus, the latter is its owner
 //                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
-                GamblerRanking gamblerRanking = rankingDao.findByGambler(gambler.getId());
+                Gambler gamblerRanking = gamblerDao.get(gambler.getId());
                 Key<Team> teamKey = teamDAO.createUpdate(team);
                 teamToRegister = teamDAO.get(teamKey);
                 TeamRanking teamRanking = new TeamRanking();

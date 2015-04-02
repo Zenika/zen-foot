@@ -1,9 +1,7 @@
-package com.zenika.zenfoot.gae.model;
+package com.zenika.zenfoot.gae.dto;
 
+import com.zenika.zenfoot.gae.model.*;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 
 /**
@@ -11,9 +9,7 @@ import com.googlecode.objectify.annotation.Parent;
  * <p/>
  * Created by raphael on 28/04/14.
  */
-@Entity
-public class Bet {
-    @Id
+public class BetDTO {
     private Long id;
 
     public Long getId() {
@@ -24,17 +20,16 @@ public class Bet {
         this.id = id;
     }
 
-    @Index
     private Long matchId;
     private Integer score1;
     private Integer score2;
     
-    @Parent private Key<Gambler> gambler;
+    Gambler gambler;
 
-    public Bet() {
+    public BetDTO() {
     }
 
-    public Bet(Long matchId) {
+    public BetDTO(Long matchId) {
         this.matchId = matchId;
     }
 
@@ -72,11 +67,11 @@ public class Bet {
         return this.score1!=null && this.score2!=null;
     }
 
-    public Key<Gambler> getGambler() {
+    public Gambler getGambler() {
         return gambler;
     }
 
-    public void setGambler(Key<Gambler> gambler) {
+    public void setGambler(Gambler gambler) {
         this.gambler = gambler;
     }
 }

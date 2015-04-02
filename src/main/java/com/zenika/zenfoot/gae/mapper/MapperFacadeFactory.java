@@ -22,18 +22,25 @@ public class MapperFacadeFactory {
     private MapperFactory mapperFactory;
     
     private MatchDtoToMatchMapper matchDtoToMatchMapper;
+    private GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper;
+    private BetDtoToBetMapper betDtoToBetMapper;
 
-    public MapperFacadeFactory(MatchDtoToMatchMapper matchDtoToMatchMapper) {
+    public MapperFacadeFactory(MatchDtoToMatchMapper matchDtoToMatchMapper, GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper,
+            BetDtoToBetMapper betDtoToBetMapper) {
         mapperFactory = new DefaultMapperFactory.Builder().build();
         mapper = mapperFactory.getMapperFacade();
         
         this.matchDtoToMatchMapper = matchDtoToMatchMapper;
+        this.gamblerDtoToGamblerMapper = gamblerDtoToGamblerMapper;
+        this.betDtoToBetMapper = betDtoToBetMapper;
         
         addCustomizeMapper();
     }	
 
     private void addCustomizeMapper() {
         mapperFactory.registerMapper(matchDtoToMatchMapper);
+        mapperFactory.registerMapper(gamblerDtoToGamblerMapper);
+        mapperFactory.registerMapper(betDtoToBetMapper);
     }
 
     public MapperFacade getMapper() {

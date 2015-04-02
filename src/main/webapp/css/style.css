@@ -91,5 +91,9 @@ a{
     width: 14px;
 }
 
+.navbar-select {
+    margin : 7px 15px 5px;
+    float : left;
+}
 
 

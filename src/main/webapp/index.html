@@ -47,6 +47,12 @@
                 <li class="ng-hide" ng-class="{'active':isActive('events')}" data-ng-show="isAdmin()"><a ui-sref="events">Ev&eacute;nements</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li data-ng-show="!isAdmin()">
+                    <span class="navbar-select">
+                        <select class="form-control select-group" required ng-model="event" ng-options="event.name for event in events" ng-change="eventChanged()">
+                        </select>
+                    </span>
+                </li>
                 <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
                 <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
                     <a data-ng-click="logout()" href="">Se déconnecter</a>

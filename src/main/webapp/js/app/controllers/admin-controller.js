@@ -30,7 +30,7 @@ angular.module('zenFoot.app')
                 }
                 var result = confirm(message);
                 if (!result || !match.id) return;
-                $resource('/api/matchs/:id', {id: match.id}, {put: {method: 'PUT'}}).put(match,
+                Events.updateMatchScore({id: $scope.event.id}, match,
                     function success() {
                         match.scoreUpdated= true;
                         match.registered = true;

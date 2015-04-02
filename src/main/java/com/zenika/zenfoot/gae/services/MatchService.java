@@ -3,6 +3,7 @@ package com.zenika.zenfoot.gae.services;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
+import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class MatchService {
     }
 
 
-    public Match getMatch(Long id) {
-        return this.matchDAO.getMatch(id);
+    public Match getMatch(Long id, Event event) {
+        return this.matchDAO.getMatch(id, event);
     }
 
 

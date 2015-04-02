@@ -2,9 +2,7 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MockUserService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
@@ -18,7 +16,6 @@ import restx.security.RolesAllowed;
 import restx.security.UserService;
 
 import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,15 +27,13 @@ public class GamblerResource {
 
     private GamblerService gamblerService;
 
-    private GamblerRankingDAO rankingDAO;
-
     private SessionInfo sessionInfo;
 
     private MockUserService userService;
 
-    public GamblerResource(GamblerService gamblerService, GamblerRankingDAO rankingDAO, @Named("sessioninfo") SessionInfo sessionInfo, @Named("userService") UserService userService) {
+    public GamblerResource(GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo, 
+            @Named("userService") UserService userService) {
         this.gamblerService = gamblerService;
-        this.rankingDAO = rankingDAO;
         this.sessionInfo = sessionInfo;
         this.userService = (MockUserService) userService;
     }
@@ -53,7 +48,7 @@ public class GamblerResource {
     @PUT("/gambler")
     @RolesAllowed(Roles.GAMBLER)
     public List<Object> updateGambler2(Gambler newGambler) {
-
+/*
         User user = sessionInfo.getUser();
         Gambler gambler = gamblerService.get(user);
         List<Object> userGambler = new ArrayList<>();
@@ -85,7 +80,8 @@ public class GamblerResource {
             userGambler.add(user);
             userGambler.add(gamblerRetrieved);
         }
-        return userGambler;
+        return userGambler;*/
+        return null;
     }
 
 
@@ -103,7 +99,7 @@ public class GamblerResource {
     @RolesAllowed(Roles.GAMBLER)
     public Gambler getGambler() {
         User user = sessionInfo.getUser();
-        return gamblerService.get(user);
+        return null;
     }
 
     @GET("/gamblers/{id}")

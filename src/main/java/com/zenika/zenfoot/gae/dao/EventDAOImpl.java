@@ -1,6 +1,5 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Match;

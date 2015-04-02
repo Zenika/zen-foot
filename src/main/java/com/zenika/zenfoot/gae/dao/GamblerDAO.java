@@ -1,6 +1,8 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.model.Bet;
+import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Team;
 
@@ -13,22 +15,26 @@ public interface GamblerDAO {
 
     com.googlecode.objectify.Key<Gambler> saveGambler(Gambler gambler);
 
-    Gambler getGambler(Long id);
+    Gambler get(Long id);
 
-    Gambler getGambler(Key<Gambler> key);
+    Gambler get(Key<Gambler> key);
 
 
-    void deleteGambler(Long id);
+    void delete(Long id);
 
     List<Gambler> getAll();
 
     //TODO delete
     void deleteAll();
 
-    Gambler getGamblerFromEmail(String email);
+    Gambler getGamblerFromEmailAndEvent(String email, Event parent);
 
 
     List<Gambler> gamblersWannaJoin(String name);
 
     int nbGamblersInTeam(Team team);
+    
+    List<Bet> getBets(Gambler gambler);
+    
+    Key<Gambler> createUpdate(Gambler gambler);
 }

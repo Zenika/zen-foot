@@ -2,6 +2,8 @@ package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.dao.*;
+import com.zenika.zenfoot.gae.mapper.BetDtoToBetMapper;
+import com.zenika.zenfoot.gae.mapper.GamblerDtoToGamblerMapper;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.mapper.MatchDtoToMatchMapper;
 import com.zenika.zenfoot.gae.services.*;
@@ -53,20 +55,18 @@ public class ModelModule {
     public MatchDAO matchDAO() {
         return new MatchDAOImpl();
     }
+    @Provides
+    @Named("betDAO")
+    public BetDAO betDAO() {
+        return new BetDAOImpl();
+    }
 
     //Services
 
-    @Provides
-    @Named("betrepo")
-    public BetRepository betRepository() {
-        return new BetRepository();
-    }
-
 
     @Provides
-    @Named("betservice")
-    public BetService betService(@Named("betrepo") BetRepository betRepository) {
-        return new BetService(betRepository);
+    public BetService betService(@Named("betDAO") BetDAO betDAO) {
+        return new BetService(betDAO);
     }
 
     @Provides
@@ -87,8 +87,10 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
-        return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO, teamRankingDAO);
+    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, 
+            TeamRankingDAO teamRankingDAO, BetService betService, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory,
+            GamblerDAO gamblerDAO) {
+        return new GamblerService(gamblerRepository, matchService, teamDAO, teamRankingDAO, mapperFacadeFactory, betService, gamblerDAO);
     }
 
     @Provides
@@ -97,28 +99,18 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerRankingDAO rankingDAO() {
-        return new GamblerRankingDAO();
-    }
-
-    @Provides
     public TeamRankingDAO teamRankingDAO(){
         return new TeamRankingDAO();
     }
 
     @Provides
-    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO){
-        return new LigueService(teamDAO, gamblerDAO, rankingDAO, teamRankingDAO);
+    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, TeamRankingDAO teamRankingDAO){
+        return new LigueService(teamDAO, gamblerDAO, teamRankingDAO);
     }
 
     @Provides
     public PWDLinkDAO pwdLinkDAO(){
         return new PWDLinkDAO();
-    }
-
-    @Provides
-    public GamblerRankingService gamblerRankingService(GamblerRankingDAO gamblerRankingDAO){
-        return new GamblerRankingService(gamblerRankingDAO);
     }
 
     @Provides
@@ -136,16 +128,27 @@ public class ModelModule {
     public MatchDtoToMatchMapper matchDtoToMatchMapper(){
         return new MatchDtoToMatchMapper();
     }
+    @Provides
+    @Named("gamblerDtoToGamblerMapper")
+    public GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper(){
+        return new GamblerDtoToGamblerMapper();
+    }
+    @Provides
+    @Named("betDtoToBetMapper")
+    public BetDtoToBetMapper betDtoToBetMapper(){
+        return new BetDtoToBetMapper();
+    }
     
     @Provides
     @Named("mapperFacadeFactory")
-    public MapperFacadeFactory mapperFacadeFactory(@Named("matchDtoToMatchMapper") MatchDtoToMatchMapper matchDtoToMatchMapper){
-        return new MapperFacadeFactory(matchDtoToMatchMapper);
+    public MapperFacadeFactory mapperFacadeFactory(@Named("matchDtoToMatchMapper") MatchDtoToMatchMapper matchDtoToMatchMapper, 
+            GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper, BetDtoToBetMapper betDtoToBetMapper){
+        return new MapperFacadeFactory(matchDtoToMatchMapper, gamblerDtoToGamblerMapper, betDtoToBetMapper);
     }
 
     @Provides
     @Named("eventService")
-    public EventService eventService(EventDAO eventDAO, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory){
-        return new EventService(eventDAO, mapperFacadeFactory);
+    public EventService eventService(EventDAO eventDAO, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory, GamblerDAO gamblerDAO){
+        return new EventService(eventDAO, mapperFacadeFactory, gamblerDAO);
     }
 }

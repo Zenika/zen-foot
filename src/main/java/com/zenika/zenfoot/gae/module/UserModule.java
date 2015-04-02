@@ -1,7 +1,10 @@
 package com.zenika.zenfoot.gae.module;
 
 import com.google.appengine.api.utils.SystemProperty;
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.MatchDAO;
+import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
@@ -14,6 +17,7 @@ import restx.security.UserService;
 import javax.inject.Named;
 import java.util.Arrays;
 import java.util.List;
+import org.joda.time.DateTime;
 
 @Module
 public class UserModule {
@@ -112,24 +116,28 @@ public class UserModule {
             Event e2 = new Event();
             e2.setName("Cdm 2015 Rugby");
             eventService.createUpdate(e2);
+            MatchDAO matchDAO = new MatchDAOImpl();
 
+            if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
+                Match[] matches = GenerateMatches.generate();
+                List<Match> registered = matchDAO.getAll();
 
-            List<Match> matchs = matchService.getAll();
-            gamblerService.createGambler(jean, matchs,13);
-            gamblerService.createGambler(mira, matchs, 12);
-            gamblerService.createGambler(bill, matchs, 12);
-            gamblerService.createGambler(andy, matchs, 12);
-            gamblerService.createGambler(sophie, matchs, 12);
-            gamblerService.createGambler(kate, matchs, 12);
-            gamblerService.createGambler(olivier, matchs, 95);
-            gamblerService.createGambler(russell, matchs, 95);
-            gamblerService.createGambler(harold, matchs, 29);
-            gamblerService.createGambler(richard, matchs, 65);
-            gamblerService.createGambler(jc, matchs, 28);
-            gamblerService.createGambler(leonardo, matchs, 18);
-            gamblerService.createGambler(j, matchs,13);
-            gamblerService.createGambler(k, matchs,1);
-            gamblerService.createGambler(l, matchs);
+                //check whether there were registered matchs
+                if (registered.size() == 0) {
+                    for (int i = 0; i < matches.length; i++) {
+                        //TODO ONLY FOR TESTS
+                        Match match = matches[i];
+                        match.setDate(DateTime.now().plusSeconds(30 * i));
+                        if(i>30){
+                            match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
+                        }
+                        match.setEvent(Key.create(Event.class, e2.getId()));
+                        matchDAO.createUpdate(match);
+
+                    }
+
+                }
+            }
         }
         return userService;
 

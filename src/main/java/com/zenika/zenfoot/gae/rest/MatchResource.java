@@ -8,14 +8,12 @@ import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import restx.annotations.GET;
 import restx.annotations.POST;
-import restx.annotations.PUT;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.security.PermitAll;
 import restx.security.RolesAllowed;
 
 import java.util.List;
-import javax.inject.Inject;
 
 /**
  * Created by raphael on 11/08/14.
@@ -34,17 +32,6 @@ public class MatchResource {
         this.gamblerService = gamblerService;
         this.eventService = eventService;
         this.matchService = matchService;
-    }
-
-    @PUT("/matchs/{id}")
-    @RolesAllowed(Roles.ADMIN)
-    public void updateMatch(String id, Match match) {
-        Match matchFormerValue = matchService.getMatch(match.getId());
-        gamblerService.setScore(matchFormerValue,match);
-        matchFormerValue.setScore1(match.getScore1());
-        matchFormerValue.setScore2(match.getScore2());
-        matchFormerValue.setScoreUpdated(true);
-        matchService.createUpdate(matchFormerValue);
     }
 
     @GET("/matchs")

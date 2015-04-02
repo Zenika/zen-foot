@@ -57,11 +57,6 @@ public class SubscriptionResource {
 //        subscriber.getUser().setIsActive(Boolean.FALSE);
 
         Key<User> keyUser = userService.createUser(subscriber.getUser());
-        User user = userService.get(keyUser);
-        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getAll());
-
-        Gambler gambler = gamblerService.getGambler(gamblerKey);
-        gamblerService.addTeams(subscriber.getTeams(), gambler);
     }
 
 
