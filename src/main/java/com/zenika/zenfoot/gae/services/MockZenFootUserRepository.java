@@ -1,14 +1,14 @@
 package com.zenika.zenfoot.gae.services;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.hamcrest.Factory;
+
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.dao.UserDao;
 import com.zenika.zenfoot.user.User;
-import restx.factory.Component;
-import restx.factory.Factory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class MockZenFootUserRepository implements ZenFootUserRepository {

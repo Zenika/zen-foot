@@ -1,15 +1,35 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.google.appengine.api.utils.SystemProperty;
-import com.zenika.zenfoot.gae.dao.*;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.*;
+import java.util.List;
+
+import javax.inject.Named;
+
 import org.joda.time.DateTime;
+
 import restx.factory.Module;
 import restx.factory.Provides;
 
-import javax.inject.Named;
-import java.util.List;
+import com.google.appengine.api.utils.SystemProperty;
+import com.zenika.zenfoot.gae.dao.EventDAO;
+import com.zenika.zenfoot.gae.dao.GamblerDAO;
+import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
+import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
+import com.zenika.zenfoot.gae.dao.MatchDAO;
+import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
+import com.zenika.zenfoot.gae.dao.PWDLinkDAO;
+import com.zenika.zenfoot.gae.dao.TeamDAO;
+import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
+import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.Sport;
+import com.zenika.zenfoot.gae.services.BetRepository;
+import com.zenika.zenfoot.gae.services.BetService;
+import com.zenika.zenfoot.gae.services.EventService;
+import com.zenika.zenfoot.gae.services.GamblerRankingService;
+import com.zenika.zenfoot.gae.services.GamblerRepository;
+import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.LigueService;
+import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.TeamRankingService;
 
 /**
  * Created by raphael on 24/04/14.
@@ -33,6 +53,7 @@ public class ModelModule {
                 for (int i = 0; i < matches.length; i++) {
                     //TODO ONLY FOR TESTS
                     Match match = matches[i];
+                    match.setSport(new Sport( (long) i+1, "Foot"));
                     match.setDate(DateTime.now().plusSeconds(30 * i));
                     if(i>30){
                         match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
@@ -137,4 +158,31 @@ public class ModelModule {
     public EventService eventService(EventDAO eventDAO){
         return new EventService(eventDAO);
     }
+    
+//    @Provides
+//    @Named("genericPaysDAO")
+//    public GenericDAO<Pays> genericPaysDAO(){
+//        return new GenericDAO<Pays>(Pays.class);
+//    }
+//    
+//    @Provides
+//    @Named("paysService")
+//    public PaysService paysService(){
+//    	return new PaysService(PaysService.class,  genericPaysDAO());
+//    }
+//    
+//    @Provides
+//    @Named("genericSportDAO")
+//    public GenericDAO<Sport> genericSportDAO(){
+//        return new GenericDAO<Sport>(Sport.class);
+//    }
+//    
+//    @Provides
+//    @Named("sportService")
+//    public SportService sportService(){
+//    	return new SportService(SportService.class,  genericSportDAO());
+//    }
+    
+
+    
 }

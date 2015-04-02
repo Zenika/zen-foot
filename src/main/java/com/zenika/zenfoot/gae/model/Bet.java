@@ -11,6 +11,8 @@ public class Bet {
     private Integer score1;
     private Integer score2;
 
+    private Sport typeSport;
+    
     public Bet() {
     }
 
@@ -51,4 +53,18 @@ public class Bet {
     public boolean wasMade() {
         return this.score1!=null && this.score2!=null;
     }
+
+	/**
+	 * @return the typeSport
+	 */
+	public Sport getTypeSport() {
+		return typeSport;
+	}
+
+	/**
+	 * @param typeSport the typeSport to set
+	 */
+	public void setTypeSport(Sport typeSport) {
+		this.typeSport = typeSport;
+	}
 }

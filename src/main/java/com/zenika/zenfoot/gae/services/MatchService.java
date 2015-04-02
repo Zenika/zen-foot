@@ -1,11 +1,11 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.zenika.zenfoot.gae.dao.MatchDAO;
-import com.zenika.zenfoot.gae.model.Match;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.zenika.zenfoot.gae.dao.MatchDAO;
+import com.zenika.zenfoot.gae.model.Match;
 
 public class MatchService {
 

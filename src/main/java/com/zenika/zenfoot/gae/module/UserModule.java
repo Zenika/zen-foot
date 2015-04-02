@@ -1,18 +1,27 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.google.appengine.api.utils.SystemProperty;
-import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.services.*;
-import com.zenika.zenfoot.user.User;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Named;
+
 import restx.admin.AdminModule;
 import restx.factory.Module;
 import restx.factory.Provides;
 import restx.security.UserService;
 
-import javax.inject.Named;
-import java.util.Arrays;
-import java.util.List;
+import com.google.appengine.api.utils.SystemProperty;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.PaysDAO;
+import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.Pays;
+import com.zenika.zenfoot.gae.services.GamblerRepository;
+import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.MockUserService;
+import com.zenika.zenfoot.gae.services.MockZenFootUserRepository;
+import com.zenika.zenfoot.gae.services.PaysService2;
+import com.zenika.zenfoot.user.User;
 
 @Module
 public class UserModule {
@@ -31,7 +40,7 @@ public class UserModule {
 
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, MatchService matchService) {
+    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, MatchService matchService, @Named("paysService") PaysService2 paysService) {
         MockUserService userService = new MockUserService(userRepository);
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {
@@ -121,6 +130,15 @@ public class UserModule {
             gamblerService.createGambler(j, matchs,13);
             gamblerService.createGambler(k, matchs,1);
             gamblerService.createGambler(l, matchs);
+            
+            
+            
+    		Pays p = new Pays();
+    		// p.setIdPays(idPays);
+    		p.setIdPays((long)1);
+    		p.setNomPays("FRANCE");
+    		paysService.createUpdate(p);
+    		
         }
         return userService;
 
@@ -132,4 +150,17 @@ public class UserModule {
         return userService;
     }
 
+    
+    //DAOs
+    @Provides
+    @Named("paysDAO")
+    public PaysDAO paysDAO() {
+        return new PaysDAO();
+    }	 
+	
+    @Provides
+    @Named("paysService")
+    public PaysService2 paysService(@Named("paysDAO") PaysDAO paysDAO){
+        return new PaysService2(paysDAO);
+    }
 }
