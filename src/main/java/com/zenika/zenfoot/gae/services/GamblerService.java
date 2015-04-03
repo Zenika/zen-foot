@@ -3,8 +3,8 @@ package com.zenika.zenfoot.gae.services;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
 import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
@@ -22,51 +22,30 @@ import java.util.Set;
 /**
  * Created by raphael on 30/04/14.
  */
-public class GamblerService {
+public class GamblerService extends AbstractGenericService<Gambler> {
 
-    private GamblerRepository gamblerRepository;
-    private MatchService matchService;
-    private BetService betService;
-    private TeamDAO teamDAO;
-    private TeamRankingDAO teamRankingDAO;
-    private MapperFacadeFactory mapper;
-    private GamblerDAO gamblerDao;
+    final private MatchService matchService;
+    final private BetService betService;
+    final private TeamService teamService;
+    final private TeamRankingService teamRankingService;
+    final private MapperFacadeFactory mapper;
 
-    public GamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, 
-            TeamRankingDAO teamRankingDAO, MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
+    public GamblerService(MatchService matchService, TeamService teamService, 
+            TeamRankingService teamRankingService, MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
+        super(gamblerDao);
         this.matchService = matchService;
-        this.gamblerRepository = gamblerRepository;
-        this.teamDAO = teamDAO;
-        this.teamRankingDAO = teamRankingDAO;
+        this.teamService = teamService;
+        this.teamRankingService = teamRankingService;
         this.betService = betService;
         this.mapper = mapper;
-        this.gamblerDao = gamblerDao;
+    }
+    
+    public List<Bet> getBets(Gambler gambler) {
+        return ((GamblerDAO) this.getDao()).getBets(gambler);
     }
 
-    public List<Gambler> getAll() {
-        return gamblerRepository.getAll();
-    }
-
-    public Gambler get(User user, Event event) {
-        return getFromEmailAndEvent(user.getEmail(), event);
-    }
-
-    public Gambler getFromEmailAndEvent(String email, Event event) {
-        return gamblerRepository.getFromEmailAndEvent(email, event);
-    }
-
-    public Gambler get(Long id){
-        return gamblerRepository.getGambler(id);
-    }
-
-    /**
-     * Used to create gambler, and also to create the GamblerRanking object
-     * @param user
-     * @param matchs
-     * @return
-     */
-    public Key<Gambler> createGambler(User user) {
-        return createGambler(user);
+    public Gambler getGamblerFromEmailAndEvent(String email, Event event) {
+        return ((GamblerDAO) this.getDao()).getGamblerFromEmailAndEvent(email, event);
     }
 
     //TODO : remove once mocked users are removed
@@ -76,20 +55,8 @@ public class GamblerService {
         gambler.setNom(user.getNom());
         gambler.setEvent(event);
 
-        Key<Gambler> toRet = gamblerRepository.saveGambler(mapper.getMapper().map(gambler, Gambler.class));
-
-        return toRet;
+        return this.createOrUpdate(mapper.getMapper().map(gambler, Gambler.class));
     }
-
-    public Gambler updateGambler(Gambler gambler) {
-        Key<Gambler> key = gamblerRepository.saveGambler(gambler);
-        return gamblerRepository.getGambler(key);
-    }
-
-    public Gambler getGambler(Key<Gambler> gamblerKey) {
-        return gamblerRepository.getGambler(gamblerKey);
-    }
-    
 
     public Bet getBetByMatchId(Gambler gambler, Long matchId) {
         return this.betService.getBetByMatchId(gambler, matchId);
@@ -112,18 +79,18 @@ public class GamblerService {
                     existingBet.setGambler(keyGambler);
                     existingBet.setScore1(bet.getScore1());
                     existingBet.setScore2(bet.getScore2());
-                    betService.createUpdate(existingBet);
+                    betService.createOrUpdate(existingBet);
                 }
             }
         }
     }
 
     private void calculateScores(Match match,boolean add) {
-        List<Gambler> gamblers = gamblerRepository.getAll();
+        List<Gambler> gamblers = this.getAll();
         for (Gambler gambler : gamblers) {
             Bet bet = null;//getBetByMatchId(gambler, match.getId());
             if (bet !=null && bet.wasMade()) {
-                Gambler gamblerRanking = gamblerDao.get(gambler.getId());
+                Gambler gamblerRanking = this.getFromID(gambler.getId());
                 
                 int points = CalculateScores.calculateScores(bet,match);
                 if(points>0){
@@ -134,7 +101,7 @@ public class GamblerService {
                         gamblerRanking.removePoints(points);
                     }
                 }
-                gamblerDao.createUpdate(gamblerRanking);
+                this.createOrUpdate(gamblerRanking);
             }
         }
     }
@@ -151,7 +118,7 @@ public class GamblerService {
         matchFormerValue.setScoreUpdated(true);
         matchFormerValue.setScore1(matchNewValue.getScore1());
         matchFormerValue.setScore2(matchNewValue.getScore2());
-        matchService.createUpdate(matchFormerValue);
+        matchService.createOrUpdate(matchFormerValue);
         //calculate scores again with the new match result
         this.calculateScores(matchNewValue,true);
     }
@@ -167,7 +134,7 @@ public class GamblerService {
 
         Set<StatutTeam> teamsToRegister = new HashSet<>();
         for (Team team : teams) {
-            Optional<Team> DBTeamOptional = teamDAO.get(team.getName());
+            Optional<Team> DBTeamOptional = teamService.get(team.getName());
 
             Team teamToRegister;
             boolean owner = false;
@@ -178,13 +145,13 @@ public class GamblerService {
             } else { //The team was created by the user and thus, the latter is its owner
 //                logger.log(Level.INFO, "No team found");
                 team.setOwnerEmail(gambler.getEmail());
-                Gambler gamblerRanking = gamblerDao.get(gambler.getId());
-                Key<Team> teamKey = teamDAO.createUpdate(team);
-                teamToRegister = teamDAO.get(teamKey);
+                Gambler gamblerRanking = this.getFromID(gambler.getId());
+                Key<Team> teamKey = teamService.createOrUpdate(team);
+                teamToRegister = teamService.getFromKey(teamKey);
                 TeamRanking teamRanking = new TeamRanking();
                 teamRanking.setTeamId(teamToRegister.getId());
                 teamRanking.setPoints(gamblerRanking.getPoints());
-                teamRankingDAO.createUpdate(teamRanking);
+                teamRankingService.createOrUpdate(teamRanking);
                 owner = true;
             }
 
@@ -196,12 +163,12 @@ public class GamblerService {
 
         }
         gambler.addTeams(teamsToRegister);
-        return gamblerRepository.saveGambler(gambler);
+        return this.createOrUpdate(gambler);
 
     }
 
     public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
-        gamblerRepository.saveGambler(gambler);
+        this.createOrUpdate(gambler);
     }
 
     /**
@@ -232,18 +199,25 @@ public class GamblerService {
         Set<Gambler> joining = new HashSet<>();
 
         for (Team team : ownedTeams) {
-            joining.addAll(gamblerRepository.wantToJoin(team.getName()));
+            joining.addAll(this.wantToJoin(team.getName()));
         }
 
         return joining;
     }
 
     public Set<Gambler> wantToJoin(Long id){
-        Team team = teamDAO.get(id);
-        HashSet<Gambler> gamblers = Sets.newHashSet(gamblerRepository.wantToJoin(team.getName()));
+        Team team = teamService.getFromID(id);
+        HashSet<Gambler> gamblers = Sets.newHashSet(this.wantToJoin(team.getName()));
         return gamblers;
     }
 
+    public List<Gambler> wantToJoin(String name) {
+        return ((GamblerDAO)this.getDao()).gamblersWannaJoin(name);
+    }
+    
+    public int nbGamblersInTeam(Team team){
+        return ((GamblerDAO)this.getDao()).nbGamblersInTeam(team);
+    }
 
 
 }

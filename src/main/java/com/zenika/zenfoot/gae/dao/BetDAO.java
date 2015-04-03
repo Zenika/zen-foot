@@ -5,7 +5,7 @@
  */
 package com.zenika.zenfoot.gae.dao;
 
-import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.IGenericDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 
@@ -13,10 +13,8 @@ import com.zenika.zenfoot.gae.model.Gambler;
  *
  * @author nebulis
  */
-public interface BetDAO {
+public interface BetDAO extends IGenericDAO<Bet> {
     
     Bet getBetByGamblerAndMatchId(Gambler gambler, Long matchId);
-    
-    Key<Bet> createUpdate(Bet bet);
     
 }

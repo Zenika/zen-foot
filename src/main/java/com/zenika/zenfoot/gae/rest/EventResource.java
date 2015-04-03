@@ -30,11 +30,10 @@ import restx.security.PermitAll;
 @RestxResource
 public class EventResource {
 
-    private EventService eventService;
-    private GamblerService gamblerService;
-    private MatchService matchService;
-
-    private SessionInfo sessionInfo;
+    final private EventService eventService;
+    final private GamblerService gamblerService;
+    final private MatchService matchService;
+    final private SessionInfo sessionInfo;
 
     public EventResource(EventService eventService, @Named("sessioninfo")SessionInfo sessionInfo, GamblerService gamblerService,
             MatchService matchService) {
@@ -50,8 +49,8 @@ public class EventResource {
         if (eventService.contains(event.getName())) {
             throw new WebException(HttpStatus.BAD_REQUEST);
         }
-        Key<Event> eventKey = eventService.createUpdate(event);
-        return eventService.getEvent(eventKey);
+        return eventService.getFromKey(
+                eventService.createOrUpdate(event));
     }
 
     @GET("/events")
@@ -77,13 +76,12 @@ public class EventResource {
     public void postBets(Long id, List<BetDTO> bets) {
         if (bets != null && bets.size() > 0) {
             // get gambler and event
-            Event event = eventService.get(id);
+            Event event = eventService.getFromID(id);
             User user = sessionInfo.getUser();
-            Gambler gambler = gamblerService.getFromEmailAndEvent(user.getEmail(), event);
+            Gambler gambler = gamblerService.getGamblerFromEmailAndEvent(user.getEmail(), event);
             
             if (gambler == null) {
-                Key<Gambler> eventGambler = gamblerService.createGambler(user, event);
-                gambler = gamblerService.getGambler(eventGambler);
+                gambler = gamblerService.createOrUpdateAndReturn(gambler);
             }
             
             //save bets
@@ -101,8 +99,7 @@ public class EventResource {
     @RolesAllowed(Roles.ADMIN)
     public Event updateEvent(Long id, Event event) {
         if (eventService.contains(event.getName())) {
-            Key<Event> eventKey = eventService.createUpdate(event);
-            return eventService.getEvent(eventKey);
+            return eventService.createOrUpdateAndReturn(event);
         } 
         throw new WebException(HttpStatus.BAD_REQUEST);
     }
@@ -110,13 +107,13 @@ public class EventResource {
     @POST("/events/{id}/matchs")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(Long id, Match match) {
-        Event event = eventService.get(id);
+        Event event = eventService.getFromID(id);
         Match matchFormerValue = matchService.getMatch(match.getId(), event);
         gamblerService.setScore(matchFormerValue,match);
         matchFormerValue.setScore1(match.getScore1());
         matchFormerValue.setScore2(match.getScore2());
         matchFormerValue.setScoreUpdated(true);
-        matchService.createUpdate(matchFormerValue);
+        matchService.createOrUpdate(matchFormerValue);
     }
 
 }

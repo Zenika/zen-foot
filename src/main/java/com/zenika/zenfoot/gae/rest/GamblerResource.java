@@ -4,7 +4,7 @@ import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.services.GamblerService;
-import com.zenika.zenfoot.gae.services.MockUserService;
+import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.user.User;
 import restx.annotations.GET;
@@ -29,20 +29,13 @@ public class GamblerResource {
 
     private SessionInfo sessionInfo;
 
-    private MockUserService userService;
+    private ZenfootUserService userService;
 
     public GamblerResource(GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo, 
             @Named("userService") UserService userService) {
         this.gamblerService = gamblerService;
         this.sessionInfo = sessionInfo;
-        this.userService = (MockUserService) userService;
-    }
-
-    @POST("/gamblers")
-    @RolesAllowed(Roles.GAMBLER)
-    public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
-        Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
-        return gamblerService.getGambler(gamblerKey);
+        this.userService = (ZenfootUserService) userService;
     }
 
     @PUT("/gambler")
@@ -82,35 +75,5 @@ public class GamblerResource {
         }
         return userGambler;*/
         return null;
-    }
-
-
-
-    @POST("/changePW")
-    @RolesAllowed(Roles.GAMBLER)
-    public void changePW(List<String> pwds){
-        String oldPW = pwds.get(0);
-        String newPW = pwds.get(1);
-        userService.resetPWD(sessionInfo.getUser().getEmail(),oldPW,newPW);
-    }
-
-    @GET("/gambler")
-    //@JsonView(Views.GamblerView.class)
-    @RolesAllowed(Roles.GAMBLER)
-    public Gambler getGambler() {
-        User user = sessionInfo.getUser();
-        return null;
-    }
-
-    @GET("/gamblers/{id}")
-    @RolesAllowed({Roles.GAMBLER, Roles.ADMIN})
-    public Gambler getGambler(Long id) {
-        return gamblerService.get(id);
-    }
-
-    @GET("/gamblers")
-    @RolesAllowed(Roles.GAMBLER)
-    public List<Gambler> getGamblers() {
-        return gamblerService.getAll();
     }
 }

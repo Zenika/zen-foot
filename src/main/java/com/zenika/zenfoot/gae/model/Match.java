@@ -4,14 +4,22 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
+import java.io.Serializable;
 import org.joda.time.DateTime;
 
-import java.io.Serializable;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Match implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	@Id
     private Long id;
     private DateTime date;
     private String groupe;
@@ -25,6 +33,8 @@ public class Match implements Serializable{
     
     @Parent private Key<Event> event;
 
+    private Sport sport;
+    
     public Match() {
     }
 
@@ -111,5 +121,18 @@ public class Match implements Serializable{
 
     public void setEvent(Key<Event> event) {
         this.event = event;
+    }
+    /**
+     * @return the sport
+     */
+    public Sport getSport() {
+            return sport;
+    }
+
+    /**
+     * @param sport the sport to set
+     */
+    public void setSport(Sport sport) {
+            this.sport = sport;
     }
 }

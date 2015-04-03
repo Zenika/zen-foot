@@ -31,6 +31,8 @@ public class Bet {
     
     @Parent private Key<Gambler> gambler;
 
+    private Sport typeSport;
+    
     public Bet() {
     }
 
@@ -79,4 +81,17 @@ public class Bet {
     public void setGambler(Key<Gambler> gambler) {
         this.gambler = gambler;
     }
+        /**
+	 * @return the typeSport
+	 */
+	public Sport getTypeSport() {
+		return typeSport;
+	}
+
+	/**
+	 * @param typeSport the typeSport to set
+	 */
+	public void setTypeSport(Sport typeSport) {
+		this.typeSport = typeSport;
+	}
 }

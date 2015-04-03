@@ -1,22 +1,21 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.google.common.base.Optional;
+import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.model.Team;
 
-import java.util.List;
 
 /**
  * Created by raphael on 03/06/14.
  */
-public class TeamService {
-
-    protected TeamDAO teamDAO;
+public class TeamService extends AbstractGenericService<Team> {
 
     public TeamService(TeamDAO teamDAO) {
-        this.teamDAO = teamDAO;
+        super(teamDAO);
     }
-
-    public List<Team> getAll() {
-        return teamDAO.getAll();
+    
+    public Optional<Team> get(String name) {
+        return ((TeamDAO)this.getDao()).get(name);
     }
 }

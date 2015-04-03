@@ -1,44 +1,44 @@
 package com.zenika.zenfoot.gae.module;
 
-import com.google.appengine.api.utils.SystemProperty;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.model.Event;
-import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
-import com.zenika.zenfoot.user.User;
-import restx.admin.AdminModule;
-import restx.factory.Module;
-import restx.factory.Provides;
-import restx.security.UserService;
 
-import javax.inject.Named;
+
+import restx.admin.AdminModule;
+import restx.factory.Provides;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
+import com.google.appengine.api.utils.SystemProperty;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dao.PaysDAOImpl;
+import com.zenika.zenfoot.gae.dao.UserDAO;
+import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.services.GamblerService;
+import com.zenika.zenfoot.gae.services.MatchService;
+import com.zenika.zenfoot.gae.services.ZenfootUserService;
+import com.zenika.zenfoot.user.User;
+import javax.inject.Named;
+import restx.factory.Module;
+import restx.security.UserService;
+
 
 @Module
 public class UserModule {
 
-
     @Provides
-    @Named("userRepository")
-    public MockZenFootUserRepository getUserRepository(GamblerRepository gamblerRepository) {
-        MockZenFootUserRepository mockZenFootUserRepository = new MockZenFootUserRepository();
-
-        return new MockZenFootUserRepository();
+    @Named("zenfootUserService")
+    public ZenfootUserService zenfootUserService(UserDAO userDAO) {
+        return new ZenfootUserService(userDAO);
     }
-
-
-
-
+    
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, GamblerService gamblerService, 
+    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, GamblerService gamblerService, 
             MatchService matchService, EventService eventService) {
-        MockUserService userService = new MockUserService(userRepository);
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {
             User admin = new User().setName("admin").setPrenom("admin").setEmail(
@@ -92,30 +92,30 @@ public class UserModule {
             User k = new User().setEmail("k@k.fr").setName("k").setPrenom("k").setRoles(Arrays.asList(Roles.GAMBLER));
             k.setPassword("999");
 
-            userService.createUser(admin);
-            userService.createUser(jean);
-            userService.createUser(mira);
-            userService.createUser(bill);
-            userService.createUser(andy);
-            userService.createUser(sophie);
-            userService.createUser(kate);
-            userService.createUser(olivier);
-            userService.createUser(russell);
-            userService.createUser(harold);
-            userService.createUser(richard);
-            userService.createUser(jc);
-            userService.createUser(leonardo);
-            userService.createUser(j);
-            userService.createUser(k);
-            userService.createUser(l);
+            zenfootUserService.createOrUpdate(admin);
+            zenfootUserService.createOrUpdate(jean);
+            zenfootUserService.createOrUpdate(mira);
+            zenfootUserService.createOrUpdate(bill);
+            zenfootUserService.createOrUpdate(andy);
+            zenfootUserService.createOrUpdate(sophie);
+            zenfootUserService.createOrUpdate(kate);
+            zenfootUserService.createOrUpdate(olivier);
+            zenfootUserService.createOrUpdate(russell);
+            zenfootUserService.createOrUpdate(harold);
+            zenfootUserService.createOrUpdate(richard);
+            zenfootUserService.createOrUpdate(jc);
+            zenfootUserService.createOrUpdate(leonardo);
+            zenfootUserService.createOrUpdate(j);
+            zenfootUserService.createOrUpdate(k);
+            zenfootUserService.createOrUpdate(l);
             
             Event e = new Event();
             e.setName("Cdm 2014 Foot");
-            eventService.createUpdate(e);
+            eventService.createOrUpdate(e);
             
             Event e2 = new Event();
             e2.setName("Cdm 2015 Rugby");
-            eventService.createUpdate(e2);
+            eventService.createOrUpdate(e2);
             MatchDAO matchDAO = new MatchDAOImpl();
 
             if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
@@ -138,9 +138,9 @@ public class UserModule {
 
                 }
             }
+    		
         }
-        return userService;
-
+        return zenfootUserService;
     }
 
     @Provides
@@ -149,4 +149,11 @@ public class UserModule {
         return userService;
     }
 
+    
+    //DAOs
+    @Provides
+    @Named("paysDAO")
+    public PaysDAOImpl paysDAO() {
+        return new PaysDAOImpl();
+    }
 }

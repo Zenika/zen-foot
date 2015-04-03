@@ -1,6 +1,8 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.AbstractGenericService;
+import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.dao.EventDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
@@ -19,19 +21,17 @@ import java.util.logging.Level;
 /**
  * Created by raphael on 28/08/14.
  */
-public class EventService {
+public class EventService extends AbstractGenericService<Event> {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+    final private Logger logger = Logger.getLogger(getClass().getName());
     
+    final private GamblerService gamblerService;
+    final private MapperFacadeFactory mapper;
 
-    private EventDAO eventDAO;
-    private GamblerDAO gamblerDAO;
-    private MapperFacadeFactory mapper;
-
-    public EventService(EventDAO eventDAO, MapperFacadeFactory mapper, GamblerDAO gamblerDAO) {
-        this.eventDAO = eventDAO;
+    public EventService(EventDAO dao, MapperFacadeFactory mapper, GamblerService gamblerService) {
+        super(dao);
         this.mapper = mapper;
-        this.gamblerDAO = gamblerDAO;
+        this.gamblerService = gamblerService;
     }
 
     /**
@@ -40,7 +40,7 @@ public class EventService {
      * @return
      */
     public boolean contains(String eventName){
-        List<Event> events = eventDAO.getAll();
+        List<Event> events = this.getDao().getAll();
         boolean toRet = false;
         if (events != null && events.size() > 0) {
             for(Event event : events){
@@ -52,25 +52,6 @@ public class EventService {
         }
         return toRet;
     }
-
-    public Key<Event> createUpdate(Event event) {
-        return this.eventDAO.createUpdate(event);
-    }
-
-    public List<Event> getAll() {
-        return eventDAO.getAll();
-    }
-
-    public Event getEvent(Key<Event> eventKey) {
-        return eventDAO.get(eventKey);
-    }
-    public void delete(Long id) {
-        this.eventDAO.delete(id);
-    }
-    
-    public Event get(Long id) {
-        return this.eventDAO.get(id);
-    }
     
     public List<MatchDTO> getMatches(Long id) {
         logger.warning("WARN");
@@ -78,8 +59,8 @@ public class EventService {
         logger.log(Level.FINER, "FINER");
         logger.log(Level.FINEST, "FINEST");
         
-        Event event = this.eventDAO.get(id);
-        List<Match> ms = this.eventDAO.getMatches(event);
+        Event event = this.getDao().findById(id);
+        List<Match> ms = ((EventDAO)this.getDao()).getMatches(event);
         List<MatchDTO> matches = new ArrayList<MatchDTO>();
         mapper.getMapper().mapAsCollection(ms, matches, MatchDTO.class);
         return matches;
@@ -89,14 +70,14 @@ public class EventService {
         Gambler gambler = this.getGamblerFromEventIdAndEmail(id, email);
         List<BetDTO> bets = new ArrayList<BetDTO>();
         if (gambler != null) {
-            List<Bet> bs = this.gamblerDAO.getBets(gambler);
+            List<Bet> bs = this.gamblerService.getBets(gambler);
             mapper.getMapper().mapAsCollection(bs, bets, BetDTO.class);
         }
         return bets;
     }
     
     public Gambler getGamblerFromEventIdAndEmail(Long id, String email) {
-        Event event = this.eventDAO.get(id);
-        return this.gamblerDAO.getGamblerFromEmailAndEvent(email, event);
+        Event event = ((EventDAO)this.getDao()).findById(id);
+        return this.gamblerService.getGamblerFromEmailAndEvent(email, event);
     }
 }

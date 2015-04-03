@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
+import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
@@ -17,13 +17,6 @@ import java.util.Set;
 public class GamblerDAOImpl extends GenericDAO<Gambler> implements GamblerDAO {
 
 
-    @Override
-    public Key<Gambler> saveGambler(Gambler gambler) {
-        
-        Key<Gambler> key = ObjectifyService.ofy().save().entity(gambler).now();
-        return key;
-    }
-
     /**
      * We have to register teams before registering a gambler, in order to have their ID generated.
      *
@@ -33,14 +26,6 @@ public class GamblerDAOImpl extends GenericDAO<Gambler> implements GamblerDAO {
         for (StatutTeam statutTeam : statutTeams) {
             ObjectifyService.ofy().save().entity(statutTeam.getTeam());
 
-        }
-    }
-
-    @Override
-    public void deleteAll() {
-        List<Gambler> gamblers = getAll();
-        for (Gambler gambler : gamblers) {
-            delete(gambler.getId());
         }
     }
 

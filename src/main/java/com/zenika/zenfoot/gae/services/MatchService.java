@@ -1,51 +1,27 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.zenika.zenfoot.gae.dao.MatchDAO;
+import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.Event;
-import com.zenika.zenfoot.gae.model.Match;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MatchService {
+import com.zenika.zenfoot.gae.dao.MatchDAO;
+import com.zenika.zenfoot.gae.model.Match;
 
-    private MatchDAO matchDAO;
+public class MatchService extends AbstractGenericService<Match> {
     private MapperFacadeFactory mapper;
 
     public MatchService(MatchDAO matchDAO, MapperFacadeFactory mapper) {
-        this.matchDAO = matchDAO;
+        super(matchDAO);
         this.mapper = mapper;
     }
-
-    public void createUpdate(MatchDTO match) {
-        Match m = mapper.getMapper().map(match, Match.class);
-        this.matchDAO.createUpdate(m);
-    }
-
-    public void createUpdate(Match match) {
-        this.matchDAO.createUpdate(match);
-    }
-
-
-    public void delete(Long id) {
-        this.matchDAO.deleteMatch(id);
-    }
-
-
+    
     public Match getMatch(Long id, Event event) {
-        return this.matchDAO.getMatch(id, event);
-    }
-
-
-    public List<Match> getAll() {
-        return matchDAO.getAll();
-    }
-
-    public void deleteAll() {
-        matchDAO.deleteAll();
+        return ((MatchDAO)this.getDao()).get(id, event);
     }
 
     //TODO register name of countries in DB

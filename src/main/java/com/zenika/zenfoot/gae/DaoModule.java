@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae;
 
 import com.zenika.zenfoot.gae.dao.UserDAOImpl;
-import com.zenika.zenfoot.gae.dao.UserDao;
+import com.zenika.zenfoot.gae.dao.UserDAO;
 import restx.factory.Module;
 import restx.factory.Provides;
 
@@ -16,7 +16,7 @@ public class DaoModule {
 
     @Provides
     @Named("userdao")
-    public UserDao getUserDao() {
+    public UserDAO getUserDao() {
         return new UserDAOImpl();
     }
 }

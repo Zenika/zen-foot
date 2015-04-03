@@ -2,7 +2,7 @@
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-    <property name="LOGS_FOLDER" value="${logs.base:-logs}" />
+    <property name="LOGS_FOLDER" value="./logs" />
 
     <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOGS_FOLDER}/errors.log</File>
@@ -62,13 +62,13 @@
                 </encoder>
             </appender>
             <appender name="appLog" class="ch.qos.logback.core.FileAppender">
-                <File>${LOGS_FOLDER}/app.log</File>
+                <File>C:\Dev\workspace\zen-foot\logs\app.log</File>
                 <encoder>
                     <pattern>%d [%-16thread] [%-10X{principal}] %-5level %logger{36} - %msg%n</pattern>
                 </encoder>
             </appender>
 
-            <root level="INFO">
+            <root level="DEBUG">
                 <appender-ref ref="STDOUT" />
                 <appender-ref ref="appLog" />
             </root>
@@ -88,7 +88,7 @@
     <!-- app logs - set DEBUG level, in prod it will go to a dedicated file -->
     <logger name="com.zenika.zenfoot.gae" level="DEBUG" />
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="errorFile" />
     </root>
 </configuration>

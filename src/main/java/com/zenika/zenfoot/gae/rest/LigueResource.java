@@ -1,10 +1,9 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.google.common.base.Optional;
+import com.zenika.zenfoot.gae.dto.GamblerStatutTeam;
+import com.zenika.zenfoot.gae.dto.GamblerAndTeams;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.TeamDAO;
-import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.StatutTeam;
 import com.zenika.zenfoot.gae.model.Team;
@@ -12,6 +11,8 @@ import com.zenika.zenfoot.gae.model.TeamRanking;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.LigueService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.gae.services.TeamRankingService;
+import com.zenika.zenfoot.gae.services.TeamService;
 import restx.WebException;
 import restx.annotations.GET;
 import restx.annotations.POST;
@@ -40,16 +41,17 @@ public class LigueResource {
 
     private SessionInfo sessionInfo;
 
-    private TeamDAO teamDAO;
+    private TeamService teamService;
 
-    private TeamRankingDAO teamRankingDAO;
+    private TeamRankingService teamRankingService;
 
-    public LigueResource(GamblerService gamblerService, @Named("sessioninfo")SessionInfo sessionInfo, TeamDAO teamDAO, LigueService ligueService, TeamRankingDAO teamRankingDAO) {
+    public LigueResource(GamblerService gamblerService, @Named("sessioninfo")SessionInfo sessionInfo, 
+            TeamService teamService, LigueService ligueService, TeamRankingService teamRankingService) {
         this.gamblerService = gamblerService;
         this.sessionInfo = sessionInfo;
-        this.teamDAO = teamDAO;
+        this.teamService = teamService;
         this.ligueService = ligueService;
-        this.teamRankingDAO = teamRankingDAO;
+        this.teamRankingService = teamRankingService;
 
     }
 
@@ -74,7 +76,8 @@ public class LigueResource {
     @POST("/joiner")
     @RolesAllowed(Roles.GAMBLER)
     public Gambler postJoiner(Gambler gambler) {
-        return gamblerService.updateGambler(gambler);
+        return gamblerService.getFromKey(
+                gamblerService.createOrUpdate(gambler));
     }
 
 
@@ -90,14 +93,14 @@ public class LigueResource {
     @GET("/teams")
     @PermitAll
     public List<Team> getTeams() {
-        return teamDAO.getAll();
+        return teamService.getAll();
     }
 
     @POST("/gamblerAndTeam")
     @RolesAllowed(Roles.GAMBLER)
     public Gambler updateGambler(GamblerAndTeams gamblerAndTeams) {
         Key<Gambler> gamblerKey = gamblerService.addTeams(gamblerAndTeams.getTeams(), gamblerAndTeams.getGambler());
-        return gamblerService.getGambler(gamblerKey);
+        return gamblerService.getFromKey(gamblerKey);
     }
 
     /**
@@ -228,7 +231,7 @@ public class LigueResource {
     @GET("/teams/{id}")
     @PermitAll
     public Team getTeam(Long id) {
-        Team team = teamDAO.get(id);
+        Team team = teamService.getFromID(id);
         if (team == null) {
             throw new WebException(HttpStatus.NOT_FOUND);
         } else {
@@ -239,6 +242,6 @@ public class LigueResource {
     @GET("/teamRanking")
     @RolesAllowed(Roles.GAMBLER)
     public List<TeamRanking> teamRankings(){
-        return this.teamRankingDAO.getAll();
+        return this.teamRankingService.getAll();
     }
 }
