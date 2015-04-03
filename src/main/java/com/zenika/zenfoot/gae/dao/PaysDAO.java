@@ -1,19 +1,12 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.zenika.zenfoot.gae.GenericDAO;
+import com.zenika.zenfoot.gae.IGenericDAO;
 import com.zenika.zenfoot.gae.model.Pays;
 
-public class PaysDAO extends GenericDAO {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+/**
+ * Created by raphael on 03/06/14.
+ */
+public interface PaysDAO extends IGenericDAO<Pays> {
 
-	public PaysDAO() {
-		super(Pays.class);
-//		System.out.println("on passe par ici");
-	}
-
-	
 }
+

@@ -1,4 +1,4 @@
-package com.zenika.zenfoot.gae.rest;
+package com.zenika.zenfoot.gae.dto;
 
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Match;

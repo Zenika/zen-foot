@@ -4,12 +4,12 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by raphael on 25/08/14.
  * <p/>
- * An event corresponds to any football event. It is used to archive the result of former events.
+ * An event corresponds to any sport event.
  */
 @Entity
 public class Event {
@@ -17,45 +17,11 @@ public class Event {
     @Id
     private Long id;
 
-    private List<GamblerRanking> gamblerRankings;
-
-    private List<Match> matches;
-
-    private List<String> pays;
-
-    private List<TeamRanking> teamRankings;
-
-    private List<GamblerBets> gamblerBetsList;
-
     @Index
     private String name;
-
-    public Event() {
-    }
-
-    public List<GamblerRanking> getGamblerRankings() {
-        return gamblerRankings;
-    }
-
-    public void setGamblerRankings(List<GamblerRanking> gamblerRankings) {
-        this.gamblerRankings = gamblerRankings;
-    }
-
-    public List<Match> getMatches() {
-        return matches;
-    }
-
-    public void setMatches(List<Match> matches) {
-        this.matches = matches;
-    }
-
-    public void setPays(List<String> pays) {
-        this.pays = pays;
-    }
-
-    public List<String> getPays() {
-        return pays;
-    }
+    
+    private Date start;
+    private Date end; 
 
     public Long getId() {
         return id;
@@ -73,19 +39,19 @@ public class Event {
         this.name = name;
     }
 
-    public List<TeamRanking> getTeamRankings() {
-        return teamRankings;
+    public Date getStart() {
+        return start;
     }
 
-    public void setTeamRankings(List<TeamRanking> teamRankings) {
-        this.teamRankings = teamRankings;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public List<GamblerBets> getGamblerBetsList() {
-        return gamblerBetsList;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setGamblerBetsList(List<GamblerBets> gamblerBetsList) {
-        this.gamblerBetsList = gamblerBetsList;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 }

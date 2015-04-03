@@ -2,57 +2,76 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.dao.PWDLinkDAO;
-import com.zenika.zenfoot.gae.dao.UserDao;
+import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.services.PWDLinkService;
+import com.zenika.zenfoot.gae.services.ZenfootUserService;
+import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.gae.utils.PWDLink;
-import com.zenika.zenfoot.gae.services.MockUserService;
 import com.zenika.zenfoot.gae.utils.ResetPWD;
 import com.zenika.zenfoot.user.User;
+import restx.RestxRequest;
+import restx.RestxResponse;
 import restx.WebException;
-import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.http.HttpStatus;
-import restx.security.PermitAll;
-import restx.security.UserService;
+import restx.security.RolesAllowed;
 
 import javax.inject.Named;
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
-import java.util.List;
-import java.util.Properties;
+import restx.annotations.GET;
+import restx.security.PermitAll;
 
-
-/**
- * Created by raphael on 18/08/14.
- */
 
 @RestxResource
 @Component
-public class NewPasswordResource {
+public class UserResource {
 
-    private UserDao userDao;
+    final private ZenfootUserService userService;
+    final private SessionInfo sessionInfo;
+    final private PWDLinkService pWDLinkService;
+    
+    public UserResource(@Named("sessioninfo") SessionInfo sessionInfo, 
+            @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService) {
+        this.userService = userService;
+        this.sessionInfo = sessionInfo;
+        this.pWDLinkService = pWDLinkService;
+    }
 
-    private PWDLinkDAO pwdLinkDAO;
 
-    private MockUserService userService;
-
-    public NewPasswordResource(UserDao userDao, PWDLinkDAO pwdLinkDAO, @Named("userService") UserService
-            userService) {
-        this.userDao = userDao;
-        this.pwdLinkDAO = pwdLinkDAO;
-        this.userService = (MockUserService) userService;
+    @POST("/redirectAfterLogin")
+    public void redirectAfterLogin() {
+        throw new WebException(HttpStatus.FOUND) {
+            @Override
+            public void writeTo(RestxRequest restxRequest, RestxResponse restxResponse) throws IOException {
+                restxResponse
+                        .setStatus(getStatus())
+                        .setHeader("Location", "/#/bets");
+            }
+        };
+    }
+    
+    @POST("/changePW")
+    @RolesAllowed(Roles.GAMBLER)
+    public void changePW(List<String> pwds){
+        String oldPW = pwds.get(0);
+        String newPW = pwds.get(1);
+        userService.resetPWD(sessionInfo.getUser().getEmail(),oldPW,newPW);
     }
 
     @POST("/generateLink")
     @PermitAll
     public void generateLink(User user) {
-        User regUser = userDao.getUser(user.getEmail());
+        User regUser = userService.getUserbyEmail(user.getEmail());
 
         if (regUser == null) {
             throw new WebException(HttpStatus.NOT_FOUND);
@@ -60,7 +79,7 @@ public class NewPasswordResource {
 
         PWDLink pwdLink = new PWDLink(regUser.getId());
 
-        Key<PWDLink> key = pwdLinkDAO.save(pwdLink);
+        Key<PWDLink> key = this.pWDLinkService.createOrUpdate(pwdLink);
 
         String domain = "http://";
 
@@ -101,11 +120,11 @@ public class NewPasswordResource {
     public void resetPWD(ResetPWD resetPWD) {
 
         try {
-            PWDLink pwdLink = pwdLinkDAO.get(resetPWD.getPwdLinkId());
-            User user = userDao.getUser(pwdLink.getUserEmail());
+            PWDLink pwdLink = this.pWDLinkService.getFromID(resetPWD.getPwdLinkId());
+            User user = userService.getUserbyEmail(pwdLink.getUserEmail());
             user.setPassword(resetPWD.getNewPWD());
-            userService.createUser(user);
-            pwdLinkDAO.delete(pwdLink.getId());
+            userService.createOrUpdate(user);
+            pWDLinkService.delete(pwdLink.getId());
 
         } catch (NullPointerException e) {
             throw new WebException(HttpStatus.NOT_FOUND);
@@ -124,7 +143,7 @@ public class NewPasswordResource {
     @GET("/checkPWDLink/{id}")
     @PermitAll
     public void checkPWDLink(Long id) {
-        PWDLink pwdLink = pwdLinkDAO.get(id);
+        PWDLink pwdLink = this.pWDLinkService.getFromID(id);
         if (pwdLink == null) {
             throw new WebException(HttpStatus.NOT_FOUND);
         }
@@ -133,12 +152,13 @@ public class NewPasswordResource {
     @GET("/cron/cleanPWDLinks")
     @PermitAll
     public void cleanPWDLinks() {
-        List<PWDLink> pwdLinks = pwdLinkDAO.getAll();
+        List<PWDLink> pwdLinks = this.pWDLinkService.getAll();
 
         for (PWDLink pwdLink : pwdLinks) {
             if (pwdLink.mustBeRemoved()) {
-                pwdLinkDAO.delete(pwdLink.getId());
+                this.pWDLinkService.delete(pwdLink.getId());
             }
         }
     }
+
 }

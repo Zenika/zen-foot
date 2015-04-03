@@ -32,6 +32,11 @@
                         <option value="" disabled selected>groupe</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <select class="form-control select-group" required ng-model="match.event" ng-options="event.name for event in events">
+                        <option value="" disabled selected>event</option>
+                    </select>
+                </div>
 
                 <div class="text-center">
                     <button data-ng-disabled="matchForm.$invalid||matchForm.dueDate.$error.dateChk" type="submit" class="btn btn-danger" ng-click="register(match)">valider</button>

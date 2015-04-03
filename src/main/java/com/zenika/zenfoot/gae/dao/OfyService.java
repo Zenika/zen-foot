@@ -4,9 +4,9 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.impl.translate.opt.joda.JodaTimeTranslators;
+import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.GamblerRanking;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Pays;
 import com.zenika.zenfoot.gae.model.Sport;
@@ -26,9 +26,9 @@ public class OfyService {
         factory().register(Gambler.class);
         factory().register(Team.class);
         factory().register(TeamRanking.class);
-        factory().register(GamblerRanking.class);
         factory().register(PWDLink.class);
         factory().register(Event.class);
+        factory().register(Bet.class);
         factory().register(Pays.class);
         factory().register(Sport.class);
     }

@@ -1,21 +1,24 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', 'Match', '$timeout', function (Pays, $scope, betMatchService, Match, $timeout) {
+    .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', 'Match', '$timeout', 'Events',
+function (Pays, $scope, betMatchService, Match, $timeout, Events) {
         Pays.getPays().then(function (response) {
             $scope.countries = response.data;
         })
 
-        $scope.groups = betMatchService.group1().concat(betMatchService.group2());
+        $scope.groups = betMatchService.group1().concat(betMatchService.group2()).concat(betMatchService.group3());
 
         $scope.today = new Date();
 
         $scope.newMatch = function () {
-            $scope.match = {team1: '', team2: '', score1: null, score2: null, date: null};
+            $scope.match = {team1: '', team2: '', score1: null, score2: null, date: null, event : null};
         }
         $scope.newMatch();
 
         $scope.format = 'dd/MM/yyyy';
+        
+        $scope.events = Events.query();
 
         /**
          * TimePicker model is initialized to midnight. As match.date is initialized to null, the timepicker would otherwise

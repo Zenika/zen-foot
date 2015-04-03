@@ -1,7 +1,10 @@
 package com.zenika.zenfoot.gae.model;
 
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 import java.io.Serializable;
-
 import org.joda.time.DateTime;
 
 import com.googlecode.objectify.annotation.Entity;
@@ -27,6 +30,8 @@ public class Match implements Serializable{
     private Integer score1;
     private Integer score2;
     private boolean scoreUpdated = false;
+    
+    @Parent private Key<Event> event;
 
     private Sport sport;
 
@@ -132,17 +137,24 @@ public class Match implements Serializable{
         return team1 + " / " + team2 + " (" + date + ")";
     }
 
-	/**
-	 * @return the sport
-	 */
-	public Sport getSport() {
-		return sport;
-	}
+    public Key<Event> getEvent() {
+        return event;
+    }
 
-	/**
-	 * @param sport the sport to set
-	 */
-	public void setSport(Sport sport) {
-		this.sport = sport;
-	}
+    public void setEvent(Key<Event> event) {
+        this.event = event;
+    }
+    /**
+     * @return the sport
+     */
+    public Sport getSport() {
+            return sport;
+    }
+
+    /**
+     * @param sport the sport to set
+     */
+    public void setSport(Sport sport) {
+            this.sport = sport;
+    }
 }

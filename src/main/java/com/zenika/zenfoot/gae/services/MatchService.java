@@ -1,5 +1,10 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.zenika.zenfoot.gae.AbstractGenericService;
+import com.zenika.zenfoot.gae.dto.MatchDTO;
+import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
+import com.zenika.zenfoot.gae.model.Event;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,35 +12,16 @@ import java.util.List;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.model.Match;
 
-public class MatchService {
+public class MatchService extends AbstractGenericService<Match> {
+    private MapperFacadeFactory mapper;
 
-    private MatchDAO matchDAO;
-
-    public MatchService(MatchDAO matchDAO) {
-        this.matchDAO = matchDAO;
+    public MatchService(MatchDAO matchDAO, MapperFacadeFactory mapper) {
+        super(matchDAO);
+        this.mapper = mapper;
     }
-
-    public void createUpdate(Match match) {
-        this.matchDAO.createUpdate(match);
-    }
-
-
-    public void delete(Long id) {
-        this.matchDAO.deleteMatch(id);
-    }
-
-
-    public Match getMatch(Long id) {
-        return this.matchDAO.getMatch(id);
-    }
-
-
-    public List<Match> getAll() {
-        return matchDAO.getAll();
-    }
-
-    public void deleteAll() {
-        matchDAO.deleteAll();
+    
+    public Match getMatch(Long id, Event event) {
+        return ((MatchDAO)this.getDao()).get(id, event);
     }
 
     //TODO register name of countries in DB

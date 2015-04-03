@@ -165,8 +165,8 @@ zenFootDirectives.directive('dateValid',[function(){
     return {
         require:'ngModel',
         link:function(scope,element,attrs,ctrl){
-            scope.$watch('match.date',function(oldValue,newValue){
-                var isDate = angular.isDate(scope.match.date);
+            scope.$watch(attrs.ngModel,function(oldValue,newValue){
+                var isDate = angular.isDate(oldValue);
                 ctrl.$setValidity('dateChk',isDate);
             });
 

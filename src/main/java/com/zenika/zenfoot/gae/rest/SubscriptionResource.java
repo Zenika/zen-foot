@@ -1,12 +1,12 @@
 package com.zenika.zenfoot.gae.rest;
 
+import com.zenika.zenfoot.gae.dto.UserAndTeams;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
-import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.MockUserService;
+import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.user.User;
 import restx.annotations.GET;
 import restx.annotations.POST;
@@ -25,12 +25,12 @@ import java.util.Arrays;
 @Component
 public class SubscriptionResource {
 
-    private MockUserService userService;
+    private ZenfootUserService userService;
     private GamblerService gamblerService;
     private MatchService matchService;
 
     public SubscriptionResource(@Named("userService")UserService userService, GamblerService gamblerService, MatchService matchService) {
-        this.userService = (MockUserService) userService;
+        this.userService = (ZenfootUserService) userService;
         this.gamblerService = gamblerService;
         this.matchService = matchService;
     }
@@ -39,7 +39,7 @@ public class SubscriptionResource {
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
         String email = subscriber.getUser().getEmail();
-        User alreadyExistingUser = userService.getUserByEmail(email);
+        User alreadyExistingUser = userService.getUserbyEmail(email);
 
         if (alreadyExistingUser != null) {
             throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL",
@@ -56,12 +56,7 @@ public class SubscriptionResource {
 //        String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
 //        subscriber.getUser().setIsActive(Boolean.FALSE);
 
-        Key<User> keyUser = userService.createUser(subscriber.getUser());
-        User user = userService.get(keyUser);
-        Key<Gambler> gamblerKey = gamblerService.createGambler(user, matchService.getAll());
-
-        Gambler gambler = gamblerService.getGambler(gamblerKey);
-        gamblerService.addTeams(subscriber.getTeams(), gambler);
+        Key<User> keyUser = userService.createOrUpdate(subscriber.getUser());
     }
 
 
@@ -69,11 +64,11 @@ public class SubscriptionResource {
     @GET("/confirmSubscription")
     @PermitAll
     public String confirmSubscription(String email) {
-        final User user = userService.getUserByEmail(email);
+        final User user = userService.getUserbyEmail(email);
 
         if (user != null && user.getIsActive() != null && !user.getIsActive()) {
             user.setIsActive(Boolean.TRUE);
-            userService.updateUser(user);
+            userService.createOrUpdate(user);
             return Boolean.TRUE.toString();
         }
 
