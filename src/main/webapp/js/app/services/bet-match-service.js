@@ -80,6 +80,14 @@ angular.module('zenFoot.app')
 
                 group2:function(){
                     return ['1/8', '1/4', '1/2', 'finale'];
+                },
+                group3 : function() {
+                    var value = 'journée';
+                    var tab = ['1ère ' + value, '2nde ' + value];
+                    for (var i = 2; i<= 38; i++) {
+                        tab.push(i+'ème '+value);
+                    }
+                    return tab;
                 }
             }
         }]);

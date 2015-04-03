@@ -1,20 +1,21 @@
 package com.zenika.zenfoot.gae.module;
 
-import java.util.List;
+import com.zenika.zenfoot.gae.dao.*;
+import com.zenika.zenfoot.gae.mapper.BetDtoToBetMapper;
+import com.zenika.zenfoot.gae.mapper.GamblerDtoToGamblerMapper;
+import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
+import com.zenika.zenfoot.gae.mapper.MatchDtoToMatchMapper;
 
 import javax.inject.Named;
 
-import org.joda.time.DateTime;
 
 import restx.factory.Module;
 import restx.factory.Provides;
 
 import com.google.appengine.api.utils.SystemProperty;
-import com.zenika.zenfoot.gae.common.SportEnum;
 import com.zenika.zenfoot.gae.dao.EventDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
-import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.dao.PWDLinkDAO;
@@ -22,19 +23,16 @@ import com.zenika.zenfoot.gae.dao.PaysDAO;
 import com.zenika.zenfoot.gae.dao.SportDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
-import com.zenika.zenfoot.gae.model.Match;
-import com.zenika.zenfoot.gae.model.Sport;
-import com.zenika.zenfoot.gae.services.BetRepository;
 import com.zenika.zenfoot.gae.services.BetService;
 import com.zenika.zenfoot.gae.services.EventService;
-import com.zenika.zenfoot.gae.services.GamblerRankingService;
-import com.zenika.zenfoot.gae.services.GamblerRepository;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.LigueService;
 import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.PaysService2;
 import com.zenika.zenfoot.gae.services.SportService;
+import com.zenika.zenfoot.gae.services.PWDLinkService;
+import com.zenika.zenfoot.gae.services.PaysService;
 import com.zenika.zenfoot.gae.services.TeamRankingService;
+import com.zenika.zenfoot.gae.services.TeamService;
 
 /**
  * Created by raphael on 24/04/14.
@@ -50,7 +48,7 @@ public class ModelModule {
         MatchDAO matchDAO = new MatchDAOImpl();
 
         if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
-            Match[] matches = GenerateMatches.generate();
+            /*Match[] matches = GenerateMatches.generate();
             List<Match> registered = matchDAO.getAll();
 
             //check whether there were registered matchs
@@ -67,7 +65,7 @@ public class ModelModule {
 
                 }
 
-            }
+            }*/
         }
 
 
@@ -80,26 +78,24 @@ public class ModelModule {
     public MatchDAO matchDAO() {
         return new MatchDAOImpl();
     }
+    @Provides
+    @Named("betDAO")
+    public BetDAO betDAO() {
+        return new BetDAOImpl();
+    }
 
     //Services
 
-    @Provides
-    @Named("betrepo")
-    public BetRepository betRepository() {
-        return new BetRepository();
-    }
-
 
     @Provides
-    @Named("betservice")
-    public BetService betService(@Named("betrepo") BetRepository betRepository) {
-        return new BetService(betRepository);
+    public BetService betService(@Named("betDAO") BetDAO betDAO) {
+        return new BetService(betDAO);
     }
 
     @Provides
     @Named("matchService")
-    public MatchService matchService(@Named("matchDAOMock") MatchDAO matchDAO) {
-        MatchService matchService = new MatchService(matchDAO);
+    public MatchService matchService(@Named("matchDAOMock") MatchDAO matchDAO, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory) {
+        MatchService matchService = new MatchService(matchDAO, mapperFacadeFactory);
         return matchService;
     }
 
@@ -109,59 +105,80 @@ public class ModelModule {
     }
 
     @Provides
-    public GamblerRepository gamblerRepository(GamblerDAO gamblerDAO) {
-        return new GamblerRepository(gamblerDAO);
-    }
-
-    @Provides
-    public GamblerService gamblerService(GamblerRepository gamblerRepository, MatchService matchService, TeamDAO teamDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
-        return new GamblerService(gamblerRepository, matchService, teamDAO, rankingDAO, teamRankingDAO);
+    public GamblerService gamblerService(MatchService matchService, TeamService teamService, 
+            TeamRankingService teamRankingService, BetService betService, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory,
+            GamblerDAO gamblerDAO) {
+        return new GamblerService(matchService, teamService, teamRankingService, mapperFacadeFactory, betService, gamblerDAO);
     }
 
     @Provides
     public TeamDAO teamDAO() {
-        return new TeamDAO();
+        return new TeamDAOImpl();
     }
 
     @Provides
-    public GamblerRankingDAO rankingDAO() {
-        return new GamblerRankingDAO();
+    public TeamService TeamService(TeamDAO teamDAO) {
+        return new TeamService(teamDAO);
     }
 
     @Provides
     public TeamRankingDAO teamRankingDAO(){
-        return new TeamRankingDAO();
+        return new TeamRankingDAOImpl();
     }
 
     @Provides
-    public LigueService ligueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO){
-        return new LigueService(teamDAO, gamblerDAO, rankingDAO, teamRankingDAO);
-    }
-
-    @Provides
-    public PWDLinkDAO pwdLinkDAO(){
-        return new PWDLinkDAO();
-    }
-
-    @Provides
-
-    public GamblerRankingService gamblerRankingService(GamblerRankingDAO gamblerRankingDAO){
-        return new GamblerRankingService(gamblerRankingDAO);
-    }
-
-    @Provides
-    public TeamRankingService teamRankingService(TeamRankingDAO teamRankingDAO){
+    public TeamRankingService teamRankingService(TeamRankingDAO teamRankingDAO) {
         return new TeamRankingService(teamRankingDAO);
     }
 
     @Provides
-    public EventDAO eventDAO(){
-        return new EventDAO();
+    public LigueService ligueService(TeamService teamService, GamblerService gamblerService, TeamRankingService teamRankingService){
+        return new LigueService(teamService, gamblerService, teamRankingService);
     }
 
     @Provides
-    public EventService eventService(EventDAO eventDAO){
-        return new EventService(eventDAO);
+    public PWDLinkDAO pWDLinkDAO(){
+        return new PWDLinkDAOImpl();
+    }
+
+    @Provides
+    public EventDAO eventDAO(){
+        return new EventDAOImpl();
+    }
+    
+    @Provides
+    @Named("matchDtoToMatchMapper")
+    public MatchDtoToMatchMapper matchDtoToMatchMapper(){
+        return new MatchDtoToMatchMapper();
+    }
+    @Provides
+    @Named("gamblerDtoToGamblerMapper")
+    public GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper(){
+        return new GamblerDtoToGamblerMapper();
+    }
+    @Provides
+    @Named("betDtoToBetMapper")
+    public BetDtoToBetMapper betDtoToBetMapper(){
+        return new BetDtoToBetMapper();
+    }
+    
+    @Provides
+    @Named("mapperFacadeFactory")
+    public MapperFacadeFactory mapperFacadeFactory(@Named("matchDtoToMatchMapper") MatchDtoToMatchMapper matchDtoToMatchMapper, 
+            GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper, BetDtoToBetMapper betDtoToBetMapper){
+        return new MapperFacadeFactory(matchDtoToMatchMapper, gamblerDtoToGamblerMapper, betDtoToBetMapper);
+    }
+
+    @Provides
+    @Named("eventService")
+    public EventService eventService(EventDAO eventDAO, @Named("mapperFacadeFactory") MapperFacadeFactory mapperFacadeFactory, GamblerService 
+            gamblerService){
+        return new EventService(eventDAO, mapperFacadeFactory, gamblerService);
+    }
+    
+    @Provides
+    public PWDLinkService pWDLinkService(PWDLinkDAO pWDLinkDAO) {
+        return new PWDLinkService(pWDLinkDAO);
     }
     
 //    @Provides
@@ -188,7 +205,6 @@ public class ModelModule {
 //    	return new SportService(SportService.class,  genericSportDAO());
 //    }
     
-    
     //DAOs
     @Provides
     @Named("sportDAO")
@@ -206,12 +222,12 @@ public class ModelModule {
     @Provides
     @Named("paysDAO")
     public PaysDAO paysDAO() {
-        return new PaysDAO();
+        return new PaysDAOImpl();
     }	 
 	
     @Provides
     @Named("paysService")
-    public PaysService2 paysService(@Named("paysDAO") PaysDAO paysDAO){
-        return new PaysService2(paysDAO);
+    public PaysService paysService(@Named("paysDAO") PaysDAO paysDAO){
+        return new PaysService(paysDAO);
     }
 }

@@ -13,19 +13,17 @@ import com.zenika.zenfoot.gae.dao.OfyService;
  * @author vickrame
  *
  */
-public class GenericDAO<T> extends AbstractBase<T> {
+public class GenericDAO<T> extends AbstractBase<T> implements IGenericDAO<T> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Class<T> type;
 
-	// pour forcer le typage
-	public GenericDAO(Class<T> type) {
-		super(type);
-		this.type = type;
-	}
+        // pour forcer le typage
+        public GenericDAO() {
+            super();
+        }
 
 	/**
 	 * 

@@ -75,8 +75,8 @@ var conditionUpdatedMatch = function (match) {
 }
 
 zenContactFilters.filter('passedMatchFilter', function () {
-    return function (matchs) {
-        return triMatch(matchs, '', conditionPassedMatch);
+    return function (matchs, apply) {
+        return apply ? triMatch(matchs, '', conditionPassedMatch) : matchs;
     }
 })
 

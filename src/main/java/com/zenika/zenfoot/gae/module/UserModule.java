@@ -1,49 +1,46 @@
 package com.zenika.zenfoot.gae.module;
 
-import java.util.Arrays;
-import java.util.List;
+import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.dao.MatchDAO;
+import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
+import com.zenika.zenfoot.gae.model.Event;
+import com.zenika.zenfoot.gae.services.*;
 
-import javax.inject.Named;
 
 import restx.admin.AdminModule;
-import restx.factory.Module;
 import restx.factory.Provides;
-import restx.security.UserService;
-
+import java.util.Arrays;
+import java.util.List;
+import org.joda.time.DateTime;
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Pays;
 import com.zenika.zenfoot.gae.model.Sport;
-import com.zenika.zenfoot.gae.services.GamblerRepository;
+import com.zenika.zenfoot.gae.services.SportService;
+import com.zenika.zenfoot.gae.dao.UserDAO;
+import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
-import com.zenika.zenfoot.gae.services.MockUserService;
-import com.zenika.zenfoot.gae.services.MockZenFootUserRepository;
-import com.zenika.zenfoot.gae.services.PaysService2;
-import com.zenika.zenfoot.gae.services.SportService;
+import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.user.User;
+import javax.inject.Named;
+import restx.factory.Module;
+import restx.security.UserService;
+
 
 @Module
 public class UserModule {
 
-
     @Provides
-    @Named("userRepository")
-    public MockZenFootUserRepository getUserRepository(GamblerRepository gamblerRepository) {
-        MockZenFootUserRepository mockZenFootUserRepository = new MockZenFootUserRepository();
-
-        return new MockZenFootUserRepository();
+    @Named("zenfootUserService")
+    public ZenfootUserService zenfootUserService(UserDAO userDAO) {
+        return new ZenfootUserService(userDAO);
     }
-
-
-
-
+    
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("userRepository") MockZenFootUserRepository userRepository, 
-    		GamblerService gamblerService, MatchService matchService, @Named("paysService") PaysService2 paysService,@Named("sportService") SportService sportService) {
-        MockUserService userService = new MockUserService(userRepository);
+    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, GamblerService gamblerService, 
+            MatchService matchService, EventService eventService, @Named("paysService") PaysService paysService,@Named("sportService") SportService sportService) {
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {
             User admin = new User().setName("admin").setPrenom("admin").setEmail(
@@ -97,51 +94,58 @@ public class UserModule {
             User k = new User().setEmail("k@k.fr").setName("k").setPrenom("k").setRoles(Arrays.asList(Roles.GAMBLER));
             k.setPassword("999");
 
-
-            userService.createUser(admin);
-            userService.createUser(jean);
-            userService.createUser(mira);
-            userService.createUser(bill);
-            userService.createUser(andy);
-            userService.createUser(sophie);
-            userService.createUser(kate);
-            userService.createUser(olivier);
-            userService.createUser(russell);
-            userService.createUser(harold);
-            userService.createUser(richard);
-            userService.createUser(jc);
-            userService.createUser(leonardo);
-            userService.createUser(j);
-            userService.createUser(k);
-            userService.createUser(l);
-
-
-            List<Match> matchs = matchService.getAll();
-            gamblerService.createGambler(jean, matchs,13);
-            gamblerService.createGambler(mira, matchs, 12);
-            gamblerService.createGambler(bill, matchs, 12);
-            gamblerService.createGambler(andy, matchs, 12);
-            gamblerService.createGambler(sophie, matchs, 12);
-            gamblerService.createGambler(kate, matchs, 12);
-            gamblerService.createGambler(olivier, matchs, 95);
-            gamblerService.createGambler(russell, matchs, 95);
-            gamblerService.createGambler(harold, matchs, 29);
-            gamblerService.createGambler(richard, matchs, 65);
-            gamblerService.createGambler(jc, matchs, 28);
-            gamblerService.createGambler(leonardo, matchs, 18);
-            gamblerService.createGambler(j, matchs,13);
-            gamblerService.createGambler(k, matchs,1);
-            gamblerService.createGambler(l, matchs);
+            zenfootUserService.createOrUpdate(admin);
+            zenfootUserService.createOrUpdate(jean);
+            zenfootUserService.createOrUpdate(mira);
+            zenfootUserService.createOrUpdate(bill);
+            zenfootUserService.createOrUpdate(andy);
+            zenfootUserService.createOrUpdate(sophie);
+            zenfootUserService.createOrUpdate(kate);
+            zenfootUserService.createOrUpdate(olivier);
+            zenfootUserService.createOrUpdate(russell);
+            zenfootUserService.createOrUpdate(harold);
+            zenfootUserService.createOrUpdate(richard);
+            zenfootUserService.createOrUpdate(jc);
+            zenfootUserService.createOrUpdate(leonardo);
+            zenfootUserService.createOrUpdate(j);
+            zenfootUserService.createOrUpdate(k);
+            zenfootUserService.createOrUpdate(l);
             
+            Event e = new Event();
+            e.setName("Cdm 2014 Foot");
+            eventService.createOrUpdate(e);
             
-            
-    		injectedPays(paysService);
-    		injectedSport(sportService);
+            injectedPays(paysService);
+            injectedSport(sportService);
     		
+            Event e2 = new Event();
+            e2.setName("Cdm 2015 Rugby");
+            eventService.createOrUpdate(e2);
+            MatchDAO matchDAO = new MatchDAOImpl();
+
+            if(SystemProperty.environment.value()==SystemProperty.Environment.Value.Development){
+                Match[] matches = GenerateMatches.generate();
+                List<Match> registered = matchDAO.getAll();
+
+                //check whether there were registered matchs
+                if (registered.size() == 0) {
+                    for (int i = 0; i < matches.length; i++) {
+                        //TODO ONLY FOR TESTS
+                        Match match = matches[i];
+                        match.setDate(DateTime.now().plusSeconds(30 * i));
+                        if(i>30){
+                            match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
+                        }
+                        match.setEvent(Key.create(Event.class, e2.getId()));
+                        matchDAO.createUpdate(match);
+
+                    }
+
+                }
+            }
     		
         }
-        return userService;
-
+        return zenfootUserService;
     }
 
 
@@ -189,7 +193,7 @@ public class UserModule {
 	 * injection d'une liste de pays
 	 * @param paysService
 	 */
-	private void injectedPays(PaysService2 paysService) {
+	private void injectedPays(PaysService paysService) {
 		Pays p = new Pays();
 		// p.setIdPays(idPays);
 //		p.setIdPays((long)1);
@@ -202,18 +206,4 @@ public class UserModule {
     public UserService getUserService(@Named("userServiceGAE") UserService userService) {
         return userService;
     }
-
-    
-//    @Provides
-//    @Named("sportServiceGAE")
-//    public SportService getSportService(@Named("sportService") SportService sportService) {
-//    	
-//    	// le modele
-//    	Sport sport = new Sport();
-//    	sport.setName("Foot");
-//    	sport.setId((long)1);
-//    	
-//    	sportService.createOrUpdate(sport);
-//    	return sportService;
-//    }
 }

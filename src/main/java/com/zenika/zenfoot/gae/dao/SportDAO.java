@@ -10,15 +10,6 @@ import com.zenika.zenfoot.gae.model.Sport;
  * @author vickrame
  *
  */
-public class SportDAO extends GenericDAO {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public SportDAO() {
-		super(Sport.class);
-	}
+public class SportDAO extends GenericDAO<Sport> {
 
 }

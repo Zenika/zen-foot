@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('MatchCtrl', ['$scope', '$timeout', 'betMatchService', '$rootScope', '$q', 'displayService', 'Match', 'Bets', 'Gambler', 'GamblerService', 'GamblerRanking', '$stateParams',
-        function ($scope, $timeout, betMatchService, $rootScope, $q, displayService, Match, Bets, Gambler, GamblerService, GamblerRanking, $stateParams) {
+    .controller('MatchCtrl', ['$scope', '$timeout', 'betMatchService', '$rootScope', '$q', 'displayService', '$stateParams', 'Events',
+        function ($scope, $timeout, betMatchService, $rootScope, $q, displayService, $stateParams, Events) {
 
             $scope.groups1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
             $scope.groups2 = ['1/8', '1/4', '1/2', 'finale'];
@@ -72,74 +72,46 @@ angular.module('zenFoot.app')
             $scope.canBet = function (match) {
                 return !match.scoreUpdated && match.date < new Date();
             }
+            
+            var calculBets = function (results) {
+                    var matches = results[0];
+                    var bets = results[1];
 
-            /**
-             * Return a promise of the gambler corresponding to the id. If the id is undefined, a promise of a gambler with
-             * a -1 id is returned
-             * @param id
-             * @returns {*}
-             */
-            var getGambler=function(id){
-                if(id){
-                    return GamblerService.getFromId($stateParams.gamblerId).$promise;
-                }
-                else{
-                    return $q.when({id:-1})
-                }
-            }
+                    var matchesById = {};
 
-            $q.all([Match.query().$promise, Gambler.get().$promise, getGambler($stateParams.gamblerId)]).then(function (results) {
-                var matches = results[0];
-                var gambler = results[1];
-                var otherGambler = results[2];
-
-                var matchesById = {};
-
-                matches = _.sortBy(matches, function (m) {
-                    return m.date;
-                });
-
-                _.each(matches, function (match) {
-                    //initialize bets info with empty object
-                    match.bet = { matchId: match.id, score1: null, score2: null };
-                    matchesById[match.id] = match;
-                });
-
-                _.each(gambler.bets, function (bet) {
-                    //update bet info
-                    matchesById[bet.matchId].bet = bet;
-                });
-
-                $scope.matchesByGroup = _.groupBy(matches, function (match) {
-                    return match.groupe
-                });
-
-                $scope.matchesByDate = _.groupBy(matches,
-                    function (match) {
-                        var matchDate = new Date(match.date)
-                        var matchDay = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate())
-                        if (matchDate.getHours() < 8) {
-                            matchDay.setDate(matchDay.getDate() - 1)
-                        }
-                        return matchDay.getTime()
+                    matches = _.sortBy(matches, function (m) {
+                        return m.date;
                     });
 
-                $scope.matchsDates = _.keys($scope.matchesByDate);
+                    _.each(matches, function (match) {
+                        //initialize bets info with empty object
+                        match.bet = { matchId: match.id, score1: null, score2: null };
+                        matchesById[match.id] = match;
+                    });
 
-                $scope.matches = matches;
+                    _.each(bets, function (bet) {
+                        //update bet info
+                        matchesById[bet.matchId].bet = bet;
+                    });
 
-                if (otherGambler.id != gambler.id && otherGambler.id != -1) {
-                    $scope.otherGambler = otherGambler;
-                    _.each(otherGambler.bets, function (bet) {
-                        matchesById[bet.matchId].otherBet = bet;
-                    })
-                }
-            });
+                    $scope.matchesByGroup = _.groupBy(matches, function (match) {
+                        return match.groupe
+                    });
 
+                    $scope.matchesByDate = _.groupBy(matches,
+                        function (match) {
+                            var matchDate = new Date(match.date)
+                            var matchDay = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate())
+                            if (matchDate.getHours() < 8) {
+                                matchDay.setDate(matchDay.getDate() - 1)
+                            }
+                            return matchDay.getTime()
+                        });
 
-            GamblerRanking.get().$promise.then(function (gamblerRanking) {
-                $rootScope.user.points = gamblerRanking.points
-            });
+                    $scope.matchsDates = _.keys($scope.matchesByDate);
+
+                    $scope.matches = matches;
+                };
 
             $scope.scoreRegexp = /^[0-9]{1,2}$|^$/;
 
@@ -159,11 +131,13 @@ angular.module('zenFoot.app')
                 var now = new Date();
                 var bets = _.chain($scope.matches)
                     .filter(function (match) {
-                        return !match.scoreUpdated && new Date(match.date) > new Date(now);
+                        return !match.scoreUpdated && new Date(match.date) > new Date(now) 
+                        && match.bet.score1 != null && match.bet.score2 != null;
                     })
                     .pluck('bet')
                     .value();
-                Bets.save(bets, function () {
+            
+                Events.postBets({'id': $scope.event.id}, bets, function () {
                     $scope.betSavedSuccess = true;
                     pariezNotificationTimeout = $timeout(function () {
                         $scope.betSavedSuccess = false;
@@ -281,6 +255,12 @@ angular.module('zenFoot.app')
             $scope.isPool=function(groupe){
                 return _.contains($scope.groups1,groupe);
             }
+            
+            $scope.$on('eventChanged', function(event, params) {
+                $scope.event = params.event;
+                params = {id : $scope.event.id};
+                $q.all([Events.matches(params).$promise, Events.getBets(params)]).then(calculBets);
+            })
 
 
         }]);

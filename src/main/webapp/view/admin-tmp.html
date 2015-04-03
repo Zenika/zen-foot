@@ -13,17 +13,21 @@
                 <h1>Liste des matchs</h1>
             </div>
 
-            <div data-ng-init="afficher=false" style="padding-bottom: 20px">
-                <form name="displayForm">afficher les matchs déjà édités
-                    <input type="checkbox" data-ng-model="afficher">
+            <div data-ng-init="afficher=false;avenir=false" style="padding-bottom: 20px">
+                <form name="displayForm">
+                    <label>afficher les matchs déjà édités <input type="checkbox" data-ng-model="afficher" id="afficher" /></label>
+                    <label>afficher les matchs à venir <input type="checkbox" data-ng-model="avenir" id=""avenir></label>
                 </form>
             </div>
-
+            
+            <div style="padding-bottom: 20px">
+                <select class="form-control select-group" required ng-model="event" ng-options="event.name for event in events" ng-change='loadMatches()'>
+                </select>
+            </div>
 
             <form name="scoreform" novalidate="true">
 
-
-                <div data-ng-repeat="match in matches=(matchs|passedMatchFilter|updatedMatchFilter:!afficher|orderBy:'date')"
+                <div data-ng-repeat="match in matches=(matchs|passedMatchFilter:!avenir|updatedMatchFilter:!afficher|orderBy:'date')"
                      name="formgp">
 
                     <div name="row" class="row score-input">
@@ -77,7 +81,7 @@
 
                 </div>
 
-                <div data-ng-show="matches.length<1">Pas de match à éditer</div>
+                <div class="alert alert-info" data-ng-show="matches.length<1">Pas de match à éditer</div>
 
 
                 <!--

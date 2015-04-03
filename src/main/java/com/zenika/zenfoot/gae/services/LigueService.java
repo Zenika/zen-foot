@@ -1,9 +1,5 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.GamblerRankingDAO;
-import com.zenika.zenfoot.gae.dao.TeamDAO;
-import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.model.*;
 
 import java.util.HashMap;
@@ -17,17 +13,15 @@ import java.util.logging.Logger;
  */
 public class LigueService {
 
-    private TeamDAO teamDAO;
-    private GamblerDAO gamblerDAO;
-    private GamblerRankingDAO rankingDAO;
-    private Logger logger = Logger.getLogger(getClass().getName());
-    private TeamRankingDAO teamRankingDAO;
+    final private TeamService teamService;
+    final private GamblerService gamblerService;
+    final private Logger logger = Logger.getLogger(getClass().getName());
+    final private TeamRankingService teamRankingService;
 
-    public LigueService(TeamDAO teamDAO, GamblerDAO gamblerDAO, GamblerRankingDAO rankingDAO, TeamRankingDAO teamRankingDAO) {
-        this.teamDAO = teamDAO;
-        this.gamblerDAO = gamblerDAO;
-        this.rankingDAO = rankingDAO;
-        this.teamRankingDAO = teamRankingDAO;
+    public LigueService(TeamService teamService, GamblerService gamblerService, TeamRankingService teamRankingService) {
+        this.teamService = teamService;
+        this.gamblerService = gamblerService;
+        this.teamRankingService = teamRankingService;
 
     }
 
@@ -38,28 +32,28 @@ public class LigueService {
         Map<Long,Team> teamMap = new HashMap<>();
         //number of members in each team
         Map<Long, Integer> teamMembers = new HashMap<>();
-        List<Team> teams = teamDAO.getAll();
-        Map<Long, GamblerRanking> gamblerRankingMap = new HashMap<>();
-        List<GamblerRanking> gamblerRankings = rankingDAO.getAll();
+        List<Team> teams = teamService.getAll();
+        Map<Long, Gambler> gamblerRankingMap = new HashMap<>();
+        List<Gambler> gamblerRankings = gamblerService.getAll();
         Map<Long, TeamRanking> teamRankingMap = new HashMap<>();
-        List<TeamRanking> teamRankings = teamRankingDAO.getAll();
+        List<TeamRanking> teamRankings = teamRankingService.getAll();
 
         for(Team team:teams){
             teamMap.put(team.getId(), team);
-            teamMembers.put(team.getId(),gamblerDAO.nbGamblersInTeam(team));
+            teamMembers.put(team.getId(),gamblerService.nbGamblersInTeam(team));
         }
 
         for(TeamRanking teamRanking : teamRankings){
             teamRankingMap.put(teamRanking.getTeamId(), teamRanking);
         }
 
-        for(GamblerRanking gamblerRanking : gamblerRankings){
-            gamblerRankingMap.put(gamblerRanking.getGamblerId(),gamblerRanking);
+        for(Gambler gamblerRanking : gamblerRankings){
+            gamblerRankingMap.put(gamblerRanking.getId(),gamblerRanking);
         }
 
 
 
-        List<Gambler> gamblers = gamblerDAO.getAll();
+        List<Gambler> gamblers = gamblerService.getAll();
 
         int denom=0;
         for(Gambler gambler:gamblers){
@@ -76,17 +70,16 @@ public class LigueService {
         }
 
         for(TeamRanking teamRanking:teamRankings){
-            teamRankingDAO.createUpdate(teamRanking);
+            teamRankingService.createOrUpdate(teamRanking);
         }
     }
 
 
     public void recalcultateScore(Team team, Gambler requestCaller, boolean add) {
-        TeamRanking teamRanking = teamRankingDAO.getOrCreate(team.getId());
-
-        GamblerRanking gamblerRanking = rankingDAO.findByGambler(requestCaller.getId());
+        TeamRanking teamRanking = teamRankingService.getOrCreate(team.getId());
+        Gambler gamblerRanking = gamblerService.getFromID(requestCaller.getId());
         double formerMean = teamRanking.getPoints();
-        int nbMembers = gamblerDAO.nbGamblersInTeam(team);
+        int nbMembers = gamblerService.nbGamblersInTeam(team);
         int gamblerPoints = gamblerRanking.getPoints();
 
         int formerPoints;
@@ -104,6 +97,6 @@ public class LigueService {
 
         teamRanking.setPoints(newMean);
 
-        teamRankingDAO.createUpdate(teamRanking);
+        teamRankingService.createOrUpdate(teamRanking);
     }
 }
