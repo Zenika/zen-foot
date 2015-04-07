@@ -9,3 +9,4 @@ import com.zenika.zenfoot.gae.model.Pays;
 public interface PaysDAO extends IGenericDAO<Pays> {
 
 }
+

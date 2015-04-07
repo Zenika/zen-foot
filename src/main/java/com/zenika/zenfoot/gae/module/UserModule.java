@@ -14,7 +14,9 @@ import java.util.List;
 import org.joda.time.DateTime;
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dao.PaysDAOImpl;
+import com.zenika.zenfoot.gae.model.Pays;
+import com.zenika.zenfoot.gae.model.Sport;
+import com.zenika.zenfoot.gae.services.SportService;
 import com.zenika.zenfoot.gae.dao.UserDAO;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.GamblerService;
@@ -38,7 +40,7 @@ public class UserModule {
     @Provides
     @Named("userServiceGAE")
     public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, GamblerService gamblerService, 
-            MatchService matchService, EventService eventService) {
+            MatchService matchService, EventService eventService, @Named("paysService") PaysService paysService,@Named("sportService") SportService sportService) {
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {
             User admin = new User().setName("admin").setPrenom("admin").setEmail(
@@ -116,6 +118,9 @@ public class UserModule {
             e.setEnd(DateTime.now().plusDays(5).toDate());
             eventService.createOrUpdate(e);
             
+            injectedPays(paysService);
+            injectedSport(sportService);
+    		
             Event e2 = new Event();
             e2.setName("Cdm 2015 Rugby");
             e2.setStart(DateTime.now().plusDays(5).toDate());
@@ -148,17 +153,62 @@ public class UserModule {
         return zenfootUserService;
     }
 
+
+
+
+    /**
+     * injection d'une liste de sport
+     * @param sportService
+     */
+	private void injectedSport(SportService sportService) {
+    	// le modele
+    	Sport sport = new Sport();
+    	sport.setName("Foot");
+//    	sport.setId((long)1);
+    	
+    	sportService.createOrUpdate(sport);
+    	
+		sport = new Sport();
+		sport.setName("Rugby");
+//		sport.setId((long) 2);
+
+		sportService.createOrUpdate(sport);
+
+		sport = new Sport();
+		sport.setName("HandBall");
+//		sport.setId((long) 3);
+
+		sportService.createOrUpdate(sport);
+
+		sport = new Sport();
+		sport.setName("Basket");
+//		sport.setId((long) 4);
+		sportService.createOrUpdate(sport);
+
+		sport = new Sport();
+		sport.setName("Tennis");
+//		sport.setId((long) 5);
+		sportService.createOrUpdate(sport);
+	}
+
+
+
+
+	/**
+	 * injection d'une liste de pays
+	 * @param paysService
+	 */
+	private void injectedPays(PaysService paysService) {
+		Pays p = new Pays();
+		// p.setIdPays(idPays);
+//		p.setIdPays((long)1);
+		p.setNomPays("FRANCE");
+		paysService.createOrUpdate(p);
+	}
+
     @Provides
     @Named("userService")
     public UserService getUserService(@Named("userServiceGAE") UserService userService) {
         return userService;
-    }
-
-    
-    //DAOs
-    @Provides
-    @Named("paysDAO")
-    public PaysDAOImpl paysDAO() {
-        return new PaysDAOImpl();
     }
 }

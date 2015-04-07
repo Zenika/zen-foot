@@ -5,9 +5,6 @@ package com.zenika.zenfoot.gae.model;
 
 import java.io.Serializable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -24,7 +21,6 @@ public class Pays implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPays;
 	
 	private String nomPays;
@@ -36,12 +32,12 @@ public class Pays implements Serializable {
 		return idPays;
 	}
 
-	/**
-	 * @param idPays the idPays to set
-	 */
-	public void setIdPays(Long idPays) {
-		this.idPays = idPays;
-	}
+//	/**
+//	 * @param idPays the idPays to set
+//	 */
+//	public void setIdPays(Long idPays) {
+//		this.idPays = idPays;
+//	}
 
 	/**
 	 * @return the nomPays
