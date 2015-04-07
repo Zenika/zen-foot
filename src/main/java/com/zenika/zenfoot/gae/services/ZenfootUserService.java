@@ -5,7 +5,7 @@ import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.UserDAO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restx.security.UserRepository;

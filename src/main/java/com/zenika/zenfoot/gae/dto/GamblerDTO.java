@@ -31,6 +31,8 @@ public class GamblerDTO {
     protected Set<StatutTeam> statutTeams =new HashSet<>();
     
     private Event event;
+    
+    private int points;
 
 
     public GamblerDTO(String email) {
@@ -42,6 +44,14 @@ public class GamblerDTO {
 
     public void addTeams(Set<StatutTeam> teams){
         this.statutTeams.addAll(teams);
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public Set<StatutTeam> getStatutTeams() {

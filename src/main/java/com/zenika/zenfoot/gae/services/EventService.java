@@ -1,11 +1,9 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.AbstractGenericService;
-import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.dao.EventDAO;
-import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
+import com.zenika.zenfoot.gae.dto.GamblerDTO;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.Bet;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  * Created by raphael on 28/08/14.
@@ -53,17 +50,27 @@ public class EventService extends AbstractGenericService<Event> {
         return toRet;
     }
     
-    public List<MatchDTO> getMatches(Long id) {
-        logger.warning("WARN");
-        logger.info("INFO");
-        logger.log(Level.FINER, "FINER");
-        logger.log(Level.FINEST, "FINEST");
-        
+    public List<MatchDTO> getMatches(Long id) {        
         Event event = this.getDao().findById(id);
         List<Match> ms = ((EventDAO)this.getDao()).getMatches(event);
         List<MatchDTO> matches = new ArrayList<MatchDTO>();
         mapper.getMapper().mapAsCollection(ms, matches, MatchDTO.class);
         return matches;
+    }
+    
+    public List<GamblerDTO> getGamblers(Long id) {        
+        Event event = this.getDao().findById(id);
+        List<Gambler> gs = ((EventDAO)this.getDao()).getGamblers(event);
+        List<GamblerDTO> gamblers = new ArrayList<GamblerDTO>();
+        mapper.getMapper().mapAsCollection(gs, gamblers, GamblerDTO.class);
+        return gamblers;
+    }
+    
+    public GamblerDTO getGambler(Long id, String email) {        
+        Event event = this.getDao().findById(id);
+        Gambler g = gamblerService.getGamblerFromEmailAndEvent(email, event);
+        
+        return mapper.getMapper().map(g, GamblerDTO.class);
     }
     
     public List<BetDTO> getBets(Long id, String email) {

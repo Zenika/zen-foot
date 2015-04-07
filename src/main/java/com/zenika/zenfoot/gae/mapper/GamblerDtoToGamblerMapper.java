@@ -30,6 +30,7 @@ public class GamblerDtoToGamblerMapper extends CustomMapper<GamblerDTO, Gambler>
         b.setPrenom(a.getPrenom());
         b.setNom(a.getNom());
         b.setEmail(a.getEmail());
+        b.setPoints(a.getPoints());
     }
     
     @Override
@@ -42,5 +43,6 @@ public class GamblerDtoToGamblerMapper extends CustomMapper<GamblerDTO, Gambler>
         b.setBets(null);
         b.setDemandes(null);
         b.setStatutTeams(null);
+        b.setPoints(a.getPoints());
     }
 }

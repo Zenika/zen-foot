@@ -6,7 +6,7 @@ import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.PUT;

@@ -20,7 +20,7 @@ import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import javax.inject.Named;
 import restx.factory.Module;
 import restx.security.UserService;
@@ -109,12 +109,17 @@ public class UserModule {
             zenfootUserService.createOrUpdate(k);
             zenfootUserService.createOrUpdate(l);
             
+            
             Event e = new Event();
             e.setName("Cdm 2014 Foot");
+            e.setStart(DateTime.now().minusDays(5).toDate());
+            e.setEnd(DateTime.now().plusDays(5).toDate());
             eventService.createOrUpdate(e);
             
             Event e2 = new Event();
             e2.setName("Cdm 2015 Rugby");
+            e2.setStart(DateTime.now().plusDays(5).toDate());
+            e2.setEnd(DateTime.now().plusDays(15).toDate());
             eventService.createOrUpdate(e2);
             MatchDAO matchDAO = new MatchDAOImpl();
 

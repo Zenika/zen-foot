@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae.dto;
 
 import com.zenika.zenfoot.gae.model.Team;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 
 import java.util.List;
 

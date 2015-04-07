@@ -13,7 +13,7 @@ import com.zenika.zenfoot.gae.model.Sport;
 import com.zenika.zenfoot.gae.model.Team;
 import com.zenika.zenfoot.gae.model.TeamRanking;
 import com.zenika.zenfoot.gae.utils.PWDLink;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 
 /**
  * Created by raphael on 23/04/14.

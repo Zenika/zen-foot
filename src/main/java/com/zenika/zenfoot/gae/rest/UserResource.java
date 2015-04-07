@@ -8,7 +8,7 @@ import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.gae.utils.PWDLink;
 import com.zenika.zenfoot.gae.utils.ResetPWD;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;

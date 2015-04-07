@@ -1,6 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import restx.factory.Component;
 import restx.security.RestxSession;
 

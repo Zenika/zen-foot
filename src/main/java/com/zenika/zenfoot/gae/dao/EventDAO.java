@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.zenika.zenfoot.gae.IGenericDAO;
 import com.zenika.zenfoot.gae.model.Event;
+import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 
 /**
@@ -12,5 +13,6 @@ import com.zenika.zenfoot.gae.model.Match;
 public interface EventDAO extends IGenericDAO<Event>{
 
     List<Match> getMatches(Event parent);
+    List<Gambler> getGamblers(Event parent);
 
 }

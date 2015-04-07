@@ -12,7 +12,7 @@ import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.CalculateScores;
 import com.zenika.zenfoot.gae.utils.KeyBuilder;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import org.joda.time.DateTime;
 
 import java.util.HashSet;
@@ -57,9 +57,18 @@ public class GamblerService extends AbstractGenericService<Gambler> {
 
         return this.createOrUpdate(mapper.getMapper().map(gambler, Gambler.class));
     }
+    
+    public Gambler createOrUpdateAndReturn(User user, Event event) {
+        GamblerDTO gambler = new GamblerDTO(user.getEmail());
+        gambler.setPrenom(user.getPrenom());
+        gambler.setNom(user.getNom());
+        gambler.setEvent(event);
 
-    public Bet getBetByMatchId(Gambler gambler, Long matchId) {
-        return this.betService.getBetByMatchId(gambler, matchId);
+        return this.createOrUpdateAndReturn(mapper.getMapper().map(gambler, Gambler.class));
+    }
+
+    public Bet getBetByGamblerAndMatchId(Gambler gambler, Long matchId) {
+        return this.betService.getBetByGamblerAndMatchId(gambler, matchId);
     }
     
     public void updateBets(List<BetDTO> newBets, Gambler gambler, Event event) {
@@ -67,7 +76,7 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         Key<Gambler> keyGambler = KeyBuilder.buildGamblerKey(gambler.getId(), event.getId());
         for (BetDTO bet : newBets) {
             if (bet.getScore1() != null && bet.getScore2() != null) {
-                Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
+                Bet existingBet = getBetByGamblerAndMatchId(gambler, bet.getMatchId());
                 Match correspondingMatch = matchService.getMatch(bet.getMatchId(), event);
 
                 //Check the bet already existed in the database
@@ -85,23 +94,24 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         }
     }
 
-    private void calculateScores(Match match,boolean add) {
-        List<Gambler> gamblers = this.getAll();
-        for (Gambler gambler : gamblers) {
-            Bet bet = null;//getBetByMatchId(gambler, match.getId());
-            if (bet !=null && bet.wasMade()) {
-                Gambler gamblerRanking = this.getFromID(gambler.getId());
-                
-                int points = CalculateScores.calculateScores(bet,match);
-                if(points>0){
-                    if(add){
-                        gamblerRanking.addPoints(points);
+    private void calculateScores(Match match, boolean add) {
+        List<Bet> bets = betService.getBetsByMatchId(match.getId());
+        if(bets != null && bets.size() > 0) {
+            for (Bet bet : bets) {
+                if (bet !=null && bet.wasMade()) {
+                    Gambler gamblerRanking = this.getFromKey(bet.getGambler());
+
+                    int points = CalculateScores.calculateScores(bet,match);
+                    if(points>0){
+                        if(add){
+                            gamblerRanking.addPoints(points);
+                        }
+                        else{
+                            gamblerRanking.removePoints(points);
+                        }
                     }
-                    else{
-                        gamblerRanking.removePoints(points);
-                    }
+                    this.createOrUpdate(gamblerRanking);
                 }
-                this.createOrUpdate(gamblerRanking);
             }
         }
     }

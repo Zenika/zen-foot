@@ -9,6 +9,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
+import java.util.List;
 
 /**
  *
@@ -18,5 +19,10 @@ public class BetDAOImpl extends GenericDAO<Bet> implements BetDAO {
     @Override
     public Bet getBetByGamblerAndMatchId(Gambler gambler, Long matchId) {
         return ObjectifyService.ofy().load().type(Bet.class).ancestor(gambler).filter("matchId", matchId).first().now();
+    }    
+    @Override
+    public List<Bet> getBetsByMatchId(Long matchId) {
+        return ObjectifyService.ofy().load().type(Bet.class).filter("matchId", matchId).list();
+        
     }
 }

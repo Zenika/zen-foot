@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('ClassementCtrl', ['$scope', 'RankingService', '$q', 'Gambler', 'LigueService', '$timeout', 'Team',
-        function ($scope, RankingService, $q, Gambler, LigueService, $timeout, Team) {
+    .controller('ClassementCtrl', ['$scope', '$q', 'Gambler', 'LigueService', '$timeout', 'Events',
+        function ($scope, $q, Gambler, LigueService, $timeout, Events) {
 
             $scope.modes = {gambler: 'ligue', ligue: 'gambler'};
 
@@ -34,13 +34,15 @@ angular.module('zenFoot.app')
                 return modeInFrench($scope.modes[$scope.mode]);
             }
 
-            $scope.gambler = Gambler.get();
-
             $scope.teams = LigueService.getAll();
+            
+            $scope.getGambler = function() {
+                return Events.getGambler({id : $scope.selectedEvent.id}).$promise;
+            }
 
             $scope.serverRanking = {};
             $scope.serverRanking['gambler'] = function () {
-                return RankingService.getAll().$promise;
+                return Events.getGamblers({id : $scope.selectedEvent.id}).$promise;
             }
 
             /**
@@ -48,7 +50,7 @@ angular.module('zenFoot.app')
              * @return {*}
              */
             $scope.serverRanking['ligue'] = function () {
-                var teamsWithPoints = $q.all([LigueService.getRanking().$promise, Team.query().$promise]).then(function (result) {
+                /*var teamsWithPoints = $q.all([LigueService.getRanking().$promise, Team.query().$promise]).then(function (result) {
                     var teamById = {};
                     var teams = result[1];
                     var teamRankings = result[0];
@@ -65,14 +67,16 @@ angular.module('zenFoot.app')
                     return teamRankings;
                 })
 
-                return teamsWithPoints;
+                return teamsWithPoints;*/
             }
 
             /**
              * Retrieves the ranking from the server, sorts it, affects the ranking to each player, and affects the resulting list to the scope
              */
             var initData = function () {
-                $q.when($scope.serverRanking[$scope.mode]()).then(function (ranking) {
+                $q.all([$scope.serverRanking[$scope.mode](), $scope.getGambler()]).then(function (result) {
+                        var ranking = result[0];
+                        $scope.gambler = result[1];
 
                         // initializing for first gambler :
                         if (ranking.length > 0) {
@@ -119,8 +123,6 @@ angular.module('zenFoot.app')
                         }, 100)
                     })
             }
-
-            initData();
 
             /**
              * The ranking is obtained, once the list is ordered by descending points, by the index of the entity
@@ -303,4 +305,14 @@ angular.module('zenFoot.app')
                 }
             })
 
+            
+
+            
+            //si deja selectionné
+            if($scope.selectedEvent != undefined) {
+                initData();
+            }
+            $scope.$on('eventChanged', function(event, params) {
+                initData();
+            })
         }]);

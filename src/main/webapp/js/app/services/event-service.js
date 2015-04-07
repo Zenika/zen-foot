@@ -8,6 +8,8 @@ angular.module('zenFoot.app')
                 'matches' : {method: 'GET', 'url' : '/api/events/:id/matches', isArray : true},
                 'getBets' : {method: 'GET', 'url' : '/api/events/:id/bets', isArray : true},
                 'postBets' : {method: 'POST', 'url' : '/api/events/:id/bets'},
-                'updateMatchScore' :  {method: 'POST', 'url' : '/api/events/:id/matchs'}
+                'updateMatchScore' :  {method: 'POST', 'url' : '/api/events/:id/matchs'},
+                'getGamblers' : {method: 'GET', 'url' : '/api/events/:id/gamblers', isArray : true},
+                'getGambler' : {method: 'GET', 'url' : '/api/events/:id/gambler'}
             });
     }])

@@ -1,14 +1,14 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dto.BetDTO;
+import com.zenika.zenfoot.gae.dto.GamblerDTO;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import restx.WebException;
 import restx.annotations.GET;
 import restx.annotations.POST;
@@ -65,8 +65,20 @@ public class EventResource {
         return eventService.getMatches(id);
     }
 
+    @GET("/events/{id}/gamblers")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<GamblerDTO> getGamblers(Long id) {
+        return eventService.getGamblers(id);
+    }
+
+    @GET("/events/{id}/gambler")
+    @RolesAllowed(Roles.GAMBLER)
+    public GamblerDTO getGambler(Long id) {
+        return eventService.getGambler(id, sessionInfo.getUser().getEmail());
+    }
+
     @GET("/events/{id}/bets")
-    @PermitAll
+    @RolesAllowed(Roles.GAMBLER)
     public List<BetDTO> getBets(Long id) {
         return eventService.getBets(id, sessionInfo.getUser().getEmail());
     }
@@ -81,7 +93,7 @@ public class EventResource {
             Gambler gambler = gamblerService.getGamblerFromEmailAndEvent(user.getEmail(), event);
             
             if (gambler == null) {
-                gambler = gamblerService.createOrUpdateAndReturn(gambler);
+                gambler = gamblerService.createOrUpdateAndReturn(user, event);
             }
             
             //save bets
