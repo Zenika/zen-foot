@@ -1,5 +1,5 @@
 <div class="row" data-ng-controller="LiguesCtrl">
-    <div class="col-xs-12 col-sm-6 col-sm-offset-3 ligue-col">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3 ligue-col" ng-show="selectedEvent != null">
 
         <h3>Ligues</h3>
 
@@ -8,28 +8,26 @@
             <div class="mes-ligues">
                 <h4>Mes ligues</h4>
 
-                <div data-ng-repeat="statutTeam in gambler.statutTeams | orderBy:'team.name'" class="row">
+                <div data-ng-repeat="ligue in ligues | inligue | orderBy:'name'" class="row">
                     <div class="col-xs-3">
-                        <a ui-sref="ligueDetails({id:statutTeam.team.id})">
-                            - {{statutTeam.team.name}}
+                        <a ui-sref="ligueDetails({id:ligue.id})">
+                            - {{ligue.name}}
                         </a>
                     </div>
                     <div class="col-xs-2">
                         <div class="yesno-applicant">
-                            <span class="glyphicon glyphicon-ok" ng-show="!statutTeam.isOwner && statutTeam.invitation && !statutTeam.accepted" ng-click="accept(statutTeam)"></span>
-                            <span class="glyphicon glyphicon-remove" ng-show="!statutTeam.isOwner" ng-click="quitLigue(statutTeam)"></span>
+                            <span class="glyphicon glyphicon-remove" ng-show="!ligue.isOwner && ligue.isAccepted" ng-click="quitLigue(statutTeam)"></span>
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <span ng-show="statutTeam.isOwner" class="label label-info">propriétaire</span>
-                        <span ng-show="statutTeam.isOwner"> &nbsp; &nbsp; &nbsp;{{textDemandes(statutTeam)}}</span>
-                        <span ng-show="!statutTeam.isOwner && statutTeam.accepted"
+                        <span ng-show="ligue.isOwner" class="label label-info">propriétaire</span>
+                        <span ng-show="ligue.isOwner"> &nbsp; &nbsp; &nbsp;{{textDemandes(ligue)}}</span>
+                        <span ng-show="!ligue.isOwner && ligue.isAccepted"
                         class="label label-success">membre</span>
-                        <span ng-show="!statutTeam.isOwner && !statutTeam.accepted && !statutTeam.invitation" class="label label-warning">en attente</span>
-                        <span ng-show="!statutTeam.isOwner && !statutTeam.accepted && statutTeam.invitation" class="label label-danger">invitation</span>
+                        <span ng-show="!ligue.isOwner && ligue.isAwaits" class="label label-warning">en attente</span>
                     </div>
                 </div>
-                <div ng-show="gambler.statutTeams.length==0">
+                <div ng-show="hasLigue()">
                     Vous n'avez rejoint aucune ligue
                 </div>
             </div>
@@ -37,34 +35,31 @@
             <form class="form-horizontal rejoindre-ligue" action="" method="post" name="subscriptionForm" role="form" novalidate>
 
                 <h4>Rejoindre/créer une ligue :</h4>
-
-                <form>
-                    <ng-form new-team name="teamForm" generate-input data-ng-repeat="team in joinedTeams">
-                        <div class="form-group">
-                            <div class="col-sm-11">
-                                <input
-                                       ng-pattern="ligue_regexp"
-                                       name="ligueInput"
-                                       ligue-check type="text" class="form-control" data-ng-model="team.name"
-                                       placeholder="Ligue"
-                                       typeahead-loading="loadingTeams"
-                                       typeahead="existingTeam.name as existingTeam.name for existingTeam in existingTeams | filter:{name:$viewValue}"/>
-                            </div>
-                            <div class="col-sm-1">
-                                <span class="label label-danger" data-ng-show="team.isNew">nouveau</span>
-                            </div>
-                        </div>
-
-
-                    </ng-form>
+                <ng-form new-team name="teamForm" generate-input data-ng-repeat="team in joinedTeams">
                     <div class="form-group">
-                        <div class="controls" style="text-align: center">
-                            <button type="submit" class="btn btn-primary" data-ng-click="valider()"
-                                    data-ng-disabled="subscriptionForm.$invalid||subscriptionForm.ligueInput.ligueChk">valider
-                            </button>
+                        <div class="col-sm-11">
+                            <input
+                                   ng-pattern="ligue_regexp"
+                                   name="ligueInput"
+                                   ligue-check type="text" class="form-control" data-ng-model="team.name"
+                                   placeholder="Ligue"
+                                   typeahead-loading="loadingTeams"
+                                   typeahead="existingTeam.name as existingTeam.name for existingTeam in ligues | filter:{name:$viewValue}"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <span class="label label-danger" data-ng-show="team.isNew">nouveau</span>
                         </div>
                     </div>
-                </form>
+
+
+                </ng-form>
+                <div class="form-group">
+                    <div class="controls" style="text-align: center">
+                        <button type="submit" class="btn btn-primary" data-ng-click="valider()"
+                                data-ng-disabled="subscriptionForm.$invalid||subscriptionForm.ligueInput.ligueChk">valider
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
 

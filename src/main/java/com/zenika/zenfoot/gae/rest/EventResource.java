@@ -3,12 +3,15 @@ package com.zenika.zenfoot.gae.rest;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
+import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.services.*;
 import com.zenika.zenfoot.gae.model.User;
+import com.zenika.zenfoot.gae.utils.KeyBuilder;
 import restx.WebException;
 import restx.annotations.GET;
 import restx.annotations.POST;
@@ -31,16 +34,19 @@ import restx.security.PermitAll;
 public class EventResource {
 
     final private EventService eventService;
+    final private LigueService ligueService;
     final private GamblerService gamblerService;
     final private MatchService matchService;
     final private SessionInfo sessionInfo;
 
-    public EventResource(EventService eventService, @Named("sessioninfo")SessionInfo sessionInfo, GamblerService gamblerService,
-            MatchService matchService) {
+    public EventResource(EventService eventService, @Named("sessioninfo")SessionInfo sessionInfo, 
+            @Named("gamblerService") GamblerService gamblerService,
+            MatchService matchService, LigueService ligueService) {
         this.eventService = eventService;
         this.sessionInfo = sessionInfo;
         this.gamblerService = gamblerService;
         this.matchService = matchService;
+        this.ligueService = ligueService;
     }
 
     @POST("/events")
@@ -128,4 +134,52 @@ public class EventResource {
         matchService.createOrUpdate(matchFormerValue);
     }
 
+    /** 
+     * ligue
+     */
+    
+
+    @GET("/events/{id}/ligues")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<LigueDTO> getLigues(Long id) {
+        return eventService.getLigues(id, sessionInfo.getUser().getEmail());
+    }
+
+    @GET("/events/{id}/ligues/{idLigue}")
+    @RolesAllowed(Roles.GAMBLER)
+    public LigueDTO getLigue(Long id, Long idLigue) {
+        return eventService.getLigue(id, idLigue, sessionInfo.getUser().getEmail());
+    }
+
+    @PUT("/events/{id}/ligues/{idLigue}")
+    @RolesAllowed(Roles.GAMBLER)
+    public void updateLigue(Long id, Long idLigue, LigueDTO ligue) {
+        Event event = eventService.getFromID(id);
+        ligueService.update(event, ligue);
+    }
+    
+    @POST("/events/{id}/ligues/{IdLigue}/join")
+    @RolesAllowed(Roles.GAMBLER)
+    public void joinLigue(Long id, Long IdLigue) {
+        Event event = eventService.getFromID(id);
+        Gambler gambler = eventService.getGamblerFromEventIdAndEmail(id, sessionInfo.getUser().getEmail());
+        if (gambler == null) {
+            gambler = gamblerService.createOrUpdateAndReturn(sessionInfo.getUser(), event);
+        }
+        Ligue ligue = ligueService.getFromKey(KeyBuilder.buildLigueKey(IdLigue, id));
+        ligueService.joinLigue(ligue, gambler, event);
+    }
+
+    @POST("/events/{id}/ligues")
+    @RolesAllowed(Roles.GAMBLER)
+    public void createUpdate(Long id, LigueDTO ligue) {
+        Event event = eventService.getFromID(id);
+        Gambler gambler = eventService.getGamblerFromEventIdAndEmail(id, sessionInfo.getUser().getEmail());
+        if (gambler == null) {
+            gambler = gamblerService.createOrUpdateAndReturn(sessionInfo.getUser(), event);
+        }
+        
+        ligueService.create(event, ligue, gambler);
+        
+    }
 }

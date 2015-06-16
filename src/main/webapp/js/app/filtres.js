@@ -85,3 +85,14 @@ var conditionPassedMatch = function (match, groupe) {
 }
 
 
+zenContactFilters.filter('inligue', function () {
+    return function (ligues) {
+        if (ligues) {
+            return _.filter(ligues, function(ligue) {
+                return ligue.isAccepted || ligue.isAwaits || ligue.isOwner;
+            });
+        }
+        return [];
+    }
+})
+

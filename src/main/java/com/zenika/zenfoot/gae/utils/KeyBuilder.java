@@ -8,6 +8,7 @@ package com.zenika.zenfoot.gae.utils;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.Match;
 
 /**
@@ -24,6 +25,11 @@ public class KeyBuilder {
     public static Key<Match> buildMatchKey(Long idMatch, Long idEvent) {
         Key<Event> eventKey = Key.create(Event.class, idEvent);
         return Key.create(eventKey, Match.class, idMatch);
+    }
+    
+    public static Key<Ligue> buildLigueKey(Long LigueMatch, Long idEvent) {
+        Key<Event> eventKey = Key.create(Event.class, idEvent);
+        return Key.create(eventKey, Ligue.class, LigueMatch);
     }
     
 }

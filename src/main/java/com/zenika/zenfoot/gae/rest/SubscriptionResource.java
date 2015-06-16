@@ -29,7 +29,8 @@ public class SubscriptionResource {
     private GamblerService gamblerService;
     private MatchService matchService;
 
-    public SubscriptionResource(@Named("userService")UserService userService, GamblerService gamblerService, MatchService matchService) {
+    public SubscriptionResource(@Named("userService")UserService userService, 
+            @Named("gamblerService") GamblerService gamblerService, MatchService matchService) {
         this.userService = (ZenfootUserService) userService;
         this.gamblerService = gamblerService;
         this.matchService = matchService;

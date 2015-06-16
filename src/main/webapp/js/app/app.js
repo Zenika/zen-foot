@@ -51,7 +51,7 @@
                     templateUrl: 'view/ligues.html'
                 })
                 .state('ligueDetails',{
-                    url : '/ligueDetails?id',
+                    url : '/ligueDetails/:id',
                     templateUrl : 'view/ligue-details.html'
                 })
                 .state('events',{

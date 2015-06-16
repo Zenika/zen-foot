@@ -39,7 +39,7 @@ public class UserModule {
     
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, GamblerService gamblerService, 
+    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, @Named("gamblerService") GamblerService gamblerService, 
             MatchService matchService, EventService eventService, @Named("paysService") PaysService paysService,@Named("sportService") SportService sportService) {
 
         if(SystemProperty.environment.value()== SystemProperty.Environment.Value.Development) {

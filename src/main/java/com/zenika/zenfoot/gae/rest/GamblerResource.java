@@ -31,7 +31,7 @@ public class GamblerResource {
 
     private ZenfootUserService userService;
 
-    public GamblerResource(GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo, 
+    public GamblerResource(@Named("gamblerService") GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo, 
             @Named("userService") UserService userService) {
         this.gamblerService = gamblerService;
         this.sessionInfo = sessionInfo;

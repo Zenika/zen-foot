@@ -4,12 +4,15 @@ import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.EventDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
+import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.utils.KeyBuilder;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -23,12 +26,15 @@ public class EventService extends AbstractGenericService<Event> {
     final private Logger logger = Logger.getLogger(getClass().getName());
     
     final private GamblerService gamblerService;
+    final private LigueService ligueService;
     final private MapperFacadeFactory mapper;
 
-    public EventService(EventDAO dao, MapperFacadeFactory mapper, GamblerService gamblerService) {
+    public EventService(EventDAO dao, MapperFacadeFactory mapper, GamblerService gamblerService, 
+            LigueService ligueService) {
         super(dao);
         this.mapper = mapper;
         this.gamblerService = gamblerService;
+        this.ligueService = ligueService;
     }
 
     /**
@@ -81,6 +87,31 @@ public class EventService extends AbstractGenericService<Event> {
             mapper.getMapper().mapAsCollection(bs, bets, BetDTO.class);
         }
         return bets;
+    }
+    
+    public List<LigueDTO> getLigues(Long id, String email) {
+        Event event = this.getFromID(id);
+        List<Ligue> ls = ligueService.getLiguesFromEvent(event);
+        List<LigueDTO> ligues = new ArrayList<LigueDTO>();
+        
+        if(ligues != null) {
+            for (Ligue l : ls) {
+                LigueDTO newLigue = mapper.getMapper().map(l, LigueDTO.class);
+                Gambler owner = gamblerService.getFromKey(l.getOwner());
+                newLigue.initialize(email);
+                ligues.add(newLigue);
+            }
+        }
+        
+        return ligues;
+    }
+    
+    public LigueDTO getLigue(Long idEvent, Long idLigue, String email) {
+        LigueDTO ligue = mapper.getMapper().map(
+                ligueService.getFromKey(KeyBuilder.buildLigueKey(idLigue, idEvent)), 
+                LigueDTO.class);
+        ligue.initialize(email);
+        return ligue;
     }
     
     public Gambler getGamblerFromEventIdAndEmail(Long id, String email) {

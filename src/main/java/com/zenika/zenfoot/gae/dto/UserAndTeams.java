@@ -1,6 +1,6 @@
 package com.zenika.zenfoot.gae.dto;
 
-import com.zenika.zenfoot.gae.model.Team;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.User;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class UserAndTeams {
 
     protected User user;
 
-    protected List<Team> teams;
+    protected List<Ligue> teams;
 
     public UserAndTeams() {
 
@@ -26,11 +26,11 @@ public class UserAndTeams {
         this.user = user;
     }
 
-    public List<Team> getTeams() {
+    public List<Ligue> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(List<Ligue> teams) {
         this.teams = teams;
     }
 }

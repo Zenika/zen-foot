@@ -5,7 +5,6 @@ import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
@@ -27,15 +26,13 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     final private MatchService matchService;
     final private BetService betService;
     final private TeamService teamService;
-    final private TeamRankingService teamRankingService;
     final private MapperFacadeFactory mapper;
 
     public GamblerService(MatchService matchService, TeamService teamService, 
-            TeamRankingService teamRankingService, MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
+            MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
         super(gamblerDao);
         this.matchService = matchService;
         this.teamService = teamService;
-        this.teamRankingService = teamRankingService;
         this.betService = betService;
         this.mapper = mapper;
     }
@@ -134,89 +131,17 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     }
 
     /**
-     * Adds a list of team to the user. If the team doesn't exist in the DB, it is created and registered in the database
-     * with the given gambler as its owner. The teamRanking object is also created
-     * @param teams
-     * @param gambler
-     * @return
-     */
-    public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
-
-        Set<StatutTeam> teamsToRegister = new HashSet<>();
-        for (Team team : teams) {
-            Optional<Team> DBTeamOptional = teamService.get(team.getName());
-
-            Team teamToRegister;
-            boolean owner = false;
-
-            if (DBTeamOptional.isPresent()) { // Team has already been created
-                teamToRegister = DBTeamOptional.get();
-//                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
-            } else { //The team was created by the user and thus, the latter is its owner
-//                logger.log(Level.INFO, "No team found");
-                team.setOwnerEmail(gambler.getEmail());
-                Gambler gamblerRanking = this.getFromID(gambler.getId());
-                Key<Team> teamKey = teamService.createOrUpdate(team);
-                teamToRegister = teamService.getFromKey(teamKey);
-                TeamRanking teamRanking = new TeamRanking();
-                teamRanking.setTeamId(teamToRegister.getId());
-                teamRanking.setPoints(gamblerRanking.getPoints());
-                teamRankingService.createOrUpdate(teamRanking);
-                owner = true;
-            }
-
-            //Checking that the gambler has not already joined the team
-            if(!gambler.hasTeam(team)){
-                StatutTeam statutTeam = new StatutTeam().setTeam(teamToRegister).setAccepted(owner);
-                teamsToRegister.add(statutTeam);
-            }
-
-        }
-        gambler.addTeams(teamsToRegister);
-        return this.createOrUpdate(gambler);
-
-    }
-
-    public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
-        this.createOrUpdate(gambler);
-    }
-
-    /**
-     * Get all the teams whose owner is gambler
-     *
-     * @param gambler
-     * @return
-     */
-    private Set<Team> ownedBy(Gambler gambler) {
-        Set<Team> set = new HashSet<>();
-        for(StatutTeam statutTeam:gambler.getStatutTeams()){
-            Team team = statutTeam.getTeam();
-            if(team.getOwnerEmail().equals(gambler.getEmail())){
-                set.add(team);
-            }
-        }
-        return set;
-    }
-
-    /**
      * Get all the
      *
      * @param gambler
      * @return
      */
     public Set<Gambler> wantToJoin(Gambler gambler) {
-        Set<Team> ownedTeams = ownedBy(gambler);
-        Set<Gambler> joining = new HashSet<>();
-
-        for (Team team : ownedTeams) {
-            joining.addAll(this.wantToJoin(team.getName()));
-        }
-
-        return joining;
+        return null;
     }
 
     public Set<Gambler> wantToJoin(Long id){
-        Team team = teamService.getFromID(id);
+        Ligue team = teamService.getFromID(id);
         HashSet<Gambler> gamblers = Sets.newHashSet(this.wantToJoin(team.getName()));
         return gamblers;
     }
@@ -225,7 +150,7 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         return ((GamblerDAO)this.getDao()).gamblersWannaJoin(name);
     }
     
-    public int nbGamblersInTeam(Team team){
+    public int nbGamblersInTeam(Ligue team){
         return ((GamblerDAO)this.getDao()).nbGamblersInTeam(team);
     }
 

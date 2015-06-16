@@ -25,10 +25,6 @@ public class GamblerDTO {
     private String nom;
 
     private String prenom;
-
-    protected Set<Demande> demandes = new HashSet<>();
-
-    protected Set<StatutTeam> statutTeams =new HashSet<>();
     
     private Event event;
     
@@ -42,32 +38,12 @@ public class GamblerDTO {
     public GamblerDTO() {
     }
 
-    public void addTeams(Set<StatutTeam> teams){
-        this.statutTeams.addAll(teams);
-    }
-
     public int getPoints() {
         return points;
     }
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public Set<StatutTeam> getStatutTeams() {
-        return statutTeams;
-    }
-
-    public void setStatutTeams(Set<StatutTeam> statutTeams) {
-        this.statutTeams = statutTeams;
-    }
-
-    public Set<Demande> getDemandes() {
-        return demandes;
-    }
-
-    public void setDemandes(Set<Demande> demandes) {
-        this.demandes = demandes;
     }
 
     public Long getId() {
@@ -115,64 +91,11 @@ public class GamblerDTO {
         this.prenom = prenom;
     }
 
-    //    /**
-//     * Return the bet with matchId, null if doesn't exist
-//     *
-//     * @param matchId
-//     * @return the bet with matchId, null if doesn't exist
-//     */
-//    private Bet getBet(Long matchId) {
-//        Bet toRet = null;
-//        for (Bet bet : bets) {
-//            if (bet.getMatchId().equals(matchId)) {
-//                toRet = bet;
-//                break;
-//            }
-//        }
-//        return toRet;
-//    }
-
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof GamblerDTO)) return false;
         return ((GamblerDTO) obj).getEmail().equals(this.getEmail());
-    }
-
-    public boolean hasTeam(Team team) {
-        for(StatutTeam statutTeam : this.getStatutTeams()){
-            if(statutTeam.getTeam().equals(team)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean removeTeam(Team team){
-        for(StatutTeam statutTeam : this.getStatutTeams()){
-            if(statutTeam.getTeam().equals(team)){
-                return this.getStatutTeams().remove(statutTeam);
-            }
-        }
-        return false;
-    }
-
-    public StatutTeam getStatutTeam(Long id) {
-        for (StatutTeam statutTeam : this.getStatutTeams()) {
-            if (statutTeam.getTeam().getId().equals(id)) {
-                return statutTeam;
-            }
-        }
-        return null;
-    }
-
-
-    public void addTeam(StatutTeam statutTeam) {
-        this.statutTeams.add(statutTeam);
-    }
-
-    public boolean isOwner(StatutTeam statutTeam) {
-        return this.getEmail().equals(statutTeam.getTeam().getOwnerEmail());
     }
 
     public Event getEvent() {

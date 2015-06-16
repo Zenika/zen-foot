@@ -1,63 +1,24 @@
 <div class="row" data-ng-controller="LigueDetailCtrl">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3 ligue-col">
         <h2 style="text-align: center">
-            {{team.name}}
+            {{ligue.name}}
         </h2>
 
-        <div class="specific-ligue-owner" ng-show="isOwner(team,gambler)">
-
-            <h4>Inviter des membres à rejoindre {{team.name}} :</h4>
-
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <div class="col-sm-11">
-                        <input
-                                name="guestInput"
-                                type="text" class="form-control" data-ng-model="guest"
-                                placeholder="invité"
-                                typeahead-loading="loadingGuests"
-                                typeahead-editable="false"
-                                typeahead="guestGambler as gamblerName(guestGambler) for guestGambler in guestGamblers | filter:{prenom:$viewValue}"/>
-
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="submit" class="btn btn-primary" data-ng-click="invite()"
-                                data-ng-disabled="subscriptionForm.$invalid" ng-disabled="!guest">
-                            valider
-                        </button>
-                    </div>
-
-                </div>
-            </form>
-            <div class="alert alert-success" ng-repeat="(key,gambler) in lastGuests">
-                Invitation envoyée à {{gambler.prenom}} {{gambler.nom}}
-            </div>
-            <div ng-show="size(invited)>0">
-                <accordion>
-                    <accordion-group>
-                        <accordion-heading>
-                            invitations en attente :
-                        </accordion-heading>
-                        <ul data-ng-repeat="invitedUnit in invited">
-                            <li>{{invitedUnit.prenom}} {{invitedUnit.nom}}</li>
-                        </ul>
-                    </accordion-group>
-                </accordion>
-            </div>
-
+        <div class="specific-ligue-owner" ng-show="ligue.isOwner">
+            
             <div class="want-join-ligue">
                 <h4>Ils veulent vous rejoindre :</h4>
 
-                <div ng-repeat="applicant in applicants">
+                <div ng-repeat="applicant in ligue.awaits">
                     <div class="ligue-applicant">
                         - {{applicant.prenom}} {{applicant.nom}}
                     </div>
                     <div class="yesno-applicant">
-                        <span class="glyphicon glyphicon-ok" ng-click="acceptInTeam(applicant)"></span>
-                        <span class="glyphicon glyphicon-remove" ng-click="refuseInTeam(applicant)"></span>
+                        <span class="glyphicon glyphicon-ok" ng-click="acceptInTeam(applicant, $index)"></span>
+                        <span class="glyphicon glyphicon-remove" ng-click="refuseInTeam(applicant, $index)"></span>
                     </div>
                 </div>
-                <div ng-show="size(applicants)==0">
+                <div ng-show="size(ligue.awaits)==0">
                     Aucune demande en ce moment.
                 </div>
             </div>
@@ -65,13 +26,18 @@
         <div class="specific-ligue-member">
             <h4>Membres de la ligue :</h4>
 
-            <div ng-repeat="member in members">
+            <div ng-repeat="member in ligue.accepted" class="yesno-applicant">
                 <div style="display: inline-block">
                     - {{member.prenom}} {{member.nom}}
-                    <span class="label label-info" ng-show="isOwner(team,member)">propriétaire</span>
                 </div>
-                <span class="glyphicon glyphicon-remove" ng-show="isOwner(team,gambler)&&!isOwner(team,member)"
-                      ng-click="removeFromTeam(member)"></span>
+                <span class="glyphicon glyphicon-remove"
+                      ng-click="removeFromTeam(member, $index)"></span>
+            </div>
+            <div>
+                <div style="display: inline-block">
+                    - {{ligue.owner.prenom}} {{ligue.owner.nom}}
+                    <span class="label label-info">propriétaire</span>
+                </div>
             </div>
         </div>
     </div>

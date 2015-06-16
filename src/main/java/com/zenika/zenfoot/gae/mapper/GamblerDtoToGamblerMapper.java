@@ -41,8 +41,6 @@ public class GamblerDtoToGamblerMapper extends CustomMapper<GamblerDTO, Gambler>
         b.setNom(a.getNom());
         b.setEmail(a.getEmail());
         b.setBets(null);
-        b.setDemandes(null);
-        b.setStatutTeams(null);
         b.setPoints(a.getPoints());
     }
 }

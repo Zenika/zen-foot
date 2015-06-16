@@ -5,7 +5,7 @@ import com.zenika.zenfoot.gae.IGenericDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Team;
+import com.zenika.zenfoot.gae.model.Ligue;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface GamblerDAO extends IGenericDAO<Gambler> {
 
     List<Gambler> gamblersWannaJoin(String name);
 
-    int nbGamblersInTeam(Team team);
+    int nbGamblersInTeam(Ligue team);
     
     List<Bet> getBets(Gambler gambler);
     
