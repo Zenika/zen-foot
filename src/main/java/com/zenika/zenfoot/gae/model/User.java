@@ -1,4 +1,4 @@
-package com.zenika.zenfoot.user;
+package com.zenika.zenfoot.gae.model;
 
 import com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.annotation.Entity;

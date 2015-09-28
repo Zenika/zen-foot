@@ -6,18 +6,16 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.zenika.zenfoot.gae.IGenericDAO;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.model.Event;
+import com.zenika.zenfoot.gae.model.Ligue;
 import java.util.List;
 
 /**
  *
  * @author nebulis
  */
-public interface BetDAO extends IGenericDAO<Bet> {
-    
-    Bet getBetByGamblerAndMatchId(Gambler gambler, Long matchId);
-    
-    List<Bet> getBetsByMatchId(Long matchId);
+public interface LigueDAO extends IGenericDAO<Ligue> {
+
+    public List<Ligue> getLiguesFromEvent(Event event);
     
 }

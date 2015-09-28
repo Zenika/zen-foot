@@ -17,15 +17,16 @@
     <link rel="stylesheet" href="css/login.css" media="screen">
     <link rel="stylesheet" href="css/login2.css" media="screen">
     <link rel="stylesheet" href="css/shake.css" media="screen">
+    <link rel="stylesheet" href="css/ligue.css" media="screen">
 
 </head>
 
 
-<body>
+<body data-ng-controller="IndexCtrl" >
 
 <!-- Static navbar -->
 
-<div  class="navbar navbar-inverse navbar-fixed-top ng-hide" data-ng-hide="hideNavBar()" role="navigation" data-ng-controller="IndexCtrl" ng-cloack>
+<div  class="navbar navbar-inverse navbar-fixed-top ng-hide" data-ng-hide="hideNavBar()" role="navigation" ng-cloack>
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="user.connected">
@@ -49,7 +50,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li data-ng-show="!isAdmin()">
                     <span class="navbar-select">
-                        <select class="form-control select-group" required ng-model="event" ng-options="event.name for event in events" ng-change="eventChanged()">
+                        <select class="form-control select-group" required ng-model="selectedEvent" ng-options="event.name for event in events" ng-change="eventChanged()">
                         </select>
                     </span>
                 </li>
@@ -65,6 +66,7 @@
 <div id="view" class="container page">
     <div ui-view></div>
 </div>
+
 
 
 

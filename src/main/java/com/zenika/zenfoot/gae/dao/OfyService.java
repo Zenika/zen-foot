@@ -10,10 +10,9 @@ import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Pays;
 import com.zenika.zenfoot.gae.model.Sport;
-import com.zenika.zenfoot.gae.model.Team;
-import com.zenika.zenfoot.gae.model.TeamRanking;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.utils.PWDLink;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 
 /**
  * Created by raphael on 23/04/14.
@@ -24,8 +23,7 @@ public class OfyService {
         factory().register(User.class);
         factory().register(Match.class);
         factory().register(Gambler.class);
-        factory().register(Team.class);
-        factory().register(TeamRanking.class);
+        factory().register(Ligue.class);
         factory().register(PWDLink.class);
         factory().register(Event.class);
         factory().register(Bet.class);

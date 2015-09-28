@@ -57,7 +57,7 @@ angular.module('zenFoot.app')
         }
         
         $scope.eventChanged = function() {
-            $rootScope.$broadcast("eventChanged", {event : $scope.event});
+            $rootScope.$broadcast("eventChanged", {event : $scope.selectedEvent});
         }
 
     });

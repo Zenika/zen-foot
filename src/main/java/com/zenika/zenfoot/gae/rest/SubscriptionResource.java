@@ -7,7 +7,7 @@ import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import restx.annotations.GET;
 import restx.annotations.POST;
 import restx.annotations.RestxResource;
@@ -29,7 +29,8 @@ public class SubscriptionResource {
     private GamblerService gamblerService;
     private MatchService matchService;
 
-    public SubscriptionResource(@Named("userService")UserService userService, GamblerService gamblerService, MatchService matchService) {
+    public SubscriptionResource(@Named("userService")UserService userService, 
+            @Named("gamblerService") GamblerService gamblerService, MatchService matchService) {
         this.userService = (ZenfootUserService) userService;
         this.gamblerService = gamblerService;
         this.matchService = matchService;

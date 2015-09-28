@@ -1,121 +1,23 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('LiguesCtrl', ['$resource', 'Gambler', '$scope', 'Joiners', 'LigueService', '$modal', '$q', 'GuestService',
-        function ($resource, Gambler, $scope, Joiners, LigueService, $modal, $q, GuestService) {
-
-            var isOwner = LigueService.isOwner;
+    .controller('LiguesCtrl', ['$resource', '$scope', '$modal', '$q', 'Events', 'LigueService', 
+        function ($resource, $scope, $modal, $q, Events, LigueService) {
 
             $scope.ligue_regexp = /^[A-Za-z0-9\s]{1,20}$/;
 
-
-            $scope.joiners = Joiners.getAll();
-
-
-            /**
-             * Called when the gambler and its teams are loaded from the server
-             * @param promise
-             */
-            var getGambler = function (promise) {
-                $q.all([promise, $scope.joiners.$promise])
-                    .then(
-                    function (results) {
-                        $scope.gambler = results[0];
-                        return results;
-                    })
-                    .then(
-                    function (results) {
-                        var gambler = results[0];
-                        var joiners = results[1];
-                        // Using a hash to map a statutTeam to its name. We also mark each statutTeam to know if the current gambler
-                        // is the owner of the team
-                        $scope.statutTeamByName = {};
-                        for (var i = 0; i < gambler.statutTeams.length; i++) {
-                            var statutTeam = gambler.statutTeams[i];
-                            //We take advantage of the loop to index statutTeams by their names
-                            $scope.statutTeamByName[statutTeam.team.name] = statutTeam;
-                            if (isOwner(statutTeam.team, gambler)) {
-                                statutTeam.isOwner = true;
-                                statutTeam.demandes = 0;
-                            }
-                        }
-
-                        //Calculating the demands on each team. We loop on each statutTeam of each joiner and see if there is a demand on
-                        // a statutTeam that belongs to the connected gambler.
-                        for (var i = 0; i < joiners.length; i++) {
-                            var joiner = joiners[i];
-                            if (joiner.id === gambler.id)continue;
-                            for (var j = 0; j < joiner.statutTeams.length; j++) {
-                                var statutTeam = joiner.statutTeams[j];
-                                var statutTeamOwner = $scope.statutTeamByName[statutTeam.team.name];
-                                if (!statutTeam.accepted && !statutTeam.invitation && statutTeamOwner && statutTeamOwner.isOwner) {
-                                    statutTeamOwner.demandes++;
-                                }
-                            }
-
-                        }
-                        return results;
-                    }
-                )
-            }
-
-            getGambler(Gambler.get().$promise);
-
-            $scope.textDemandes = function (statutTeam) {
+            $scope.textDemandes = function (ligue) {
                 var s = '';
-                if (statutTeam.demandes > 1) {
+                if (ligue.awaits != undefined && ligue.awaits > 1) {
                     s = 's';
                 }
 
-                if (statutTeam.demandes > 0) {
-                    return '(' + statutTeam.demandes + ' demande' + s + ')';
+                if (ligue.awaits != undefined && ligue.awaits > 0) {
+                    return '(' + ligue.awaits + ' demande' + s + ')';
                 }
                 else {
                     return '';
                 }
-            }
-
-
-            $scope.getOwnerTeams = function () {
-                return LigueService.getOwnerTeams($scope.gambler.statutTeams, $scope.gambler)
-            };
-
-            /**
-             /**
-             * CHecks whether there are applicants or not. This method doesn't work.
-             * @returns {boolean}
-             */
-            $scope.noApplicant = function () {
-                if ($scope.joiners.length > 1)return false;
-
-                var bool = false;
-                for (var i = 0; i < $scope.joiners.length; i++) {
-                    var joiner = $scope.joiners[i];
-
-                    if (joiner.email != $scope.gambler.email) {
-                        return false;
-                    }
-                }
-                return true;
-            };
-
-            $scope.makeJoin = function (joiner, statutTeam) {
-                statutTeam.accepted = true;
-                Joiners.postJoiner(joiner)
-            };
-
-            $scope.refuseJoin = function (joiner, statutTeam) {
-                joiner.statutTeams.splice(statutTeam)
-                Joiners.postJoiner(joiner)
-            };
-
-            $scope.accept = function(statutTeam){
-                var gamblerStatutTeam = {gambler: $scope.gambler, statutTeam: statutTeam};
-                GuestService.accept(gamblerStatutTeam);
-            }
-
-            $scope.showOk = function (applicant) {
-                return $scope.statutTeamByGambler[applicant.id].invitation && !$scope.statutTeamByGambler[applicant.id].accepted;
             }
 
 
@@ -131,12 +33,9 @@ angular.module('zenFoot.app')
                 ];
             }
 
-            initJoinedTeams();
-
             /**
              * Any already existing team
              */
-            $scope.existingTeams = LigueService.getAll()
 
             $scope.pushTeam = function () {
                 $scope.joinedTeams.push({name: "", isNew: false})
@@ -152,19 +51,41 @@ angular.module('zenFoot.app')
                     }
                 }
             };
+            
+            var onJoinOrCreateLigueSuccess = function () {
+                $scope.numberOfLigueHandled++;
+                if ($scope.numberOfLigueHandled == $scope.numberOfLigueToHandle){
+                    console.log("ok")
+                    initData();
+                }
+            }
+                
+            var joinLigue = function (team) {
+                var ligue = _.find($scope.ligues, function (regTeam) {
+                    return regTeam.name == team.name;
+                });
+                Events.joinLigues({id : $scope.selectedEvent.id, 
+                    idLigue : ligue.id}, onJoinOrCreateLigueSuccess);
+            }
+                
+            var createLigue = function (team) {
+                Events.createLigues({id : $scope.selectedEvent.id}, team, onJoinOrCreateLigueSuccess);
+            }
 
             var join = function () {
                 deleteEmptyNameTeams();
-                var joinTeam = $resource('/api/gamblerAndTeam').save({gambler: $scope.gambler, teams: $scope.joinedTeams}, function (response) {
-                    $scope.existingTeams = LigueService.getAll();
-                    $scope.gambler = getGambler(response);
-                    initJoinedTeams();
-                });
+                var ligueToCreate = _.filter($scope.joinedTeams, function(team) { return team.isNew});
+                var ligueToJoin = _.filter($scope.joinedTeams, function(team) { return !team.isNew});
+                
+                $scope.numberOfLigueToHandle = $scope.joinedTeams.length;
+                
+                _.each(ligueToCreate, createLigue);
+                _.each(ligueToJoin, joinLigue);
             };
 
             var joinGroups = function () {
                 var modalInstance = $modal.open({backdrop: 'static', scope: $scope, templateUrl: 'view/modal-sub-profil.html'})
-                $scope.modalInstance = modalInstance
+                $scope.modalInstance = modalInstance;
 
                 modalInstance.result.then(function (response) {
                     if (response == true) {
@@ -202,7 +123,6 @@ angular.module('zenFoot.app')
                 else {
                     join()
                 }
-
             };
 
             $scope.ok = function () {
@@ -212,5 +132,25 @@ angular.module('zenFoot.app')
             $scope.cancel = function () {
                 $scope.modalInstance.dismiss();
             }
+            
+            var initData = function () {
+                initJoinedTeams();
+                $scope.ligues = Events.getLigues({id : $scope.selectedEvent.id});
+                $scope.numberOfLigueHandled = 0;
+            }
+            
+            $scope.hasLigue = function() {
+                return _.find($scope.ligues, function(ligue) {
+                    ligue.isAccepted || ligue.isAwaits || ligue.isOwner;
+                }) != undefined
+            }
+            
+            //si deja selectionné
+            if($scope.selectedEvent != undefined) {
+                initData();
+            }
+            $scope.$on('eventChanged', function(event, params) {
+                initData();
+            })
 
         }]);

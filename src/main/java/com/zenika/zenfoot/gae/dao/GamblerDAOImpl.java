@@ -5,8 +5,7 @@ import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.StatutTeam;
-import com.zenika.zenfoot.gae.model.Team;
+import com.zenika.zenfoot.gae.model.Ligue;
 
 import java.util.List;
 import java.util.Set;
@@ -15,19 +14,6 @@ import java.util.Set;
  * Created by raphael on 30/04/14.
  */
 public class GamblerDAOImpl extends GenericDAO<Gambler> implements GamblerDAO {
-
-
-    /**
-     * We have to register teams before registering a gambler, in order to have their ID generated.
-     *
-     * @param statutTeams
-     */
-    private void registerTeams(Set<StatutTeam> statutTeams) {
-        for (StatutTeam statutTeam : statutTeams) {
-            ObjectifyService.ofy().save().entity(statutTeam.getTeam());
-
-        }
-    }
 
     /**
      * Returns the gambler corresponding to the given email, or null if no Gambler corresponds to this email
@@ -56,18 +42,8 @@ public class GamblerDAOImpl extends GenericDAO<Gambler> implements GamblerDAO {
     }
 
     @Override
-    public int nbGamblersInTeam(Team team){
-        List<Gambler> gamblers = ObjectifyService.ofy().load().type(Gambler.class).filter("statutTeams.team.name", team.getName()).list();
-        int number = 0;
-
-        for(Gambler gambler : gamblers){
-            StatutTeam statutTeam = gambler.getStatutTeam(team.getId());
-            if((statutTeam!=null) && (statutTeam.isAccepted() || gambler.isOwner(statutTeam))){
-                number ++;
-            }
-        }
-
-        return number;
+    public int nbGamblersInTeam(Ligue team){
+        return 0;
     }
 
     @Override

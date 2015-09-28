@@ -5,14 +5,13 @@ import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
-import com.zenika.zenfoot.gae.dao.TeamRankingDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.CalculateScores;
 import com.zenika.zenfoot.gae.utils.KeyBuilder;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 import org.joda.time.DateTime;
 
 import java.util.HashSet;
@@ -27,15 +26,13 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     final private MatchService matchService;
     final private BetService betService;
     final private TeamService teamService;
-    final private TeamRankingService teamRankingService;
     final private MapperFacadeFactory mapper;
 
     public GamblerService(MatchService matchService, TeamService teamService, 
-            TeamRankingService teamRankingService, MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
+            MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
         super(gamblerDao);
         this.matchService = matchService;
         this.teamService = teamService;
-        this.teamRankingService = teamRankingService;
         this.betService = betService;
         this.mapper = mapper;
     }
@@ -57,9 +54,18 @@ public class GamblerService extends AbstractGenericService<Gambler> {
 
         return this.createOrUpdate(mapper.getMapper().map(gambler, Gambler.class));
     }
+    
+    public Gambler createOrUpdateAndReturn(User user, Event event) {
+        GamblerDTO gambler = new GamblerDTO(user.getEmail());
+        gambler.setPrenom(user.getPrenom());
+        gambler.setNom(user.getNom());
+        gambler.setEvent(event);
 
-    public Bet getBetByMatchId(Gambler gambler, Long matchId) {
-        return this.betService.getBetByMatchId(gambler, matchId);
+        return this.createOrUpdateAndReturn(mapper.getMapper().map(gambler, Gambler.class));
+    }
+
+    public Bet getBetByGamblerAndMatchId(Gambler gambler, Long matchId) {
+        return this.betService.getBetByGamblerAndMatchId(gambler, matchId);
     }
     
     public void updateBets(List<BetDTO> newBets, Gambler gambler, Event event) {
@@ -67,7 +73,7 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         Key<Gambler> keyGambler = KeyBuilder.buildGamblerKey(gambler.getId(), event.getId());
         for (BetDTO bet : newBets) {
             if (bet.getScore1() != null && bet.getScore2() != null) {
-                Bet existingBet = getBetByMatchId(gambler, bet.getMatchId());
+                Bet existingBet = getBetByGamblerAndMatchId(gambler, bet.getMatchId());
                 Match correspondingMatch = matchService.getMatch(bet.getMatchId(), event);
 
                 //Check the bet already existed in the database
@@ -85,23 +91,24 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         }
     }
 
-    private void calculateScores(Match match,boolean add) {
-        List<Gambler> gamblers = this.getAll();
-        for (Gambler gambler : gamblers) {
-            Bet bet = null;//getBetByMatchId(gambler, match.getId());
-            if (bet !=null && bet.wasMade()) {
-                Gambler gamblerRanking = this.getFromID(gambler.getId());
-                
-                int points = CalculateScores.calculateScores(bet,match);
-                if(points>0){
-                    if(add){
-                        gamblerRanking.addPoints(points);
+    private void calculateScores(Match match, boolean add) {
+        List<Bet> bets = betService.getBetsByMatchId(match.getId());
+        if(bets != null && bets.size() > 0) {
+            for (Bet bet : bets) {
+                if (bet !=null && bet.wasMade()) {
+                    Gambler gamblerRanking = this.getFromKey(bet.getGambler());
+
+                    int points = CalculateScores.calculateScores(bet,match);
+                    if(points>0){
+                        if(add){
+                            gamblerRanking.addPoints(points);
+                        }
+                        else{
+                            gamblerRanking.removePoints(points);
+                        }
                     }
-                    else{
-                        gamblerRanking.removePoints(points);
-                    }
+                    this.createOrUpdate(gamblerRanking);
                 }
-                this.createOrUpdate(gamblerRanking);
             }
         }
     }
@@ -124,89 +131,17 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     }
 
     /**
-     * Adds a list of team to the user. If the team doesn't exist in the DB, it is created and registered in the database
-     * with the given gambler as its owner. The teamRanking object is also created
-     * @param teams
-     * @param gambler
-     * @return
-     */
-    public Key<Gambler> addTeams(List<Team> teams, Gambler gambler) {
-
-        Set<StatutTeam> teamsToRegister = new HashSet<>();
-        for (Team team : teams) {
-            Optional<Team> DBTeamOptional = teamService.get(team.getName());
-
-            Team teamToRegister;
-            boolean owner = false;
-
-            if (DBTeamOptional.isPresent()) { // Team has already been created
-                teamToRegister = DBTeamOptional.get();
-//                logger.log(Level.INFO, "Id for team : " + toRegister.getId());
-            } else { //The team was created by the user and thus, the latter is its owner
-//                logger.log(Level.INFO, "No team found");
-                team.setOwnerEmail(gambler.getEmail());
-                Gambler gamblerRanking = this.getFromID(gambler.getId());
-                Key<Team> teamKey = teamService.createOrUpdate(team);
-                teamToRegister = teamService.getFromKey(teamKey);
-                TeamRanking teamRanking = new TeamRanking();
-                teamRanking.setTeamId(teamToRegister.getId());
-                teamRanking.setPoints(gamblerRanking.getPoints());
-                teamRankingService.createOrUpdate(teamRanking);
-                owner = true;
-            }
-
-            //Checking that the gambler has not already joined the team
-            if(!gambler.hasTeam(team)){
-                StatutTeam statutTeam = new StatutTeam().setTeam(teamToRegister).setAccepted(owner);
-                teamsToRegister.add(statutTeam);
-            }
-
-        }
-        gambler.addTeams(teamsToRegister);
-        return this.createOrUpdate(gambler);
-
-    }
-
-    public void updateTeams(Set<StatutTeam> registeredTeams, Gambler gambler) {
-        this.createOrUpdate(gambler);
-    }
-
-    /**
-     * Get all the teams whose owner is gambler
-     *
-     * @param gambler
-     * @return
-     */
-    private Set<Team> ownedBy(Gambler gambler) {
-        Set<Team> set = new HashSet<>();
-        for(StatutTeam statutTeam:gambler.getStatutTeams()){
-            Team team = statutTeam.getTeam();
-            if(team.getOwnerEmail().equals(gambler.getEmail())){
-                set.add(team);
-            }
-        }
-        return set;
-    }
-
-    /**
      * Get all the
      *
      * @param gambler
      * @return
      */
     public Set<Gambler> wantToJoin(Gambler gambler) {
-        Set<Team> ownedTeams = ownedBy(gambler);
-        Set<Gambler> joining = new HashSet<>();
-
-        for (Team team : ownedTeams) {
-            joining.addAll(this.wantToJoin(team.getName()));
-        }
-
-        return joining;
+        return null;
     }
 
     public Set<Gambler> wantToJoin(Long id){
-        Team team = teamService.getFromID(id);
+        Ligue team = teamService.getFromID(id);
         HashSet<Gambler> gamblers = Sets.newHashSet(this.wantToJoin(team.getName()));
         return gamblers;
     }
@@ -215,7 +150,7 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         return ((GamblerDAO)this.getDao()).gamblersWannaJoin(name);
     }
     
-    public int nbGamblersInTeam(Team team){
+    public int nbGamblersInTeam(Ligue team){
         return ((GamblerDAO)this.getDao()).nbGamblersInTeam(team);
     }
 

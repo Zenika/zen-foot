@@ -1,7 +1,7 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.zenika.zenfoot.gae.IGenericDAO;
-import com.zenika.zenfoot.user.User;
+import com.zenika.zenfoot.gae.model.User;
 
 
 /**

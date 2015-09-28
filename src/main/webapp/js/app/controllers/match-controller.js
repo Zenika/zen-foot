@@ -256,10 +256,18 @@ angular.module('zenFoot.app')
                 return _.contains($scope.groups1,groupe);
             }
             
-            $scope.$on('eventChanged', function(event, params) {
-                $scope.event = params.event;
-                params = {id : $scope.event.id};
+            $scope.showBets = function(event) {
+                $scope.event = event;
+                var params = {id : $scope.event.id};
                 $q.all([Events.matches(params).$promise, Events.getBets(params)]).then(calculBets);
+            }
+            
+            //si deja selectionné
+            if($scope.selectedEvent != undefined) {
+                $scope.showBets($scope.selectedEvent);
+            }
+            $scope.$on('eventChanged', function(event, params) {
+                $scope.showBets(params.event);
             })
 
 

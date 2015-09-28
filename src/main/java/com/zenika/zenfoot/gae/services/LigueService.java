@@ -1,44 +1,51 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.AbstractGenericService;
+import com.zenika.zenfoot.gae.dao.LigueDAO;
+import com.zenika.zenfoot.gae.dto.GamblerDTO;
+import com.zenika.zenfoot.gae.dto.LigueDTO;
+import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
-
-import java.util.HashMap;
+import com.zenika.zenfoot.gae.utils.KeyBuilder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 /**
  * Created by raphael on 10/07/14.
  */
-public class LigueService {
+public class LigueService extends AbstractGenericService<Ligue>{
 
     final private TeamService teamService;
     final private GamblerService gamblerService;
     final private Logger logger = Logger.getLogger(getClass().getName());
-    final private TeamRankingService teamRankingService;
+    final private MapperFacadeFactory mapper;
 
-    public LigueService(TeamService teamService, GamblerService gamblerService, TeamRankingService teamRankingService) {
+    public LigueService(TeamService teamService, GamblerService gamblerService, LigueDAO ligueDAO,
+            MapperFacadeFactory mapper) {
+        super(ligueDAO);
         this.teamService = teamService;
         this.gamblerService = gamblerService;
-        this.teamRankingService = teamRankingService;
-
+        this.mapper = mapper;
     }
 
     /**
      * Recalculate scores for ligues
      */
     public void recalculateScores(){
-        Map<Long,Team> teamMap = new HashMap<>();
+        /*Map<Long,Ligue> teamMap = new HashMap<>();
         //number of members in each team
         Map<Long, Integer> teamMembers = new HashMap<>();
-        List<Team> teams = teamService.getAll();
+        List<Ligue> teams = teamService.getAll();
         Map<Long, Gambler> gamblerRankingMap = new HashMap<>();
         List<Gambler> gamblerRankings = gamblerService.getAll();
         Map<Long, TeamRanking> teamRankingMap = new HashMap<>();
         List<TeamRanking> teamRankings = teamRankingService.getAll();
 
-        for(Team team:teams){
+        for(Ligue team:teams){
             teamMap.put(team.getId(), team);
             teamMembers.put(team.getId(),gamblerService.nbGamblersInTeam(team));
         }
@@ -71,12 +78,12 @@ public class LigueService {
 
         for(TeamRanking teamRanking:teamRankings){
             teamRankingService.createOrUpdate(teamRanking);
-        }
+        }*/
     }
 
 
-    public void recalcultateScore(Team team, Gambler requestCaller, boolean add) {
-        TeamRanking teamRanking = teamRankingService.getOrCreate(team.getId());
+    public void recalcultateScore(Ligue team, Gambler requestCaller, boolean add) {
+        /*TeamRanking teamRanking = teamRankingService.getOrCreate(team.getId());
         Gambler gamblerRanking = gamblerService.getFromID(requestCaller.getId());
         double formerMean = teamRanking.getPoints();
         int nbMembers = gamblerService.nbGamblersInTeam(team);
@@ -97,6 +104,49 @@ public class LigueService {
 
         teamRanking.setPoints(newMean);
 
-        teamRankingService.createOrUpdate(teamRanking);
+        teamRankingService.createOrUpdate(teamRanking);*/
+    }
+
+    public Ligue create(Event event, LigueDTO ligue, Gambler gambler) {
+        ligue.setEvent(event);
+        ligue.setOwner(mapper.getMapper().map(gambler, GamblerDTO.class));
+        return this.createOrUpdateAndReturn(
+            mapper.getMapper().map(ligue, Ligue.class));
+    }
+
+    public Ligue update(Event event, LigueDTO ligueToUpdate) {
+        // ne modifier que les tableaux awaits et accepted
+        Ligue ligue = this.getFromKey(
+                KeyBuilder.buildLigueKey(ligueToUpdate.getId(), event.getId()));
+        
+        LigueDTO ligueDTO = mapper.getMapper().map(ligue, LigueDTO.class);
+        ligueDTO.setAccepted(ligueToUpdate.getAccepted());
+        ligueDTO.setAwaits(ligueToUpdate.getAwaits());
+        ligueDTO.setEvent(event);
+        
+        
+        return this.createOrUpdateAndReturn(
+            mapper.getMapper().map(ligueDTO, Ligue.class));
+    }
+    
+    public List<Ligue> getLiguesFromEvent(Event event) {
+        return ((LigueDAO) this.getDao()).getLiguesFromEvent(event);
+    }
+
+    public void joinLigue(Ligue ligue, Gambler gambler, Event event) {
+        LigueDTO ligueDTO = mapper.getMapper().map(ligue, LigueDTO.class);
+        ligueDTO.initialize(gambler.getEmail());
+        if(!ligueDTO.isIsOwner() && !ligueDTO.isIsAccepted() && !ligueDTO.isIsAwaits()) {
+            List<Key<Gambler>> gamblers = new ArrayList<Key<Gambler>>();
+            if (ligue.getAwaits() != null) {
+                gamblers = Arrays.asList(ligue.getAwaits());
+            }
+            
+            gamblers.add(KeyBuilder.buildGamblerKey(gambler.getId(), event.getId()));
+            
+            Key<Gambler>[] array = new Key[gamblers.size()];
+            ligue.setAwaits(gamblers.toArray(array));
+            this.getDao().createUpdate(ligue);
+        }
     }
 }

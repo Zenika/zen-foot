@@ -45,7 +45,6 @@ angular.module('zenFoot.app')
             var hasNewGroup = function (subscribedTeams) {
 
                 for (var x in subscribedTeams) {
-
                     if (subscribedTeams[x].isNew) {
                         return true;
                     }
@@ -72,11 +71,3 @@ angular.module('zenFoot.app')
                 getRanking: getRanking
             }
         }])
-
-    .factory('Team',['$resource',function($resource){
-        return $resource('api/teams/:id',{id:'@id'});
-    }])
-
-    .factory('GamblerStatutTeam',function($resource){
-        return $resource('api/gamblersAndTeam',{},{update:{method:'PUT',isArray:false}});
-    })

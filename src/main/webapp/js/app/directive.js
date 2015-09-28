@@ -91,7 +91,7 @@ zenFootDirectives.directive('newTeam', function () {
         link: function (scope, element, attrs) {
             scope.$watch("team.name", function (newValue, oldValue) {
                 if (newValue != oldValue) {
-                    isNew(scope.team, scope.existingTeams);
+                    isNew(scope.team, scope.ligues);
                 }
             })
         }
@@ -184,9 +184,9 @@ zenFootDirectives.directive('ligueCheck',[function(){
         link:function(scope,element,attrs,ctrl){
             scope.$watch('team.name',function(oldValue,newValue){
                 ctrl.$setValidity('ligueChk',true);
-                if(scope.team.name != '' && scope.statutTeamByName[scope.team.name]){
+                /*if(scope.team.name != '' && scope.statutTeamByName[scope.team.name]){
                     ctrl.$setValidity('ligueChk',false);
-                }
+                }*/
             });
 
         }

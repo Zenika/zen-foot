@@ -14,7 +14,7 @@
     "express": "~3.2.6",
     "underscore": "~1.4.4",
     "node-uuid": "~1.4.1",
-    "http-proxy": "~1.1.2"
+    "http-proxy": "~1.11.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
