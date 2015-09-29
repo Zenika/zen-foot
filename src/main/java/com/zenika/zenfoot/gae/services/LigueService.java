@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.LigueDAO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
@@ -8,6 +9,7 @@ import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.KeyBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Created by raphael on 10/07/14.
  */
-public class LigueService extends AbstractGenericService<Ligue>{
+public class LigueService extends AbstractGenericService<Ligue> {
 
     final private TeamService teamService;
     final private GamblerService gamblerService;
@@ -25,7 +27,7 @@ public class LigueService extends AbstractGenericService<Ligue>{
     final private MapperFacadeFactory mapper;
 
     public LigueService(TeamService teamService, GamblerService gamblerService, LigueDAO ligueDAO,
-            MapperFacadeFactory mapper) {
+                        MapperFacadeFactory mapper) {
         super(ligueDAO);
         this.teamService = teamService;
         this.gamblerService = gamblerService;
@@ -35,7 +37,7 @@ public class LigueService extends AbstractGenericService<Ligue>{
     /**
      * Recalculate scores for ligues
      */
-    public void recalculateScores(){
+    public void recalculateScores() {
         /*Map<Long,Ligue> teamMap = new HashMap<>();
         //number of members in each team
         Map<Long, Integer> teamMembers = new HashMap<>();
@@ -111,42 +113,52 @@ public class LigueService extends AbstractGenericService<Ligue>{
         ligue.setEvent(event);
         ligue.setOwner(mapper.getMapper().map(gambler, GamblerDTO.class));
         return this.createOrUpdateAndReturn(
-            mapper.getMapper().map(ligue, Ligue.class));
+                mapper.getMapper().map(ligue, Ligue.class));
     }
 
     public Ligue update(Event event, LigueDTO ligueToUpdate) {
         // ne modifier que les tableaux awaits et accepted
         Ligue ligue = this.getFromKey(
                 KeyBuilder.buildLigueKey(ligueToUpdate.getId(), event.getId()));
-        
+
         LigueDTO ligueDTO = mapper.getMapper().map(ligue, LigueDTO.class);
         ligueDTO.setAccepted(ligueToUpdate.getAccepted());
         ligueDTO.setAwaits(ligueToUpdate.getAwaits());
         ligueDTO.setEvent(event);
-        
-        
+
+
         return this.createOrUpdateAndReturn(
-            mapper.getMapper().map(ligueDTO, Ligue.class));
+                mapper.getMapper().map(ligueDTO, Ligue.class));
     }
-    
-    public List<Ligue> getLiguesFromEvent(Event event) {
-        return ((LigueDAO) this.getDao()).getLiguesFromEvent(event);
+
+    public List<Ligue> getLiguesWithMembersFromEvent(Event event) {
+        return ((LigueDAO) this.getDao()).getLiguesWithMembersFromEvent(event);
     }
 
     public void joinLigue(Ligue ligue, Gambler gambler, Event event) {
         LigueDTO ligueDTO = mapper.getMapper().map(ligue, LigueDTO.class);
         ligueDTO.initialize(gambler.getEmail());
-        if(!ligueDTO.isIsOwner() && !ligueDTO.isIsAccepted() && !ligueDTO.isIsAwaits()) {
-            List<Key<Gambler>> gamblers = new ArrayList<Key<Gambler>>();
-            if (ligue.getAwaits() != null) {
-                gamblers = Arrays.asList(ligue.getAwaits());
-            }
-            
-            gamblers.add(KeyBuilder.buildGamblerKey(gambler.getId(), event.getId()));
-            
-            Key<Gambler>[] array = new Key[gamblers.size()];
-            ligue.setAwaits(gamblers.toArray(array));
+        if (!ligueDTO.isIsOwner() && !ligueDTO.isIsAccepted() && !ligueDTO.isIsAwaits()) {
+            ligue.getAwaits().add(KeyBuilder.buildGamblerRef(gambler.getId(), event.getId()));
             this.getDao().createUpdate(ligue);
         }
+    }
+
+    /**
+     * Calculate score for ligue. Based on the mean of all ligue's members' score
+     * @param ligue ligue
+     * @return ligue's score
+     */
+    public double calculateScore(Ligue ligue) {
+        double res = 0;
+        List<Ref<Gambler>> members = ligue.getAccepted();
+        if(!members.isEmpty()) {
+            for(Ref<Gambler> g : members){
+                res += g.get().getPoints();
+                res = res / members.size();
+                res = Math.round(res * 100) / 100;
+            }
+        }
+        return res;
     }
 }

@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface LigueDAO extends IGenericDAO<Ligue> {
 
-    public List<Ligue> getLiguesFromEvent(Event event);
+    List<Ligue> getLiguesFromEvent(Event event);
+
+    List<Ligue> getLiguesWithMembersFromEvent(Event event);
     
 }

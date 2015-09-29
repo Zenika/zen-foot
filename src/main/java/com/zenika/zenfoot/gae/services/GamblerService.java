@@ -28,7 +28,7 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     final private TeamService teamService;
     final private MapperFacadeFactory mapper;
 
-    public GamblerService(MatchService matchService, TeamService teamService, 
+    public GamblerService(MatchService matchService, TeamService teamService,
             MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
         super(gamblerDao);
         this.matchService = matchService;

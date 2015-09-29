@@ -1,13 +1,17 @@
 package com.zenika.zenfoot.gae.model;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Ligue {
+
+    // marker class used to define a Load group
+    public static class Members{}
 
     @Id
     public Long id;
@@ -18,15 +22,18 @@ public class Ligue {
     
     @Parent private Key<Event> event;
     
-    Key<Gambler>[] awaits;
+    List<Ref<Gambler>> awaits;
     
-    Key<Gambler>[] accepted;
+    @Load(Members.class)
+    List<Ref<Gambler>> accepted;
 
     public Ligue() {
-
+        awaits = new ArrayList<>();
+        accepted = new ArrayList<>();
     }
 
     public Ligue(String name) {
+        this();
         this.name = name;
     }
 
@@ -63,19 +70,19 @@ public class Ligue {
         this.event = event;
     }
 
-    public Key<Gambler>[] getAwaits() {
+    public List<Ref<Gambler>> getAwaits() {
         return awaits;
     }
 
-    public void setAwaits(Key<Gambler>[] awaits) {
+    public void setAwaits(List<Ref<Gambler>> awaits) {
         this.awaits = awaits;
     }
 
-    public Key<Gambler>[] getAccepted() {
+    public List<Ref<Gambler>> getAccepted() {
         return accepted;
     }
 
-    public void setAccepted(Key<Gambler>[] accepted) {
+    public void setAccepted(List<Ref<Gambler>> accepted) {
         this.accepted = accepted;
     }
 

@@ -62,7 +62,7 @@
                 </encoder>
             </appender>
             <appender name="appLog" class="ch.qos.logback.core.FileAppender">
-                <File>C:\Dev\workspace\zen-foot\logs\app.log</File>
+                <File>/tmp/app.log</File>
                 <encoder>
                     <pattern>%d [%-16thread] [%-10X{principal}] %-5level %logger{36} - %msg%n</pattern>
                 </encoder>

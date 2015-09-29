@@ -50,6 +50,7 @@ angular.module('zenFoot.app')
              * @return {*}
              */
             $scope.serverRanking['ligue'] = function () {
+                return Events.getLigues({id : $scope.selectedEvent.id}).$promise;
                 /*var teamsWithPoints = $q.all([LigueService.getRanking().$promise, Team.query().$promise]).then(function (result) {
                     var teamById = {};
                     var teams = result[1];

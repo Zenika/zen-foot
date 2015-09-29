@@ -13,6 +13,8 @@ public class LigueDTO {
     Event event;
     GamblerDTO[] awaits;
     GamblerDTO[] accepted;
+    //ligue's points for the event
+    double points;
 
     public LigueDTO() {
 
@@ -93,6 +95,14 @@ public class LigueDTO {
 
     public void setAccepted(GamblerDTO[] accepted) {
         this.accepted = accepted;
+    }
+
+    public double getPoints() {
+        return points;
+    }
+
+    public void setPoints(double points) {
+        this.points = points;
     }
 
     @Override

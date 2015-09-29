@@ -36,7 +36,7 @@ angular.module('zenFoot.app')
                     }
                 }
                 return coupleArray
-                }
+            };
 
             var getAll = function () {
                 return $resource('/api/teams').query()

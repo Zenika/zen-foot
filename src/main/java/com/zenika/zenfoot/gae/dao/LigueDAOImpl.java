@@ -21,4 +21,9 @@ public class LigueDAOImpl extends GenericDAO<Ligue> implements LigueDAO {
     public List<Ligue> getLiguesFromEvent(Event parent) {
         return ObjectifyService.ofy().load().type(Ligue.class).ancestor(parent).list();
     }
+
+    @Override
+    public List<Ligue> getLiguesWithMembersFromEvent(Event parent) {
+        return ObjectifyService.ofy().load().group(Ligue.Members.class).type(Ligue.class).ancestor(parent).list();
+    }
 }
