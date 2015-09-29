@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', 'Match', '$timeout', 'Events',
-function (Pays, $scope, betMatchService, Match, $timeout, Events) {
+    .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', '$timeout', 'Events',
+function (Pays, $scope, betMatchService, $timeout, Events) {
         Pays.getPays().then(function (response) {
             $scope.countries = response.data;
         })
@@ -59,7 +59,7 @@ function (Pays, $scope, betMatchService, Match, $timeout, Events) {
             var confirmation = confirm(message);
             if (confirmation) {
                 match.date = checkDate(match.date);
-                Match.save(match, function () {
+                Events.createMatch({id: match.event.id}, match, function () {
                     $scope.newMatch();
                     $scope.registeredMatch = match;
                     $timeout(function () {

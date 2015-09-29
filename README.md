@@ -123,3 +123,9 @@ For more information about the architecture of the project, have a look at the [
 Google App Engine appstat analytics is activated for this application.  It is accessible through [app-url]/appstats.
 
 The page access is restricted to admins, i.e. to google accounts which are added as admins on the google application settings.
+
+
+
+## Remarques sur fonctionnalités
+ - équipes disponibles gérèes en dur dans display-service.js
+ - groupes gérés dans match-controllers.js

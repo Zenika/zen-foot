@@ -36,5 +36,5 @@ public class KeyBuilder {
         Key<Event> eventKey = Key.create(Event.class, idEvent);
         return Key.create(eventKey, Ligue.class, LigueMatch);
     }
-    
+
 }

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminCtrl', ['Match', '$scope', '$resource', '$filter', 'displayService','$timeout', 'Events',
-        function (Match, $scope, $resource, $filter, displayService,$timeout, Events) {
+    .controller('AdminCtrl', ['$scope', '$resource', '$filter', 'displayService','$timeout', 'Events',
+        function ($scope, $resource, $filter, displayService,$timeout, Events) {
             
             $scope.events = Events.query();
 

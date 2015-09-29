@@ -1,5 +1,6 @@
 package com.zenika.zenfoot.gae.rest;
 
+import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
@@ -22,6 +23,7 @@ import restx.security.RolesAllowed;
 
 import java.util.List;
 import javax.inject.Named;
+
 import restx.annotations.DELETE;
 import restx.annotations.PUT;
 import restx.security.PermitAll;
@@ -39,9 +41,9 @@ public class EventResource {
     final private MatchService matchService;
     final private SessionInfo sessionInfo;
 
-    public EventResource(EventService eventService, @Named("sessioninfo")SessionInfo sessionInfo, 
-            @Named("gamblerService") GamblerService gamblerService,
-            MatchService matchService, LigueService ligueService) {
+    public EventResource(EventService eventService, @Named("sessioninfo") SessionInfo sessionInfo,
+                         @Named("gamblerService") GamblerService gamblerService,
+                         MatchService matchService, LigueService ligueService) {
         this.eventService = eventService;
         this.sessionInfo = sessionInfo;
         this.gamblerService = gamblerService;
@@ -97,11 +99,11 @@ public class EventResource {
             Event event = eventService.getFromID(id);
             User user = sessionInfo.getUser();
             Gambler gambler = gamblerService.getGamblerFromEmailAndEvent(user.getEmail(), event);
-            
+
             if (gambler == null) {
                 gambler = gamblerService.createOrUpdateAndReturn(user, event);
             }
-            
+
             //save bets
             gamblerService.updateBets(bets, gambler, event);
         }
@@ -118,26 +120,34 @@ public class EventResource {
     public Event updateEvent(Long id, Event event) {
         if (eventService.contains(event.getName())) {
             return eventService.createOrUpdateAndReturn(event);
-        } 
+        }
         throw new WebException(HttpStatus.BAD_REQUEST);
     }
-    
-    @POST("/events/{id}/matchs")
+
+    @PUT("/events/{id}/matchs")
     @RolesAllowed(Roles.ADMIN)
     public void updateMatch(Long id, Match match) {
         Event event = eventService.getFromID(id);
         Match matchFormerValue = matchService.getMatch(match.getId(), event);
-        gamblerService.setScore(matchFormerValue,match);
+        gamblerService.setScore(matchFormerValue, match);
         matchFormerValue.setScore1(match.getScore1());
         matchFormerValue.setScore2(match.getScore2());
         matchFormerValue.setScoreUpdated(true);
         matchService.createOrUpdate(matchFormerValue);
     }
 
-    /** 
+    @POST("/events/{id}/matchs")
+    @RolesAllowed(Roles.ADMIN)
+    public void createMatch(Long id, Match match) {
+        Key<Event> keyEvent = Key.create(Event.class, id);
+        match.setEvent(keyEvent);
+        matchService.createOrUpdate(match);
+    }
+
+    /**
      * ligue
      */
-    
+
 
     @GET("/events/{id}/ligues")
     @RolesAllowed(Roles.GAMBLER)
@@ -157,7 +167,7 @@ public class EventResource {
         Event event = eventService.getFromID(id);
         ligueService.update(event, ligue);
     }
-    
+
     @POST("/events/{id}/ligues/{IdLigue}/join")
     @RolesAllowed(Roles.GAMBLER)
     public void joinLigue(Long id, Long IdLigue) {
@@ -178,8 +188,8 @@ public class EventResource {
         if (gambler == null) {
             gambler = gamblerService.createOrUpdateAndReturn(sessionInfo.getUser(), event);
         }
-        
+
         ligueService.create(event, ligue, gambler);
-        
+
     }
 }
