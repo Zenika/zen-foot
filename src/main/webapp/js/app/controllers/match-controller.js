@@ -259,7 +259,7 @@ angular.module('zenFoot.app')
             $scope.showBets = function(event) {
                 $scope.event = event;
                 var params = {id : $scope.event.id};
-                $q.all([Events.matches(params).$promise, Events.getBets(params)]).then(calculBets);
+                $q.all([Events.matches(params).$promise, Events.getBets(params).$promise]).then(calculBets);
             }
             
             //si deja selectionné

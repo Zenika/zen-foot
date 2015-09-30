@@ -119,7 +119,7 @@ public class GamblerService extends AbstractGenericService<Gambler> {
         if(matchFormerValue.isScoreUpdated()){
             this.calculateScores(matchFormerValue,false);
         }
-        //registering the new result
+        // registering the new result
         // We re-register the former value of the match with the new score values only, to make sure that nothing
         // else is updated in the match. We also set the updated property to true
         matchFormerValue.setScoreUpdated(true);
