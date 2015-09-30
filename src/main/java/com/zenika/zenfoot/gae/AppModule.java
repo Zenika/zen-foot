@@ -27,7 +27,7 @@ public class AppModule {
     @Provides
     public ConfigSupplier appConfigSupplier(ConfigLoader configLoader) {
         // Load settings.properties in com.zenika.zenfoot.gae package as a set of config entries
-        return configLoader.fromResource("com.zenika.zenfoot.gae/settings");
+        return configLoader.fromResource("com/zenika/zenfoot/gae/settings");
     }
 
     @Provides

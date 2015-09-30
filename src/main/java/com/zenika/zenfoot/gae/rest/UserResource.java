@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.googlecode.objectify.Key;
+import com.zenika.zenfoot.gae.AppSettings;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.services.PWDLinkService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
@@ -9,6 +10,8 @@ import com.zenika.zenfoot.gae.services.SessionInfo;
 import com.zenika.zenfoot.gae.utils.PWDLink;
 import com.zenika.zenfoot.gae.utils.ResetPWD;
 import com.zenika.zenfoot.gae.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
@@ -36,15 +39,19 @@ import restx.security.PermitAll;
 @Component
 public class UserResource {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+
     final private ZenfootUserService userService;
     final private SessionInfo sessionInfo;
     final private PWDLinkService pWDLinkService;
-    
+    final private AppSettings appSettings;
+
     public UserResource(@Named("sessioninfo") SessionInfo sessionInfo, 
-            @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService) {
+            @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService, AppSettings appSettings) {
         this.userService = userService;
         this.sessionInfo = sessionInfo;
         this.pWDLinkService = pWDLinkService;
+        this.appSettings = appSettings;
     }
 
 
@@ -74,7 +81,7 @@ public class UserResource {
         User regUser = userService.getUserbyEmail(user.getEmail());
 
         if (regUser == null) {
-            throw new WebException(HttpStatus.NOT_FOUND);
+            throw new WebException(HttpStatus.BAD_REQUEST, "No user for this mail");
         }
 
         PWDLink pwdLink = new PWDLink(regUser.getId());
@@ -94,7 +101,8 @@ public class UserResource {
         try {
             sendMail(urlToSend, regUser.getEmail());
         } catch (Exception e) {
-            throw new WebException(HttpStatus.NOT_FOUND);
+            LOGGER.error("Error sending mail: " + e.getMessage(), e);
+            throw new WebException(HttpStatus.INTERNAL_SERVER_ERROR, "Error sending mail.");
         }
 
     }
@@ -106,8 +114,9 @@ public class UserResource {
         String msgBody = "Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : ";
         msgBody += '\n' + urlToSend;
 
+        LOGGER.info("Sending reset password mail from {} to {}", appSettings.mailFrom(), destEmail);
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("raphael.martignoni@zenika.com", "Admin Zenfoot"));
+        msg.setFrom(new InternetAddress(appSettings.mailFrom(), "Admin Zenfoot"));
         msg.addRecipient(Message.RecipientType.TO,
                 new InternetAddress(destEmail));
         msg.setSubject(MimeUtility.encodeText("Réinitialisation de votre mot de passe zenfoot", "UTF-8", "Q"));
