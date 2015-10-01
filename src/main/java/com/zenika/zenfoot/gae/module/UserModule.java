@@ -1,8 +1,6 @@
 package com.zenika.zenfoot.gae.module;
 
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.dao.MatchDAO;
-import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.services.*;
 
@@ -51,52 +49,52 @@ public class UserModule {
                     "admin@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
 
             //raphael.setLastUpdated(DateTime.now());
-            admin.setPassword("2205");
+            admin.hashAndSetPassword("2205");
 
             User jean = new User().setName("Bon").setPrenom("Jean").setEmail("jean.bon@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            jean.setPassword("999");
+            jean.hashAndSetPassword("999");
 
             User mira = new User().setName("Sorvino").setPrenom("Mira").setEmail("j1@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            mira.setPassword("999");
+            mira.hashAndSetPassword("999");
 
             User bill = new User().setName("Murray").setPrenom("Bill").setEmail("j2@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            bill.setPassword("999");
+            bill.hashAndSetPassword("999");
 
             User andy = new User().setPrenom("Andy").setName("Mc-Dowell").setEmail("j3@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            andy.setPassword("999");
+            andy.hashAndSetPassword("999");
 
             User sophie = new User().setPrenom("Sophie").setName("Marceau").setEmail("j4@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            sophie.setPassword("999");
+            sophie.hashAndSetPassword("999");
 
             User kate = new User().setPrenom("Kate").setName("Winslet").setEmail("j5@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            kate.setPassword("999");
+            kate.hashAndSetPassword("999");
 
             User olivier = new User().setPrenom("Olivier").setName("Martinez").setEmail("j6@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            olivier.setPassword("999");
+            olivier.hashAndSetPassword("999");
 
             User russell = new User().setPrenom("Russell").setName("Crowe").setEmail("j7@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            russell.setPassword("999");
+            russell.hashAndSetPassword("999");
 
             User harold = new User().setPrenom("Harold").setName("Ramis").setEmail("j8@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            harold.setPassword("999");
+            harold.hashAndSetPassword("999");
 
             User richard = new User().setPrenom("Richard").setName("Virenque").setEmail("j9@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            richard.setPassword("999");
+            richard.hashAndSetPassword("999");
 
             User jc = new User().setPrenom("Jean-Claude").setName("Duss").setEmail("j10@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            jc.setPassword("999");
+            jc.hashAndSetPassword("999");
 
             User leonardo = new User().setPrenom("Leonardo").setName("Di-Caprio").setEmail("j11@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
-            leonardo.setPassword("999");
+            leonardo.hashAndSetPassword("999");
 
             User j = new User().setEmail("j@j.fr").setName("j").setPrenom("j").setRoles(Arrays.asList(Roles.GAMBLER));
-            j.setPassword("999");
+            j.hashAndSetPassword("999");
 
             User l = new User().setEmail("l@l.fr").setName("l").setPrenom("l").setRoles(Arrays.asList(Roles.GAMBLER));
-            l.setPassword("999");
+            l.hashAndSetPassword("999");
 
             User k = new User().setEmail("k@k.fr").setName("k").setPrenom("k").setRoles(Arrays.asList(Roles.GAMBLER));
-            k.setPassword("999");
+            k.hashAndSetPassword("999");
 
             zenfootUserService.createOrUpdate(admin);
             zenfootUserService.createOrUpdate(jean);

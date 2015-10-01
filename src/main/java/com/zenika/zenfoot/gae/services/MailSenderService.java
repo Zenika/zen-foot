@@ -1,43 +1,55 @@
 package com.zenika.zenfoot.gae.services;
 
+import com.zenika.zenfoot.gae.AppSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import restx.factory.Component;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+@Component
 public class MailSenderService {
-    private final Properties properties;
-    private final Session session;
-    private final Logger logger;
-    private final Message message;
-    private final static String FROM_EMAIL_ADDRESS = "raphael.martignoni@zenika.com";
 
-    public MailSenderService() {
-        properties = new Properties();
-        session = Session.getDefaultInstance(properties, null);
-        message = new MimeMessage(session);
-        logger = Logger.getLogger(MailSenderService.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailSenderService.class);
+    private final AppSettings appSettings;
+
+    public MailSenderService(AppSettings appSettings) {
+        this.appSettings = appSettings;
     }
 
-    public void sendMail(String recipient, String subject, String messageContent) {
+    /**
+     * Send mail, encoding subject and text to UTF-8
+     * @param recipient
+     * @param subject
+     * @param messageContent
+     * @throws MessagingException
+     */
+    public void sendMail(String recipient, String subject, String messageContent) throws MessagingException {
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
 
         try {
-            message.setFrom(new InternetAddress(FROM_EMAIL_ADDRESS));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(subject);
-            message.setText(messageContent);
-            Transport.send(message);
-
-        } catch (AddressException e) {
-            logger.log(Level.WARNING, e.getMessage());
-        } catch (MessagingException e) {
-            logger.log(Level.WARNING, e.getMessage());
+            MimeMessage msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(appSettings.mailFromAddress(), appSettings.mailFromName()));
+            msg.addRecipient(Message.RecipientType.TO,
+                    new InternetAddress(recipient));
+            msg.setSubject(subject, "UTF-8");
+            msg.setText(messageContent, "UTF-8");
+            if(LOGGER.isDebugEnabled()){
+                LOGGER.debug("Send mail from {}<{}> to {}.", appSettings.mailFromAddress(), appSettings.mailFromName(), recipient);
+                LOGGER.debug("Subject: {}", msg.getSubject());
+                LOGGER.debug("Content:\n{}", messageContent);
+            }
+            Transport.send(msg);
+        } catch (UnsupportedEncodingException e) {
+            throw new MessagingException(e.getMessage(), e);
         }
     }
 }

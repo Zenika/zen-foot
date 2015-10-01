@@ -1,9 +1,9 @@
 package com.zenika.zenfoot.gae.rest;
 
-import com.google.appengine.api.utils.SystemProperty;
 import com.googlecode.objectify.Key;
-import com.zenika.zenfoot.gae.AppSettings;
+import com.zenika.zenfoot.gae.AppInfoService;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.services.MailSenderService;
 import com.zenika.zenfoot.gae.services.PWDLinkService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
@@ -24,13 +24,7 @@ import restx.security.RolesAllowed;
 import javax.inject.Named;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
+
 import restx.annotations.GET;
 import restx.security.PermitAll;
 
@@ -44,14 +38,16 @@ public class UserResource {
     final private ZenfootUserService userService;
     final private SessionInfo sessionInfo;
     final private PWDLinkService pWDLinkService;
-    final private AppSettings appSettings;
+    final private AppInfoService appInfoService;
+    final private MailSenderService mailSenderService;
 
     public UserResource(@Named("sessioninfo") SessionInfo sessionInfo, 
-            @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService, AppSettings appSettings) {
+            @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService, MailSenderService mailSenderService, AppInfoService appInfoService) {
         this.userService = userService;
         this.sessionInfo = sessionInfo;
         this.pWDLinkService = pWDLinkService;
-        this.appSettings = appSettings;
+        this.mailSenderService = mailSenderService;
+        this.appInfoService = appInfoService;
     }
 
 
@@ -85,21 +81,9 @@ public class UserResource {
         }
 
         PWDLink pwdLink = new PWDLink(regUser.getId());
-
         Key<PWDLink> key = this.pWDLinkService.createOrUpdate(pwdLink);
-
-        String domain = "http://";
-
-        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
-            domain += "localhost:9000/";
-        } else {
-            domain += SystemProperty.applicationId.get() + ".appspot.com";
-        }
-
-        String urlToSend = domain + "#/reset_password/" + key.getId();
-
         try {
-            sendMail(urlToSend, regUser.getEmail());
+            sendPasswordMail(key, regUser.getEmail());
         } catch (Exception e) {
             LOGGER.error("Error sending mail: " + e.getMessage(), e);
             throw new WebException(HttpStatus.INTERNAL_SERVER_ERROR, "Error sending mail.");
@@ -107,21 +91,13 @@ public class UserResource {
 
     }
 
-    public void sendMail(String urlToSend, String destEmail) throws Exception {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-
+    public void sendPasswordMail(Key<PWDLink> key, String destEmail) throws Exception {
+        String urlToSend = appInfoService.getAppUrl() + "/#/reset_password/" + key.getId();
         String msgBody = "Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : ";
         msgBody += '\n' + urlToSend;
+        String subject = "Réinitialisation de votre mot de passe zenfoot";
 
-        LOGGER.info("Sending reset password mail from {} to {}", appSettings.mailFrom(), destEmail);
-        Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(appSettings.mailFrom(), "Admin Zenfoot"));
-        msg.addRecipient(Message.RecipientType.TO,
-                new InternetAddress(destEmail));
-        msg.setSubject(MimeUtility.encodeText("Réinitialisation de votre mot de passe zenfoot", "UTF-8", "Q"));
-        msg.setText(msgBody);
-        Transport.send(msg);
+        mailSenderService.sendMail(destEmail, subject, msgBody);
     }
 
     @POST("/resetPWD")
@@ -131,7 +107,7 @@ public class UserResource {
         try {
             PWDLink pwdLink = this.pWDLinkService.getFromID(resetPWD.getPwdLinkId());
             User user = userService.getUserbyEmail(pwdLink.getUserEmail());
-            user.setPassword(resetPWD.getNewPWD());
+            user.hashAndSetPassword(resetPWD.getNewPWD());
             userService.createOrUpdate(user);
             pWDLinkService.delete(pwdLink.getId());
 

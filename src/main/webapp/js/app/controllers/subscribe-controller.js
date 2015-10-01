@@ -3,9 +3,11 @@
 angular.module('zenFoot.app')
     .controller("subscribeCtrl", ['$scope', '$resource', '$http', '$rootScope', '$state', '$modal', 'LigueService',
         function ($scope, $resource, $http, $rootScope, $state, $modal, LigueService) {
-            $scope.subscriber = {teams: [
-                {name: "", isNew: false}
-            ]};
+            $scope.subscriber = {
+                teams: [
+                    {name: "", isNew: false}
+                ]
+            };
             $rootScope.subscriber = {};
             $scope.existingTeams = LigueService.getAll();
 
@@ -24,17 +26,17 @@ angular.module('zenFoot.app')
                     $state.go('loginState', {subscriptionSuccess: true});
                     $rootScope.subscriber = $scope.subscriber;
                 }, function (postResponse) {
-                	$scope.subscriptionForm.$setPristine();
-                	
-                	if (postResponse.status == 400 && postResponse.data.hasOwnProperty('errorCode') && postResponse.data.errorCode == "SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL") {
-                		$scope.subscriber.subscriptionError = false;
-                		$scope.subscriber.subscriptionErrorAlreadyUsedEmail = true;
-                	} else {
-                		$scope.subscriber.subscriptionError = true;
-                		$scope.subscriber.subscriptionErrorAlreadyUsedEmail = false;
-                	}
-                	
-                	$rootScope.subscriber = $scope.subscriber;
+                    $scope.subscriptionForm.$setPristine();
+
+                    if (postResponse.status == 400 && postResponse.data.hasOwnProperty('errorCode') && postResponse.data.errorCode == "SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL") {
+                        $scope.subscriber.subscriptionError = false;
+                        $scope.subscriber.subscriptionErrorAlreadyUsedEmail = true;
+                    } else {
+                        $scope.subscriber.subscriptionError = true;
+                        $scope.subscriber.subscriptionErrorAlreadyUsedEmail = false;
+                    }
+
+                    $rootScope.subscriber = $scope.subscriber;
                 });
             };
 
@@ -79,10 +81,19 @@ angular.module('zenFoot.app')
 
         }])
 
-    .controller("confirmSubscriptionCtrl", ['$timeout', '$stateParams', '$resource',
-        function ($timeout, $stateParams, $resource) {
+    .controller("confirmSubscriptionCtrl", ['$timeout', '$stateParams', '$resource', '$scope',
+        function ($timeout, $stateParams, $resource, $scope) {
             var confirmSubscription = $resource('/api/confirmSubscription', {email: $stateParams.id});
+            $scope.confirmed = false;
             confirmSubscription.get($stateParams.id, function (data) {
-                alert(data == "false");
-            });
+                    $scope.confirmed = true;
+                },
+                function (rep) {
+                    if(rep.status == 400){
+                        $scope.confirmationError = rep.data;
+                    }
+                    else{
+                        $scope.confirmationError = "Server error";
+                    }
+                });
         }]);

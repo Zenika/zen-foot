@@ -1,3 +1,6 @@
 <div ng-controller="confirmSubscriptionCtrl">
-	<h1 style="text-align:center;">Votre compte est bien activ&eacute; !</h1>
+    <div class="row" style="margin-top: 20px;">
+        <div data-ng-if="confirmed" class="alert alert-success text-center sample-show-hide">Votre compte est bien activ&eacute;!</div>
+        <div data-ng-if="!confirmed" class="alert alert-danger text-center sample-show-hide">{{confirmationError}}</div>
+    </div>
 </div>

@@ -10,7 +10,6 @@ public class PasswordUtils {
                 .toString();
 
 //        LOGGER.debug("Password \"{}\" hashed into \"{}\"", password, passwordHash);
-
         return passwordHash;
     }
 }

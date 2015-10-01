@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae;
 
 import com.google.common.base.Charsets;
+import com.zenika.zenfoot.gae.services.MailSenderService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
 import restx.config.ConfigLoader;
 import restx.config.ConfigSupplier;
@@ -18,11 +19,11 @@ public class AppModule {
         return new SignatureKey("-7155845384686390950 gae_restx e21eb686-6e0d-4a30-8ad0-ca74107f423a gae_restx".getBytes(Charsets.UTF_8));
     }
 
-    @Provides
-    @Named("restx.admin.password")
-    public String restxAdminPassword() {
-        return "restx";
-    }
+//    @Provides
+//    @Named("restx.admin.password")
+//    public String restxAdminPassword() {
+//        return "restx";
+//    }
 
     @Provides
     public ConfigSupplier appConfigSupplier(ConfigLoader configLoader) {
@@ -49,6 +50,18 @@ public class AppModule {
     public SessionInfo getSessionInfo() {
         return new SessionInfo();
     }
+
+//    @Provides
+//    @Named("appInfoService")
+//    public AppInfoService getAppInfoService() {
+//        return new AppInfoService();
+//    }
+
+//    @Provides
+//    @Named("mailSenderService")
+//    public MailSenderService getMailSenderService(AppSettings appSettings) {
+//        return new MailSenderService(appSettings);
+//    }
 
 
 }

@@ -77,7 +77,7 @@ public class User implements RestxPrincipal {
         return passwordHash;
     }
 
-    public void setPassword(String password) {
+    public void hashAndSetPassword(String password) {
         setPasswordHash(PasswordUtils.getPasswordHash(password));
     }
 

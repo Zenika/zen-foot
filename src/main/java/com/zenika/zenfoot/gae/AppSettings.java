@@ -9,6 +9,9 @@ import restx.config.SettingsKey;
  */
 @Settings
 public interface AppSettings {
-    @SettingsKey(key = "mail.from")
-    String mailFrom();
+    @SettingsKey(key = "mail.from.address")
+    String mailFromAddress();
+
+    @SettingsKey(key = "mail.from.name")
+    String mailFromName();
 }
