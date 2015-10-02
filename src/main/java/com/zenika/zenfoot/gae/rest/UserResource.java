@@ -1,8 +1,12 @@
 package com.zenika.zenfoot.gae.rest;
 
+import com.google.appengine.repackaged.com.google.common.base.StringUtil;
+import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.AppInfoService;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dto.BetDTO;
+import com.zenika.zenfoot.gae.dto.UserDTO;
 import com.zenika.zenfoot.gae.services.MailSenderService;
 import com.zenika.zenfoot.gae.services.PWDLinkService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
@@ -23,6 +27,7 @@ import restx.security.RolesAllowed;
 
 import javax.inject.Named;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import restx.annotations.GET;
@@ -48,6 +53,14 @@ public class UserResource {
         this.pWDLinkService = pWDLinkService;
         this.mailSenderService = mailSenderService;
         this.appInfoService = appInfoService;
+    }
+
+    @GET("/users")
+    public List<UserDTO> getAll(Optional<String> name){
+        if(name.isPresent()){
+            return userService.getAllAsDTO(name.get());
+        }
+        return userService.getAllAsDTO();
     }
 
 

@@ -20,14 +20,18 @@ import java.util.ArrayList;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
+import restx.factory.Component;
+
+import javax.inject.Named;
 
 /**
  * @author nebulis
  */
+@Component
 public class LigueDtoToLigueMapper extends CustomMapper<LigueDTO, Ligue> {
     private final GamblerService gamblerService;
 
-    public LigueDtoToLigueMapper(GamblerService gamblerService) {
+    public LigueDtoToLigueMapper(@Named("gamblerServiceWithoutMapper") GamblerService gamblerService) {
         this.gamblerService = gamblerService;
     }
 

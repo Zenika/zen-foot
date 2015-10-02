@@ -4,9 +4,7 @@ import com.zenika.zenfoot.gae.AppInfoService;
 import com.zenika.zenfoot.gae.dto.UserAndTeams;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
-import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.MailSenderService;
-import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
 import com.zenika.zenfoot.gae.model.User;
 import org.slf4j.Logger;
@@ -44,6 +42,10 @@ public class SubscriptionResource {
         this.appInfoService = appInfoService;
     }
 
+    /**
+     * Try to perform subscription for the user. If user already exists, an exception is thrown.
+     * @param subscriber subscriber
+     */
     @POST("/performSubscription")
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
@@ -54,6 +56,9 @@ public class SubscriptionResource {
             throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL",
                     String.format("L'email %s est déjà pris par un autre utilisateur !", email));
         }
+        if(subscriber.getUser().getPasswordHash() == null){
+            throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_INVALID_PASSWORD", "Password cannot be null");
+        }
 
         subscriber.getUser().hashAndSetPassword(subscriber.getUser().getPasswordHash());
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
@@ -61,7 +66,7 @@ public class SubscriptionResource {
 
         String subject = "Confirmation d'inscription à Zen Foot";
         String urlConfirmation = "<a href='" + getUrlConfirmation(subscriber.getUser().getEmail()) + "'> Confirmation d'inscription </a>";
-        String messageContent = "Mr, Mme " + subscriber.getUser().getNom() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+        String messageContent = "Mr, Mme " + subscriber.getUser().getName() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
         subscriber.getUser().setIsActive(Boolean.FALSE);
         try {
             mailSenderService.sendMail(email, subject, messageContent);

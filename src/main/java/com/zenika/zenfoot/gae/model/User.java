@@ -3,10 +3,12 @@ package com.zenika.zenfoot.gae.model;
 import com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
 import restx.security.RestxPrincipal;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 public class User implements RestxPrincipal {
@@ -14,9 +16,10 @@ public class User implements RestxPrincipal {
     @Id
 	private String email;
 
-	private String name;
+    @Index
+	private String lastname;
 
-    private String prenom;
+    private String firstname;
 
 	private Collection<String> roles;
 
@@ -25,7 +28,7 @@ public class User implements RestxPrincipal {
     private Boolean isActive;
     
 	public User() {
-
+        roles = new HashSet<>();
 	}
 
 	@Override
@@ -33,21 +36,21 @@ public class User implements RestxPrincipal {
 		return email;
 	}
 
-    public String getNom(){
-        return this.name;
+    public String getLastname(){
+        return this.lastname;
     }
 
-	public User setName(String name) {
-		this.name = name;
+	public User setLastname(String lastname) {
+		this.lastname = lastname;
 		return this;
 	}
 
-    public String getPrenom() {
-        return prenom;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public User setPrenom(String prenom) {
-        this.prenom = prenom;
+    public User setFirstname(String firstname) {
+        this.firstname = firstname;
         return this;
     }
 

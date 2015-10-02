@@ -11,11 +11,13 @@ import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Match;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
+import restx.factory.Component;
 
 /**
  *
  * @author nebulis
  */
+@Component
 public class MatchDtoToMatchMapper extends CustomMapper<MatchDTO, Match> {
     
     public MatchDtoToMatchMapper() {

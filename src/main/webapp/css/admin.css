@@ -33,3 +33,7 @@
 .alert-md{
     width:400px;
 }
+
+.ngRow.even.selected, .ngRow.odd.selected{
+    background: lightcoral;
+}

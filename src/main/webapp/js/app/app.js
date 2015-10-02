@@ -58,6 +58,10 @@
                     url: '/events',
                     templateUrl: 'view/admin-events.html'
                 })
+                .state('users',{
+                    url: '/users',
+                    templateUrl: 'view/admin-users.html'
+                });
 
             $urlRouterProvider.otherwise('/bets');
 
@@ -98,7 +102,8 @@
             var confirmSubscription = "confirmSubscription";
             var betsState = "betsState";
             var resetPWD = 'resetPWD';
-            var adminRoutes = [adminRoute,finalesState, events];
+            var adminUsers = 'users';
+            var adminRoutes = [adminRoute,finalesState, events, adminUsers];
             var uncoAuthorized = [loginRoute, resetPWD];
 
             var adminAuthorized = function(routeName){

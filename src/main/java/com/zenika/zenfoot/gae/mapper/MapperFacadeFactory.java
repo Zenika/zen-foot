@@ -5,6 +5,9 @@
  */
 package com.zenika.zenfoot.gae.mapper;
 
+import com.zenika.zenfoot.gae.dto.UserDTO;
+import com.zenika.zenfoot.gae.model.User;
+import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -20,29 +23,23 @@ public class MapperFacadeFactory {
     private MapperFacade mapper;
     private MapperFactory mapperFactory;
     
-    private MatchDtoToMatchMapper matchDtoToMatchMapper;
-    private GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper;
-    private BetDtoToBetMapper betDtoToBetMapper;
-    private LigueDtoToLigueMapper ligueDtoToLigueMapper;
-
     public MapperFacadeFactory(MatchDtoToMatchMapper matchDtoToMatchMapper, GamblerDtoToGamblerMapper gamblerDtoToGamblerMapper,
             BetDtoToBetMapper betDtoToBetMapper, LigueDtoToLigueMapper ligueDtoToLigueMapper) {
         mapperFactory = new DefaultMapperFactory.Builder().build();
         mapper = mapperFactory.getMapperFacade();
         
-        this.matchDtoToMatchMapper = matchDtoToMatchMapper;
-        this.gamblerDtoToGamblerMapper = gamblerDtoToGamblerMapper;
-        this.betDtoToBetMapper = betDtoToBetMapper;
-        this.ligueDtoToLigueMapper = ligueDtoToLigueMapper;
+        addCustomMapper(matchDtoToMatchMapper);
+        addCustomMapper(gamblerDtoToGamblerMapper);
+        addCustomMapper(betDtoToBetMapper);
+        addCustomMapper(ligueDtoToLigueMapper);
+        mapperFactory.classMap(User.class, UserDTO.class).field("", "").byDefault().register();
         
-        addCustomizeMapper();
-    }	
+    }
 
-    private void addCustomizeMapper() {
-        mapperFactory.registerMapper(matchDtoToMatchMapper);
-        mapperFactory.registerMapper(gamblerDtoToGamblerMapper);
-        mapperFactory.registerMapper(betDtoToBetMapper);
-        mapperFactory.registerMapper(ligueDtoToLigueMapper);
+    private void addCustomMapper(CustomMapper<?, ?> mapper) {
+        if(mapper != null){
+            mapperFactory.registerMapper(mapper);
+        }
     }
 
     public MapperFacade getMapper() {
@@ -51,10 +48,6 @@ public class MapperFacadeFactory {
 
     public void setMapper(MapperFacade mapper) {
         this.mapper = mapper;
-    }
-
-    public void setMatchDtoToMatchMapper(MatchDtoToMatchMapper matchDtoToMatchMapper) {
-        this.matchDtoToMatchMapper = matchDtoToMatchMapper;
     }
 
 }

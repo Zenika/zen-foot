@@ -11,11 +11,13 @@ import com.zenika.zenfoot.gae.model.Bet;
 import com.zenika.zenfoot.gae.model.Gambler;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
+import restx.factory.Component;
 
 /**
  *
  * @author nebulis
  */
+@Component
 public class BetDtoToBetMapper extends CustomMapper<BetDTO, Bet> {
     
     public BetDtoToBetMapper() {

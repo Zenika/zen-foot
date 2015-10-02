@@ -1,15 +1,12 @@
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('zenFoot.app')
-    .factory('User',
-    function ($resource) {
+    angular.module('zenFoot.app')
+        .factory('User', UserResource);
 
-        var user = $resource('/api/sessions/:email', null,
-            {email: '@email'},
-            {
-                'get': {method: 'GET', withCredentials: true},
-                'save': {method: 'POST', withCredentials: true}
-            });
+    function UserResource($resource) {
+        var userResource = $resource('/api/users/:id');
 
-        return user;
-    });
+        return userResource;
+    };
+})();

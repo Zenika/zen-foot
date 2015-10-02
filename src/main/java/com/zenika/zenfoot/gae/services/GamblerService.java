@@ -1,7 +1,6 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
-import com.google.common.base.Optional;
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
@@ -48,8 +47,8 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     //TODO : remove once mocked users are removed
     public Key<Gambler> createGambler(User user, Event event) {
         GamblerDTO gambler = new GamblerDTO(user.getEmail());
-        gambler.setPrenom(user.getPrenom());
-        gambler.setNom(user.getNom());
+        gambler.setPrenom(user.getFirstname());
+        gambler.setNom(user.getName());
         gambler.setEvent(event);
 
         return this.createOrUpdate(mapper.getMapper().map(gambler, Gambler.class));
@@ -57,8 +56,8 @@ public class GamblerService extends AbstractGenericService<Gambler> {
     
     public Gambler createOrUpdateAndReturn(User user, Event event) {
         GamblerDTO gambler = new GamblerDTO(user.getEmail());
-        gambler.setPrenom(user.getPrenom());
-        gambler.setNom(user.getNom());
+        gambler.setPrenom(user.getFirstname());
+        gambler.setNom(user.getName());
         gambler.setEvent(event);
 
         return this.createOrUpdateAndReturn(mapper.getMapper().map(gambler, Gambler.class));

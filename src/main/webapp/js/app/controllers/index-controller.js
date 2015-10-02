@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, User, Gambler, authService, Events) {
+    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, $http, Gambler, authService, Events) {
 
         function onConnected(principal) {
             Session.user.connected = true;
@@ -10,7 +10,7 @@ angular.module('zenFoot.app')
             Session.user.prenom = principal.prenom;
             Session.user.roles = principal.roles;
         }
-        
+
         $scope.events = Events.query();
 
         $rootScope.user = Session.user;
@@ -18,9 +18,9 @@ angular.module('zenFoot.app')
             onConnected(principal);
         });
 
-        User.get({email: 'current' }).$promise
+        $http.get('/api/sessions/current', {withCredentials: true})
             .then(function (response) {
-                return response.principal;
+                return response.data.principal;
             })
             .then(onConnected)
             .catch(function () {
@@ -54,10 +54,10 @@ angular.module('zenFoot.app')
 
         $scope.hideNavBar = function () {
             return $state.current.name == 'loginState' || $state.current.name.trim() == ''
-        }
-        
-        $scope.eventChanged = function() {
-            $rootScope.$broadcast("eventChanged", {event : $scope.selectedEvent});
+        };
+
+        $scope.eventChanged = function () {
+            $rootScope.$broadcast("eventChanged", {event: $scope.selectedEvent});
         }
 
     });

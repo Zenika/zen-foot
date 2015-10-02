@@ -11,11 +11,13 @@ import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
+import restx.factory.Component;
 
 /**
  *
  * @author nebulis
  */
+@Component
 public class GamblerDtoToGamblerMapper extends CustomMapper<GamblerDTO, Gambler> {
     
     public GamblerDtoToGamblerMapper() {

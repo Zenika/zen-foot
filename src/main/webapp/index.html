@@ -46,6 +46,7 @@
                 <li class="ng-hide" ng-class="{'active':isActive('adminFinales')}" data-ng-show="isAdmin()"><a ui-sref="adminFinales">Nouveaux matchs</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('ligueState')}" data-ng-show="!isAdmin()"><a ui-sref="ligueState">Mes ligues</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('events')}" data-ng-show="isAdmin()"><a ui-sref="events">Ev&eacute;nements</a></li>
+                <li class="ng-hide" ng-class="{'active':isActive('users')}" data-ng-show="isAdmin()"><a ui-sref="users">Utilisateurs</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li data-ng-show="!isAdmin()">
@@ -103,6 +104,7 @@
 <script type="text/javascript" src="js/app/controllers/admin-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-new-match-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/admin-events-controller.js"></script>
+<script type="text/javascript" src="js/app/controllers/admin-users-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/classement-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/ligues-controller.js"></script>
 <script type="text/javascript" src="js/app/controllers/ligue-detail-controller.js"></script>

@@ -1,113 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.zenika.zenfoot.gae</groupId>
-	<artifactId>zen-foot</artifactId>
-	<version>1</version>
-	<packaging>war</packaging>
-	<name>zen-foot</name>
+    <groupId>com.zenika.zenfoot.gae</groupId>
+    <artifactId>zen-foot</artifactId>
+    <version>1</version>
+    <packaging>war</packaging>
+    <name>zen-foot</name>
 
-	<properties>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<restx.version>0.33</restx.version>
-		<appengine.app.version>0-1</appengine.app.version>
-		<appengine.target.version>1.8.7</appengine.target.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<objectify.version>5.0</objectify.version>
+    <properties>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <restx.version>0.33</restx.version>
+        <appengine.app.version>0-1</appengine.app.version>
+        <appengine.target.version>1.8.7</appengine.target.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <objectify.version>5.0</objectify.version>
         <jackson.version>2.3.0</jackson.version>
-	</properties>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-core</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-security-basic</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-core-annotation-processor</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-factory</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-factory-admin</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<!-- <dependency> <groupId>io.restx</groupId> <artifactId>restx-monitor-admin</artifactId> 
-			<version>${restx.version}</version> </dependency> -->
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-server-jetty</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-apidocs</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-specs-admin</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-admin</artifactId>
-			<version>${restx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-jdk14</artifactId>
-			<version>1.6.4</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-core</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-security-basic</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-core-annotation-processor</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-factory</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-factory-admin</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <!-- <dependency> <groupId>io.restx</groupId> <artifactId>restx-monitor-admin</artifactId>
+            <version>${restx.version}</version> </dependency> -->
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-server-jetty</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-apidocs</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-specs-admin</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-admin</artifactId>
+            <version>${restx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.6.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>io.restx</groupId>
-			<artifactId>restx-specs-tests</artifactId>
-			<version>${restx.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>${appengine.target.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-api-1.0-sdk</artifactId>
+            <version>${appengine.target.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-labs</artifactId>
             <version>${appengine.target.version}</version>
         </dependency>
         <dependency>
-			<groupId>com.googlecode.objectify</groupId>
-			<artifactId>objectify</artifactId>
-			<version>${objectify.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
+            <groupId>com.googlecode.objectify</groupId>
+            <artifactId>objectify</artifactId>
+            <version>${objectify.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -151,67 +137,96 @@
             <version>1.4.5</version>
         </dependency>
 
+        <!-- test -->
+        <!--<dependency>-->
+        <!--<groupId>com.google.appengine</groupId>-->
+        <!--<artifactId>appengine-testing</artifactId>-->
+        <!--<version>${appengine.target.version}</version>-->
+        <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-specs-tests</artifactId>
+            <version>${restx.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.codearte.catch-exception</groupId>
+            <artifactId>catch-exception</artifactId>
+            <version>1.4.4</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
-	<repositories>
-		<repository>
-			<id>objectify-appengine</id>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>objectify-appengine</id>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.google.appengine</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${appengine.target.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<archiveClasses>true</archiveClasses>
-					<webResources>
-						<!-- in order to interpolate version from pom into appengine-web.xml -->
-						<resource>
-							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
-							<filtering>true</filtering>
-							<targetPath>WEB-INF</targetPath>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.appengine</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>${appengine.target.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <archiveClasses>true</archiveClasses>
+                    <webResources>
+                        <!-- in order to interpolate version from pom into appengine-web.xml -->
+                        <resource>
+                            <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                            <filtering>true</filtering>
+                            <targetPath>WEB-INF</targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
 
-           <!-- <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        &lt;!&ndash; here the phase you need &ndash;&gt;
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/zen-foot-1/WEB-INF/appengine-generated</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>resources/datastore</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-		</plugins>
-	</build>
-
-
-
+            <!-- <plugin>
+                 <artifactId>maven-resources-plugin</artifactId>
+                 <version>2.6</version>
+                 <executions>
+                     <execution>
+                         <id>copy-resources</id>
+                         &lt;!&ndash; here the phase you need &ndash;&gt;
+                         <phase>validate</phase>
+                         <goals>
+                             <goal>copy-resources</goal>
+                         </goals>
+                         <configuration>
+                             <outputDirectory>${basedir}/target/zen-foot-1/WEB-INF/appengine-generated</outputDirectory>
+                             <resources>
+                                 <resource>
+                                     <directory>resources/datastore</directory>
+                                     <filtering>true</filtering>
+                                 </resource>
+                             </resources>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>-->
+        </plugins>
+    </build>
 
 
 </project>

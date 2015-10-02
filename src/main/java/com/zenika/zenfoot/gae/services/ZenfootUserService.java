@@ -2,21 +2,28 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.AbstractGenericService;
+import com.zenika.zenfoot.gae.AbstractModelToDtoService;
 import com.zenika.zenfoot.gae.dao.UserDAO;
+import com.zenika.zenfoot.gae.dto.UserDTO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
+import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.User;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
+import ma.glasnost.orika.MapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restx.security.UserRepository;
 import restx.security.UserService;
 
-public class ZenfootUserService extends AbstractGenericService<User>  implements UserService<User>, UserRepository<User> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ZenfootUserService extends AbstractModelToDtoService<User, UserDTO> implements UserService<User>, UserRepository<User> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZenfootUserService.class);
 
-    public ZenfootUserService(UserDAO userDao) {
-        super(userDao);
+    public ZenfootUserService(UserDAO userDao, MapperFacadeFactory mapperFacadeFactory) {
+        super(userDao, mapperFacadeFactory);
     }
     
     @Override
@@ -81,5 +88,12 @@ public class ZenfootUserService extends AbstractGenericService<User>  implements
     @Override
     public User defaultAdmin() {
         return this.getUserbyEmail("admin@zenika.com");
+    }
+
+    public List<UserDTO> getAllAsDTO(String name) {
+        List<User> all = ((UserDAO) this.getDao()).getAll(name);
+        List<UserDTO> dtos = new ArrayList<>(all.size());
+        mapperFacadeFactory.getMapper().mapAsCollection(all, dtos, UserDTO.class);
+        return dtos;
     }
 }

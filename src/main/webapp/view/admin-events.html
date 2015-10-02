@@ -14,7 +14,7 @@
                 <div class="col-xs-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-tasks"></i></span>
-                        <input name="eventNameInput" id="eventNameInput" 
+                        <input name="eventNameInput" id="eventNameInput"
                                class="form-control input-md" type="text" placeholder="nom de l'&eacute;v&eacute;nement" 
                                ng-model="event.name" required ng-disabled="modeUpdate">
                     </div>
@@ -25,7 +25,7 @@
                 <div class="col-xs-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        <input name="eventStartInput" id="eventStartInput" class="form-control input-md" type="text" 
+                        <input name="eventStartInput" id="eventStartInput" class="form-control input-md" type="text"
                                placeholder="d&eacute;but de l'&eacute;v&eacute;nement" ng-model="event.start" required
                                datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true" min-date="today"
                                is-open="isStartOpen" ng-click="isStartOpen = true" date-valid>
@@ -37,7 +37,7 @@
                 <div class="col-xs-10">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        <input name="eventEndInput" id="eventEndInput" class="form-control input-md" type="text" 
+                        <input name="eventEndInput" id="eventEndInput" class="form-control input-md" type="text"
                                placeholder="fin de l'&eacute;v&eacute;nement" ng-model="event.end" required
                                datepicker-popup="dd/MM/yyyy" datepicker-append-to-body="true" min-date="event.start"
                                is-open="isEndOpen" ng-click="isEndOpen = true" date-valid >
