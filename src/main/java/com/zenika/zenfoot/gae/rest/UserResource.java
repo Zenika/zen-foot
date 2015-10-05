@@ -56,11 +56,24 @@ public class UserResource {
     }
 
     @GET("/users")
+    @RolesAllowed(Roles.ADMIN)
     public List<UserDTO> getAll(Optional<String> name){
         if(name.isPresent()){
             return userService.getAllAsDTO(name.get());
         }
         return userService.getAllAsDTO();
+    }
+
+
+    /**
+     * Migrate users to use new properties:
+     *  - name --> lastname
+     *  - prenom --> firstname
+     */
+    @GET("/users/migratenameprops")
+    @RolesAllowed(Roles.ADMIN)
+    public void migrate(){
+        userService.migrateNameProps();
     }
 
 

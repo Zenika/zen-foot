@@ -26,10 +26,37 @@ public class User implements RestxPrincipal {
     private String passwordHash;
 
     private Boolean isActive;
+
+    //all is deprecated: use lastname and firstname
+    @Deprecated
+    private String name;
+
+    @Deprecated
+    private String prenom;
     
 	public User() {
         roles = new HashSet<>();
 	}
+
+    @Deprecated
+    public String getPrenom() {
+        return prenom;
+    }
+
+    @Deprecated
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    @Deprecated
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Deprecated
+    public String getName2() {
+        return name;
+    }
 
 	@Override
 	public String getName() {

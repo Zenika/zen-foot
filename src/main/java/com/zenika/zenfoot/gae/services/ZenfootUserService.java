@@ -96,4 +96,27 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, UserDTO>
         mapperFacadeFactory.getMapper().mapAsCollection(all, dtos, UserDTO.class);
         return dtos;
     }
+
+    /**
+     * Migrate users to use new properties:
+     *  - name --> lastname
+     *  - prenom --> firstname
+     */
+    public void migrateNameProps() {
+        List<User> all = this.getAll();
+        for(User user : all){
+            boolean updated = false;
+            if(user.getPrenom() != null && !user.getPrenom().equals(user.getFirstname())){
+                user.setFirstname(user.getPrenom());
+                updated = true;
+            }
+            if(user.getName2() != null && !user.getName2().equals(user.getLastname())){
+                user.setLastname(user.getName2());
+                updated = true;
+            }
+            if(updated){
+                this.createOrUpdate(user);
+            }
+        }
+    }
 }
