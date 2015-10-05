@@ -39,38 +39,6 @@ import com.zenika.zenfoot.gae.services.TeamService;
 @Module
 public class ModelModule {
 
-
-//    @Provides
-//    @Named("matchDAOMock")
-//    public MatchDAO matchDAO2() {
-//
-//        MatchDAO matchDAO = new MatchDAOImpl();
-//
-//        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
-//            /*Match[] matches = GenerateMatches.generate();
-//            List<Match> registered = matchDAO.getAll();
-//
-//            //check whether there were registered matchs
-//            if (registered.size() == 0) {
-//                for (int i = 0; i < matches.length; i++) {
-//                    //TODO ONLY FOR TESTS
-//                    Match match = matches[i];
-//                    match.setSport(new Sport( SportEnum.FOOTBALL.getIdentifiantSport(), SportEnum.FOOTBALL.getNameSport()));
-//                    match.setDate(DateTime.now().plusSeconds(30 * i));
-//                    if(i>30){
-//                        match.setDate(DateTime.now().minusDays(i).withHourOfDay(i%23));
-//                    }
-//                    matchDAO.createUpdate(match);
-//
-//                }
-//
-//            }*/
-//        }
-//
-//
-//        return matchDAO;
-//    }
-
     //DAOs
     @Provides
     @Named("matchDAO")
@@ -85,8 +53,6 @@ public class ModelModule {
     }
 
     //Services
-
-
     @Provides
     public BetService betService(@Named("betDAO") BetDAO betDAO) {
         return new BetService(betDAO);
@@ -160,30 +126,6 @@ public class ModelModule {
     public PWDLinkService pWDLinkService(PWDLinkDAO pWDLinkDAO) {
         return new PWDLinkService(pWDLinkDAO);
     }
-
-//    @Provides
-//    @Named("genericPaysDAO")
-//    public GenericDAO<Pays> genericPaysDAO(){
-//        return new GenericDAO<Pays>(Pays.class);
-//    }
-//    
-//    @Provides
-//    @Named("paysService")
-//    public PaysService paysService(){
-//    	return new PaysService(PaysService.class,  genericPaysDAO());
-//    }
-//    
-//    @Provides
-//    @Named("genericSportDAO")
-//    public GenericDAO<Sport> genericSportDAO(){
-//        return new GenericDAO<Sport>(Sport.class);
-//    }
-//    
-//    @Provides
-//    @Named("sportService")
-//    public SportService sportService(){
-//    	return new SportService(SportService.class,  genericSportDAO());
-//    }
 
     //DAOs
     @Provides
