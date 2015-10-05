@@ -24,8 +24,17 @@
         </div>
 
         <div class="col-lg-9">
-            <div class="gridStyle" ng-grid="gridOptions"></div>
+            <div class="gridStyle" ui-grid="gridOptions"></div>
         </div>
+    </div>
+
+    <div class="row">
+        <button class="btn btn-danger" ng-click="resetPWDs()">Reset mots de passe</button>
+        <button class="btn btn-danger" ng-click="deleteUsers()">Supprimer</button>
+    </div>
+
+    <div class="row">
+        <div data-ng-if="infoMessage.display" class="alert {{infoMessage.class}} text-center sample-show-hide">{{infoMessage.message}}</div>
     </div>
 
 </div>

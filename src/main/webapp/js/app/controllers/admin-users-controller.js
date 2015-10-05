@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('zenFoot.app')
-        .controller('AdminUsersController', ['$scope', 'User', '$timeout',
-            function ($scope, User, $timeout) {
+        .controller('AdminUsersController', ['$scope', 'User', '$timeout', '$q',
+            function ($scope, User, $timeout, $q) {
 
                 $scope.allUsers = [];
 
@@ -114,26 +114,64 @@
                     }
                 });
 
+                $scope.deleteUsers = function(){
+                    if($scope.gridOptions.selectedItems && $scope.gridOptions.selectedItems.size > 0){
+                        var confirmation = confirm("Etes-vous sur de vouloir supprimer " + $scope.gridOptions.selectedItems.size + " utilisateurs?");
+                        if(confirmation){
+                            var promises = [];
+                            _.forEach($scope.gridOptions.selectedItems, function(user){
+                                promises.push(user.$delete().$promise);
+                            });
+                            $q.all(promises)
+                                .then(function(){
+                                    confirmMessage("Utilisateurs supprimés");
+                                }, function(){
+                                    errorMessage("Erreur dans la suppression de certains utilisateurs.");
+                                });
+                        }
+                    }
+                };
+
+                $scope.infoMessage = {
+                    display: false,
+                    message: "",
+                    class: ""
+                };
+
+                function confirmMessage(msg){
+                    $scope.infoMessage.display = true;
+                    $scope.infoMessage.message = msg;
+                    $scope.infoMessage.class = "alert-success";
+                }
+
+                function errorMessage(msg){
+                    $scope.infoMessage.display = true;
+                    $scope.infoMessage.message = msg;
+                    $scope.infoMessage.class = "alert-danger";
+                }
+
                 /*
                  called when the gambler would like to display the result of a specific gambler. The page of the tab
                  is changed to that where the gambler is listed.
                  */
 
-                $scope.changePage = function (gamblerRanking) {
-                    if (gamblerRanking) {
+                //$scope.changePage = function (gamblerRanking) {
+                //    if (gamblerRanking) {
+                //
+                //        if ($scope.focusedGambler) {
+                //            delete $scope.focusedGambler.focused;
+                //        }
+                //        $scope.focusedGambler = gamblerRanking;
+                //        gamblerRanking.focused = true;
+                //        var roundedPage = gamblerRanking.index / $scope.pagingOptions.pageSize;
+                //        var page = Math.ceil(roundedPage);
+                //
+                //        $scope.pagingOptions.currentPage = page;
+                //    }
+                //};
 
-                        if ($scope.focusedGambler) {
-                            delete $scope.focusedGambler.focused;
-                        }
-                        $scope.focusedGambler = gamblerRanking;
-                        gamblerRanking.focused = true;
-                        var roundedPage = gamblerRanking.index / $scope.pagingOptions.pageSize;
-                        var page = Math.ceil(roundedPage);
 
-                        $scope.pagingOptions.currentPage = page;
-                    }
 
-                };
 
                 //$scope.$watch('mode', function (newValue, oldValue) {
                 //    if (newValue !== oldValue) {
