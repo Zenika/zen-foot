@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Created by raphael on 30/04/14.
  */
-public class GamblerService extends AbstractGenericService<Gambler> {
+public class GamblerService extends AbstractGenericService<Gambler, Long> {
 
     final private MatchService matchService;
     final private BetService betService;

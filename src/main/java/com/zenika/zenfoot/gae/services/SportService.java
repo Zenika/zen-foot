@@ -11,7 +11,7 @@ import com.zenika.zenfoot.gae.model.Sport;
  * @author vickrame
  *
  */
-public class SportService extends AbstractGenericService<Sport>{
+public class SportService extends AbstractGenericService<Sport, Long>{
 
 
     /**

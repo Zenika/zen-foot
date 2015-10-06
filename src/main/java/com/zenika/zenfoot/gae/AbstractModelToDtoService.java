@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by armel on 01/10/15.
  */
-public class AbstractModelToDtoService<MODEL, DTO> extends AbstractGenericService<MODEL> {
+public class AbstractModelToDtoService<MODEL, ID, DTO> extends AbstractGenericService<MODEL, ID> {
 
     protected MapperFacadeFactory mapperFacadeFactory;
 
@@ -20,11 +20,11 @@ public class AbstractModelToDtoService<MODEL, DTO> extends AbstractGenericServic
         super(dao);
         this.mapperFacadeFactory = mapperFacadeFactory;
         dtoClass = (Class<DTO>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[1];
+                .getGenericSuperclass()).getActualTypeArguments()[2];
     }
 
 
-    public DTO getFromIDAsDto(Long id) {
+    public DTO getFromIDAsDto(ID id) {
         MODEL model = this.getFromID(id);
         return mapperFacadeFactory.getMapper().map(model, dtoClass);
     }

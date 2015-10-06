@@ -27,6 +27,8 @@ public class User implements RestxPrincipal {
 
     private Boolean isActive;
 
+    private Integer activationToken;
+
     //all is deprecated: use lastname and firstname
     @Deprecated
     private String name;
@@ -145,4 +147,12 @@ public class User implements RestxPrincipal {
     public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
+
+    public Integer getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(Integer activationToken) {
+        this.activationToken = activationToken;
+    }
 }

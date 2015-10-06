@@ -13,7 +13,7 @@ import com.zenika.zenfoot.gae.utils.PWDLink;
  *
  * @author nebulis
  */
-public class PWDLinkService extends AbstractGenericService<PWDLink> {
+public class PWDLinkService extends AbstractGenericService<PWDLink, Long> {
     
     public PWDLinkService(PWDLinkDAO dao) {
         super(dao);

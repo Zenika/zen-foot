@@ -81,19 +81,25 @@ angular.module('zenFoot.app')
 
         }])
 
-    .controller("confirmSubscriptionCtrl", ['$timeout', '$stateParams', '$resource', '$scope',
-        function ($timeout, $stateParams, $resource, $scope) {
-            var confirmSubscription = $resource('/api/confirmSubscription', {email: $stateParams.id});
+    .controller("confirmSubscriptionCtrl", ['$stateParams', '$http', '$scope', '$timeout', '$state',
+        function ($stateParams, $http, $scope, $timeout, $state) {
             $scope.confirmed = false;
-            confirmSubscription.get($stateParams.id, function (data) {
-                    $scope.confirmed = true;
-                },
-                function (rep) {
-                    if(rep.status == 400){
-                        $scope.confirmationError = rep.data;
-                    }
-                    else{
-                        $scope.confirmationError = "Server error";
-                    }
-                });
+
+            $scope.confirmSubscription = function () {
+                $http.get('/api/confirmSubscription?email=' + $stateParams.email + '&token=' + $stateParams.token)
+                    .then(function () {
+                        $scope.confirmed = true;
+                        $timeout(function () {
+                            $state.go('loginState');
+                        }, 2000);
+                    },
+                    function (rep) {
+                        if (rep.status == 400) {
+                            $scope.confirmationError = rep.data;
+                        }
+                        else {
+                            $scope.confirmationError = "Server error";
+                        }
+                    });
+            };
         }]);

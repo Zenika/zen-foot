@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Created by raphael on 10/07/14.
  */
-public class LigueService extends AbstractGenericService<Ligue> {
+public class LigueService extends AbstractGenericService<Ligue, Long> {
 
     final private TeamService teamService;
     final private GamblerService gamblerService;

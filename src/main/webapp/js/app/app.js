@@ -35,7 +35,7 @@
                     templateUrl: 'view/subscribe.html'
                 })
                 .state('confirmSubscription', {
-                    url: '/confirmSubscription/:id',
+                    url: '/confirmSubscription?email&token',
                     templateUrl: 'view/confirmSubscription.html'
                 })
                 .state('profileState',{
@@ -108,11 +108,11 @@
 
             var adminAuthorized = function(routeName){
                 return _.contains(adminRoutes,routeName);
-            }
+            };
 
             var unconnectedAuthorized = function(routeName){
                 return _.contains(uncoAuthorized, routeName);
-            }
+            };
 
             $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {

@@ -21,6 +21,7 @@ import restx.security.UserService;
 import javax.inject.Named;
 import javax.mail.MessagingException;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by raphael on 11/08/14.
@@ -62,12 +63,12 @@ public class SubscriptionResource {
 
         subscriber.getUser().hashAndSetPassword(subscriber.getUser().getPasswordHash());
         subscriber.getUser().setRoles(Arrays.asList(Roles.GAMBLER));
-//        subscriber.getUser().setIsActive(Boolean.TRUE);
+        subscriber.getUser().setActivationToken(("someRandomToken" + new Date()).hashCode());
+        subscriber.getUser().setIsActive(Boolean.FALSE);
 
         String subject = "Confirmation d'inscription à Zen Foot";
-        String urlConfirmation = "<a href='" + getUrlConfirmation(subscriber.getUser().getEmail()) + "'> Confirmation d'inscription </a>";
-        String messageContent = "Mr, Mme " + subscriber.getUser().getName() + " Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
-        subscriber.getUser().setIsActive(Boolean.FALSE);
+        String urlConfirmation = "<a href='" + getUrlConfirmation(subscriber.getUser()) + "'> Confirmation d'inscription </a>";
+        String messageContent = "Mr, Mme " + subscriber.getUser().getName() + "\n Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
         try {
             mailSenderService.sendMail(email, subject, messageContent);
         } catch (MessagingException e) {
@@ -78,21 +79,27 @@ public class SubscriptionResource {
         userService.createOrUpdate(subscriber.getUser());
     }
 
-    private String getUrlConfirmation(String mail) {
-        return appInfoService.getAppUrl() + "/#/confirmSubscription/" + mail;
+    private String getUrlConfirmation(User user) {
+        return appInfoService.getAppUrl() + "/#/confirmSubscription?email=" + user.getEmail() + "&token=" + user.getActivationToken();
     }
 
 
     @GET("/confirmSubscription")
     @PermitAll
-    public void confirmSubscription(String email) {
-        final User user = userService.getUserbyEmail(email);
+    public void confirmSubscription(String email, String token) {
+        Integer tknInt;
+        try {
+            tknInt = Integer.valueOf(token);
+        }catch(NumberFormatException e){
+            throw new WebException(HttpStatus.BAD_REQUEST, "Wrong token.");
+        }
 
+        final User user = userService.getUserbyEmail(email);
         if (user == null) {
-            throw new WebException(HttpStatus.BAD_REQUEST, "User unknown.");
-        } else if (user.getIsActive() == null || user.getIsActive()) {
-            throw new WebException(HttpStatus.BAD_REQUEST, "User already active");
-        } else {
+            throw new WebException(HttpStatus.BAD_REQUEST, "Wrong email.");
+        }else if (!user.getActivationToken().equals(tknInt)) {
+            throw new WebException(HttpStatus.BAD_REQUEST, "Wrong token.");
+        }else if (user.getIsActive() == null || !user.getIsActive()){
             user.setIsActive(Boolean.TRUE);
             userService.createOrUpdate(user);
         }

@@ -11,7 +11,7 @@ import com.zenika.zenfoot.gae.model.Pays;
  * @author vickrame
  *
  */
-public class PaysService extends AbstractGenericService<Pays>{
+public class PaysService extends AbstractGenericService<Pays, Long>{
 
     private static final long serialVersionUID = 1L;
 

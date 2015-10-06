@@ -11,7 +11,7 @@ import com.googlecode.objectify.Key;
  * @param <T>
  * @author vickrame
  */
-public class AbstractGenericService<T> extends AbstractBase<T> {
+public class AbstractGenericService<T, ID> extends AbstractBase<T> {
 
     /**
      *
@@ -33,7 +33,7 @@ public class AbstractGenericService<T> extends AbstractBase<T> {
         logger.info("Appel au service metiers " + dao.getClass().getName());
     }
 
-    public void delete(Long id) {
+    public void delete(ID id) {
         logger.info("Appel service " + this.getClass().getName() + " pour suppression");
         this.unDAO.deleteFromId(id);
     }
@@ -43,7 +43,7 @@ public class AbstractGenericService<T> extends AbstractBase<T> {
         return this.unDAO.findByKey(key);
     }
 
-    public T getFromID(Long id) {
+    public T getFromID(ID id) {
         logger.info("Appel service " + this.getClass().getName() + " pour rechercher en fonction de l'id");
         return this.unDAO.findById(id);
     }

@@ -9,7 +9,7 @@ import com.zenika.zenfoot.gae.model.Ligue;
 /**
  * Created by raphael on 03/06/14.
  */
-public class TeamService extends AbstractGenericService<Ligue> {
+public class TeamService extends AbstractGenericService<Ligue, Long> {
 
     public TeamService(TeamDAO teamDAO) {
         super(teamDAO);

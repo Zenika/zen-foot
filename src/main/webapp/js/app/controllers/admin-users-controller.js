@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('zenFoot.app')
-        .controller('AdminUsersController', ['$scope', 'User', '$timeout', '$q',
-            function ($scope, User, $timeout, $q) {
+        .controller('AdminUsersController', ['$scope', 'User', 'UserService', '$timeout', '$q',
+            function ($scope, User, UserService, $timeout, $q) {
 
                 $scope.allUsers = [];
 
@@ -15,21 +15,16 @@
                 };
 
                 $scope.searchNameCriteria = "";
-                $scope.searchUsers = function(){
+                $scope.searchUsers = function () {
                     User.query({name: $scope.searchNameCriteria})
                         .$promise
                         .then(updateUsers)
                 };
 
-                function updateUsers(users){
+                function updateUsers(users) {
                     $scope.allUsers = users;
                     $scope.setPagingData(users, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
                 };
-
-                //var parieurTemplate = {};
-                //parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.gamblerId}}">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
-                //parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.name}}</a></div>';
-
 
                 $scope.totalServerItems = 0;
 
@@ -39,14 +34,6 @@
                     currentPage: 1
                 };
 
-                //var displayName = {};
-                //displayName['gambler'] = 'Parieur';
-                //displayName['ligue'] = 'Ligue';
-                //
-                //var displayName2 = {};
-                //displayName2['gambler'] = 'Points';
-                //displayName2['ligue'] = 'Moyenne';
-                //
                 var columnDefs = [
                     {
                         displayName: 'Email',
@@ -114,19 +101,37 @@
                     }
                 });
 
-                $scope.deleteUsers = function(){
-                    if($scope.gridOptions.selectedItems && $scope.gridOptions.selectedItems.size > 0){
-                        var confirmation = confirm("Etes-vous sur de vouloir supprimer " + $scope.gridOptions.selectedItems.size + " utilisateurs?");
-                        if(confirmation){
-                            var promises = [];
-                            _.forEach($scope.gridOptions.selectedItems, function(user){
-                                promises.push(user.$delete().$promise);
-                            });
-                            $q.all(promises)
-                                .then(function(){
+                $scope.deleteUsers = function () {
+                    var selectedItems = getSelectedItems($scope.gridOptions);
+                    if (selectedItems.length > 0) {
+                        var confirmation = confirm("Etes-vous sur de vouloir supprimer " + selectedItems.length + " utilisateurs?");
+                        if (confirmation) {
+                            UserService.deleteUsers(selectedItems)
+                                .then(function () {
+                                    $scope.searchUsers();
                                     confirmMessage("Utilisateurs supprimés");
-                                }, function(){
+                                }, function () {
                                     errorMessage("Erreur dans la suppression de certains utilisateurs.");
+                                });
+                        }
+                    }
+                };
+
+                function getSelectedItems(gridOptions) {
+                    return _.pluck(_.where($scope.gridOptions.ngGrid.rowCache, {selected: true}), 'entity');
+                }
+
+                $scope.resetPWDs = function () {
+                    var selectedItems = getSelectedItems($scope.gridOptions);
+                    if (selectedItems.length > 0) {
+                        var confirmation = confirm("Etes-vous sur de vouloir reset le mdp de " + selectedItems.length + " utilisateurs?");
+                        if (confirmation) {
+                            UserService.resetPWDs(selectedItems)
+                                .then(function () {
+                                    $scope.searchUsers();
+                                    confirmMessage("Mots de passe reset");
+                                }, function () {
+                                    errorMessage("Erreur de reset pour certains utilisateurs.");
                                 });
                         }
                     }
@@ -138,73 +143,17 @@
                     class: ""
                 };
 
-                function confirmMessage(msg){
+                function confirmMessage(msg) {
                     $scope.infoMessage.display = true;
                     $scope.infoMessage.message = msg;
                     $scope.infoMessage.class = "alert-success";
                 }
 
-                function errorMessage(msg){
+                function errorMessage(msg) {
                     $scope.infoMessage.display = true;
                     $scope.infoMessage.message = msg;
                     $scope.infoMessage.class = "alert-danger";
                 }
 
-                /*
-                 called when the gambler would like to display the result of a specific gambler. The page of the tab
-                 is changed to that where the gambler is listed.
-                 */
-
-                //$scope.changePage = function (gamblerRanking) {
-                //    if (gamblerRanking) {
-                //
-                //        if ($scope.focusedGambler) {
-                //            delete $scope.focusedGambler.focused;
-                //        }
-                //        $scope.focusedGambler = gamblerRanking;
-                //        gamblerRanking.focused = true;
-                //        var roundedPage = gamblerRanking.index / $scope.pagingOptions.pageSize;
-                //        var page = Math.ceil(roundedPage);
-                //
-                //        $scope.pagingOptions.currentPage = page;
-                //    }
-                //};
-
-
-
-
-                //$scope.$watch('mode', function (newValue, oldValue) {
-                //    if (newValue !== oldValue) {
-                //        $scope.columnSelected = [
-                //            {
-                //                field: 'classement',
-                //                displayName: '#',
-                //                width: 30,
-                //                headerClass: 'rankingHeader',
-                //                cellClass: 'rankingCell'
-                //            },
-                //            {
-                //                displayName: displayName[$scope.mode],
-                //                cellTemplate: parieurTemplate[$scope.mode]
-                //            },
-                //            {
-                //                field: 'points',
-                //                displayName: displayName2[$scope.mode],
-                //                width: 100
-                //            }
-                //        ];
-                //
-                //        initData();
-                //    }
-                //})
-
-
-                ////si deja selectionné
-                //if ($scope.selectedEvent != undefined) {
-                //    initData();
-                //}
-                //$scope.$on('eventChanged', function (event, params) {
-                //    initData();
-                //})
             }]);
 })();

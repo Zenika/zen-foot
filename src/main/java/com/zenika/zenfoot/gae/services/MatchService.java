@@ -12,7 +12,7 @@ import java.util.List;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.model.Match;
 
-public class MatchService extends AbstractGenericService<Match> {
+public class MatchService extends AbstractGenericService<Match, Long> {
     private MapperFacadeFactory mapper;
 
     public MatchService(MatchDAO matchDAO, MapperFacadeFactory mapper) {

@@ -41,7 +41,7 @@ public class MailSenderService {
             msg.addRecipient(Message.RecipientType.TO,
                     new InternetAddress(recipient));
             msg.setSubject(subject, "UTF-8");
-            msg.setText(messageContent, "UTF-8");
+            msg.setText(messageContent);
             if(LOGGER.isDebugEnabled()){
                 LOGGER.debug("Send mail from {}<{}> to {}.", appSettings.mailFromAddress(), appSettings.mailFromName(), recipient);
                 LOGGER.debug("Subject: {}", msg.getSubject());

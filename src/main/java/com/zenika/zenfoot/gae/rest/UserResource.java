@@ -19,8 +19,7 @@ import org.slf4j.LoggerFactory;
 import restx.RestxRequest;
 import restx.RestxResponse;
 import restx.WebException;
-import restx.annotations.POST;
-import restx.annotations.RestxResource;
+import restx.annotations.*;
 import restx.factory.Component;
 import restx.http.HttpStatus;
 import restx.security.RolesAllowed;
@@ -30,7 +29,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import restx.annotations.GET;
 import restx.security.PermitAll;
 
 
@@ -58,10 +56,23 @@ public class UserResource {
     @GET("/users")
     @RolesAllowed(Roles.ADMIN)
     public List<UserDTO> getAll(Optional<String> name){
-        if(name.isPresent()){
+        if(name.isPresent() && !StringUtil.isEmptyOrWhitespace(name.get())){
             return userService.getAllAsDTO(name.get());
         }
         return userService.getAllAsDTO();
+    }
+
+    @DELETE("/users/{id}")
+    @RolesAllowed(Roles.ADMIN)
+    public void delete(String id){
+        userService.delete(id);
+    }
+
+    @PUT("/users/{id}/resetpwd")
+    @RolesAllowed(Roles.ADMIN)
+    public void resetPWD(String id){
+        //TODO
+        throw new WebException("Not supported.");
     }
 
 

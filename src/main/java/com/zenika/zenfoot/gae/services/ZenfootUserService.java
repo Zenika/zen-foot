@@ -18,7 +18,7 @@ import restx.security.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZenfootUserService extends AbstractModelToDtoService<User, UserDTO> implements UserService<User>, UserRepository<User> {
+public class ZenfootUserService extends AbstractModelToDtoService<User, String, UserDTO> implements UserService<User>, UserRepository<User> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZenfootUserService.class);
 

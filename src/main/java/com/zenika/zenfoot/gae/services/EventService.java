@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 /**
  * Created by raphael on 28/08/14.
  */
-public class EventService extends AbstractGenericService<Event> {
+public class EventService extends AbstractGenericService<Event, Long> {
 
     final private Logger logger = Logger.getLogger(getClass().getName());
 

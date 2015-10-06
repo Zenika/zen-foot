@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by raphael on 30/04/14.
  */
-public class BetService extends AbstractGenericService<Bet> {
+public class BetService extends AbstractGenericService<Bet, Long> {
 
     public BetService(BetDAO dao) {
         super(dao);
