@@ -1,0 +1,19 @@
+general:
+  branches:
+    only:
+      - dev # devs
+#      - release
+machine:
+  java:
+    version: oraclejdk7
+  environment:
+    app-engine-sdk-version: 1.9.26
+dependencies:
+  pre:
+    - curl -o $HOME/google_appengine_$app-engine-sdk-version.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_$app-engine-sdk-version.zip
+    - unzip -q -d $HOME $HOME/google_appengine_$app-engine-sdk-version.zip
+deployment:
+  appengine:
+    branch: dev
+    commands:
+       - echo $APPENGINE_PASSWORD | $HOME/appengine-java-sdk/bin/appcfg.sh update --email=$APPENGINE_EMAIL --passin .
