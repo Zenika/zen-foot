@@ -37,7 +37,7 @@ public class LigueDtoToLigueMapper extends CustomMapper<LigueDTO, Ligue> {
 
     @Override
     public void mapAtoB(LigueDTO a, Ligue b, MappingContext context) {
-        b.setOwner(KeyBuilder.buildGamblerKey(a.getOwner().getId(), a.getEvent().getId()));
+        b.setOwner(KeyBuilder.buildGamblerRef(a.getOwner().getId(), a.getEvent().getId()));
         b.setId(a.getId());
         b.setEvent(Key.create(Event.class, a.getEvent().getId()));
         b.setName(a.getName());
@@ -61,7 +61,7 @@ public class LigueDtoToLigueMapper extends CustomMapper<LigueDTO, Ligue> {
 
     @Override
     public void mapBtoA(Ligue a, LigueDTO b, MappingContext context) {
-        Gambler owner = gamblerService.getFromKey(a.getOwner());
+        Gambler owner = gamblerService.getFromKey(a.getOwner().getKey());
         b.setOwner(this.mapperFacade.map(owner, GamblerDTO.class));
         b.setId(a.getId());
         b.setEvent(null);

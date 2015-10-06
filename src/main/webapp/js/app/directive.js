@@ -98,22 +98,17 @@ zenFootDirectives.directive('newTeam', function () {
     }
 });
 
-zenFootDirectives.directive('selectTeam', ['GamblerService', function (GamblerService) {
+zenFootDirectives.directive('selectLigue', function () {
     return {
-        link: function (scope, element, attrs) {
-            scope.$watch('selectedTeam', function (newValue, oldValue) {
+        link: function ($scope, element, attrs) {
+            $scope.$watch('selectedLigue', function (newValue, oldValue) {
                 if (newValue != oldValue) {
-                    if (scope.selectedTeam) {
-                        scope.classementFunc(GamblerService.get(scope.selectedTeam))
-                    }
-                    else {
-                        scope.classementFunc(GamblerService.getAll())
-                    }
+                    $scope.initData();
                 }
-            })
+            });
         }
     }
-}]);
+});
 
 var ZENIKA_EMAIL_REGEXP = /^.*@zenika\.com$/;
 

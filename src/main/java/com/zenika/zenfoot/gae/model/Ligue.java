@@ -17,8 +17,9 @@ public class Ligue {
     public Long id;
     @Index
     public String name;
-    
-    Key<Gambler> owner;
+
+    @Load
+    Ref<Gambler> owner;
     
     @Parent private Key<Event> event;
     
@@ -46,11 +47,11 @@ public class Ligue {
         return this;
     }
 
-    public Key<Gambler> getOwner() {
+    public Ref<Gambler> getOwner() {
         return owner;
     }
 
-    public void setOwner(Key<Gambler> owner) {
+    public void setOwner(Ref<Gambler> owner) {
         this.owner = owner;
     }
 

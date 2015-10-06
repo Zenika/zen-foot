@@ -9,6 +9,7 @@ import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.KeyBuilder;
+import restx.factory.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,18 +20,15 @@ import java.util.logging.Logger;
 /**
  * Created by raphael on 10/07/14.
  */
+@Component
 public class LigueService extends AbstractGenericService<Ligue, Long> {
 
-    final private TeamService teamService;
-    final private GamblerService gamblerService;
     final private Logger logger = Logger.getLogger(getClass().getName());
     final private MapperFacadeFactory mapper;
 
-    public LigueService(TeamService teamService, GamblerService gamblerService, LigueDAO ligueDAO,
+    public LigueService(LigueDAO ligueDAO,
                         MapperFacadeFactory mapper) {
         super(ligueDAO);
-        this.teamService = teamService;
-        this.gamblerService = gamblerService;
         this.mapper = mapper;
     }
 
@@ -135,6 +133,10 @@ public class LigueService extends AbstractGenericService<Ligue, Long> {
         return ((LigueDAO) this.getDao()).getLiguesWithMembersFromEvent(event);
     }
 
+    public Ligue getLigueWithMembersFromEvent(Event event, Long idLigue) {
+        return ((LigueDAO) this.getDao()).getLiguesWithMembersFromEvent(event, idLigue);
+    }
+
     public void joinLigue(Ligue ligue, Gambler gambler, Event event) {
         LigueDTO ligueDTO = mapper.getMapper().map(ligue, LigueDTO.class);
         ligueDTO.initialize(gambler.getEmail());
@@ -150,15 +152,32 @@ public class LigueService extends AbstractGenericService<Ligue, Long> {
      * @return ligue's score
      */
     public double calculateScore(Ligue ligue) {
-        double res = 0;
+        double res = ligue.getOwner().get().getPoints();
         List<Ref<Gambler>> members = ligue.getAccepted();
         if(!members.isEmpty()) {
             for(Ref<Gambler> g : members){
                 res += g.get().getPoints();
-                res = res / members.size();
-                res = Math.round(res * 100) / 100;
             }
+            res = res / (members.size() + 1);
+            res = Math.round(res * 100) / 100;
         }
+
         return res;
+    }
+
+    /**
+     * Returns the ligue's member as well as the owner
+     * @param event
+     * @param ligueId
+     * @return
+     */
+    public List<GamblerDTO> getLigueMembersAndOwner(Event event, Long ligueId) {
+        Ligue ligue = this.getLigueWithMembersFromEvent(event, ligueId);
+        List<GamblerDTO> dtos = new ArrayList<>(ligue.getAccepted().size());
+        for(Ref<Gambler> gambler : ligue.getAccepted()){
+            dtos.add(mapper.getMapper().map(gambler.get(), GamblerDTO.class));
+        }
+        dtos.add(mapper.getMapper().map(ligue.getOwner().get(), GamblerDTO.class));
+        return dtos;
     }
 }

@@ -14,6 +14,7 @@ angular.module('zenFoot.app')
                 'getGambler' : {method: 'GET', 'url' : '/api/events/:id/gambler'},
                 'getLigues' : {method: 'GET', 'url' : '/api/events/:id/ligues', isArray : true},
                 'getLigue' : {method: 'GET', 'url' : '/api/events/:id/ligues/:idLigue'},
+                'getLigueMembers' : {method: 'GET', url : '/api/events/:id/ligues/:idLigue/members', isArray : true},
                 'updateLigue' : {method: 'PUT', 'url' : '/api/events/:id/ligues/:idLigue'},
                 'createLigues' : {method: 'POST', 'url' : '/api/events/:id/ligues'},
                 'joinLigues' : {method: 'POST', 'url' : '/api/events/:id/ligues/:idLigue/join'},

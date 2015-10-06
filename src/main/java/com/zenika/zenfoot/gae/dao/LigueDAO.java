@@ -19,5 +19,6 @@ public interface LigueDAO extends IGenericDAO<Ligue> {
     List<Ligue> getLiguesFromEvent(Event event);
 
     List<Ligue> getLiguesWithMembersFromEvent(Event event);
-    
+
+    Ligue getLiguesWithMembersFromEvent(Event event, Long idLigue);
 }

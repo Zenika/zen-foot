@@ -161,6 +161,12 @@ public class EventResource {
         return eventService.getLigue(id, idLigue, sessionInfo.getUser().getEmail());
     }
 
+    @GET("/events/{id}/ligues/{idLigue}/members")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<GamblerDTO> getLigueMembers(Long id, Long idLigue) {
+        return eventService.getLigueMembersAndOwner(id, idLigue);
+    }
+
     @PUT("/events/{id}/ligues/{idLigue}")
     @RolesAllowed(Roles.GAMBLER)
     public void updateLigue(Long id, Long idLigue, LigueDTO ligue) {

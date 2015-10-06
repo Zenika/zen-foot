@@ -26,11 +26,8 @@ public class AbstractGenericService<T, ID> extends AbstractBase<T> {
 
     public AbstractGenericService(IGenericDAO<T> dao) {
         super();
-
         logger.info("Appel au service metiers " + this.getClass().getName());
         this.unDAO = dao;
-
-        logger.info("Appel au service metiers " + dao.getClass().getName());
     }
 
     public void delete(ID id) {

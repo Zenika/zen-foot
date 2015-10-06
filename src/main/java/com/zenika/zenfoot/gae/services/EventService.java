@@ -117,4 +117,14 @@ public class EventService extends AbstractGenericService<Event, Long> {
         Event event = ((EventDAO) this.getDao()).findById(id);
         return this.gamblerService.getGamblerFromEmailAndEvent(email, event);
     }
+
+    /**
+     * Returns the members of the ligue with id ligueId in the event of id eventId
+     * @param eventId event's id
+     * @param ligueId ligue's id
+     * @return members of the ligue (accepted players)
+     */
+    public List<GamblerDTO> getLigueMembersAndOwner(Long eventId, Long ligueId) {
+        return ligueService.getLigueMembersAndOwner(this.getFromID(eventId), ligueId);
+    }
 }

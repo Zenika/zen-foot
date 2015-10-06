@@ -8,7 +8,7 @@ angular.module('zenFoot.app')
 
             $scope.switchMode = function () {
                 $scope.mode = $scope.modes[$scope.mode];
-            }
+            };
 
             //gambler or ligue
             $scope.mode = 'gambler';
@@ -20,30 +20,43 @@ angular.module('zenFoot.app')
                 else if (mode === 'gambler') {
                     return 'parieur';
                 }
-            }
+            };
 
             $scope.gamblerMode = function () {
                 return $scope.mode === 'gambler';
-            }
+            };
 
             $scope.ligueMode = function () {
                 return $scope.mode === 'ligue';
-            }
+            };
 
             $scope.switchModeDisplay = function () {
                 return modeInFrench($scope.modes[$scope.mode]);
+            };
+
+            if($scope.selectedEvent){
+                $scope.ligues = Events.getLigues({id: $scope.selectedEvent.id});
             }
 
-            $scope.teams = LigueService.getAll();
+            $scope.selectedLigue = {id: "all"};
+
+            $scope.$watch('selectedLigue.id', function (newValue, oldValue) {
+                if (newValue != oldValue) {
+                    initData();
+                }
+            });
             
             $scope.getGambler = function() {
                 return Events.getGambler({id : $scope.selectedEvent.id}).$promise;
-            }
+            };
 
             $scope.serverRanking = {};
             $scope.serverRanking['gambler'] = function () {
+                if($scope.selectedLigue.id != "all"){
+                    return Events.getLigueMembers({id : $scope.selectedEvent.id, idLigue: $scope.selectedLigue.id}).$promise;
+                }
                 return Events.getGamblers({id : $scope.selectedEvent.id}).$promise;
-            }
+            };
 
             /**
              * Returns teams with points added from TeamRanking objects
@@ -69,7 +82,7 @@ angular.module('zenFoot.app')
                 })
 
                 return teamsWithPoints;*/
-            }
+            };
 
             /**
              * Retrieves the ranking from the server, sorts it, affects the ranking to each player, and affects the resulting list to the scope
@@ -123,7 +136,7 @@ angular.module('zenFoot.app')
 
                         }, 100)
                     })
-            }
+            };
 
             /**
              * The ranking is obtained, once the list is ordered by descending points, by the index of the entity
@@ -306,14 +319,13 @@ angular.module('zenFoot.app')
                 }
             })
 
-            
-
-            
             //si deja selectionné
             if($scope.selectedEvent != undefined) {
+                $scope.ligues = Events.getLigues({id: $scope.selectedEvent.id});
                 initData();
             }
             $scope.$on('eventChanged', function(event, params) {
+                $scope.ligues = Events.getLigues({id: $scope.selectedEvent.id});
                 initData();
             })
         }]);

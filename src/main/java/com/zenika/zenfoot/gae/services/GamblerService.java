@@ -24,16 +24,16 @@ public class GamblerService extends AbstractGenericService<Gambler, Long> {
 
     final private MatchService matchService;
     final private BetService betService;
-    final private TeamService teamService;
     final private MapperFacadeFactory mapper;
+    final private LigueService ligueService;
 
-    public GamblerService(MatchService matchService, TeamService teamService,
+    public GamblerService(MatchService matchService, LigueService ligueService,
             MapperFacadeFactory mapper, BetService betService, GamblerDAO gamblerDao) {
         super(gamblerDao);
         this.matchService = matchService;
-        this.teamService = teamService;
         this.betService = betService;
         this.mapper = mapper;
+        this.ligueService = ligueService;
     }
     
     public List<Bet> getBets(Gambler gambler) {
@@ -57,7 +57,7 @@ public class GamblerService extends AbstractGenericService<Gambler, Long> {
     public Gambler createOrUpdateAndReturn(User user, Event event) {
         GamblerDTO gambler = new GamblerDTO(user.getEmail());
         gambler.setPrenom(user.getFirstname());
-        gambler.setNom(user.getName());
+        gambler.setNom(user.getLastname());
         gambler.setEvent(event);
 
         return this.createOrUpdateAndReturn(mapper.getMapper().map(gambler, Gambler.class));
@@ -140,7 +140,7 @@ public class GamblerService extends AbstractGenericService<Gambler, Long> {
     }
 
     public Set<Gambler> wantToJoin(Long id){
-        Ligue team = teamService.getFromID(id);
+        Ligue team = ligueService.getFromID(id);
         HashSet<Gambler> gamblers = Sets.newHashSet(this.wantToJoin(team.getName()));
         return gamblers;
     }

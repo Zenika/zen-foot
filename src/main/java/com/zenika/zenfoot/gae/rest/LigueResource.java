@@ -6,7 +6,6 @@ import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.LigueService;
 import com.zenika.zenfoot.gae.services.SessionInfo;
-import com.zenika.zenfoot.gae.services.TeamService;
 import restx.WebException;
 import restx.annotations.GET;
 import restx.annotations.POST;
@@ -33,13 +32,10 @@ public class LigueResource {
 
     private SessionInfo sessionInfo;
 
-    private TeamService teamService;
-
-    public LigueResource(@Named("gamblerService") GamblerService gamblerService, @Named("sessioninfo")SessionInfo sessionInfo, 
-            TeamService teamService, LigueService ligueService) {
+    public LigueResource(@Named("gamblerService") GamblerService gamblerService, @Named("sessioninfo") SessionInfo sessionInfo,
+                         LigueService ligueService) {
         this.gamblerService = gamblerService;
         this.sessionInfo = sessionInfo;
-        this.teamService = teamService;
         this.ligueService = ligueService;
 
     }
@@ -64,12 +60,12 @@ public class LigueResource {
     @GET("/teams")
     @PermitAll
     public List<Ligue> getTeams() {
-        return teamService.getAll();
+        return ligueService.getAll();
     }
 
     @GET("/wannajoinTeam/{id}")
     @RolesAllowed(Roles.GAMBLER)
-    public Set<Gambler> wannaJoin(Long id){
+    public Set<Gambler> wannaJoin(Long id) {
         return gamblerService.wantToJoin(id);
     }
 
@@ -77,7 +73,7 @@ public class LigueResource {
     @GET("/teams/{id}")
     @PermitAll
     public Ligue getTeam(Long id) {
-        Ligue team = teamService.getFromID(id);
+        Ligue team = ligueService.getFromID(id);
         if (team == null) {
             throw new WebException(HttpStatus.NOT_FOUND);
         } else {
