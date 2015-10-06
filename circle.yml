@@ -7,13 +7,17 @@ machine:
   java:
     version: oraclejdk7
   environment:
-    app-engine-sdk-version: 1.9.26
+    APP_ENGINE_SDK_VERSION: 1.9.27
 dependencies:
   pre:
-    - curl -o $HOME/google_appengine_$app-engine-sdk-version.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_$app-engine-sdk-version.zip
-    - unzip -q -d $HOME $HOME/google_appengine_$app-engine-sdk-version.zip
+    - curl -o $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION.zip https://storage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-$APP_ENGINE_SDK_VERSION.zip
+    - unzip -q -d $HOME $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION.zip
+test:
+  override:
+    - mvn test
 deployment:
   appengine:
     branch: dev
     commands:
-       - echo $APPENGINE_PASSWORD | $HOME/appengine-java-sdk/bin/appcfg.sh update --email=$APPENGINE_EMAIL --passin .
+       - mvn -DskipTests package
+       - echo $APPENGINE_PASSWORD | $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION/bin/appcfg.sh --email=$APPENGINE_EMAIL --passin update target/zen-foot-1
