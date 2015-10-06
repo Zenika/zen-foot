@@ -75,6 +75,12 @@ public class UserResource {
         throw new WebException("Not supported.");
     }
 
+    @PUT("/users/{id}/activate")
+    @RolesAllowed(Roles.ADMIN)
+    public void activate(String id){
+        userService.activate(id);
+    }
+
 
     /**
      * Migrate users to use new properties:
@@ -111,7 +117,7 @@ public class UserResource {
     @POST("/generateLink")
     @PermitAll
     public void generateLink(User user) {
-        User regUser = userService.getUserbyEmail(user.getEmail());
+        User regUser = userService.getFromID(user.getEmail());
 
         if (regUser == null) {
             throw new WebException(HttpStatus.BAD_REQUEST, "No user for this mail");
@@ -143,7 +149,7 @@ public class UserResource {
 
         try {
             PWDLink pwdLink = this.pWDLinkService.getFromID(resetPWD.getPwdLinkId());
-            User user = userService.getUserbyEmail(pwdLink.getUserEmail());
+            User user = userService.getFromID(pwdLink.getUserEmail());
             user.hashAndSetPassword(resetPWD.getNewPWD());
             userService.createOrUpdate(user);
             pWDLinkService.delete(pwdLink.getId());

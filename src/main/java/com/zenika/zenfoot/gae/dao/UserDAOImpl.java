@@ -16,12 +16,6 @@ import java.util.List;
 public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     @Override
-    public User getUser(String email) {
-        User toRet = OfyService.ofy().load().type(User.class).id(email).now();
-        return toRet;
-    }
-
-    @Override
     public List<User> getAll(@NotNull String name) {
         return OfyService.ofy().load().type(User.class)
                 .filter("lastname >=", name)

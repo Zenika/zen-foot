@@ -29,15 +29,11 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
     @Override
     public Optional<User> findUserByName(String email) {
         if (email != null) {
-            User user = this.getUserbyEmail(email);
+            User user = this.getFromID(email);
             return Optional.fromNullable(user);
         } else {
             return Optional.absent();
         }
-    }
-
-    public User getUserbyEmail(String email) {
-        return ((UserDAO)this.getDao()).getUser(email);
     }
 
     /**
@@ -87,7 +83,7 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
 
     @Override
     public User defaultAdmin() {
-        return this.getUserbyEmail("admin@zenika.com");
+        return this.getFromID("admin@zenika.com");
     }
 
     public List<UserDTO> getAllAsDTO(String name) {
@@ -98,6 +94,7 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
     }
 
     /**
+     * A utiliser une fois lors du déployement de la nouvelle version.
      * Migrate users to use new properties:
      *  - name --> lastname
      *  - prenom --> firstname
@@ -118,5 +115,11 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
                 this.createOrUpdate(user);
             }
         }
+    }
+
+    public void activate(String email) {
+        User user = this.getFromID(email);
+        user.setIsActive(true);
+        this.createOrUpdate(user);
     }
 }

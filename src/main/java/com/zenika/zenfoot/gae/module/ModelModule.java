@@ -82,12 +82,6 @@ public class ModelModule {
         return new LigueDAOImpl();
     }
 
-//    @Provides
-//    public LigueService ligueService(LigueDAO ligueDAO,
-//                                     MapperFacadeFactory mapperFacadeFactory) {
-//        return new LigueService(ligueDAO, mapperFacadeFactory);
-//    }
-
     @Provides
     public PWDLinkDAO pWDLinkDAO() {
         return new PWDLinkDAOImpl();

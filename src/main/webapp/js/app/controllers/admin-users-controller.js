@@ -18,7 +18,7 @@
                 $scope.searchUsers = function () {
                     User.query({name: $scope.searchNameCriteria})
                         .$promise
-                        .then(updateUsers)
+                        .then(updateUsers);
                 };
 
                 function updateUsers(users) {
@@ -73,15 +73,24 @@
                 };
 
                 $scope.setPagingData = function (data, page, pageSize) {
-                    setTimeout(function () {
+                     $timeout(function () {
                         $scope.totalServerItems = data.length;
                         var pageData = data.slice((page - 1) * pageSize, page * pageSize);
                         $scope.pageData = pageData;
-                        $scope.$apply();
+                        //$scope.$apply();
                         // Styling the grid pager
                         $('.ngPagerControl .ngPagerButton').addClass('btn btn-default');
                         $('.ngPagerCurrent').addClass('form-control');
-                    }, 100);
+                    }, 500);
+                    //setTimeout(function () {
+                    //    $scope.totalServerItems = data.length;
+                    //    var pageData = data.slice((page - 1) * pageSize, page * pageSize);
+                    //    $scope.pageData = pageData;
+                    //    //$scope.$apply();
+                    //    // Styling the grid pager
+                    //    $('.ngPagerControl .ngPagerButton').addClass('btn btn-default');
+                    //    $('.ngPagerCurrent').addClass('form-control');
+                    //}, 100);
                 };
 
 
@@ -101,41 +110,65 @@
                     }
                 });
 
-                $scope.deleteUsers = function () {
-                    var selectedItems = getSelectedItems($scope.gridOptions);
-                    if (selectedItems.length > 0) {
-                        var confirmation = confirm("Etes-vous sur de vouloir supprimer " + selectedItems.length + " utilisateurs?");
-                        if (confirmation) {
-                            UserService.deleteUsers(selectedItems)
-                                .then(function () {
-                                    $scope.searchUsers();
-                                    confirmMessage("Utilisateurs supprimés");
-                                }, function () {
-                                    errorMessage("Erreur dans la suppression de certains utilisateurs.");
-                                });
-                        }
-                    }
+                //$scope.deleteUsers = function () {
+                //    var selectedItems = getSelectedItems($scope.gridOptions);
+                //    if (selectedItems.length > 0) {
+                //        var confirmation = confirm("Etes-vous sur de vouloir supprimer " + selectedItems.length + " utilisateurs?");
+                //        if (confirmation) {
+                //            UserService.deleteUsers(selectedItems)
+                //                .then(function () {
+                //                    $scope.searchUsers();
+                //                    confirmMessage("Utilisateurs supprimés");
+                //                }, function () {
+                //                    errorMessage("Erreur dans la suppression de certains utilisateurs.");
+                //                });
+                //        }
+                //    }
+                //};
+
+                $scope.deleteUsers = function(){
+                    adminActionOnUsers("Supprimer", function(users){
+                        return UserService.deleteUsers(users);
+                    });
                 };
 
-                function getSelectedItems(gridOptions) {
-                    return _.pluck(_.where($scope.gridOptions.ngGrid.rowCache, {selected: true}), 'entity');
-                }
+                $scope.activateUsers = function(){
+                    adminActionOnUsers("Activer", function(users){
+                        return UserService.activateUsers(users);
+                    });
+                };
 
                 $scope.resetPWDs = function () {
+                    adminActionOnUsers("Reset PWDs", function(users){
+                        return UserService.resetPWDs(users);
+                    });
+                };
+
+                /**
+                 * Ask confirmation for actionName. If confirmed, retrieve all selected users from the grid
+                 * and perform action on it. Once action is resolved, display a success/error message
+                 * @param actionName
+                 * @param action
+                 */
+                function adminActionOnUsers(actionName, action){
                     var selectedItems = getSelectedItems($scope.gridOptions);
                     if (selectedItems.length > 0) {
-                        var confirmation = confirm("Etes-vous sur de vouloir reset le mdp de " + selectedItems.length + " utilisateurs?");
+                        var confirmation = confirm("Confirmer " + actionName + " pour " + selectedItems.length + " utilisateurs?");
                         if (confirmation) {
-                            UserService.resetPWDs(selectedItems)
+                            action(selectedItems)
                                 .then(function () {
                                     $scope.searchUsers();
-                                    confirmMessage("Mots de passe reset");
+                                    confirmMessage(actionName + " pour " + selectedItems.length + " utilisateurs OK.");
                                 }, function () {
-                                    errorMessage("Erreur de reset pour certains utilisateurs.");
+                                    errorMessage("Erreur " + actionName + " pour certains utilisateurs.");
                                 });
                         }
                     }
-                };
+                }
+
+                function getSelectedItems(gridOptions) {
+                    return _.pluck(_.where(gridOptions.ngGrid.rowCache, {selected: true}), 'entity');
+                }
 
                 $scope.infoMessage = {
                     display: false,

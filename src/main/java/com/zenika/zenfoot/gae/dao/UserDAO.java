@@ -12,8 +12,6 @@ import java.util.List;
  */
 public interface UserDAO extends IGenericDAO<User> {
 
-    User getUser(String email);
-
     /**
      * Get all users with  name strating with parameter supplied.
      * @param name prefix for name to find

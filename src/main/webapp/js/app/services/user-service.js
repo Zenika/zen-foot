@@ -3,32 +3,42 @@
 
     angular.module('zenFoot.app')
         .factory('User', ['$resource', UserResource])
-        .service('UserService', UserService);
+        .service('UserService', ['$q', UserService]);
 
     function UserResource($resource) {
         var userResource = $resource('/api/users/:id',
             {id: '@email'},
-            {resetPWD : {
-                method: 'PUT',
-                url: '/api/users/:id/resetpwd'
-            }});
+            {
+                resetPWD : {method: 'PUT', url: '/api/users/:id/resetpwd'},
+                activate : {method: 'PUT', url: '/api/users/:id/activate'}
+            });
 
         return userResource;
     };
 
-    function UserService() {
+    function UserService($q) {
         this.deleteUsers = function (users) {
-            var promises = [];
-            _.forEach(selectedItems, function (user) {
-                promises.push(user.$delete());
-            });
-            return $q.all(promises);
+            return queueActionForAll(function(user){
+                return user.$delete();
+            }, users);
         };
 
         this.resetPWDs = function (users) {
+            return queueActionForAll(function(user){
+                return user.$resetPWD();
+            }, users);
+        };
+
+        this.activateUsers = function (users) {
+            return queueActionForAll(function(user){
+                return user.$activate();
+            }, users);
+        };
+
+        function queueActionForAll(action, all){
             var promises = [];
-            _.forEach(selectedItems, function (user) {
-                promises.push(user.$resetPWD());
+            _.forEach(all, function (one) {
+                promises.push(action(one));
             });
             return $q.all(promises);
         };

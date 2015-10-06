@@ -51,7 +51,7 @@ public class SubscriptionResource {
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
         String email = subscriber.getUser().getEmail();
-        User alreadyExistingUser = userService.getUserbyEmail(email);
+        User alreadyExistingUser = userService.getFromID(email);
 
         if (alreadyExistingUser != null) {
             throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL",
@@ -94,7 +94,7 @@ public class SubscriptionResource {
             throw new WebException(HttpStatus.BAD_REQUEST, "Wrong token.");
         }
 
-        final User user = userService.getUserbyEmail(email);
+        final User user = userService.getFromID(email);
         if (user == null) {
             throw new WebException(HttpStatus.BAD_REQUEST, "Wrong email.");
         }else if (!user.getActivationToken().equals(tknInt)) {
