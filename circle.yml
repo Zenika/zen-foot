@@ -1,7 +1,7 @@
-general:
-  branches:
-    only:
-      - dev # devs
+#general:
+#  branches:
+#    only:
+#      - dev # devs
 #      - release
 machine:
   java:
@@ -13,7 +13,7 @@ machine:
 #    - curl -o $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION.zip https://storage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-$APP_ENGINE_SDK_VERSION.zip
 #    - unzip -q -d $HOME $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION.zip
 test:
-  override:
+  pre:
     - mvn test
 #deployment:
 #  appengine:
