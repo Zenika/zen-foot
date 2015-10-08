@@ -66,6 +66,14 @@
                                 Valider
                             </button>
                         </div>
+
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn-danger"
+                                    data-ng-disabled="isNotRemovable(match)"
+                                    data-ng-click="remove(match)">
+                                Supprimer
+                            </button>
+                        </div>
                         <div class="col-sm-1" ng-show="match.registered">
                             <span class="label label-success">enregistré !</span>
                         </div>

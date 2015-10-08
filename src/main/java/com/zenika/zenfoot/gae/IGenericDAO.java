@@ -19,5 +19,11 @@ public interface IGenericDAO<T> {
     void deleteFromId(final Object id);
     void deleteAll();
     Key<T> createUpdate(T model);
+
+    /**
+     * Delete an objet given its key. Useful to delete object having an ancestor.
+     * @param key
+     */
+    void deleteFromKey(final Key<T> key);
     
 }

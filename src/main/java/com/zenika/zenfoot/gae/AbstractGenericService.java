@@ -35,6 +35,15 @@ public class AbstractGenericService<T, ID> extends AbstractBase<T> {
         this.unDAO.deleteFromId(id);
     }
 
+    /**
+     * Remove an object given a key
+     * @param key
+     */
+    public void deleteFromKey(Key<T> key) {
+        logger.info("Appel service " + this.getClass().getName() + " pour supprimer en fonction de la clé");
+        this.unDAO.deleteFromKey(key);
+    }
+
     public T getFromKey(Key<T> key) {
         logger.info("Appel service " + this.getClass().getName() + " pour rechercher en fonction de la clé");
         return this.unDAO.findByKey(key);
