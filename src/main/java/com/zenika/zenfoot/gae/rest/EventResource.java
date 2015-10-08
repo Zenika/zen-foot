@@ -210,16 +210,6 @@ public class EventResource {
     @DELETE("/events/{idEvent}/matches/{idMatch}")
     @RolesAllowed(Roles.ADMIN)
     public void removeAMatch(final Long idEvent, final Long idMatch) {
-        final Event event = eventService.getFromID(idEvent);
-        if (event != null) {
-            final Match match = matchService.getMatch(idMatch, event);
-            if (match != null) {
-                matchService.deleteFromKey(KeyBuilder.buildMatchKey(idMatch, idEvent));
-            } else {
-                throw new WebException(HttpStatus.NOT_FOUND, MessageFormat.format("Impossible to find match for id : {} related to event with id : {}", idMatch, idEvent));
-            }
-        } else {
-            throw new WebException(HttpStatus.NOT_FOUND, MessageFormat.format("Impossible to find event for id : {}", idEvent));
-        }
+        matchService.deleteFromKey(KeyBuilder.buildMatchKey(idMatch, idEvent));
     }
 }
