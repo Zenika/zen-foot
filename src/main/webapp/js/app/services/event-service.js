@@ -18,5 +18,6 @@ angular.module('zenFoot.app')
                 'updateLigue' : {method: 'PUT', 'url' : '/api/events/:id/ligues/:idLigue'},
                 'createLigues' : {method: 'POST', 'url' : '/api/events/:id/ligues'},
                 'joinLigues' : {method: 'POST', 'url' : '/api/events/:id/ligues/:idLigue/join'},
+                'removeAMatch' : {method: 'DELETE', 'url' : '/api/events/:idEvent/matches/:idMatch'}
             });
     }])

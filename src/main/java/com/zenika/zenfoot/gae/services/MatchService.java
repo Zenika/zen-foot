@@ -21,7 +21,11 @@ public class MatchService extends AbstractGenericService<Match, Long> {
     }
     
     public Match getMatch(Long id, Event event) {
-        return ((MatchDAO)this.getDao()).get(id, event);
+        return matchDao().get(id, event);
+    }
+
+    private MatchDAO matchDao(){
+        return ((MatchDAO)this.getDao());
     }
 
     //TODO register name of countries in DB

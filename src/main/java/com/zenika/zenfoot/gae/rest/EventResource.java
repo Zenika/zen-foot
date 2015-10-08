@@ -21,6 +21,7 @@ import restx.factory.Component;
 import restx.http.HttpStatus;
 import restx.security.RolesAllowed;
 
+import java.text.MessageFormat;
 import java.util.List;
 import javax.inject.Named;
 
@@ -197,5 +198,18 @@ public class EventResource {
 
         ligueService.create(event, ligue, gambler);
 
+    }
+
+    /**
+     * Given event's identifier and match's identifier, remove a match from an event
+     *
+     * @param idEvent
+     * @param idMatch
+     * @return
+     */
+    @DELETE("/events/{idEvent}/matches/{idMatch}")
+    @RolesAllowed(Roles.ADMIN)
+    public void removeAMatch(final Long idEvent, final Long idMatch) {
+        matchService.deleteFromKey(KeyBuilder.buildMatchKey(idMatch, idEvent));
     }
 }
