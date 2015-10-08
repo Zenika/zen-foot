@@ -21,6 +21,7 @@ import restx.factory.Component;
 import restx.http.HttpStatus;
 import restx.security.RolesAllowed;
 
+import java.text.MessageFormat;
 import java.util.List;
 import javax.inject.Named;
 
@@ -197,5 +198,28 @@ public class EventResource {
 
         ligueService.create(event, ligue, gambler);
 
+    }
+
+    /**
+     * Given event's identifier and match's identifier, remove a match from an event
+     *
+     * @param idEvent
+     * @param idMatch
+     * @return
+     */
+    @DELETE("/events/{idEvent}/matches/{idMatch}")
+    @RolesAllowed(Roles.ADMIN)
+    public void removeAMatch(final Long idEvent, final Long idMatch) {
+        final Event event = eventService.getFromID(idEvent);
+        if (event != null) {
+            final Match match = matchService.getMatch(idMatch, event);
+            if (match != null) {
+                matchService.deleteFromKey(KeyBuilder.buildMatchKey(idMatch, idEvent));
+            } else {
+                throw new WebException(HttpStatus.NOT_FOUND, MessageFormat.format("Impossible to find match for id : {} related to event with id : {}", idMatch, idEvent));
+            }
+        } else {
+            throw new WebException(HttpStatus.NOT_FOUND, MessageFormat.format("Impossible to find event for id : {}", idEvent));
+        }
     }
 }
