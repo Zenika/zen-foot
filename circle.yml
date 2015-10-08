@@ -15,9 +15,10 @@ machine:
 test:
   pre:
     - mvn test
-#deployment:
-#  appengine:
-#    branch: dev
-#    commands:
-#       - mvn -DskipTests package
-#       - echo $APPENGINE_PASSWORD | $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION/bin/appcfg.sh --email=$APPENGINE_EMAIL --passin update target/zen-foot-1
+deployment:
+  appengine:
+    branch: dev
+    commands:
+       - sed "s#GOOGLE_ACCESS_TOKEN#$GOOGLE_ACCESS_TOKEN#" appcfg_oauth2_tokens_java.json | sed "s#GOOGLE_REFRESH_TOKEN#$GOOGLE_REFRESH_TOKEN#" > ~/.appcfg_oauth2_tokens_java
+       - mvn -DskipTests package
+       - echo $APPENGINE_PASSWORD | $HOME/appengine-java-sdk-$APP_ENGINE_SDK_VERSION/bin/appcfg.sh --email=$APPENGINE_EMAIL --passin update target/zen-foot-1
