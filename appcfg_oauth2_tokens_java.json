@@ -1,9 +1,9 @@
 {
     "credentials": {
         "ubuntu": {
-            "access_token": "<%= ENV["GOOGLE_ACCESS_TOKEN"] %>",
+            "access_token": "<GOOGLE_ACCESS_TOKEN>",
             "expiration_time_millis": 1431552739090,
-            "refresh_token": "<%= ENV["GOOGLE_REFRESH_TOKEN"] %>"
+            "refresh_token": "<GOOGLE_REFRESH_TOKEN>"
         }
     }
 }
