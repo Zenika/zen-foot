@@ -76,13 +76,9 @@ angular.module('zenFoot.app')
             $scope.remove = function (match) {
                 Events.removeAMatch({idEvent : $scope.event.id, idMatch : match.id},
                     function (){
-                        updateMatches(match)
+                       $scope.matchs.splice($scope.matchs.indexOf(match),1);
                     }
                 );
-
-                function updateMatches(match) {
-                   $scope.matchs.splice($scope.matchs.indexOf(match),1);
-                };
             };
 
         }]);
