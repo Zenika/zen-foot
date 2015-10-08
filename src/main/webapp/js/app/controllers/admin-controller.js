@@ -62,5 +62,8 @@ angular.module('zenFoot.app')
                 Events.matches({id : $scope.event.id}, success);
             }
 
+            $scope.delete = function(match){
+                $scope.matchs.splice($scope.matchs.indexOf(match),1);
+            };
 
         }]);

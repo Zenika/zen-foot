@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, $http, Gambler, authService, Events) {
+    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, $http, Gambler, authService, Events, $log, $cookies) {
 
         function onConnected(principal) {
             Session.user.connected = true;
@@ -15,6 +15,7 @@ angular.module('zenFoot.app')
 
         $rootScope.user = Session.user;
         $scope.$on('AUTHENTICATED', function (event, principal) {
+            $log.log('AUTHENTICATED caught');
             onConnected(principal);
         });
 
@@ -34,18 +35,14 @@ angular.module('zenFoot.app')
             $state.go('loginState')
         };
 
-        $scope.logout = authService.logout
-
-        $scope.loggedIn = function () {
-            return Session.user.connected;
-        };
+        $scope.logout = authService.logout;
 
         $rootScope.isAdmin = function () {
             return _.contains($rootScope.user.roles, 'ADMIN');
         };
 
         $rootScope.isConnected = function () {
-            return $rootScope.user.connected;
+            return angular.isDefined($cookies.RestxSession);
         };
 
         $scope.isActive = function (state) {
@@ -53,7 +50,7 @@ angular.module('zenFoot.app')
         };
 
         $scope.hideNavBar = function () {
-            return $state.current.name == 'loginState' || $state.current.name.trim() == ''
+            return $state.current.name == 'loginState' || $state.current.name.trim() == '';
         };
 
         $scope.eventChanged = function () {

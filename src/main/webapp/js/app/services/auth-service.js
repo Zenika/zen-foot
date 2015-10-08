@@ -2,7 +2,7 @@
 
 angular.module('zenFoot.app')
     .factory('authService',
-    function (Session, $rootScope, $state) {
+    function (Session, $rootScope, $state, $cookies) {
         return {
             redirectToHome: function () {
                 if ($rootScope.isAdmin()) {
@@ -12,8 +12,10 @@ angular.module('zenFoot.app')
                 }
             },
             logout: function () {
-                Session.delete(function () {
-                   $state.go($state.current.name,null,{reload:true});
+                Session.delete(null, function () {
+                    delete $cookies.RestxSession;
+                    $state.go('loginState');
+                   //$state.go($state.current.name,null,{reload:true});
                 });
                 Session.user.connected = false;
                 delete Session.user.fullName;

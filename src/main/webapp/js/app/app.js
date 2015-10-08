@@ -65,7 +65,7 @@
 
             $urlRouterProvider.otherwise('/bets');
 
-            $httpProvider.interceptors.push(function ($q, $location, $injector) {
+            $httpProvider.interceptors.push(function ($q, $location, $injector, $cookies) {
 
                 var getAuthService = function () {
                     return $injector.get('authService');
@@ -79,6 +79,12 @@
                 };
 
                 return {
+                    //response: function(response) {
+                    //    // do something on success
+                    //    var h = response.headers();
+                    //    var c = $cookies;
+                    //    return response;
+                    //},
                     responseError: function (rejection) {
                         if (rejection.status === 401 && !isLoginState()) {
                             getAuthService().logout();
@@ -93,7 +99,7 @@
             })
         })
 
-        .run(function ($rootScope, $state) {
+        .run(function ($rootScope, $state, $log) {
             var adminRoute = 'adminState';
             var finalesState='adminFinales';
             var events = 'events';
@@ -114,26 +120,56 @@
                 return _.contains(uncoAuthorized, routeName);
             };
 
-            $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+            //$rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+            //    $log.log('stateChangeSuccess:' + toState.name);
+            //    if (toState.name == subscribeState || toState.name == confirmSubscription) {
+            //        return;
+            //    }
+            //
+            //    if ($rootScope.isConnected()) {
+            //        $log.log('user isConnected');
+            //        if (toState.name === loginRoute) {
+            //            evt.preventDefault()
+            //            $state.go(betsState)
+            //        } else if (adminAuthorized(toState.name) && !$rootScope.isAdmin()) {
+            //            evt.preventDefault()
+            //            $state.go(betsState)
+            //        } else if (!adminAuthorized(toState.name) && $rootScope.isAdmin()) {
+            //            evt.preventDefault()
+            //            $state.go(adminRoute)
+            //        }
+            //    } else {
+            //        $log.log('user is not connected');
+            //        if (!unconnectedAuthorized(toState.name)) {
+            //            evt.preventDefault()
+            //            $state.go(loginRoute)
+            //        }
+            //    }
+            //})
+
+            $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
+                $log.log('stateChangeStart:' + toState.name);
                 if (toState.name == subscribeState || toState.name == confirmSubscription) {
                     return;
                 }
 
                 if ($rootScope.isConnected()) {
+                    $log.log('user isConnected');
                     if (toState.name === loginRoute) {
-                        evt.preventDefault()
-                        $state.go(betsState)
+                        evt.preventDefault();
+                        $state.go(betsState);
                     } else if (adminAuthorized(toState.name) && !$rootScope.isAdmin()) {
-                        evt.preventDefault()
-                        $state.go(betsState)
+                        evt.preventDefault();
+                        $state.go(betsState);
                     } else if (!adminAuthorized(toState.name) && $rootScope.isAdmin()) {
-                        evt.preventDefault()
-                        $state.go(adminRoute)
+                        evt.preventDefault();
+                        $state.go(adminRoute);
                     }
                 } else {
+                    $log.log('user is not connected');
                     if (!unconnectedAuthorized(toState.name)) {
-                        evt.preventDefault()
-                        $state.go(loginRoute)
+                        evt.preventDefault();
+                        $state.go(loginRoute);
                     }
                 }
             })
