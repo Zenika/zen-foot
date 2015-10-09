@@ -13,6 +13,12 @@
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>
+            com.zenika.zenfoot.gae.dao.RegisterEntityServletContextListener
+        </listener-class>
+    </listener>
+
     <!--<servlet>-->
         <!--<servlet-name>appstats</servlet-name>-->
         <!--<servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>-->

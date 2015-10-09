@@ -1,8 +1,6 @@
 package com.zenika.zenfoot.gae.dao;
 
-import com.google.appengine.repackaged.com.google.common.base.StringUtil;
-import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.model.User;
 
@@ -17,13 +15,13 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     @Override
     public User getUser(String email) {
-        User toRet = OfyService.ofy().load().type(User.class).id(email).now();
+        User toRet = ObjectifyService.ofy().load().type(User.class).id(email).now();
         return toRet;
     }
 
     @Override
     public List<User> getAll(@NotNull String name) {
-        return OfyService.ofy().load().type(User.class)
+        return ObjectifyService.ofy().load().type(User.class)
                 .filter("lastname >=", name)
                 .filter("lastname <", name + "\ufffd").list();
     }

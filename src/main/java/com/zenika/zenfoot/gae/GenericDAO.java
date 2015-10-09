@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-import com.zenika.zenfoot.gae.dao.OfyService;
 
 /**
  * @author vickrame
@@ -62,9 +61,9 @@ public class GenericDAO<T> extends AbstractBase<T> implements IGenericDAO<T> {
         logger.info("suppression " + type.getCanonicalName() + " par id " + id);
 
         if (id instanceof Long) {
-            OfyService.ofy().delete().type(type).id((Long) id).now();
+			ObjectifyService.ofy().delete().type(type).id((Long) id).now();
         } else {
-            OfyService.ofy().delete().type(type).id((String) id).now();
+			ObjectifyService.ofy().delete().type(type).id((String) id).now();
         }
     }
 
@@ -74,8 +73,8 @@ public class GenericDAO<T> extends AbstractBase<T> implements IGenericDAO<T> {
      */
     public void deleteAll() {
         logger.info("suppression d'uen liste " + type.getCanonicalName());
-        List<Key<T>> keys = OfyService.ofy().load().type(type).keys().list();
-        OfyService.ofy().delete().keys(keys).now();
+        List<Key<T>> keys = ObjectifyService.ofy().load().type(type).keys().list();
+		ObjectifyService.ofy().delete().keys(keys).now();
     }
 
     /**
@@ -84,7 +83,7 @@ public class GenericDAO<T> extends AbstractBase<T> implements IGenericDAO<T> {
      */
     public Key<T> createUpdate(T model) {
         logger.info("creation entity " + model.getClass().getCanonicalName());
-        return OfyService.ofy().save().entity(model).now();
+        return ObjectifyService.ofy().save().entity(model).now();
     }
 
     /**
