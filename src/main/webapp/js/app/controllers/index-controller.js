@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, $http, Gambler, authService, Events) {
+    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, authService, Events, $log, $cookies) {
 
         function onConnected(principal) {
             Session.user.connected = true;
@@ -15,12 +15,13 @@ angular.module('zenFoot.app')
 
         $rootScope.user = Session.user;
         $scope.$on('AUTHENTICATED', function (event, principal) {
+            $log.log('AUTHENTICATED caught');
             onConnected(principal);
         });
 
-        $http.get('/api/sessions/current', {withCredentials: true})
-            .then(function (response) {
-                return response.data.principal;
+        Session.get().$promise
+            .then(function (data) {
+                return data.principal;
             })
             .then(onConnected)
             .catch(function () {
@@ -29,31 +30,24 @@ angular.module('zenFoot.app')
                 delete Session.user.email;
             });
 
-
         $scope.login = function () {
             $state.go('loginState')
         };
 
-        $scope.logout = authService.logout
-
-        $scope.loggedIn = function () {
-            return Session.user.connected;
+        $scope.isAdmin = function(){
+            return authService.isAdmin($rootScope.user);
         };
 
-        $rootScope.isAdmin = function () {
-            return _.contains($rootScope.user.roles, 'ADMIN');
-        };
+        $scope.isConnected = authService.isConnected;
 
-        $rootScope.isConnected = function () {
-            return $rootScope.user.connected;
-        };
+        $scope.logout = authService.logout;
 
         $scope.isActive = function (state) {
             return $state.includes(state);
         };
 
         $scope.hideNavBar = function () {
-            return $state.current.name == 'loginState' || $state.current.name.trim() == ''
+            return $state.current.name == 'loginState' || $state.current.name.trim() == '';
         };
 
         $scope.eventChanged = function () {

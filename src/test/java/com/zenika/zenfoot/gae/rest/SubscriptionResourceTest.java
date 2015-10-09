@@ -46,7 +46,7 @@ public class SubscriptionResourceTest {
         User user = newUser();
         subscriber.setUser(user);
 
-        when(userService.getFromID(user.getEmail())).thenReturn(new User());
+        when(userService.getUserbyEmail(user.getEmail())).thenReturn(new User());
 
         //call & verify
         BDDCatchException.when(subscriptionResource).subscribe(subscriber);

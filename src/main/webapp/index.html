@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="components/bootstrap-3.1.1-dist/css/bootstrap.css" media="screen">
     <link rel="stylesheet" href="components/ng-grid/ng-grid.min.css" media="screen">
     <link rel="stylesheet" href="components/angular/angular-csp.css" media="screen">
-    <link rel="stylesheet" href="components/angular-ui-grid/ui-grid.min.css" media="screen">
     <link rel="stylesheet" href="css/style.css" media="screen">
     <link rel="stylesheet" href="css/classement.css" media="screen">
     <link rel="stylesheet" href="css/admin.css" media="screen">
@@ -24,13 +23,12 @@
 
 
 <body data-ng-controller="IndexCtrl" >
-
 <!-- Static navbar -->
 
 <div  class="navbar navbar-inverse navbar-fixed-top ng-hide" data-ng-hide="hideNavBar()" role="navigation" ng-cloack>
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="user.connected">
+            <button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="isConnected()">
                 <span class="sr-only">Menu</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -40,7 +38,7 @@
             <span class="navbar-text pull-right visible-xs" ng-bind="user.email"></span>
         </div>
         <div class="navbar-collapse collapse" style="height: 1px;">
-            <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
+            <ul class="nav navbar-nav ng-hide" data-ng-show="isConnected()">
                 <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>
@@ -56,8 +54,8 @@
                         </select>
                     </span>
                 </li>
-                <li data-ng-show="user.connected" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
-                <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
+                <li data-ng-show="isConnected()" class="hidden-xs ng-hide"><span ui-sref="profileState" class="navbar-text" style="cursor: pointer" ng-bind="user.prenom"></span></li>
+                <li data-ng-show="isConnected()" class="ng-hide" data-ng-controller="LoginCtrl">
                     <a data-ng-click="logout()" href="">Se déconnecter</a>
                 </li>
             </ul>
@@ -84,7 +82,6 @@
 <script type="text/javascript" src="components/angular/angular-cookies.js"></script>
 <script type="text/javascript" src="components/angular/angular-md5.js"></script>
 <script type="text/javascript" src="components/angular-ui/unique.js"></script>
-<script type="text/javascript" src="components/angular-ui-grid/ui-grid.min.js"></script>
 <script type="text/javascript" src="components/ng-grid/ng-grid.min.js"></script>
 <script type="text/javascript" src="components/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 <script type="text/javascript" src="components/moment/moment.min.js"></script>

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
 import restx.security.RestxPrincipal;
 
@@ -154,5 +155,9 @@ public class User implements RestxPrincipal {
 
     public void setActivationToken(Integer activationToken) {
         this.activationToken = activationToken;
+    }
+
+    public boolean isAdmin(){
+        return this.getRoles().contains(Roles.ADMIN);
     }
 }

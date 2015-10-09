@@ -51,7 +51,7 @@ public class SubscriptionResource {
     @PermitAll
     public void subscribe(UserAndTeams subscriber) {
         String email = subscriber.getUser().getEmail();
-        User alreadyExistingUser = userService.getFromID(email);
+        User alreadyExistingUser = userService.getUserbyEmail(email);
 
         if (alreadyExistingUser != null) {
             throw new JsonWrappedErrorWebException("SUBSCRIPTION_ERROR_ALREADY_USED_EMAIL",

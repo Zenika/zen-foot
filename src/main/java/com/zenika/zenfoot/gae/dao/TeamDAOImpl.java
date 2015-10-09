@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.dao;
 
 import com.google.common.base.Optional;
+import com.googlecode.objectify.ObjectifyService;
 import com.zenika.zenfoot.gae.GenericDAO;
 import com.zenika.zenfoot.gae.model.Ligue;
 
@@ -16,7 +17,7 @@ public class TeamDAOImpl extends GenericDAO<Ligue> implements TeamDAO {
      * @return the optional of the team corresponding to the name, an absent optional if no team is found 
      */
     public Optional<Ligue> get(String name) {
-        List<Ligue> team = OfyService.ofy().load().type(Ligue.class).filter("name", name).limit(1).list();
+        List<Ligue> team = ObjectifyService.ofy().load().type(Ligue.class).filter("name", name).limit(1).list();
 
         Ligue toRet = null;
         if (team.size() > 1) {
