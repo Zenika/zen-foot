@@ -73,15 +73,10 @@
                     return $injector.get('$state');
                 };
 
-                var isLoginState = function () {
-                    return getState().current.name === 'loginState';
-                };
-
                 return {
                     responseError: function (rejection) {
-                        if (rejection.status === 401 && !isLoginState()) {
+                        if (rejection.status === 401 && !isUnconnectedState(getState().current.name)) {
                             getAuthService().logout();
-//                            getState().go(getState().current.name,null,true );
                         } else if (rejection.status === 403) {
                             getAuthService().redirectToHome();
                         }
@@ -90,33 +85,10 @@
                 }
             })
         })
-
         .run(function ($rootScope, $state, $log, Session, authService) {
-            var events = 'events';
-            var loginRoute = 'loginState';
-            var subscribeState = "subscribeState";
-            var confirmSubscription = "confirmSubscription";
-            var betsState = "betsState";
-            var resetPWD = 'resetPWD';
-            var uncoAuthorized = [loginRoute, resetPWD, subscribeState, confirmSubscription];
-
-            var adminRoute = 'adminState';
-            var finalesState = 'adminFinales';
-            var adminUsers = 'users';
-            var adminRoutes = [adminRoute, finalesState, events, adminUsers];
-
-            var adminAuthorized = function (routeName) {
-                return _.contains(adminRoutes, routeName);
-            };
-
-
-            var unconnectedAuthorized = function (routeName) {
-                return _.contains(uncoAuthorized, routeName);
-            };
-
             $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
                 $log.log('stateChangeStart:' + toState.name);
-                if (unconnectedAuthorized(toState.name)) {
+                if (isUnconnectedState(toState.name)) {
                     return;
                 }
 
@@ -126,7 +98,7 @@
                     });
                 } else {
                     evt.preventDefault();
-                    $state.go(loginRoute);
+                    $state.go('loginState');
                 }
             });
 
@@ -159,6 +131,19 @@
                 return _.size(obj);
             };
         });
+
+        function isUnconnectedState(state){
+                return _.contains(['loginState', 'resetPWD', 'subscribeState', 'confirmSubscription'], state);
+        };
+
+        function adminAuthorized(routeName) {
+            var adminRoute = 'adminState';
+            var finalesState = 'adminFinales';
+            var adminUsers = 'users';
+            var events = 'events';
+            var adminRoutes = [adminRoute, finalesState, events, adminUsers];
+            return _.contains(adminRoutes, routeName);
+        };
 
 
 }());
