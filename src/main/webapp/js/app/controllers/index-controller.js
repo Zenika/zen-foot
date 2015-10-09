@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, $http, Gambler, authService, Events, $log, $cookies) {
+    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, authService, Events, $log, $cookies) {
 
         function onConnected(principal) {
             Session.user.connected = true;
@@ -19,9 +19,9 @@ angular.module('zenFoot.app')
             onConnected(principal);
         });
 
-        $http.get('/api/sessions/current', {withCredentials: true})
-            .then(function (response) {
-                return response.data.principal;
+        Session.get().$promise
+            .then(function (data) {
+                return data.principal;
             })
             .then(onConnected)
             .catch(function () {
@@ -30,20 +30,17 @@ angular.module('zenFoot.app')
                 delete Session.user.email;
             });
 
-
         $scope.login = function () {
             $state.go('loginState')
         };
 
+        $scope.isAdmin = function(){
+            return authService.isAdmin($rootScope.user);
+        };
+
+        $scope.isConnected = authService.isConnected;
+
         $scope.logout = authService.logout;
-
-        $rootScope.isAdmin = function () {
-            return _.contains($rootScope.user.roles, 'ADMIN');
-        };
-
-        $rootScope.isConnected = function () {
-            return angular.isDefined($cookies.RestxSession);
-        };
 
         $scope.isActive = function (state) {
             return $state.includes(state);

@@ -4,7 +4,7 @@ angular.module('zenFoot.app').
     factory('Session', function ($resource) {
         var s = $resource('/api/sessions/:currentkey', {currentkey: 'current'},
             {
-                'get': {method: 'GET', withCredentials: true},
+                'get': {method: 'GET', withCredentials: true, cache: true},
                 'save': {method: 'POST', withCredentials: true},
                 'delete': {method: 'DELETE', withCredentials: true}
             });
