@@ -62,8 +62,23 @@ angular.module('zenFoot.app')
                 Events.matches({id : $scope.event.id}, success);
             }
 
-            $scope.delete = function(match){
-                $scope.matchs.splice($scope.matchs.indexOf(match),1);
+            /*
+                Is a match removable ?
+                Impossible to remove an edited match
+            */
+            $scope.isNotRemovable = function (match) {
+                return match.scoreUpdated;
+            };
+
+            /*
+                Remove a match from an event
+            */
+            $scope.remove = function (match) {
+                Events.removeAMatch({idEvent : $scope.event.id, idMatch : match.id},
+                    function (){
+                       $scope.matchs.splice($scope.matchs.indexOf(match),1);
+                    }
+                );
             };
 
         }]);
