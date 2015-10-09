@@ -123,7 +123,7 @@ public class UserResource {
     @POST("/generateLink")
     @PermitAll
     public void generateLink(User user) {
-        User regUser = userService.getFromID(user.getEmail());
+        User regUser = userService.getUserbyEmail(user.getEmail());
 
         if (regUser == null) {
             throw new WebException(HttpStatus.BAD_REQUEST, "No user for this mail");
