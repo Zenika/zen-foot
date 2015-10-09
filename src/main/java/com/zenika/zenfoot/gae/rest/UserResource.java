@@ -96,12 +96,18 @@ public class UserResource {
 
     @POST("/redirectAfterLogin")
     public void redirectAfterLogin() {
+        final String redirectTo;
+        if(sessionInfo.getUser().isAdmin()){
+            redirectTo = "/#/admin";
+        }else{
+            redirectTo = "/#/bets";
+        }
         throw new WebException(HttpStatus.FOUND) {
             @Override
             public void writeTo(RestxRequest restxRequest, RestxResponse restxResponse) throws IOException {
                 restxResponse
                         .setStatus(getStatus())
-                        .setHeader("Location", "/#/bets");
+                        .setHeader("Location", redirectTo);
             }
         };
     }
@@ -111,7 +117,7 @@ public class UserResource {
     public void changePW(List<String> pwds){
         String oldPW = pwds.get(0);
         String newPW = pwds.get(1);
-        userService.resetPWD(sessionInfo.getUser().getEmail(),oldPW,newPW);
+        userService.resetPWD(sessionInfo.getUser().getEmail(), oldPW,newPW);
     }
 
     @POST("/generateLink")

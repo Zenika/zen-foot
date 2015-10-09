@@ -3,6 +3,7 @@ package com.zenika.zenfoot.gae.services;
 import com.google.common.base.Optional;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.AbstractModelToDtoService;
+import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.UserDAO;
 import com.zenika.zenfoot.gae.dto.UserDTO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
@@ -29,11 +30,15 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
     @Override
     public Optional<User> findUserByName(String email) {
         if (email != null) {
-            User user = this.getFromID(email);
+            User user = this.getUserbyEmail(email);
             return Optional.fromNullable(user);
         } else {
             return Optional.absent();
         }
+    }
+
+    public User getUserbyEmail(String email) {
+        return ((UserDAO) this.getDao()).getUser(email);
     }
 
     /**
@@ -83,7 +88,7 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
 
     @Override
     public User defaultAdmin() {
-        return this.getFromID("admin@zenika.com");
+        return this.getUserbyEmail("admin@zenika.com");
     }
 
     public List<UserDTO> getAllAsDTO(String name) {
@@ -122,4 +127,5 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
         user.setIsActive(true);
         this.createOrUpdate(user);
     }
+
 }
