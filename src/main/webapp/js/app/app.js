@@ -98,7 +98,7 @@
             var confirmSubscription = "confirmSubscription";
             var betsState = "betsState";
             var resetPWD = 'resetPWD';
-            var uncoAuthorized = [loginRoute, resetPWD];
+            var uncoAuthorized = [loginRoute, resetPWD, subscribeState, confirmSubscription];
 
             var adminRoute = 'adminState';
             var finalesState = 'adminFinales';
@@ -116,7 +116,7 @@
 
             $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
                 $log.log('stateChangeStart:' + toState.name);
-                if (toState.name == subscribeState || toState.name == confirmSubscription) {
+                if (unconnectedAuthorized(toState.name)) {
                     return;
                 }
 
@@ -124,7 +124,7 @@
                     Session.get().$promise.then(function (data) {
                         checkAccessAuthorization(evt, toState, data);
                     });
-                } else if (!unconnectedAuthorized(toState.name)) {
+                } else {
                     evt.preventDefault();
                     $state.go(loginRoute);
                 }
