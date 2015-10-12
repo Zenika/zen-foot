@@ -125,6 +125,11 @@ Google App Engine appstat analytics is activated for this application.  It is ac
 The page access is restricted to admins, i.e. to google accounts which are added as admins on the google application settings.
 
 
+# User's properties migration
+
+For sake of clarity, user's properties name and prenom have been changed to lastname and firstname. To perform the migration,
+you need to login as an admin and perform a get request to {app-url}/api/users/migratenameprops
+
 
 ## Remarques sur fonctionnalités
  - équipes disponibles gérèes en dur dans display-service.js

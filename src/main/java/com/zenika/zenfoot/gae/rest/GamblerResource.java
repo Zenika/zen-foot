@@ -2,6 +2,7 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
+import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.services.GamblerService;
 import com.zenika.zenfoot.gae.services.ZenfootUserService;
@@ -76,4 +77,6 @@ public class GamblerResource {
         return userGambler;*/
         return null;
     }
+
+
 }

@@ -1,0 +1,9 @@
+<div ng-repeat="ligue in liguePropositions">
+    <div>
+        {{ligue.name}} (propriétaire: {{ligue.owner.prenom}} - {{ligue.owner.nom}}
+    </div>
+    <div class="yesno-applicant">
+        <span class="glyphicon glyphicon-ok" ng-click="accept(ligueProp, $index)"></span>
+        <span class="glyphicon glyphicon-remove" ng-click="refuse(ligueProp, $index)"></span>
+    </div>
+</div>

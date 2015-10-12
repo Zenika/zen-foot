@@ -5,6 +5,7 @@ import com.googlecode.objectify.Ref;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.LigueDAO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
+import com.zenika.zenfoot.gae.dto.LightLigueDTO;
 import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
@@ -13,6 +14,7 @@ import restx.factory.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.logging.Logger;
@@ -179,5 +181,23 @@ public class LigueService extends AbstractGenericService<Ligue, Long> {
         }
         dtos.add(mapper.getMapper().map(ligue.getOwner().get(), GamblerDTO.class));
         return dtos;
+    }
+
+    public void deleteAwaitingGambler(Long eventId, Long ligueId, Long gamblerId) {
+        Ligue ligue = this.getFromKey(KeyBuilder.buildLigueKey(ligueId, eventId));
+        Iterator<Ref<Gambler>> it = ligue.getAwaits().iterator();
+        while(it.hasNext()){
+            if(it.next().get().getId().equals(gamblerId)){
+                it.remove();
+                break;
+            }
+        }
+        this.createOrUpdate(ligue);
+    }
+
+    public void addMember(Long eventId, Long ligueId, Long gamblerId) {
+        Ligue ligue = this.getFromKey(KeyBuilder.buildLigueKey(ligueId, eventId));
+        ligue.getAccepted().add(KeyBuilder.buildGamblerRef(gamblerId, eventId));
+        this.createOrUpdate(ligue);
     }
 }

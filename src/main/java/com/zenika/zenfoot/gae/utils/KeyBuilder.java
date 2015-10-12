@@ -32,9 +32,9 @@ public class KeyBuilder {
         return Key.create(eventKey, Match.class, idMatch);
     }
     
-    public static Key<Ligue> buildLigueKey(Long LigueMatch, Long idEvent) {
+    public static Key<Ligue> buildLigueKey(Long idLigue, Long idEvent) {
         Key<Event> eventKey = Key.create(Event.class, idEvent);
-        return Key.create(eventKey, Ligue.class, LigueMatch);
+        return Key.create(eventKey, Ligue.class, idLigue);
     }
 
 }

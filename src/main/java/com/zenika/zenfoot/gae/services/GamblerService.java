@@ -2,10 +2,13 @@ package com.zenika.zenfoot.gae.services;
 
 import com.google.appengine.labs.repackaged.com.google.common.collect.Sets;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.GamblerDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.GamblerDTO;
+import com.zenika.zenfoot.gae.dto.LightLigueDTO;
+import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.CalculateScores;
@@ -13,6 +16,7 @@ import com.zenika.zenfoot.gae.utils.KeyBuilder;
 import com.zenika.zenfoot.gae.model.User;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -154,4 +158,13 @@ public class GamblerService extends AbstractGenericService<Gambler, Long> {
     }
 
 
+    public List<LightLigueDTO> getLiguePropositionsForGambler(Long eventId, Long gamblerId) {
+        Gambler gambler = this.getFromKey(KeyBuilder.buildGamblerKey(gamblerId, eventId));
+        List<Ref<Ligue>> liguePropositions = gambler.getLiguePropositions();
+        List<LightLigueDTO> dtos = new ArrayList<>();
+        for(Ref<Ligue> ligue : liguePropositions){
+            dtos.add(mapper.getMapper().map(ligue.get(), LightLigueDTO.class));
+        }
+        return dtos;
+    }
 }

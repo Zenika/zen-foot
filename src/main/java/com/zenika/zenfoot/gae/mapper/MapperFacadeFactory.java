@@ -5,7 +5,9 @@
  */
 package com.zenika.zenfoot.gae.mapper;
 
+import com.zenika.zenfoot.gae.dto.LightLigueDTO;
 import com.zenika.zenfoot.gae.dto.UserDTO;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.User;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;
@@ -32,7 +34,8 @@ public class MapperFacadeFactory {
         addCustomMapper(gamblerDtoToGamblerMapper);
         addCustomMapper(betDtoToBetMapper);
         addCustomMapper(ligueDtoToLigueMapper);
-        mapperFactory.classMap(User.class, UserDTO.class).field("", "").byDefault().register();
+        mapperFactory.classMap(User.class, UserDTO.class).byDefault().register();
+        mapperFactory.classMap(Ligue.class, LightLigueDTO.class).byDefault().register();
         
     }
 

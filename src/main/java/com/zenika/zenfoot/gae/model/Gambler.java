@@ -1,10 +1,13 @@
 package com.zenika.zenfoot.gae.model;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
+
+import java.util.List;
 
 
 @Entity
@@ -28,6 +31,8 @@ public class Gambler {
     @Index
     protected int points;
 
+    //ligues where the gambler is invited to join
+    private List<Ref<Ligue>> liguePropositions;
 
     public Gambler(String email) {
         this.email = email;
@@ -99,4 +104,14 @@ public class Gambler {
     public void setPoints(int points) {
         this.points = points;
     }
+
+
+    public List<Ref<Ligue>> getLiguePropositions() {
+        return liguePropositions;
+    }
+
+    public void setLiguePropositions(List<Ref<Ligue>> liguePropositions) {
+        this.liguePropositions = liguePropositions;
+    }
+
 }

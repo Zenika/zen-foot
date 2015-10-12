@@ -2,10 +2,7 @@ package com.zenika.zenfoot.gae.rest;
 
 import com.googlecode.objectify.Key;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.dto.BetDTO;
-import com.zenika.zenfoot.gae.dto.GamblerDTO;
-import com.zenika.zenfoot.gae.dto.LigueDTO;
-import com.zenika.zenfoot.gae.dto.MatchDTO;
+import com.zenika.zenfoot.gae.dto.*;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Ligue;
@@ -21,7 +18,6 @@ import restx.factory.Component;
 import restx.http.HttpStatus;
 import restx.security.RolesAllowed;
 
-import java.text.MessageFormat;
 import java.util.List;
 import javax.inject.Named;
 
@@ -84,6 +80,23 @@ public class EventResource {
     @RolesAllowed(Roles.GAMBLER)
     public GamblerDTO getGambler(Long id) {
         return eventService.getGambler(id, sessionInfo.getUser().getEmail());
+    }
+
+    @GET("/events/{eventId}/gamblers/{gamblerId}/liguepropositions")
+    @RolesAllowed(Roles.GAMBLER)
+    public List<LightLigueDTO> getLiguePropositions(Long eventId, Long gamblerId){
+        return gamblerService.getLiguePropositionsForGambler(eventId, gamblerId);
+    }
+
+    @PUT("/events/{eventId}/ligue/{ligueId}/deleteawait")
+    @RolesAllowed(Roles.GAMBLER)
+    public void deleteAwaitingGambler(Long eventId, Long ligueId, Long gamblerId){
+        ligueService.deleteAwaitingGambler(eventId, ligueId, gamblerId);
+    }
+
+    @PUT("/events/{eventId}/ligue/{ligueId}/addmember")
+    public void addMember(Long eventId, Long ligueId, Long gamblerId){
+        ligueService.addMember(eventId, ligueId, gamblerId);
     }
 
     @GET("/events/{id}/bets")
