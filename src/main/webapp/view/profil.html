@@ -10,23 +10,23 @@
         <h4 class="form-title titre-profil" style="text-align: left">Modifiez les informations de votre profil</h4>
                 <form action="" method="post" name="editProfileForm" role="form" autocomplete="off">
                     <div class="form-group">
-                        <label for="prenom" class="sr-only">Prénom</label>
+                        <label for="firstname" class="sr-only">Prénom</label>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prénom"
-                                   ng-model="tampon.prenom" required
+                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Prénom"
+                                   ng-model="modifiedUser.firstname" required
                                    autofocus/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="name" class="sr-only">Nom</label>
+                        <label for="lastname" class="sr-only">Nom</label>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Nom"
-                                   ng-model="tampon.nom"
+                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Nom"
+                                   ng-model="modifiedUser.lastname"
                                    required/>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <div class="controls text-center">
                             <button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid || !canModifyNames()"
-                                    ng-click="sendNames()">Modifier
+                                    ng-click="modifyUser()">Modifier
                             </button>
                         </div>
                     </div>

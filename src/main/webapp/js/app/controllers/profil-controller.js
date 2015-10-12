@@ -1,23 +1,15 @@
 'use strict';
 
-angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeout', '$q', 'Gambler','$rootScope', function ($scope, Pwd, $timeout, $q, Gambler,$rootScope) {
+angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeout', '$q', 'User','$rootScope','Session', function ($scope, Pwd, $timeout, $q, User,$rootScope, Session) {
 
-    //scope variables for gambler's first and family names
+    $scope.user = $rootScope.user;
+    $scope.modifiedUser = angular.copy($rootScope.user);
 
-    $q.when(Gambler.get().$promise, function (gambler) {
-        $scope.gambler = gambler;
-        //tampon is used to know whether the user has already modified their name (used to disable or not the validation button)
-        // TODO : improve validation using this variable
-        $scope.tampon = angular.copy(gambler);
-    })
-
-    $scope.sendNames = function () {
-        Gambler.update($scope.tampon,function(response){
-            $scope.gambler = response[1];
-            $scope.tampon = angular.copy($scope.gambler);
-            var user = response[0];
-            $rootScope.user.nom = user.nom;
-            $rootScope.user.prenom = user.prenom;
+    $scope.modifyUser = function () {
+        User.update($scope.modifiedUser,function(response){
+            $rootScope.user.firstname = response.firstname;
+            $rootScope.user.lastname = response.lastname;
+            $scope.modifiedUser = angular.copy($scope.user);
             $scope.messageName = 'Vos données personnelles ont été modifiées';
             $timeout(function(){
                 delete $scope.messageName;
@@ -63,6 +55,13 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
 
     }
 
+    $scope.resetPasswordForm = function () {
+        $scope.confirmPW = null;
+        $scope.passwordCouple[0] = null;
+        $scope.passwordCouple[1] = null;
+        $scope.editPassForm.$setPristine();
+    }
+
     $scope.isOK = function () {
         return 'OK' === $scope.response;
     }
@@ -76,8 +75,8 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
     }
 
     $scope.canModifyNames=function(){
-        if(!$scope.gambler)return;
-        return $scope.gambler.prenom !== $scope.tampon.prenom || $scope.gambler.nom !== $scope.tampon.nom;
+        if(!$scope.user)return;
+        return $scope.user.firstname !== $scope.modifiedUser.firstname || $scope.user.lastname !== $scope.modifiedUser.lastname;
     }
 
 }])

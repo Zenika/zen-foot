@@ -26,6 +26,7 @@ import restx.security.RolesAllowed;
 
 import javax.inject.Named;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class UserResource {
     final private AppInfoService appInfoService;
     final private MailSenderService mailSenderService;
 
-    public UserResource(@Named("sessioninfo") SessionInfo sessionInfo, 
-            @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService, MailSenderService mailSenderService, AppInfoService appInfoService) {
+    public UserResource(@Named("sessioninfo") SessionInfo sessionInfo,
+                        @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService, MailSenderService mailSenderService, AppInfoService appInfoService) {
         this.userService = userService;
         this.sessionInfo = sessionInfo;
         this.pWDLinkService = pWDLinkService;
@@ -55,11 +56,27 @@ public class UserResource {
 
     @GET("/users")
     @RolesAllowed(Roles.ADMIN)
-    public List<UserDTO> getAll(Optional<String> name){
-        if(name.isPresent() && !StringUtil.isEmptyOrWhitespace(name.get())){
+    public List<UserDTO> getAll(Optional<String> name) {
+        if (name.isPresent() && !StringUtil.isEmptyOrWhitespace(name.get())) {
             return userService.getAllAsDTO(name.get());
         }
         return userService.getAllAsDTO();
+    }
+
+    /**
+     * Get one user given its identifier
+     * @param id
+     * @return
+     * @throws WebException - Not Found 404 if user is not found in database
+     */
+    @GET("/users/{id}")
+    @PermitAll
+    public UserDTO getOne(final String id) {
+        final Optional<UserDTO> one = userService.getOne(id);
+        if(one.isPresent()){
+            return one.get();
+        }
+        throw new WebException(HttpStatus.NOT_FOUND, MessageFormat.format("Unknown user with id : {}", id));
     }
 
     @DELETE("/users/{id}")
@@ -81,6 +98,23 @@ public class UserResource {
         userService.activate(id);
     }
 
+    /**
+     * Update user's profile information
+     *
+     * @param id
+     * @param user
+     */
+    @PUT("/users/{id}")
+    @PermitAll
+    public UserDTO updateProfile(final String id, final UserDTO user) {
+
+        // Paramètre ID non utile, respect philosophie REST, accès ressource par ID
+        final Optional<UserDTO> updated = userService.update(user);
+        if(updated.isPresent()){
+            return updated.get();
+        }
+        throw new WebException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user's information.");
+    }
 
     /**
      * Migrate users to use new properties:
@@ -117,7 +151,7 @@ public class UserResource {
     public void changePW(List<String> pwds){
         String oldPW = pwds.get(0);
         String newPW = pwds.get(1);
-        userService.resetPWD(sessionInfo.getUser().getEmail(), oldPW,newPW);
+        userService.resetPWD(sessionInfo.getUser().getEmail(),oldPW,newPW);
     }
 
     @POST("/generateLink")
