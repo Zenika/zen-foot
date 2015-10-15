@@ -91,7 +91,10 @@ angular.module('zenFoot.app')
 
                     _.each(bets, function (bet) {
                         //update bet info
-                        matchesById[bet.matchId].bet = bet;
+                        var match = matchesById[bet.matchId];
+                        if(match) {
+                            match.bet = bet;
+                        }
                     });
 
                     $scope.matchesByGroup = _.groupBy(matches, function (match) {
