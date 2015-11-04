@@ -74,11 +74,15 @@ angular.module('zenFoot.app')
                 Remove a match from an event
             */
             $scope.remove = function (match) {
-                Events.removeAMatch({idEvent : $scope.event.id, idMatch : match.id},
-                    function (){
-                       $scope.matchs.splice($scope.matchs.indexOf(match),1);
-                    }
-                );
+                var message = 'Etes vous sur de vouloir supprimer cet évènement ? ';
+                var confirmation = confirm(message);
+                if (confirmation) {
+                    Events.removeAMatch({idEvent: $scope.event.id, idMatch: match.id},
+                        function () {
+                            $scope.matchs.splice($scope.matchs.indexOf(match), 1);
+                        }
+                    );
+                }
             };
 
         }]);
