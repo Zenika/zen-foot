@@ -10,7 +10,8 @@
             {id: '@email'},
             {
                 resetPWD : {method: 'PUT', url: '/api/users/:id/resetpwd'},
-                activate : {method: 'PUT', url: '/api/users/:id/activate'}
+                activate : {method: 'PUT', url: '/api/users/:id/activate'},
+                update : {method: 'PUT', url: '/api/users/:id'}
             });
 
         return userResource;

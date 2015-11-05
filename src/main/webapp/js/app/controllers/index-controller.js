@@ -1,19 +1,23 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, authService, Events, $log, $cookies) {
+    .controller('IndexCtrl', function ($rootScope, $scope, $state, Session, $http, Gambler, authService, Events, User) {
 
         function onConnected(principal) {
             Session.user.connected = true;
             Session.user.email = principal.email;
-            Session.user.nom = principal.nom;
-            Session.user.prenom = principal.prenom;
+            Session.user.lastname = principal.lastname;
+            Session.user.firstname = principal.firstname;
             Session.user.roles = principal.roles;
+
+            Session.get().$promise.then( function(data) {
+               $rootScope.user= User.get({id:data.principal.email});
+            });
         }
 
+        $rootScope.user = {roles:[]};
         $scope.events = Events.query();
 
-        $rootScope.user = Session.user;
         $scope.$on('AUTHENTICATED', function (event, principal) {
             $log.log('AUTHENTICATED caught');
             onConnected(principal);
@@ -29,6 +33,7 @@ angular.module('zenFoot.app')
                 delete Session.user.fullName;
                 delete Session.user.email;
             });
+
 
         $scope.login = function () {
             $state.go('loginState')

@@ -12,3 +12,4 @@ release.properties
 node_modules
 deployGAE.*
 deploy*
+*.class

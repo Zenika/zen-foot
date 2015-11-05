@@ -8,6 +8,7 @@ import com.zenika.zenfoot.gae.dao.UserDAO;
 import com.zenika.zenfoot.gae.dto.UserDTO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
+import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.User;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
 import ma.glasnost.orika.MapperFactory;
@@ -23,8 +24,10 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZenfootUserService.class);
 
+    final private MapperFacadeFactory mapper;
     public ZenfootUserService(UserDAO userDao, MapperFacadeFactory mapperFacadeFactory) {
         super(userDao, mapperFacadeFactory);
+        this.mapper = mapperFacadeFactory;
     }
     
     @Override
@@ -126,6 +129,25 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
         User user = this.getFromID(email);
         user.setIsActive(true);
         this.createOrUpdate(user);
+    }
+
+    /**
+     * Update user's information.
+     * @param userDTO
+     * @return
+     */
+    public Optional<UserDTO> update(final UserDTO userDTO) {
+        return Optional.of(mapper.getMapper().map(this.createOrUpdateAndReturn(mapper.getMapper().map(userDTO, User.class)), UserDTO.class));
+        // TODO update gambler associés
+    }
+
+    /**
+     * Get one user given its identifier
+     * @param id
+     * @return
+     */
+    public Optional<UserDTO> getOne(final String id) {
+        return Optional.of(mapper.getMapper().map(this.getFromID(id), UserDTO.class));
     }
 
 }
