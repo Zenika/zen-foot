@@ -29,11 +29,17 @@
 <div  class="navbar navbar-inverse navbar-fixed-top ng-hide" data-ng-hide="hideNavBar()" role="navigation" ng-cloack>
     <div class="container">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed ng-hide" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="isConnected()">
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" ui-sref="betsState"><img ng-class="{'shaked':shakeLogo}" class="zen-logo" src="img/logo.png"></a>
             <span class="navbar-text pull-right visible-*" ng-bind="user.email"></span>
         </div>
         <div class="navbar-collapse collapse" style="height: 1px;">
-            <ul class="nav navbar-nav ng-hide" data-ng-show="user.connected">
+            <ul class="nav navbar-nav ng-hide" data-ng-show="isConnected()">
                 <li class="ng-hide" ng-class="{'active':isActive('betsState')}" data-ng-show="!isAdmin()"><a ui-sref="betsState">Pronostics</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('classState')}" data-ng-show="!isAdmin()"><a ui-sref="classState">Classement</a></li>
                 <li class="ng-hide" ng-class="{'active':isActive('adminState')}" data-ng-show="isAdmin()"><a ui-sref="adminState">Résultats</a></li>
@@ -49,11 +55,10 @@
                         </select>
                     </span>
                 </li>
-                <li data-ng-show="user.connected" class="ng-hide">
+                <li data-ng-show="isConnected()" class="ng-hide">
                     <li class="ng-hide" ng-class="{'active':isActive('profileState')}" data-ng-show="!isAdmin()"><a ui-sref="profileState">Mon profil</a></li>
                 </li>
-                <li data-ng-show="user.connected" class="ng-hide" data-ng-controller="LoginCtrl">
-                <li data-ng-show="isConnected()" class="ng-hide" data-ng-controller="LoginCtrl">
+                <li data-ng-show="isConnected()" class="ng-hide"> <!--data-ng-controller="LoginCtrl"-->
                     <a data-ng-click="logout()" href="">Se déconnecter</a>
                 </li>
             </ul>
@@ -64,9 +69,6 @@
 <div id="view" class="container page">
     <div ui-view></div>
 </div>
-
-
-
 
 </body>
 
