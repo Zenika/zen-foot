@@ -15,7 +15,7 @@ import com.zenika.zenfoot.gae.dao.GamblerDAOImpl;
 import com.zenika.zenfoot.gae.dao.MatchDAO;
 import com.zenika.zenfoot.gae.dao.MatchDAOImpl;
 import com.zenika.zenfoot.gae.dao.PWDLinkDAO;
-import com.zenika.zenfoot.gae.dao.PaysDAO;
+import com.zenika.zenfoot.gae.dao.CountryDAO;
 import com.zenika.zenfoot.gae.dao.SportDAO;
 import com.zenika.zenfoot.gae.dao.TeamDAO;
 import com.zenika.zenfoot.gae.services.BetService;
@@ -25,7 +25,9 @@ import com.zenika.zenfoot.gae.services.LigueService;
 import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.SportService;
 import com.zenika.zenfoot.gae.services.PWDLinkService;
-import com.zenika.zenfoot.gae.services.PaysService;
+import com.zenika.zenfoot.gae.services.CountryService;
+import com.zenika.zenfoot.gae.services.TeamRankingService;
+import com.zenika.zenfoot.gae.services.TeamService;
 
 /**
  * Created by raphael on 24/04/14.
@@ -110,6 +112,30 @@ public class ModelModule {
         return new PWDLinkService(pWDLinkDAO);
     }
 
+//    @Provides
+//    @Named("genericPaysDAO")
+//    public GenericDAO<Country> genericPaysDAO(){
+//        return new GenericDAO<Country>(Country.class);
+//    }
+//    
+//    @Provides
+//    @Named("countryService")
+//    public CountryService countryService(){
+//    	return new CountryService(CountryService.class,  genericPaysDAO());
+//    }
+//    
+//    @Provides
+//    @Named("genericSportDAO")
+//    public GenericDAO<Sport> genericSportDAO(){
+//        return new GenericDAO<Sport>(Sport.class);
+//    }
+//    
+//    @Provides
+//    @Named("sportService")
+//    public SportService sportService(){
+//    	return new SportService(SportService.class,  genericSportDAO());
+//    }
+
     //DAOs
     @Provides
     @Named("sportDAO")
@@ -125,14 +151,14 @@ public class ModelModule {
 
     //DAOs
     @Provides
-    @Named("paysDAO")
-    public PaysDAO paysDAO() {
-        return new PaysDAOImpl();
-    }
-
+    @Named("countryDAO")
+    public CountryDAO countryDAO() {
+        return new CountryDAOImpl();
+    }	 
+	
     @Provides
-    @Named("paysService")
-    public PaysService paysService(@Named("paysDAO") PaysDAO paysDAO) {
-        return new PaysService(paysDAO);
+    @Named("countryService")
+    public CountryService countryService(@Named("countryDAO") CountryDAO countryDAO){
+        return new CountryService(countryDAO);
     }
 }

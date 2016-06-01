@@ -15,7 +15,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import com.google.appengine.api.utils.SystemProperty;
 import com.zenika.zenfoot.gae.Roles;
-import com.zenika.zenfoot.gae.model.Pays;
+import com.zenika.zenfoot.gae.model.Country;
 import com.zenika.zenfoot.gae.model.Sport;
 import com.zenika.zenfoot.gae.services.SportService;
 import com.zenika.zenfoot.gae.dao.UserDAO;
@@ -42,8 +42,8 @@ public class UserModule {
 
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, @Named("gamblerService") GamblerService gamblerService,
-                                       MatchService matchService, EventService eventService, @Named("paysService") PaysService paysService, @Named("sportService") SportService sportService) {
+    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, GamblerService gamblerService,
+                                       MatchService matchService, EventService eventService, @Named("countryService") CountryService countryService, @Named("sportService") SportService sportService) {
 
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
             User admin = new User().setLastname("admin").setFirstname("admin").setEmail(
@@ -120,8 +120,9 @@ public class UserModule {
             e.setStart(DateTime.now().minusDays(5).toDate());
             e.setEnd(DateTime.now().plusDays(5).toDate());
             eventService.createOrUpdate(e);
+            
+            injectedCountries(countryService);
 
-            injectedPays(paysService);
             injectedSport(sportService);
 
             Event e2 = new Event();
@@ -192,18 +193,18 @@ public class UserModule {
     }
 
 
-    /**
-     * injection d'une liste de pays
-     *
-     * @param paysService
-     */
-    private void injectedPays(PaysService paysService) {
-        Pays p = new Pays();
-        // p.setIdPays(idPays);
+	/**
+	 * injection d'une liste de countries
+	 * @param countryService
+	 */
+	private void injectedCountries(CountryService countryService) {
+		Country c = new Country();
+		// p.setIdPays(idPays);
 //		p.setIdPays((long)1);
-        p.setNomPays("FRANCE");
-        paysService.createOrUpdate(p);
-    }
+		c.setName("france");
+        c.setDisplayName("France");
+		countryService.createOrUpdate(c);
+	}
 
     @Provides
     @Named("userService")
