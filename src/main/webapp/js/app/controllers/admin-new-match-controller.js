@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('zenFoot.app')
-    .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', '$timeout', 'Events',
-function (Pays, $scope, betMatchService, $timeout, Events) {
-        Pays.getPays().then(function (response) {
+    .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', 'Match', '$timeout', 'Events',
+function (Country, $scope, betMatchService, Match, $timeout, Events) {
+        Country.getCountries().then(function (response) {
+
             $scope.countries = response.data;
         })
 

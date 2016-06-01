@@ -21,13 +21,13 @@
                 <div class="form-group">
                     <label class=sr-only for="team1">Equipe 1</label>
                     <input id="team1" type="text" ng-model="match.team1"
-                           typeahead="country for country in countries | filter:$viewValue | limitTo:8"
+                           typeahead="country.displayName for country in countries | filter:$viewValue | limitTo:8"
                            class="form-control" placeholder="équipe 1" required>
                 </div>
                 <div class="form-group">
                     <label class="sr-only" for="team2">Equipe 2</label>
                     <input id="team2" type="text" ng-model="match.team2"
-                           typeahead="country for country in countries | filter:$viewValue | limitTo:8"
+                           typeahead="country.displayName for country in countries | filter:$viewValue | limitTo:8"
                            class="form-control" placeholder="équipe 2" required>
                 </div>
                 <div class="form-group">
