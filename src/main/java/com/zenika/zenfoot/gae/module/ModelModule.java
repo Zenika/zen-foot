@@ -26,8 +26,6 @@ import com.zenika.zenfoot.gae.services.MatchService;
 import com.zenika.zenfoot.gae.services.SportService;
 import com.zenika.zenfoot.gae.services.PWDLinkService;
 import com.zenika.zenfoot.gae.services.CountryService;
-import com.zenika.zenfoot.gae.services.TeamRankingService;
-import com.zenika.zenfoot.gae.services.TeamService;
 
 /**
  * Created by raphael on 24/04/14.

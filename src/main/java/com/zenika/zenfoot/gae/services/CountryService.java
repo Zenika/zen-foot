@@ -13,7 +13,7 @@ import java.util.List;
  * @author vickrame
  *
  */
-public class CountryService extends AbstractGenericService<Country>{
+public class CountryService extends AbstractGenericService<Country, Long>{
 
     private static final long serialVersionUID = 1L;
 
