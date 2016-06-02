@@ -1,6 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
 import com.googlecode.objectify.Key;
+import com.neovisionaries.i18n.CountryCode;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.services.*;
@@ -11,6 +12,7 @@ import restx.factory.Provides;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import com.google.appengine.api.utils.SystemProperty;
@@ -42,7 +44,7 @@ public class UserModule {
 
     @Provides
     @Named("userServiceGAE")
-    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, GamblerService gamblerService,
+    public UserService getUserService2(@Named("zenfootUserService") ZenfootUserService zenfootUserService, @Named("gamblerService") GamblerService gamblerService,
                                        MatchService matchService, EventService eventService, @Named("countryService") CountryService countryService, @Named("sportService") SportService sportService) {
 
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
@@ -116,21 +118,22 @@ public class UserModule {
 
 
             Event e = new Event();
-            e.setName("Cdm 2014 Foot");
-            e.setStart(DateTime.now().minusDays(5).toDate());
-            e.setEnd(DateTime.now().plusDays(5).toDate());
+            e.setName("Euro 2016");
+            e.setStart(new DateTime(2016, 6, 10, 21, 0).toDate());
+            e.setEnd(new DateTime(2016, 7, 10, 23, 59).toDate());
             eventService.createOrUpdate(e);
             
             injectedCountries(countryService);
 
             injectedSport(sportService);
 
-            Event e2 = new Event();
+            /*Event e2 = new Event();
             e2.setName("Cdm 2015 Rugby");
             e2.setStart(DateTime.now().plusDays(5).toDate());
             e2.setEnd(DateTime.now().plusDays(15).toDate());
             eventService.createOrUpdate(e2);
 //            MatchDAO matchDAO = new MatchDAOImpl();
+            */
 
             Match[] matches = GenerateMatches.generate();
             List<Match> registered = matchService.getAll();
@@ -144,7 +147,7 @@ public class UserModule {
                 if (i > 30) {
                     match.setDate(DateTime.now().minusDays(i).withHourOfDay(i % 23));
                 }
-                match.setEvent(Key.create(Event.class, e2.getId()));
+                match.setEvent(Key.create(Event.class, e.getId()));
 //                        matchDAO.createUpdate(match);
                 matchService.createOrUpdate(match);
             }
@@ -198,12 +201,17 @@ public class UserModule {
 	 * @param countryService
 	 */
 	private void injectedCountries(CountryService countryService) {
-		Country c = new Country();
+        for (CountryCode code : CountryCode.values())
+        {
+            countryService.createOrUpdate(new Country(code));
+        }
+        countryService.createOrUpdate(new Country(1000L, "Angleterre", "angleterre"));
+		/* Country c = new Country();
 		// p.setIdPays(idPays);
 //		p.setIdPays((long)1);
 		c.setName("france");
         c.setDisplayName("France");
-		countryService.createOrUpdate(c);
+		countryService.createOrUpdate(c); */
 	}
 
     @Provides

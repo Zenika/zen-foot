@@ -1,5 +1,7 @@
 package com.zenika.zenfoot.gae.module;
 
+import com.neovisionaries.i18n.CountryCode;
+import com.zenika.zenfoot.gae.model.Country;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -8,52 +10,20 @@ import com.zenika.zenfoot.gae.model.Match;
 import com.zenika.zenfoot.gae.model.Sport;
 import com.zenika.zenfoot.gae.utils.Constants;
 
+import java.util.Locale;
+
 /**
  * Created by raphael on 06/05/14.
  */
 public class GenerateMatches {
 
     //src/main/webapp/
-
     public static Match[] generate() {
-        String croatie = "croatie";
-        String bresil = "bresil";
-        String cameroun = "cameroun";
-        String mexique = "mexique";
-        String espagne = "espagne";
-        String paysBas = "paysBas";
-        String chili = "chili";
-        String australie = "australie";
-        String colombie = "colombie";
-        String grece = "grece";
-        String uruguay = "uruguay";
-        String costaRica = "costaRica";
-        String angleterre = "angleterre";
-        String italie = "italie";
-        String coteIvoir = "coteIvoir";
-        String japon = "japon";
-        String suisse = "suisse";
-        String equateur = "equateur";
-        String honduras = "honduras";
-        String france = "france";
-        String argentine = "argentine";
-        String bosnie = "bosnie";
-        String allemagne = "allemagne";
-        String portugal = "portugal";
-        String iran = "iran";
-        String nigeria = "nigeria";
-        String ghana = "ghana";
-        String usa = "usa";
-        String belgique = "belgique";
-        String algerie = "algerie";
-        String russie = "russie";
-        String coree = "coree";
-
-        DateTimeZone timezone = Constants.timeZone;
+                DateTimeZone timezone = Constants.timeZone;
 
         Match[] matches = {
-                new Match(new DateTime(2014, 6, 12, 22, 0, timezone), "A", croatie, bresil, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
-                new Match(new DateTime(2014, 6, 13, 18, 0, timezone), "A", cameroun, mexique, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
+                new Match(new DateTime(2014, 6, 12, 22, 0, timezone), "A", new Country(CountryCode.HR), new Country(CountryCode.BR), new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
+               /* new Match(new DateTime(2014, 6, 13, 18, 0, timezone), "A", cameroun, mexique, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
                 new Match(new DateTime(2014, 6, 13, 21, 0, timezone), "B", espagne, paysBas, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
                 new Match(new DateTime(2014, 6, 13, 0, 0, timezone), "B", chili, australie, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
                 new Match(new DateTime(2014, 6, 14, 18, 0, timezone), "C", colombie, grece, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(),SportEnum.FOOTBALL.getNameSport())),
@@ -101,13 +71,13 @@ public class GenerateMatches {
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), "H", coree, belgique, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(), SportEnum.FOOTBALL.getNameSport())),
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), "H", algerie, russie, new Sport(SportEnum.FOOTBALL.getIdentifiantSport(), SportEnum.FOOTBALL.getNameSport())),
 
-                
+
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), null, france, usa, new Sport(SportEnum.TENNIS.getIdentifiantSport(), SportEnum.TENNIS.getNameSport())),
-                
+
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), "A", france, espagne, new Sport(SportEnum.BASKET.getIdentifiantSport(), SportEnum.BASKET.getNameSport())),
 
                 new Match(new DateTime(2014, 6, 26, 22, 0, timezone), "B", france, grece, new Sport(SportEnum.HANDBALL.getIdentifiantSport(), SportEnum.HANDBALL.getNameSport())),
-                
+            */
         };
 
         return matches;

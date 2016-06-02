@@ -4,9 +4,11 @@
 package com.zenika.zenfoot.gae.model;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.neovisionaries.i18n.CountryCode;
 
 /**
  * @author vickrame
@@ -91,4 +93,9 @@ public class Country implements Serializable {
         this.displayName = displayName;
     }
 
+    public Country(CountryCode code) {
+        this.id = (long)code.getNumeric();
+        this.displayName = code.toLocale().getDisplayCountry(Locale.FRENCH);
+        this.name = code.getAlpha3();
+    }
 }

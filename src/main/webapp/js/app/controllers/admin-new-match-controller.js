@@ -4,7 +4,6 @@ angular.module('zenFoot.app')
     .controller('AdminFinalesCtrl', ['Pays', '$scope', 'betMatchService', 'Match', '$timeout', 'Events',
 function (Country, $scope, betMatchService, Match, $timeout, Events) {
         Country.getCountries().then(function (response) {
-
             $scope.countries = response.data;
         })
 
@@ -13,7 +12,7 @@ function (Country, $scope, betMatchService, Match, $timeout, Events) {
         $scope.today = new Date();
 
         $scope.newMatch = function () {
-            $scope.match = {team1: '', team2: '', score1: null, score2: null, date: null, event : null};
+            $scope.match = {team1: null, team2: null, score1: null, score2: null, date: null, event : null};
         }
         $scope.newMatch();
 
@@ -55,7 +54,7 @@ function (Country, $scope, betMatchService, Match, $timeout, Events) {
 
         $scope.register = function (match) {
             var message = 'Voulez vous enregistrer le match suivant ? : ';
-            message += '\n' + match.team1 + " - " + match.team2;
+            message += '\n' + match.team1.displayName + " - " + match.team2.displayName;
             message += '\n' + match.date.getDate() + '/' + (match.date.getMonth()+1) + '/' + match.date.getFullYear() + ' à ' + match.date.getHours() + ':' + match.date.getMinutes();
             var confirmation = confirm(message);
             if (confirmation) {

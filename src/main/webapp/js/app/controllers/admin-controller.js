@@ -20,8 +20,8 @@ angular.module('zenFoot.app')
 
                 var message = "Etes vous sûr de vouloir enregistrer le match suivant :";
                 message += "\n" + date;
-                message += "\n" + match.team1 + " : " + match.score1;
-                message += "\n" + match.team2 + " : " + match.score2;
+                message += "\n" + match.team1.displayName + " : " + match.score1;
+                message += "\n" + match.team2.displayName + " : " + match.score2;
                 if(match.scoreUpdated){
                     message +='\n';
                     message += '\n attention ! Les résultats de ce match avaient déjà été enregistrés !';

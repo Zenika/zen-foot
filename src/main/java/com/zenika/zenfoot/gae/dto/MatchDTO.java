@@ -11,8 +11,8 @@ public class MatchDTO implements Serializable{
     private DateTime date;
     private String groupe;
 
-    private String team1;
-    private String team2;
+    private Country team1;
+    private Country team2;
 
     private Integer score1;
     private Integer score2;
@@ -23,7 +23,7 @@ public class MatchDTO implements Serializable{
     public MatchDTO() {
     }
 
-    public MatchDTO(DateTime date, String groupe, String team1, String team2) {
+    public MatchDTO(DateTime date, String groupe, Country team1, Country team2) {
         this.date = date;
         this.groupe = groupe;
         this.team1 = team1;
@@ -55,19 +55,19 @@ public class MatchDTO implements Serializable{
         this.groupe = groupe;
     }
 
-    public String getTeam1() {
+    public Country getTeam1() {
         return team1;
     }
 
-    public void setTeam1(String team1) {
+    public void setTeam1(Country team1) {
         this.team1 = team1;
     }
 
-    public String getTeam2() {
+    public Country getTeam2() {
         return team2;
     }
 
-    public void setTeam2(String team2) {
+    public void setTeam2(Country team2) {
         this.team2 = team2;
     }
 
