@@ -143,10 +143,10 @@ public class UserModule {
             for (int i = 0; i < matches.length; i++) {
                 //TODO ONLY FOR TESTS
                 Match match = matches[i];
-                match.setDate(DateTime.now().plusSeconds(30 * i));
-                if (i > 30) {
-                    match.setDate(DateTime.now().minusDays(i).withHourOfDay(i % 23));
-                }
+                //match.setDate(DateTime.now().plusSeconds(30 * i));
+                //if (i > 30) {
+                   // match.setDate(DateTime.now().minusDays(i).withHourOfDay(i % 23));
+                //}
                 match.setEvent(Key.create(Event.class, e.getId()));
 //                        matchDAO.createUpdate(match);
                 matchService.createOrUpdate(match);
@@ -205,7 +205,9 @@ public class UserModule {
         {
             countryService.createOrUpdate(new Country(code));
         }
-        countryService.createOrUpdate(new Country(1000L, "Angleterre", "angleterre"));
+        countryService.createOrUpdate(new Country(1000L, "Angleterre", "eng"));
+        countryService.createOrUpdate(new Country(1001L, "Écosse", "sct"));
+        countryService.createOrUpdate(new Country(1001L, "Pays de Galles", "wls"));
 		/* Country c = new Country();
 		// p.setIdPays(idPays);
 //		p.setIdPays((long)1);
