@@ -135,7 +135,7 @@ public class UserModule {
 //            MatchDAO matchDAO = new MatchDAOImpl();
             */
 
-            Match[] matches = GenerateMatches.generate();
+            Match[] matches = GenerateMatches.generate(countryService);
             List<Match> registered = matchService.getAll();
 
             //check whether there were registered matchs
@@ -205,13 +205,14 @@ public class UserModule {
         {
             countryService.createOrUpdate(new Country(code));
         }
-        countryService.createOrUpdate(new Country(1000L, "Angleterre", "eng"));
-        countryService.createOrUpdate(new Country(1001L, "Écosse", "sct"));
-        countryService.createOrUpdate(new Country(1001L, "Pays de Galles", "wls"));
+        countryService.createOrUpdate(new Country(1000L, "Angleterre", "gb-eng"));
+        countryService.createOrUpdate(new Country(1001L, "Écosse", "gb-sct"));
+        countryService.createOrUpdate(new Country(1002L, "Pays de Galles", "gb-wls"));
+        countryService.createOrUpdate(new Country(1003L, "Irlande du Nord", "gb-nir"));
 		/* Country c = new Country();
 		// p.setIdPays(idPays);
 //		p.setIdPays((long)1);
-		c.setName("france");
+		c.setCode("france");
         c.setDisplayName("France");
 		countryService.createOrUpdate(c); */
 	}
