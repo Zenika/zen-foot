@@ -34,4 +34,18 @@ public class CountryService extends AbstractGenericService<Country, Long>{
         }
         return toRet;
     }
+
+    public Country getByAlpha2Code(String alpha2CountryCode){
+        List<Country> countries = this.getDao().getAll();
+        Country toRet = null;
+        if(countries != null){
+            for(Country country : countries){
+                if(country.getCountryName().equals(alpha2CountryCode)){
+                    toRet = country;
+                    break;
+                }
+            }
+        }
+        return toRet;
+    }
 }
