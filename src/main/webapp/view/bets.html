@@ -77,8 +77,7 @@
                                             <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2), 'match-winner': isTeamWinner(match.score1, match.score2)}">
                                                 {{match.team1.displayName}}
                                             </span>
-
-                                            <span class="country-flag" ng-class="match.team1"></span>
+                                            <span class="flag-icon {{getFlagClass(match.team1)}}" />
                                             <ng-form name="score1Form"
                                                      data-ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
                                                 <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classement-other-win':isMaxPoints(match,match.bet),
@@ -134,9 +133,9 @@
                                                       data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
 
-                                            <span class="country-flag" ng-class="match.team2"></span>
-
+                                            <span class="flag-icon {{getFlagClass(match.team2)}}" />
                                             <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1), 'match-winner': isTeamWinner(match.score2, match.score1)}">
+                                                
                                                 {{match.team2.displayName}}
                                             </span>
                                         </div>

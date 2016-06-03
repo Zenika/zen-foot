@@ -36,6 +36,7 @@
                         </div>
                         <div class="col-sm-2 text-right" data-ng-class="{'zen-bold':isWinner(match,'score1','score2')}">
                             {{match.team1.displayName}}
+                            <span class="flag-icon {{getFlagClass(match.team1)}}" />
                         </div>
                         <ng-form name="ngscoreForm">
                             <div class="col-sm-1"
@@ -57,6 +58,7 @@
                             </div>
                         </ng-form>
                         <div class="col-sm-2 text-left" data-ng-class="{'zen-bold':isWinner(match,'score2','score1')}">
+                            <span class="flag-icon {{getFlagClass(match.team2)}}" />
                             {{match.team2.displayName}}
                         </div>
                         <div class="col-sm-1">

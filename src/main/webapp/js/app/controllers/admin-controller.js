@@ -14,7 +14,9 @@ angular.module('zenFoot.app')
                 var partiallyFilled = (score1NotFilled && !score2NotFilled) || (!score1NotFilled && score2NotFilled);
                 return partiallyFilled;
             };
-
+            $scope.getFlagClass = function (team) {
+                return 'flag-icon-' + team.countryName;
+            }
             $scope.poster = function (match) {
                 var date = $filter('date')(match.date, 'le dd/MM/yyyy à HH:mm');
 
