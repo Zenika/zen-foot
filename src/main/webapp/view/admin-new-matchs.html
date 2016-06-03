@@ -1,5 +1,10 @@
 <div class="row" data-ng-controller="AdminFinalesCtrl">
-
+<script type="text/ng-template" id="customTemplate.html">
+  <a>
+      <span class="flag-icon {{'flag-icon-' + match.model.countryName}}" />
+      {{match.label}}
+  </a>
+</script>
     <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
     <h3>Nouveaux matchs</h3>
             <div class="alert alert-success" ng-show="registeredMatch">
@@ -22,12 +27,15 @@
                     <label class=sr-only for="team1">Equipe 1</label>
                     <input id="team1" type="text" ng-model="match.team1" autocomplete="off"
                            typeahead="country as country.displayName for country in countries | filter:$viewValue | limitTo:8"
+                           typeahead-template-url="customTemplate.html"
                            class="form-control" placeholder="équipe 1" required>
                 </div>
                 <div class="form-group">
                     <label class="sr-only" for="team2">Equipe 2</label>
                     <input id="team2" type="text" ng-model="match.team2" autocomplete="off"
                            typeahead="country as country.displayName for country in countries | filter:$viewValue | limitTo:8"
+                           typeahead-template-url="customTemplate.html"
+                           typeahead-show-hint="true"
                            class="form-control" placeholder="équipe 2" required>
                 </div>
                 <div class="form-group">
