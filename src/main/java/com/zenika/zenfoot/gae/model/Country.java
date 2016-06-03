@@ -96,6 +96,6 @@ public class Country implements Serializable {
     public Country(CountryCode code) {
         this.id = (long)code.getNumeric();
         this.displayName = code.toLocale().getDisplayCountry(Locale.FRENCH);
-        this.name = code.getAlpha3();
+        this.name = code.getAlpha2().toLowerCase();
     }
 }
