@@ -25,7 +25,7 @@ public class Country implements Serializable {
     @Id
     private Long id;
 
-    private String name;
+    private String code;
 
     private String displayName;
 
@@ -44,22 +44,22 @@ public class Country implements Serializable {
 //	}
 
     /**
-     * @return the name
+     * @return the code
      */
     public String getCountryName() {
-        return name;
+        return code;
     }
 
     /**
-     * @param name the name to set
+     * @param code the code to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**
      *
-     * @return The display name
+     * @return The display code
      */
     public String getDisplayName() {
         return displayName;
@@ -67,7 +67,7 @@ public class Country implements Serializable {
 
     /**
      *
-     * @param displayName the display name
+     * @param displayName the display code
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -82,20 +82,20 @@ public class Country implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Country [id=").append(id).append(", name=")
-                .append(name).append(", displayName=").append(displayName).append("]");
+        builder.append("Country [id=").append(id).append(", code=")
+                .append(code).append(", displayName=").append(displayName).append("]");
         return builder.toString();
     }
 
-    public Country(Long id, String name, String displayName) {
+    public Country(Long id, String displayName, String countryCode) {
         this.id = id;
-        this.name = name;
+        this.code = countryCode;
         this.displayName = displayName;
     }
 
     public Country(CountryCode code) {
         this.id = (long)code.getNumeric();
         this.displayName = code.toLocale().getDisplayCountry(Locale.FRENCH);
-        this.name = code.getAlpha2().toLowerCase();
+        this.code = code.getAlpha2().toLowerCase();
     }
 }
