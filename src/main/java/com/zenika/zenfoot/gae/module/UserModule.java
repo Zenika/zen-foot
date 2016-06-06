@@ -12,7 +12,6 @@ import restx.factory.Provides;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import com.google.appengine.api.utils.SystemProperty;
@@ -48,53 +47,53 @@ public class UserModule {
                                        MatchService matchService, EventService eventService, @Named("countryService") CountryService countryService, @Named("sportService") SportService sportService) {
 
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
-            User admin = new User().setLastname("admin").setFirstname("admin").setEmail(
+            User admin = new User().setLastName("admin").setFirstName("admin").setEmail(
                         "admin@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
             admin.hashAndSetPassword("2205");
 
-            User jean = new User().setLastname("Bon").setFirstname("Jean").setEmail("jean.bon@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User jean = new User().setLastName("Bon").setFirstName("Jean").setEmail("jean.bon@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             jean.hashAndSetPassword("999");
 
-            User mira = new User().setLastname("Sorvino").setFirstname("Mira").setEmail("j1@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User mira = new User().setLastName("Sorvino").setFirstName("Mira").setEmail("j1@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             mira.hashAndSetPassword("999");
 
-            User bill = new User().setLastname("Murray").setFirstname("Bill").setEmail("j2@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User bill = new User().setLastName("Murray").setFirstName("Bill").setEmail("j2@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             bill.hashAndSetPassword("999");
 
-            User andy = new User().setFirstname("Andy").setLastname("Mc-Dowell").setEmail("j3@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User andy = new User().setFirstName("Andy").setLastName("Mc-Dowell").setEmail("j3@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             andy.hashAndSetPassword("999");
 
-            User sophie = new User().setFirstname("Sophie").setLastname("Marceau").setEmail("j4@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User sophie = new User().setFirstName("Sophie").setLastName("Marceau").setEmail("j4@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             sophie.hashAndSetPassword("999");
 
-            User kate = new User().setFirstname("Kate").setLastname("Winslet").setEmail("j5@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User kate = new User().setFirstName("Kate").setLastName("Winslet").setEmail("j5@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             kate.hashAndSetPassword("999");
 
-            User olivier = new User().setFirstname("Olivier").setLastname("Martinez").setEmail("j6@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User olivier = new User().setFirstName("Olivier").setLastName("Martinez").setEmail("j6@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             olivier.hashAndSetPassword("999");
 
-            User russell = new User().setFirstname("Russell").setLastname("Crowe").setEmail("j7@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User russell = new User().setFirstName("Russell").setLastName("Crowe").setEmail("j7@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             russell.hashAndSetPassword("999");
 
-            User harold = new User().setFirstname("Harold").setLastname("Ramis").setEmail("j8@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User harold = new User().setFirstName("Harold").setLastName("Ramis").setEmail("j8@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             harold.hashAndSetPassword("999");
 
-            User richard = new User().setFirstname("Richard").setLastname("Virenque").setEmail("j9@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User richard = new User().setFirstName("Richard").setLastName("Virenque").setEmail("j9@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             richard.hashAndSetPassword("999");
 
-            User jc = new User().setFirstname("Jean-Claude").setLastname("Duss").setEmail("j10@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User jc = new User().setFirstName("Jean-Claude").setLastName("Duss").setEmail("j10@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             jc.hashAndSetPassword("999");
 
-            User leonardo = new User().setFirstname("Leonardo").setLastname("Di-Caprio").setEmail("j11@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
+            User leonardo = new User().setFirstName("Leonardo").setLastName("Di-Caprio").setEmail("j11@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
             leonardo.hashAndSetPassword("999");
 
-            User j = new User().setEmail("j@j.fr").setLastname("j").setFirstname("j").setRoles(Arrays.asList(Roles.GAMBLER));
+            User j = new User().setEmail("j@j.fr").setLastName("j").setFirstName("j").setRoles(Arrays.asList(Roles.GAMBLER));
             j.hashAndSetPassword("999");
 
-            User l = new User().setEmail("l@l.fr").setLastname("l").setFirstname("l").setRoles(Arrays.asList(Roles.GAMBLER));
+            User l = new User().setEmail("l@l.fr").setLastName("l").setFirstName("l").setRoles(Arrays.asList(Roles.GAMBLER));
             l.hashAndSetPassword("999");
 
-            User k = new User().setEmail("k@k.fr").setLastname("k").setFirstname("k").setRoles(Arrays.asList(Roles.GAMBLER));
+            User k = new User().setEmail("k@k.fr").setLastName("k").setFirstName("k").setRoles(Arrays.asList(Roles.GAMBLER));
             k.hashAndSetPassword("999");
 
             zenfootUserService.createOrUpdate(admin);
@@ -113,6 +112,10 @@ public class UserModule {
             zenfootUserService.createOrUpdate(j);
             zenfootUserService.createOrUpdate(k);
             zenfootUserService.createOrUpdate(l);
+
+            injectedCountries(countryService);
+            injectedSport(sportService);
+            
             Match[] matches = GenerateMatches.generate(countryService);
             List<Match> registered = matchService.getAll();
 
@@ -122,8 +125,7 @@ public class UserModule {
             e.setEnd(new DateTime(2016, 7, 10, 23, 59).toDate());
             eventService.createOrUpdate(e);
 
-            injectedCountries(countryService);
-            injectedSport(sportService);
+
 
             for (int i = 0; i < matches.length; i++) {
                 Match match = matches[i];
