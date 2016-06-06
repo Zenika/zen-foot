@@ -21,12 +21,12 @@ public class CountryService extends AbstractGenericService<Country, Long>{
         super(dao);
     }
 
-    public boolean contains(String countryName) {
+    public boolean contains(String code) {
         List<Country> countries = this.getDao().getAll();
         boolean toRet = false;
         if (countries != null && countries.size() > 0) {
             for(Country country : countries){
-                if(country.getCountryName().equals(countryName)){
+                if(country.getCode().equals(code)){
                     toRet = true;
                     break;
                 }
@@ -40,7 +40,7 @@ public class CountryService extends AbstractGenericService<Country, Long>{
         Country toRet = null;
         if(countries != null){
             for(Country country : countries){
-                if(country.getCountryName().equals(alpha2CountryCode)){
+                if(country.getCode().equals(alpha2CountryCode)){
                     toRet = country;
                     break;
                 }

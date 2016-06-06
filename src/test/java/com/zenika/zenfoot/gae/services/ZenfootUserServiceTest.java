@@ -33,7 +33,7 @@ public class ZenfootUserServiceTest {
 
     @Before
     public void setUp(){
-        mapperFacadeFactory = new MapperFacadeFactory(null, null, null, null);
+        mapperFacadeFactory = new MapperFacadeFactory(null, null, null, null, null);
         zenfootUserService = new ZenfootUserService(userDAO, mapperFacadeFactory);
     }
 

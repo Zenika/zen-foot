@@ -15,8 +15,8 @@ angular.module('zenFoot.app')
                 return partiallyFilled;
             };
             $scope.getFlagClass = function (team) {
-                if(team && team.countryName)
-                    return 'flag-icon-' + team.countryName;
+                if(team && team.code)
+                    return 'flag-icon-' + team.code;
                 else
                     return '';
             }

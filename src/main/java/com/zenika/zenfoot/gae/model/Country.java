@@ -46,7 +46,7 @@ public class Country implements Serializable {
     /**
      * @return the code
      */
-    public String getCountryName() {
+    public String getCode() {
         return code;
     }
 

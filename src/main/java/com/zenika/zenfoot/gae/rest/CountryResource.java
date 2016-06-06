@@ -37,7 +37,7 @@ public class CountryResource {
     @POST("/countries")
     @RolesAllowed(Roles.ADMIN)
     public Country createCountry(Country country) {
-        if (countryService.contains(country.getCountryName())) {
+        if (countryService.contains(country.getCode())) {
             throw new WebException(HttpStatus.BAD_REQUEST);
         }
         return countryService.getFromKey(

@@ -115,7 +115,7 @@ public class UserModule {
 
             injectedCountries(countryService);
             injectedSport(sportService);
-            
+
             Match[] matches = GenerateMatches.generate(countryService);
             List<Match> registered = matchService.getAll();
 

@@ -25,7 +25,7 @@ angular.module('zenFoot.app')
             $scope.betSavedSuccess = false;
             $scope.betSavedError = false;
             $scope.getFlagClass = function (team) {
-                return 'flag-icon-' + team.countryName;
+                return 'flag-icon-' + team.code;
             }
             $scope.displayGroup=function(group){
                 var texte;

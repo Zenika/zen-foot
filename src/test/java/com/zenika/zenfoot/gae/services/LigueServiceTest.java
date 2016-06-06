@@ -37,7 +37,7 @@ public class LigueServiceTest {
 
     @Before
     public void setUp(){
-        mapperFacadeFactory = new MapperFacadeFactory(null, new GamblerDtoToGamblerMapper(), null, null);
+        mapperFacadeFactory = new MapperFacadeFactory(null, new GamblerDtoToGamblerMapper(), null, null, null);
         ligueService = new LigueService(ligueDAO, mapperFacadeFactory);
         ligueService = spy(ligueService);
     }
