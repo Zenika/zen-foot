@@ -148,7 +148,7 @@ angular.module('zenFoot.app')
             };
 
             var parieurTemplate = {};
-            parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.gamblerId}}">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
+            parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.gamblerId}}">{{row.entity.firstName}} {{row.entity.lastName}}</a></div>';
             parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.name}}</a></div>';
 
 

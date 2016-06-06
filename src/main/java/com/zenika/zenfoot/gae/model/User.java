@@ -18,9 +18,9 @@ public class User implements RestxPrincipal {
 	private String email;
 
     @Index
-	private String lastname;
+	private String lastName;
 
-    private String firstname;
+    private String firstName;
 
 	private Collection<String> roles;
 
@@ -30,7 +30,7 @@ public class User implements RestxPrincipal {
 
     private Integer activationToken;
 
-    //all is deprecated: use lastname and firstname
+    //all is deprecated: use lastName and firstName
     @Deprecated
     private String name;
 
@@ -66,21 +66,21 @@ public class User implements RestxPrincipal {
 		return email;
 	}
 
-    public String getLastname(){
-        return this.lastname;
+    public String getLastName(){
+        return this.lastName;
     }
 
-	public User setLastname(String lastname) {
-		this.lastname = lastname;
+	public User setLastName(String lastName) {
+		this.lastName = lastName;
 		return this;
 	}
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public User setFirstname(String firstname) {
-        this.firstname = firstname;
+    public User setFirstName(String firstName) {
+        this.firstName = firstName;
         return this;
     }
 

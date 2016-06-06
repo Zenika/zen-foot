@@ -6,8 +6,8 @@ angular.module('zenFoot.app')
         function onConnected(principal) {
             Session.user.connected = true;
             Session.user.email = principal.email;
-            Session.user.lastname = principal.lastname;
-            Session.user.firstname = principal.firstname;
+            Session.user.lastName = principal.lastName;
+            Session.user.firstName = principal.firstName;
             Session.user.roles = principal.roles;
 
             Session.get().$promise.then( function(data) {

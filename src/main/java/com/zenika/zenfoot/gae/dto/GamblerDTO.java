@@ -1,12 +1,9 @@
 package com.zenika.zenfoot.gae.dto;
 
 import com.zenika.zenfoot.gae.model.*;
-import com.googlecode.objectify.Key;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GamblerDTO {
 
@@ -22,9 +19,9 @@ public class GamblerDTO {
      */
     private String email;
 
-    private String nom;
+    private String lastName;
 
-    private String prenom;
+    private String firstName;
     
     private Event event;
     
@@ -75,20 +72,20 @@ public class GamblerDTO {
         this.email = email;
     }
 
-    public String getNom() {
-        return nom;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
 

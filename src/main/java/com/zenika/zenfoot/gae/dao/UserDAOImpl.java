@@ -22,8 +22,8 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     @Override
     public List<User> getAll(@NotNull String name) {
         return ObjectifyService.ofy().load().type(User.class)
-                .filter("lastname >=", name)
-                .filter("lastname <", name + "\ufffd").list();
+                .filter("lastName >=", name)
+                .filter("lastName <", name + "\ufffd").list();
     }
 
 }

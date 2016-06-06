@@ -47,8 +47,8 @@ public class GamblerService extends AbstractGenericService<Gambler, Long> {
     //TODO : remove once mocked users are removed
     public Key<Gambler> createGambler(User user, Event event) {
         GamblerDTO gambler = new GamblerDTO(user.getEmail());
-        gambler.setPrenom(user.getFirstname());
-        gambler.setNom(user.getName());
+        gambler.setFirstName(user.getFirstName());
+        gambler.setLastName(user.getName());
         gambler.setEvent(event);
 
         return this.createOrUpdate(mapper.getMapper().map(gambler, Gambler.class));
@@ -56,8 +56,8 @@ public class GamblerService extends AbstractGenericService<Gambler, Long> {
     
     public Gambler createOrUpdateAndReturn(User user, Event event) {
         GamblerDTO gambler = new GamblerDTO(user.getEmail());
-        gambler.setPrenom(user.getFirstname());
-        gambler.setNom(user.getLastname());
+        gambler.setFirstName(user.getFirstName());
+        gambler.setLastName(user.getLastName());
         gambler.setEvent(event);
 
         return this.createOrUpdateAndReturn(mapper.getMapper().map(gambler, Gambler.class));

@@ -9,9 +9,9 @@ public class UserDTO {
 
     private String email;
 
-    private String lastname;
+    private String lastName;
 
-    private String firstname;
+    private String firstName;
 
     private Collection<String> roles;
 
@@ -27,20 +27,20 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public Collection<String> getRoles() {

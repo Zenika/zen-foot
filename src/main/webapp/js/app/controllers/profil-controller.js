@@ -7,8 +7,8 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
 
     $scope.modifyUser = function () {
         User.update($scope.modifiedUser,function(response){
-            $rootScope.user.firstname = response.firstname;
-            $rootScope.user.lastname = response.lastname;
+            $rootScope.user.firstName = response.firstName;
+            $rootScope.user.lastName = response.lastName;
             $scope.modifiedUser = angular.copy($scope.user);
             $scope.messageName = 'Vos données personnelles ont été modifiées';
             $timeout(function(){
@@ -76,7 +76,7 @@ angular.module('zenFoot.app').controller('ProfilCtrl', ['$scope', 'Pwd', '$timeo
 
     $scope.canModifyNames=function(){
         if(!$scope.user)return;
-        return $scope.user.firstname !== $scope.modifiedUser.firstname || $scope.user.lastname !== $scope.modifiedUser.lastname;
+        return $scope.user.firstName !== $scope.modifiedUser.firstName || $scope.user.lastName !== $scope.modifiedUser.lastName;
     }
 
 }])

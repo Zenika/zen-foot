@@ -47,17 +47,17 @@ public class GamblerResource {
         List<Object> userGambler = new ArrayList<>();
 
         //Updating the gambler when the name changed
-        if (!newGambler.getName().equals(gambler.getName()) || !newGambler.getPrenom().equals(gambler.getPrenom())) {
+        if (!newGambler.getName().equals(gambler.getName()) || !newGambler.getFirstName().equals(gambler.getFirstName())) {
             GamblerRanking gamblerRanking = rankingDAO.findByGambler(gambler.getId());
-            String prenom = newGambler.getPrenom();
+            String prenom = newGambler.getFirstName();
             String nom = newGambler.getName();
 
-            user.setPrenom(prenom);
+            user.setFirstName(prenom);
             user.setName(nom);
-            gambler.setPrenom(prenom);
-            gambler.setNom(nom);
-            gamblerRanking.setNom(nom);
-            gamblerRanking.setPrenom(prenom);
+            gambler.setFirstName(prenom);
+            gambler.setLastName(nom);
+            gamblerRanking.setLastName(nom);
+            gamblerRanking.setFirstName(prenom);
             Key<User> userKey = userService.createUser(user);
             User userRet = userService.get(userKey);
             Gambler gamblerRet = gamblerService.updateGambler(gambler);

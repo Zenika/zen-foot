@@ -118,8 +118,8 @@ public class UserResource {
 
     /**
      * Migrate users to use new properties:
-     *  - name --> lastname
-     *  - prenom --> firstname
+     *  - name --> lastName
+     *  - prenom --> firstName
      */
     @GET("/users/migratenameprops")
     @RolesAllowed(Roles.ADMIN)

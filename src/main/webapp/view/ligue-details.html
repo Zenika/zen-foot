@@ -11,7 +11,7 @@
 
                 <div ng-repeat="applicant in ligue.awaits">
                     <div class="ligue-applicant">
-                        - {{applicant.prenom}} {{applicant.nom}}
+                        - {{applicant.firstName}} {{applicant.lastName}}
                     </div>
                     <div class="yesno-applicant">
                         <span class="glyphicon glyphicon-ok" ng-click="acceptInTeam(applicant, $index)"></span>
@@ -28,14 +28,14 @@
 
             <div ng-repeat="member in ligue.accepted" class="yesno-applicant">
                 <div style="display: inline-block">
-                    - {{member.prenom}} {{member.nom}}
+                    - {{member.firstName}} {{member.lastName}}
                 </div>
                 <span class="glyphicon glyphicon-remove"
                       ng-click="removeFromTeam(member, $index)"></span>
             </div>
             <div>
                 <div style="display: inline-block">
-                    - {{ligue.owner.prenom}} {{ligue.owner.nom}}
+                    - {{ligue.owner.firstName}} {{ligue.owner.lastName}}
                     <span class="label label-info">propriétaire</span>
                 </div>
             </div>

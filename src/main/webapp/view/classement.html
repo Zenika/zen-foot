@@ -44,7 +44,7 @@
                     <ul>
                         <li data-ng-repeat="gambler in gamblersFound=(classement|classementFilter:search:0.5|unique:'classement')">
                             <a href="" data-ng-click="changeToGambler(gambler)">
-                                {{gambler.prenom}} {{gambler.nom}}
+                                {{gambler.firstName}} {{gambler.lastName}}
                             </a>
                         </li>
                     </ul>
