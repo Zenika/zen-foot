@@ -115,12 +115,10 @@ public class UserResource {
         List<Gambler> gamblers = gamblerService.getAll();
         // Find the old version of the user by email
         User oldUser = userService.getUserbyEmail(user.getEmail());
-        int i = 0;
         if(oldUser != null && gamblers.size() > 0) {
             // Update the gamblers for all events
             for (Gambler gambler : gamblers) {
-                if (gambler.getFirstName().equals(oldUser.getFirstName()) && gambler.getLastName().equals(oldUser.getLastName())) {
-                    i++;
+                if (gambler.getFirstName() != null && gambler.getFirstName().equals(oldUser.getFirstName()) && gambler.getLastName() != null && gambler.getLastName().equals(oldUser.getLastName())) {
                     gambler.setFirstName(user.getFirstName());
                     gambler.setLastName(user.getLastName());
                     gamblerService.createOrUpdate(gambler);
