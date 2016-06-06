@@ -49,9 +49,7 @@ public class UserModule {
 
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
             User admin = new User().setLastname("admin").setFirstname("admin").setEmail(
-                    "admin@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
-
-            //raphael.setLastUpdated(DateTime.now());
+                        "admin@zenika.com").setRoles(Arrays.asList(Roles.ADMIN, AdminModule.RESTX_ADMIN_ROLE));
             admin.hashAndSetPassword("2205");
 
             User jean = new User().setLastname("Bon").setFirstname("Jean").setEmail("jean.bon@zenika.com").setRoles(Arrays.asList(Roles.GAMBLER));
@@ -115,45 +113,23 @@ public class UserModule {
             zenfootUserService.createOrUpdate(j);
             zenfootUserService.createOrUpdate(k);
             zenfootUserService.createOrUpdate(l);
-
+            Match[] matches = GenerateMatches.generate(countryService);
+            List<Match> registered = matchService.getAll();
 
             Event e = new Event();
             e.setName("Euro 2016");
             e.setStart(new DateTime(2016, 6, 10, 21, 0).toDate());
             e.setEnd(new DateTime(2016, 7, 10, 23, 59).toDate());
             eventService.createOrUpdate(e);
-            
-            injectedCountries(countryService);
 
+            injectedCountries(countryService);
             injectedSport(sportService);
 
-            /*Event e2 = new Event();
-            e2.setName("Cdm 2015 Rugby");
-            e2.setStart(DateTime.now().plusDays(5).toDate());
-            e2.setEnd(DateTime.now().plusDays(15).toDate());
-            eventService.createOrUpdate(e2);
-//            MatchDAO matchDAO = new MatchDAOImpl();
-            */
-
-            Match[] matches = GenerateMatches.generate(countryService);
-            List<Match> registered = matchService.getAll();
-
-            //check whether there were registered matchs
-//                if (registered.size() == 0) {
             for (int i = 0; i < matches.length; i++) {
-                //TODO ONLY FOR TESTS
                 Match match = matches[i];
-                //match.setDate(DateTime.now().plusSeconds(30 * i));
-                //if (i > 30) {
-                   // match.setDate(DateTime.now().minusDays(i).withHourOfDay(i % 23));
-                //}
                 match.setEvent(Key.create(Event.class, e.getId()));
-//                        matchDAO.createUpdate(match);
                 matchService.createOrUpdate(match);
             }
-
-//                }
-
         }
         return zenfootUserService;
     }
@@ -209,12 +185,6 @@ public class UserModule {
         countryService.createOrUpdate(new Country(1001L, "Écosse", "gb-sct"));
         countryService.createOrUpdate(new Country(1002L, "Pays de Galles", "gb-wls"));
         countryService.createOrUpdate(new Country(1003L, "Irlande du Nord", "gb-nir"));
-		/* Country c = new Country();
-		// p.setIdPays(idPays);
-//		p.setIdPays((long)1);
-		c.setCode("france");
-        c.setDisplayName("France");
-		countryService.createOrUpdate(c); */
 	}
 
     @Provides
