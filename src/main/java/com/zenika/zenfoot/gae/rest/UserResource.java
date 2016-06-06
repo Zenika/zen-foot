@@ -7,10 +7,8 @@ import com.zenika.zenfoot.gae.AppInfoService;
 import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dto.BetDTO;
 import com.zenika.zenfoot.gae.dto.UserDTO;
-import com.zenika.zenfoot.gae.services.MailSenderService;
-import com.zenika.zenfoot.gae.services.PWDLinkService;
-import com.zenika.zenfoot.gae.services.ZenfootUserService;
-import com.zenika.zenfoot.gae.services.SessionInfo;
+import com.zenika.zenfoot.gae.model.Gambler;
+import com.zenika.zenfoot.gae.services.*;
 import com.zenika.zenfoot.gae.utils.PWDLink;
 import com.zenika.zenfoot.gae.utils.ResetPWD;
 import com.zenika.zenfoot.gae.model.User;
@@ -44,14 +42,21 @@ public class UserResource {
     final private PWDLinkService pWDLinkService;
     final private AppInfoService appInfoService;
     final private MailSenderService mailSenderService;
+    final private GamblerService gamblerService;
 
     public UserResource(@Named("sessioninfo") SessionInfo sessionInfo,
-                        @Named("zenfootUserService") ZenfootUserService userService, PWDLinkService pWDLinkService, MailSenderService mailSenderService, AppInfoService appInfoService) {
+                        @Named("zenfootUserService") ZenfootUserService userService,
+                        PWDLinkService pWDLinkService,
+                        MailSenderService mailSenderService,
+                        AppInfoService appInfoService,
+                        @Named("gamblerService") GamblerService gamblerService
+                        ) {
         this.userService = userService;
         this.sessionInfo = sessionInfo;
         this.pWDLinkService = pWDLinkService;
         this.mailSenderService = mailSenderService;
         this.appInfoService = appInfoService;
+        this.gamblerService = gamblerService;
     }
 
     @GET("/users")
@@ -107,12 +112,27 @@ public class UserResource {
     @PUT("/users/{id}")
     @PermitAll
     public UserDTO updateProfile(final String id, final UserDTO user) {
-
+        List<Gambler> gamblers = gamblerService.getAll();
+        // Find the old version of the user by email
+        User oldUser = userService.getUserbyEmail(user.getEmail());
+        int i = 0;
+        if(oldUser != null && gamblers.size() > 0) {
+            // Update the gamblers for all events
+            for (Gambler gambler : gamblers) {
+                if (gambler.getFirstName().equals(oldUser.getFirstName()) && gambler.getLastName().equals(oldUser.getLastName())) {
+                    i++;
+                    gambler.setFirstName(user.getFirstName());
+                    gambler.setLastName(user.getLastName());
+                    gamblerService.createOrUpdate(gambler);
+                }
+            }
+        }
         // Paramètre ID non utile, respect philosophie REST, accès ressource par ID
         final Optional<UserDTO> updated = userService.update(user);
         if(updated.isPresent()){
             return updated.get();
         }
+
         throw new WebException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user's information.");
     }
 
