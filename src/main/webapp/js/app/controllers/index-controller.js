@@ -59,4 +59,7 @@ angular.module('zenFoot.app')
             $rootScope.$broadcast("eventChanged", {event: $scope.selectedEvent});
         }
 
+        // Select the first event when events list is received
+        $scope.events.$promise.then(function (events) { $scope.selectedEvent = $scope.events[0]; $scope.eventChanged(); })
+
     });
