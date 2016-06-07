@@ -118,9 +118,9 @@ public class UserResource {
         if(oldUser != null && gamblers.size() > 0) {
             // Update the gamblers for all events
             for (Gambler gambler : gamblers) {
-                if (gambler.getFirstName() != null && gambler.getFirstName().equals(oldUser.getFirstName()) && gambler.getLastName() != null && gambler.getLastName().equals(oldUser.getLastName())) {
-                    gambler.setFirstName(user.getFirstName());
+                if (gambler.getEmail() != null && gambler.getEmail().equals(oldUser.getEmail())){
                     gambler.setLastName(user.getLastName());
+                    gambler.setFirstName(user.getFirstName());
                     gamblerService.createOrUpdate(gambler);
                 }
             }
