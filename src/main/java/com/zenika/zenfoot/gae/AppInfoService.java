@@ -19,7 +19,8 @@ public class AppInfoService {
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
             url += "localhost:9000";
         } else {
-            url += SystemProperty.applicationId.get() + ".appspot.com";
+            url += "zf16.zenika.com";
+           // url += SystemProperty.applicationId.get() + ".appspot.com";
         }
         return url;
     }
