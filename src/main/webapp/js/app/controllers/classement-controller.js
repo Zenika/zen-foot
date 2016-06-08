@@ -148,8 +148,12 @@ angular.module('zenFoot.app')
             };
 
             var parieurTemplate = {};
-            parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.id}}">{{row.entity.firstName}} {{row.entity.lastName}}</a></div>';
-            parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.name}}</a></div>';
+            parieurTemplate['gambler'] = '<div class="ngCellText">{{row.entity.firstName}} {{row.entity.lastName}}</div>';
+            parieurTemplate['ligue'] = '<div class="ngCellText">{{row.entity.name}}</div>';
+
+            // Temporarilly disable links in tabs as they lead to nowhere for now
+            // parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.id}}">{{row.entity.firstName}} {{row.entity.lastName}}</a></div>';
+            // parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.name}}</a></div>';
 
 
             $scope.totalServerItems = 0;
