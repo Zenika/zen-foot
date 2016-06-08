@@ -31,6 +31,7 @@
                     - {{member.firstName}} {{member.lastName}}
                 </div>
                 <span class="glyphicon glyphicon-remove"
+                      ng-show="ligue.isOwner"
                       ng-click="removeFromTeam(member, $index)"></span>
             </div>
             <div>
