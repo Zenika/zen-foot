@@ -68,7 +68,9 @@ public class SubscriptionResource {
 
         String subject = "Confirmation d'inscription à Zen Foot";
         String urlConfirmation = "<a href='" + getUrlConfirmation(subscriber.getUser()) + "'> Confirmation d'inscription </a>";
-        String messageContent = "Mr, Mme " + subscriber.getUser().getName() + "\n Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation;
+        String messageContent = "<html><p>Mr, Mme " + subscriber.getUser().getFirstName() + " " + subscriber.getUser().getLastName() + "</p>" +
+                                "\n<p>Merci de cliquer sur le lien ci-dessous pour confirmer votre inscription. \n\n" + urlConfirmation + "</p>" +
+                                "</html>";
         try {
             mailSenderService.sendMail(email, subject, messageContent);
         } catch (MessagingException e) {

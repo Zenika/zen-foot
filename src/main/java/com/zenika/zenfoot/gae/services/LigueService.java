@@ -13,6 +13,7 @@ import restx.factory.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.logging.Logger;
@@ -147,22 +148,35 @@ public class LigueService extends AbstractGenericService<Ligue, Long> {
     }
 
     /**
-     * Calculate score for ligue. Based on the mean of all ligue's members' score
+     * Calculate score for ligue. The score is the sum of scores of the best 5 gamblers.
      * @param ligue ligue
      * @return ligue's score
      */
     public double calculateScore(Ligue ligue) {
-        double res = ligue.getOwner().get().getPoints();
         List<Ref<Gambler>> members = ligue.getAccepted();
+        // Initialize capacity of array for optimization
+        List<Integer> listOfPoints = new ArrayList<Integer>(members.size()+1);
+
+        // Create a list of points for all users in the ligue
+        listOfPoints.add(ligue.getOwner().get().getPoints());
         if(!members.isEmpty()) {
             for(Ref<Gambler> g : members){
-                res += g.get().getPoints();
+                listOfPoints.add(g.get().getPoints());
             }
-            res = res / (members.size() + 1);
-            res = Math.round(res * 100) / 100;
         }
 
-        return res;
+        // Sort is only necessary if there are more than 5 gamblers in ligue
+        if(listOfPoints.size() > 5) {
+            Collections.sort(listOfPoints);
+        }
+
+        int sum = 0;
+
+        // Loop from the END of the list, as the natural order is ascending
+        for(int i = listOfPoints.size() - 1; i >= 0 && i >= listOfPoints.size()-5; i--){
+            sum += listOfPoints.get(i);
+        }
+        return sum;
     }
 
     /**

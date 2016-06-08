@@ -48,7 +48,7 @@
 
             <form name="scoreform" class="form-score form-horizontal match-form">
                 <h4 style="display: inline-block" ng-show="otherGambler" class="other-gamb-theme">
-                    Pronostics de {{otherGambler.prenom}} {{otherGambler.nom}}</h4>
+                    Pronostics de {{otherGambler.firstName}} {{otherGambler.lastName}}</h4>
                 <span ng-show="otherGambler" class="glyphicon glyphicon-remove" ng-click="removeOther()"></span>
 
 
@@ -75,10 +75,9 @@
                                     <div class="col-xs-6 match-info">
                                         <div class="text-right">
                                             <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score1, match.bet.score2), 'match-winner': isTeamWinner(match.score1, match.score2)}">
-                                                {{getTeamDisplayName(match.team1)}}
+                                                {{match.team1.displayName}}
                                             </span>
-
-                                            <span class="country-flag" ng-class="match.team1"></span>
+                                            <span class="flag-icon {{getFlagClass(match.team1)}}" />
                                             <ng-form name="score1Form"
                                                      data-ng-class="{'has-error':score1Form.score1input.$error.pattern||score1Form.$invalid}">
                                                 <span class="real-score" ng-show="isFormer(match.date)" ng-class="{'classement-other-win':isMaxPoints(match,match.bet),
@@ -103,7 +102,7 @@
                                             </div>
                                             <div class="text-right other-gamb-theme"
                                                  ng-class="{'match-score':!knownResult(match)||!otherGambler}">
-                                                <span>{{otherGambler.prenom}} :</span>
+                                                <span>{{otherGambler.firstName}} :</span>
                                                 <span class="real-score"
                                                       ng-class="{'classement-other-win':isMaxPoints(match,match.otherBet), 'classement-other-half':rightWinner(match,match.otherBet),
                                                       'classement-other-lose':noPoints(match,match.otherBet)}">{{displayScore(match.otherBet.score1)}}
@@ -134,10 +133,10 @@
                                                       data-ng-show="score2Form.score2input.$error.pattern">score : entre 0 et 99</span>
                                             </ng-form>
 
-                                            <span class="country-flag" ng-class="match.team2"></span>
-
+                                            <span class="flag-icon {{getFlagClass(match.team2)}}" />
                                             <span data-ng-class="{'zen-bold':isTeamWinner(match.bet.score2, match.bet.score1), 'match-winner': isTeamWinner(match.score2, match.score1)}">
-                                                {{getTeamDisplayName(match.team2)}}
+                                                
+                                                {{match.team2.displayName}}
                                             </span>
                                         </div>
                                         <div class="text-left" data-ng-class="{'match-score':!knownResult(match)}">

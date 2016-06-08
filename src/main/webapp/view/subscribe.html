@@ -8,33 +8,33 @@
         <form action="" method="post" name="subscriptionForm" role="form" autocomplete="off">
             <h2 class="form-title">S'inscrire</h2>
 
-            <div class="form-group" ng-class="{'has-error': subscriptionForm.prenom.$invalid && subscriptionForm.prenom.$dirty}">
-                <label for="prenom" class="sr-only">Prénom</label>
+            <div class="form-group" ng-class="{'has-error': subscriptionForm.firstName.$invalid && subscriptionForm.firstName.$dirty}">
+                <label for="firstName" class="sr-only">Prénom</label>
 
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" name="prenom" id="prenom" class="form-control" data-ng-model="subscriber.firstname"
+                    <input type="text" name="firstName" id="firstName" class="form-control" data-ng-model="subscriber.firstName"
                            placeholder="Prénom" required autofocus/>
                 </div>
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.prenom.$error.required && subscriptionForm.prenom.$dirty">
+                        data-ng-show="subscriptionForm.firstName.$error.required && subscriptionForm.firstName.$dirty">
                     Champ obligatoire
                 </p>
             </div>
 
             <div class="form-group"
-                 ng-class="{'has-error': subscriptionForm.name.$invalid && subscriptionForm.name.$dirty}">
-                <label for="name" class="sr-only">Nom</label>
+                 ng-class="{'has-error': subscriptionForm.lastName.$invalid && subscriptionForm.lastName.$dirty}">
+                <label for="lastName" class="sr-only">Nom</label>
 
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input type="text" name="name" id="name" class="form-control" data-ng-model="subscriber.lastname"
+                    <input type="text" name="lastName" id="lastName" class="form-control" data-ng-model="subscriber.lastName"
                            placeholder="Nom" required/>
                 </div>
                 <p
                         class="help-block"
-                        data-ng-show="subscriptionForm.name.$error.required && subscriptionForm.name.$dirty">
+                        data-ng-show="subscriptionForm.lastName.$error.required && subscriptionForm.lastName.$dirty">
                     Champ obligatoire
                 </p>
             </div>
@@ -46,7 +46,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">@</span>
                     <input type="email" name="email" id="email" class="form-control" data-ng-model="subscriber.email"
-                           placeholder="prenom.nom@zenika.com" zen-mail required/>
+                           placeholder="firstName.lastName@zenika.com" zen-mail required/>
                 </div>
                 <p
                         class="help-block"

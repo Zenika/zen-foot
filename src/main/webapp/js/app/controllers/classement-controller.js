@@ -148,7 +148,7 @@ angular.module('zenFoot.app')
             };
 
             var parieurTemplate = {};
-            parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.gamblerId}}">{{row.entity.prenom}} {{row.entity.nom}}</a></div>';
+            parieurTemplate['gambler'] = '<div class="ngCellText"><a href="#/bets?gamblerId={{row.entity.id}}">{{row.entity.firstName}} {{row.entity.lastName}}</a></div>';
             parieurTemplate['ligue'] = '<div class="ngCellText"><a href="#/ligueDetails?id={{row.entity.id}}">{{row.entity.name}}</a></div>';
 
 
@@ -166,7 +166,7 @@ angular.module('zenFoot.app')
 
             var displayName2 = {};
             displayName2['gambler'] = 'Points';
-            displayName2['ligue'] = 'Moyenne';
+            displayName2['ligue'] = 'Score';
 
             var columnDef = [
                 {
@@ -276,7 +276,7 @@ angular.module('zenFoot.app')
                 var classement = $scope.classement;
 
                 var result = _.find(classement, function (item) {
-                    return item.gamblerId == gambler.id;
+                    return item.id == gambler.id;
                 });
                 if (result)return result;
             }

@@ -8,17 +8,13 @@ import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
 import com.zenika.zenfoot.gae.model.Event;
 import com.zenika.zenfoot.gae.model.Gambler;
 import com.zenika.zenfoot.gae.model.Ligue;
-import com.zenika.zenfoot.gae.model.User;
 import io.codearte.catchexception.shade.mockito.Mock;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.matchers.JUnitMatchers;
 import org.junit.runner.RunWith;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -41,7 +37,7 @@ public class LigueServiceTest {
 
     @Before
     public void setUp(){
-        mapperFacadeFactory = new MapperFacadeFactory(null, new GamblerDtoToGamblerMapper(), null, null);
+        mapperFacadeFactory = new MapperFacadeFactory(null, new GamblerDtoToGamblerMapper(), null, null, null);
         ligueService = new LigueService(ligueDAO, mapperFacadeFactory);
         ligueService = spy(ligueService);
     }
@@ -57,8 +53,8 @@ public class LigueServiceTest {
 
         List<GamblerDTO> gamblers = ligueService.getLigueMembersAndOwner(e, 1l);
         assertEquals(1, gamblers.size());
-        assertEquals("aa", gamblers.get(0).getNom());
-        assertEquals("bb", gamblers.get(0).getPrenom());
+        assertEquals("aa", gamblers.get(0).getLastName());
+        assertEquals("bb", gamblers.get(0).getFirstName());
     }
 
     @Test
@@ -84,10 +80,10 @@ public class LigueServiceTest {
         assertEquals(3, gamblers.size());
     }
 
-    public Gambler newGambler(String nom, String prenom){
+    public Gambler newGambler(String lastName, String firstName){
         Gambler g = new Gambler();
-        g.setNom(nom);
-        g.setPrenom(prenom);
+        g.setLastName(lastName);
+        g.setFirstName(firstName);
         return g;
     }
 }

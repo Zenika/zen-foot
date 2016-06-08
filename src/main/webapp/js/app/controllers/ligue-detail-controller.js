@@ -36,7 +36,7 @@ angular.module('zenFoot.app').controller('LigueDetailCtrl', ['$scope', '$statePa
 
         $scope.gamblerName = function (gambler) {
             if (!gambler) return;
-            return gambler.prenom + ' ' + gambler.nom;
+            return gambler.firstName + ' ' + gambler.lastName;
         }
 
         // LOGIC FOR APPLICANTS AND MEMBERS :

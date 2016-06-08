@@ -141,7 +141,7 @@ public class SubscriptionResourceTest {
     public User newUser(){
         User user = new User();
         user.setEmail("toto@zenika.com");
-        user.setLastname("aa");
+        user.setLastName("aa");
         user.setPasswordHash("aaa");
         return user;
     }

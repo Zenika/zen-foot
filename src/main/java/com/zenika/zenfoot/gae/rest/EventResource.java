@@ -22,6 +22,8 @@ import restx.http.HttpStatus;
 import restx.security.RolesAllowed;
 
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.inject.Named;
 
@@ -77,7 +79,15 @@ public class EventResource {
     @GET("/events/{id}/gamblers")
     @RolesAllowed(Roles.GAMBLER)
     public List<GamblerDTO> getGamblers(Long id) {
-        return eventService.getGamblers(id);
+        List<GamblerDTO> listOfGamblers = eventService.getGamblers(id);
+        // Sort gamblers by their points so that they are sent in the right order
+        Collections.sort(listOfGamblers, new Comparator<GamblerDTO>() {
+            @Override
+            public int compare(GamblerDTO o1, GamblerDTO o2) {
+                return  o2.getPoints() - o1.getPoints();
+            }
+        });
+        return listOfGamblers;
     }
 
     @GET("/events/{id}/gambler")
@@ -153,7 +163,16 @@ public class EventResource {
     @GET("/events/{id}/ligues")
     @RolesAllowed(Roles.GAMBLER)
     public List<LigueDTO> getLigues(Long id) {
-        return eventService.getLigues(id, sessionInfo.getUser().getEmail());
+
+        List<LigueDTO> listOfLigues = eventService.getLigues(id, sessionInfo.getUser().getEmail());
+
+        Collections.sort(listOfLigues, new Comparator<LigueDTO>() {
+            @Override
+            public int compare(LigueDTO o1, LigueDTO o2) {
+                return (int)(o2.getPoints() - o1.getPoints());
+            }
+        });
+        return listOfLigues;
     }
 
     @GET("/events/{id}/ligues/{idLigue}")

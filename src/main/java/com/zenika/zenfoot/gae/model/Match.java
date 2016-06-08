@@ -24,8 +24,8 @@ public class Match implements Serializable{
     private DateTime date;
     private String groupe;
 
-    private String team1;
-    private String team2;
+    private Country team1;
+    private Country team2;
 
     private Integer score1;
     private Integer score2;
@@ -38,7 +38,7 @@ public class Match implements Serializable{
 	public Match() {
     }
 
-    public Match(DateTime date, String groupe, String team1, String team2) {
+    public Match(DateTime date, String groupe, Country team1, Country team2) {
         this.date = date;
         this.groupe = groupe;
         this.team1 = team1;
@@ -46,7 +46,7 @@ public class Match implements Serializable{
     }
 
 
-    public Match(DateTime date, String groupe, String team1, String team2,
+    public Match(DateTime date, String groupe, Country team1, Country team2,
 			Integer score1, Integer score2, boolean scoreUpdated, Sport sport) {
 		super();
 		this.date = date;
@@ -59,8 +59,8 @@ public class Match implements Serializable{
 		this.sport = sport;
 	}
 
-	public Match(DateTime dateTime, String groupe, String team1,
-			String team2, Sport sport) {
+	public Match(DateTime dateTime, String groupe, Country team1,
+                 Country team2, Sport sport) {
 		this.date = dateTime;
 		this.groupe = groupe;
 		this.team1 = team1;
@@ -92,19 +92,19 @@ public class Match implements Serializable{
         this.groupe = groupe;
     }
 
-    public String getTeam1() {
+    public Country getTeam1() {
         return team1;
     }
 
-    public void setTeam1(String team1) {
+    public void setTeam1(Country team1) {
         this.team1 = team1;
     }
 
-    public String getTeam2() {
+    public Country getTeam2() {
         return team2;
     }
 
-    public void setTeam2(String team2) {
+    public void setTeam2(Country team2) {
         this.team2 = team2;
     }
 

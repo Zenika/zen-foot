@@ -1,17 +1,13 @@
 package com.zenika.zenfoot.gae.services;
 
 import com.google.common.base.Optional;
-import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.AbstractModelToDtoService;
-import com.zenika.zenfoot.gae.Roles;
 import com.zenika.zenfoot.gae.dao.UserDAO;
 import com.zenika.zenfoot.gae.dto.UserDTO;
 import com.zenika.zenfoot.gae.exception.JsonWrappedErrorWebException;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
-import com.zenika.zenfoot.gae.model.Ligue;
 import com.zenika.zenfoot.gae.model.User;
 import com.zenika.zenfoot.gae.utils.PasswordUtils;
-import ma.glasnost.orika.MapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restx.security.UserRepository;
@@ -111,12 +107,12 @@ public class ZenfootUserService extends AbstractModelToDtoService<User, String, 
         List<User> all = this.getAll();
         for(User user : all){
             boolean updated = false;
-            if(user.getPrenom() != null && !user.getPrenom().equals(user.getFirstname())){
-                user.setFirstname(user.getPrenom());
+            if(user.getPrenom() != null && !user.getPrenom().equals(user.getFirstName())){
+                user.setFirstName(user.getPrenom());
                 updated = true;
             }
-            if(user.getName2() != null && !user.getName2().equals(user.getLastname())){
-                user.setLastname(user.getName2());
+            if(user.getName2() != null && !user.getName2().equals(user.getLastName())){
+                user.setLastName(user.getName2());
                 updated = true;
             }
             if(updated){

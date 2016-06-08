@@ -25,7 +25,7 @@ public class RegisterEntityServletContextListener implements ServletContextListe
         objectifyFactory.register(PWDLink.class);
         objectifyFactory.register(Event.class);
         objectifyFactory.register(Bet.class);
-        objectifyFactory.register(Pays.class);
+        objectifyFactory.register(Country.class);
         objectifyFactory.register(Sport.class);
     }
 

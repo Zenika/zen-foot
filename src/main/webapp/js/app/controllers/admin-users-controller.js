@@ -41,11 +41,11 @@
                     },
                     {
                         displayName: 'Nom',
-                        field: 'lastname'
+                        field: 'lastName'
                     },
                     {
                         displayName: 'Prenom',
-                        field: 'firstname'
+                        field: 'firstName'
                     },
                     {
                         displayName: 'Roles',

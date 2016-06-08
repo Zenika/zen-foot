@@ -96,7 +96,7 @@
                     Session.get().$promise.then(function (data) {
                         checkAccessAuthorization(evt, toState, data);
                     });
-                } else {
+                } else if(toState.name !== 'reset_password') {
                     evt.preventDefault();
                     $state.go('loginState');
                 }
