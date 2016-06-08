@@ -19,9 +19,9 @@ public class Gambler {
     @Index
     private String email;
 
-    private String nom;
+    private String lastName;
 
-    private String prenom;
+    private String firstName;
     
     @Parent private Key<Event> event;
     
@@ -53,20 +53,20 @@ public class Gambler {
         this.email = email;
     }
 
-    public String getNom() {
-        return nom;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     
     public void addPoints(int points) {

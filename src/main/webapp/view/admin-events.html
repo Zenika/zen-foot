@@ -5,7 +5,7 @@
                 <div class="alert alert-success" ng-show="actionSucceed">La {{action}} a correctement &eacute;t&eacute; effectu&eacute;.</div>
                 <div class="alert alert-danger" ng-show="actionFailed">La {{action}} a &eacute;chou&eacute;.</div>
                 <div class="alert alert-danger" ng-show="dateCheckFailed">Les dates ne sont pas valides</div>
-                <div class="alert alert-danger" ng-show="invalidEventName()">Un &eacute;v&eacute;nement poss&egrave;de d&eacute;j&agrave; ce nom</div>
+                <div class="alert alert-danger" ng-show="invalidEventName()">Un &eacute;v&eacute;nement poss&egrave;de d&eacute;j&agrave; ce lastName</div>
             </div>
         </div>
         <form class="form-horizontal" name="eventNameForm">
@@ -15,7 +15,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-tasks"></i></span>
                         <input name="eventNameInput" id="eventNameInput"
-                               class="form-control input-md" type="text" placeholder="nom de l'&eacute;v&eacute;nement" 
+                               class="form-control input-md" type="text" placeholder="lastName de l'&eacute;v&eacute;nement"
                                ng-model="event.name" required ng-disabled="modeUpdate">
                     </div>
                 </div>

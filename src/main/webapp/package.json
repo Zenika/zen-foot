@@ -12,9 +12,10 @@
   "license": "BSD",
   "dependencies": {
     "express": "~3.2.6",
-    "underscore": "~1.4.4",
+    "flag-icon-css": "^2.3.0",
+    "http-proxy": "~1.11.1",
     "node-uuid": "~1.4.1",
-    "http-proxy": "~1.11.1"
+    "underscore": "^1.4.4"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

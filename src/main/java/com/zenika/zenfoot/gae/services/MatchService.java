@@ -28,26 +28,4 @@ public class MatchService extends AbstractGenericService<Match, Long> {
         return ((MatchDAO)this.getDao());
     }
 
-    //TODO register name of countries in DB
-    public List<String> getPays(){
-        String[]pays = {  "croatie","bresil",
-           "cameroun","mexique",
-           "espagne","paysBas",
-           "chili","australie",
-           "colombie","grece",
-           "uruguay","costaRica",
-           "angleterre","italie",
-           "coteIvoir","japon",
-           "suisse","equateur",
-           "honduras","france",
-           "argentine","bosnie",
-           "allemagne","portugal",
-           "iran","nigeria",
-           "ghana","usa",
-           "belgique","algerie",
-           "russie",
-           "coree"};
-        ArrayList<String> paysToRet = new ArrayList<>(Arrays.asList(pays));
-        return paysToRet;
-    }
 }

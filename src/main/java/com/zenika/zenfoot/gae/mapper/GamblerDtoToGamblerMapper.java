@@ -29,8 +29,8 @@ public class GamblerDtoToGamblerMapper extends CustomMapper<GamblerDTO, Gambler>
                 Key.create(Event.class, a.getEvent().getId())
         );
         b.setId(a.getId());
-        b.setPrenom(a.getPrenom());
-        b.setNom(a.getNom());
+        b.setFirstName(a.getFirstName());
+        b.setLastName(a.getLastName());
         b.setEmail(a.getEmail());
         b.setPoints(a.getPoints());
     }
@@ -39,8 +39,8 @@ public class GamblerDtoToGamblerMapper extends CustomMapper<GamblerDTO, Gambler>
     public void mapBtoA(Gambler a, GamblerDTO b, MappingContext context) {
         b.setEvent(null);
         b.setId(a.getId());
-        b.setPrenom(a.getPrenom());
-        b.setNom(a.getNom());
+        b.setFirstName(a.getFirstName());
+        b.setLastName(a.getLastName());
         b.setEmail(a.getEmail());
         b.setBets(null);
         b.setPoints(a.getPoints());

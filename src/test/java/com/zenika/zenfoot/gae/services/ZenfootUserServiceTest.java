@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -34,17 +33,17 @@ public class ZenfootUserServiceTest {
 
     @Before
     public void setUp(){
-        mapperFacadeFactory = new MapperFacadeFactory(null, null, null, null);
+        mapperFacadeFactory = new MapperFacadeFactory(null, null, null, null, null);
         zenfootUserService = new ZenfootUserService(userDAO, mapperFacadeFactory);
     }
 
     @Test
     public void testGetAllDtos(){
         User user1 = new User();
-        user1.setLastname("a");
+        user1.setLastName("a");
         user1.setEmail("aaaa@zenika.com");
         User user2 = new User();
-        user2.setFirstname("bb");
+        user2.setFirstName("bb");
         user2.setPasswordHash("pwd");
 
         when(userDAO.getAll()).thenReturn(Arrays.asList(user1, user2));
@@ -52,10 +51,10 @@ public class ZenfootUserServiceTest {
         List<UserDTO> dtos = zenfootUserService.getAllAsDTO();
         assertEquals(2, dtos.size());
         UserDTO dto1 = dtos.get(0);
-        assertEquals(dto1.getLastname(), user1.getLastname());
+        assertEquals(dto1.getLastName(), user1.getLastName());
         assertEquals(dto1.getEmail(), user1.getEmail());
         UserDTO dto2 = dtos.get(1);
-        assertEquals(dto2.getFirstname(), user2.getFirstname());
+        assertEquals(dto2.getFirstName(), user2.getFirstName());
         assertEquals(dto2.getPasswordHash(), user2.getPasswordHash());
 
     }
@@ -78,8 +77,8 @@ public class ZenfootUserServiceTest {
 
         zenfootUserService.migrateNameProps();
 
-        assertEquals("toto", user1.getFirstname());
-        assertEquals("aa", user1.getLastname());
+        assertEquals("toto", user1.getFirstName());
+        assertEquals("aa", user1.getLastName());
     }
 
     @Test
@@ -89,21 +88,21 @@ public class ZenfootUserServiceTest {
 
         zenfootUserService.migrateNameProps();
 
-        assertNull(user1.getFirstname());
-        assertNull(user1.getLastname());
+        assertNull(user1.getFirstName());
+        assertNull(user1.getLastName());
     }
 
     @Test
     public void testMigration_no_change(){
         User user1 = new User();
-        user1.setFirstname("toto");
-        user1.setLastname("aa");
+        user1.setFirstName("toto");
+        user1.setLastName("aa");
         when(userDAO.getAll()).thenReturn(Arrays.asList(user1));
 
         zenfootUserService.migrateNameProps();
 
-        assertEquals("toto", user1.getFirstname());
-        assertEquals("aa", user1.getLastname());
+        assertEquals("toto", user1.getFirstName());
+        assertEquals("aa", user1.getLastName());
     }
 
 }

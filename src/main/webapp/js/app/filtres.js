@@ -8,7 +8,7 @@ zenContactFilters.filter('classementFilter',function(){
     return function(classement,search,threshold){
         if(!search) return [];
         var fuseFilter = new Fuse(classement,{
-            keys:['nom','prenom'],
+            keys:['lastName','firstName'],
             threshold:threshold
         })
         return fuseFilter.search(search)

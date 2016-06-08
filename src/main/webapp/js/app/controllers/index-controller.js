@@ -6,8 +6,8 @@ angular.module('zenFoot.app')
         function onConnected(principal) {
             Session.user.connected = true;
             Session.user.email = principal.email;
-            Session.user.lastname = principal.lastname;
-            Session.user.firstname = principal.firstname;
+            Session.user.lastName = principal.lastName;
+            Session.user.firstName = principal.firstName;
             Session.user.roles = principal.roles;
 
             Session.get().$promise.then( function(data) {
@@ -58,5 +58,8 @@ angular.module('zenFoot.app')
         $scope.eventChanged = function () {
             $rootScope.$broadcast("eventChanged", {event: $scope.selectedEvent});
         }
+
+        // Select the first event when events list is received
+        $scope.events.$promise.then(function (events) { $scope.selectedEvent = $scope.events[0]; $scope.eventChanged(); })
 
     });

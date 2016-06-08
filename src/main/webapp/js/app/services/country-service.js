@@ -4,8 +4,8 @@
  */
 angular.module('zenFoot.app').factory('Pays',['$http',function($http){
     return {
-        getPays:function(){
-            return $http({method:'GET',url:'/api/pays'});
+        getCountries:function(){
+            return $http({method:'GET',url:'/api/countries'});
         }
     }
 }])
