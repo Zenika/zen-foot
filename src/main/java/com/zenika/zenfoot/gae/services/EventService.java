@@ -1,5 +1,11 @@
 package com.zenika.zenfoot.gae.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Logger;
+
 import com.zenika.zenfoot.gae.AbstractGenericService;
 import com.zenika.zenfoot.gae.dao.EventDAO;
 import com.zenika.zenfoot.gae.dto.BetDTO;
@@ -7,17 +13,8 @@ import com.zenika.zenfoot.gae.dto.GamblerDTO;
 import com.zenika.zenfoot.gae.dto.LigueDTO;
 import com.zenika.zenfoot.gae.dto.MatchDTO;
 import com.zenika.zenfoot.gae.mapper.MapperFacadeFactory;
-import com.zenika.zenfoot.gae.model.Bet;
-import com.zenika.zenfoot.gae.model.Event;
-import com.zenika.zenfoot.gae.model.Gambler;
-import com.zenika.zenfoot.gae.model.Ligue;
-import com.zenika.zenfoot.gae.model.Match;
+import com.zenika.zenfoot.gae.model.*;
 import com.zenika.zenfoot.gae.utils.KeyBuilder;
-
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by raphael on 28/08/14.
@@ -125,6 +122,16 @@ public class EventService extends AbstractGenericService<Event, Long> {
      * @return members of the ligue (accepted players)
      */
     public List<GamblerDTO> getLigueMembersAndOwner(Long eventId, Long ligueId) {
-        return ligueService.getLigueMembersAndOwner(this.getFromID(eventId), ligueId);
+        
+        List<GamblerDTO> members = ligueService.getLigueMembersAndOwner(this.getFromID(eventId), ligueId);
+
+        Collections.sort(members, new Comparator<GamblerDTO>() {
+            @Override
+            public int compare(GamblerDTO g1, GamblerDTO g2) {
+                return g2.getPoints() - g1.getPoints();
+            }
+        });
+
+        return members;
     }
 }
